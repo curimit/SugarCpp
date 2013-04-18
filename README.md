@@ -22,3 +22,9 @@ main() =
 	for i in getList()
 		printf("%d\n", x)
 ```
+
+#### Using statement (Auto dispose, like C#)
+```
+using (int* a = new int[10000])
+	# dostuff...
+```
