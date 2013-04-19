@@ -6,9 +6,9 @@ using System.Text;
 
 namespace SugarCpp.Compiler
 {
-    public class Root : AstNode
+    public class StmtBlock : AstNode
     {
-        public List<FuncDef> FuncList = new List<FuncDef>();
+        public List<Stmt> StmtList = new List<Stmt>();
 
         public override Template Accept(Visitor visitor)
         {

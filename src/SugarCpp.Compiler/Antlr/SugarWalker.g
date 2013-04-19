@@ -15,7 +15,6 @@ options
 
 @members
 {
-	Hashtable memory = new Hashtable();
 }
 
 @namespace { SugarCpp.Compiler }
@@ -25,25 +24,40 @@ public root returns [Root value]
 {
 	$value = new Root();
 }
-	: a = func_def { $value.FuncList.Add(a); }
+	: (a = func_def { $value.FuncList.Add(a); })+
 	;
 
 public func_def returns [FuncDef value]
-	: ^(Func_Def a=stmt_block) { $value = new FuncDef(); $value.VarList = a; }  
+	: a=IDENT b=IDENT c=stmt_block
+	{
+		$value = new FuncDef(a.Text,b.Text,c);
+	}  
 	;
 
-public stmt_block returns [List<string> value]
+public stmt_block returns [StmtBlock value]
 @init
 {
-	value = new List<string>();
+	$value = new StmtBlock();
 }
-	: a=stmt { $value.Add(a); }  
+	: (a=expr { $value.StmtList.Add(a); })*
     ;  
 
-public stmt returns [string value]  
-    : INT
+public expr returns [Expr value]  
+    : ^('=' a=expr b=expr) { $value = new ExprAssign(a, b); }
+	| INT
     {
-        $value = $INT.text;
-    }  
+        $value = new ExprConst($INT.Text);
+    }
+	| DOUBLE
+	{
+		$value = new ExprConst($DOUBLE.Text);
+	}
+	| IDENT
+	{
+		$value = new ExprConst($IDENT.Text);
+	}
+	| STRING
+	{
+		$value = new ExprConst($STRING.Text);
+	}
 	;
-

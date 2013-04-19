@@ -11,10 +11,20 @@ tokens
 {
    INDENT;
    DEDENT;
-
-   Block;
-   Func_Def;
+   
    Root;
+   Block;
+
+   Func_Def;
+
+   Stmt_If;
+   Stmt_For;
+   Stmt_While;
+
+   Expr_Alloc;
+   Expr_Block;
+   Expr_Call;
+   Expr_Bin;
 }
 
 @lexer::header
@@ -82,11 +92,15 @@ tokens
 @lexer  :: namespace { SugarCpp.Compiler }
 
 public root
-	: func_def+ EOF+ -> ^(Root func_def+)
+	: func_def+ EOF
+	;
+
+type_name
+	: IDENT
 	;
 
 func_def
-	: Var stmt_block -> ^(Func_Def stmt_block)
+	: IDENT '('! ')'! ':'! type_name stmt_block
     ;
 
 stmt_block
@@ -94,82 +108,71 @@ stmt_block
 	;
 
 stmt
+	: stmt_if
+	| stmt_while
+	| expr
+	;
+
+stmt_if
+	: 'if'! '('! expr ')'! stmt_block ('else'! stmt_block)?
+	;
+
+stmt_while
+	: 'while'! '('! expr ')'! stmt_block
+	;
+
+expr
+	: assign_expr
+	;
+
+assign_expr
+	: atom_expr ('='^ atom_expr)*
+	;
+
+atom_expr
 	: INT
-	| func_def
-	| '('! stmt ')'!
+	| DOUBLE
+	| IDENT
+	| STRING
+	| '('! expr ')'!
 	;
 
 // Lexer Rules
 
-INDENT: {0==1}?=> ('\n') ;
-DEDENT: {0==1}?=> ('\n') ;
-
-Var: 'a'..'z'+ ;
+IDENT: 'a'..'z'+ ;
 
 INT: '0'..'9'+ ;
 
-WS: (' ')+ { Skip(); } ;
+DOUBLE
+	: ('0'..'9')+ '.' ('0'..'9')* EXPONENT?
+    | '.' ('0'..'9')+ EXPONENT?
+    | ('0'..'9')+ EXPONENT     
+    ;
 
-// '('
-Left_Round_Bracket
-	: '('
+STRING
+	: '"' (~'"')* '"'
+	;
+
+fragment
+EXPONENT :
+    ('e'|'E') ('+'|'-')? ('0'..'9')+
+    ;
+
+
+Left_Bracket
+	: '(' | '[' | '{'
 	{
-		if (Bracket[0] == null) Bracket[0] = new Stack<int>();
-		Bracket[0].Push(CharIndex);
+		int k = $text == "(" ? 0 : $text == "[" ? 1 : 2;
+		if (Bracket[k] == null) Bracket[k] = new Stack<int>();
+		Bracket[k].Push(CharIndex);
 	}
 	;
 
-// ')'
-Right_Round_Bracket
-	: ')'
+Right_Bracket
+	: ')' | ']' | '}'
 	{
-		int pos = Bracket[0].Pop();
-		while (Indents.Count > 0 && pos < Indents.First().CharIndex)
-		{
-			Emit(new CommonToken(DEDENT, "DEDENT"));
-			Indents.Pop();
-			CurrentIndent = Indents.Count == 0 ? 0 : Indents.First().Level;
-		}
-	}
-	;
-
-// '['
-Left_Square_Bracket
-	: '['
-	{
-		if (Bracket[1] == null) Bracket[1] = new Stack<int>();
-		Bracket[1].Push(CharIndex);
-	}
-	;
-
-// ']'
-Right_Square_Bracket
-	: ']'
-	{
-		int pos = Bracket[1].Pop();
-		while (Indents.Count > 0 && pos < Indents.First().CharIndex)
-		{
-			Emit(new CommonToken(DEDENT, "DEDENT"));
-			Indents.Pop();
-			CurrentIndent = Indents.Count == 0 ? 0 : Indents.First().Level;
-		}
-	}
-	;
-
-// '{'
-Left_Curly_Bracket
-	: '{'
-	{
-		if (Bracket[2] == null) Bracket[2] = new Stack<int>();
-		Bracket[2].Push(CharIndex);
-	}
-	;
-
-// '}'
-Right_Curly_Bracket
-	: '}'
-	{
-		int pos = Bracket[2].Pop();
+		int k = $text == "(" ? 0 : $text == "[" ? 1 : 2;
+		int pos = Bracket[k].Pop();
 		while (Indents.Count > 0 && pos < Indents.First().CharIndex)
 		{
 			Emit(new CommonToken(DEDENT, "DEDENT"));
@@ -206,3 +209,6 @@ NEWLINE
 	;
 
 fragment SP: ' '+ ;
+
+INDENT: {0==1}?=> ('\n') ;
+DEDENT: {0==1}?=> ('\n') ;
