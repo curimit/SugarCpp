@@ -32,4 +32,17 @@ namespace SugarCpp.Compiler
             return visitor.Visit(this);
         }
     }
+
+    public class StmtFor : Stmt
+    {
+        public Expr Start;
+        public Expr Condition;
+        public Expr Next;
+        public StmtBlock Body;
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
 }

@@ -23,7 +23,7 @@ tokens
 
    Expr_Alloc;
    Expr_Block;
-   Expr_Call;
+   Expr_Call = '(';
    Expr_Bin;
 }
 
@@ -127,15 +127,20 @@ stmt_block
 stmt
 	: stmt_if
 	| stmt_while
+	| stmt_for
 	| expr
 	;
 
 stmt_if
 	: 'if' expr stmt_block ('else' stmt_block)?
 	;
-
+	
 stmt_while
 	: 'while' expr stmt_block
+	;
+
+stmt_for
+	: 'for' '(' expr ';' expr ';' expr ')' stmt_block
 	;
 
 expr
@@ -160,7 +165,19 @@ add_expr
 	;
 
 mul_expr
-	: atom_expr (('*' | '/')^ atom_expr)*
+	: call_expr (('*' | '/')^ call_expr)*
+	;
+
+Expr_Call
+	: '('
+	;
+
+args_list
+	: expr? (',' expr)* -> expr*
+	;
+
+call_expr
+	: atom_expr (Expr_Call^ args_list ')'!)*
 	;
 
 atom_expr

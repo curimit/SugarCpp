@@ -17,10 +17,12 @@ namespace SugarCpp.Compiler
 
         public abstract Template Visit(StmtIf stmt_if);
         public abstract Template Visit(StmtWhile stmt_while);
+        public abstract Template Visit(StmtFor stmt_for);
 
         public abstract Template Visit(ExprAssign expr);
         public abstract Template Visit(ExprBin expr);
         public abstract Template Visit(ExprAlloc expr);
+        public abstract Template Visit(ExprCall expr);
         public abstract Template Visit(ExprConst expr);
     }
 }

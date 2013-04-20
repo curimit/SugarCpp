@@ -60,6 +60,7 @@ stmt returns [Stmt value]
 	: a=expr { $value = a; }
 	| b=stmt_if { $value = b; }
 	| c=stmt_while { $value = c; }
+	| d=stmt_for { $value = d; }
 	;
 	
 stmt_if returns [StmtIf value]
@@ -81,7 +82,18 @@ stmt_while returns [StmtWhile value]
 	}
 	;
 
-public alloc_expr returns [ExprAlloc value]
+stmt_for returns [StmtFor value]
+	: 'for' '(' a=expr ';' b=expr ';' c=expr ')' d=stmt_block
+	{
+		$value = new StmtFor();
+		$value.Start = a;
+		$value.Condition = b;
+		$value.Next = c;
+		$value.Body = d;
+	}
+	;
+
+alloc_expr returns [ExprAlloc value]
 	: ^(Expr_Alloc a=IDENT b=IDENT (c=expr)?)
 	{
 		$value = new ExprAlloc();
@@ -90,11 +102,31 @@ public alloc_expr returns [ExprAlloc value]
 		$value.Expr = c;
 	}
 	;
+args_list returns [List<Expr> value]
+@init
+{
+	$value = new List<Expr>();
+}
+	: (a=expr { $value.Add(a); })*
+	;
 
-public expr returns [Expr value]
+call_expr returns [ExprCall value]
+	: ^(Expr_Call a=expr b=args_list)
+	{
+		$value = new ExprCall();
+		$value.Expr = a;
+		$value.Args = b;
+	}
+	;
+
+expr returns [Expr value]
     : alloc=alloc_expr
 	{
 		$value = alloc;
+	}
+	| call=call_expr
+	{
+		$value = call;
 	}
 	| ^('=' a=expr b=expr)
 	{

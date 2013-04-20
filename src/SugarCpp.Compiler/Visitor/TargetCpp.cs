@@ -106,6 +106,16 @@ namespace SugarCpp.Compiler
             return template;
         }
 
+        public override Template Visit(StmtFor stmt_for)
+        {
+            Template template = new Template("for (<start>; <cond>; <next>) {\n    <body>\n}");
+            template.Add("start", stmt_for.Start.Accept(this));
+            template.Add("cond", stmt_for.Condition.Accept(this));
+            template.Add("next", stmt_for.Next.Accept(this));
+            template.Add("body", stmt_for.Body.Accept(this));
+            return template;
+        }
+
         public override Template Visit(ExprAssign expr)
         {
             Template template = new Template("<left> = <right>");
@@ -131,6 +141,14 @@ namespace SugarCpp.Compiler
                 template.Add("name", expr.Name);
                 return template;
             }
+        }
+
+        public override Template Visit(ExprCall expr)
+        {
+            Template template = new Template("<expr>(<args; separator=\", \">)");
+            template.Add("expr", expr.Expr.Accept(this));
+            template.Add("args", expr.Args.Select(x => x.Accept(this)));
+            return template;
         }
 
         public override Template Visit(ExprBin expr)
