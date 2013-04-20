@@ -8,14 +8,14 @@ namespace SugarCpp.Compiler
 {
     public class FuncDef : AstNode
     {
-        public string Name;
         public string Type;
+        public string Name;
         public StmtBlock Block;
 
-        public FuncDef(string name, string type, StmtBlock block)
+        public FuncDef(string type, string name, StmtBlock block)
         {
-            this.Name = name;
             this.Type = type;
+            this.Name = name;
             this.Block = block;
         }
 

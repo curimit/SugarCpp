@@ -88,11 +88,28 @@ tokens
 	Console.WriteLine("Init!");
 }
 
+@parser::header
+{
+	using System;
+	using System.Collections;
+    using System.Collections.Generic;
+	using System.Linq;
+}
+
 @parser :: namespace { SugarCpp.Compiler }
 @lexer  :: namespace { SugarCpp.Compiler }
 
 public root
-	: func_def+ EOF
+	: node+ EOF
+	;
+
+node
+	: imports
+	| func_def
+	;
+
+imports
+	: 'import' STRING? (INDENT ((NEWLINE!)+ STRING)+ (NEWLINE!)* DEDENT)? (NEWLINE!)*
 	;
 
 type_name
@@ -100,11 +117,11 @@ type_name
 	;
 
 func_def
-	: IDENT '('! ')'! ':'! type_name stmt_block
+	: type_name IDENT '('! ')'! stmt_block (NEWLINE!)*
     ;
 
 stmt_block
-	: INDENT! stmt+ DEDENT!
+	: INDENT ((NEWLINE!)+ stmt)+ DEDENT
 	;
 
 stmt
@@ -126,7 +143,15 @@ expr
 	;
 
 assign_expr
-	: atom_expr ('='^ atom_expr)*
+	: add_expr ('='^ add_expr)*
+	;
+
+add_expr
+	: mul_expr (('+' | '-')^ mul_expr)*
+	;
+
+mul_expr
+	: atom_expr (('*' | '/')^ atom_expr)*
 	;
 
 atom_expr
@@ -189,6 +214,7 @@ NEWLINE
 		if (indent > CurrentIndent)
 		{
 			Emit(new CommonToken(INDENT, "INDENT"));
+			Emit(new CommonToken(NEWLINE, "NEWLINE"));
 			Indents.Push(new Indentation(indent, CharIndex));
 			CurrentIndent = indent;
 		}
@@ -203,6 +229,7 @@ NEWLINE
 		}
 		else
 		{
+			Emit(new CommonToken(NEWLINE, "NEWLINE"));
 			Skip();
 		}
 	}

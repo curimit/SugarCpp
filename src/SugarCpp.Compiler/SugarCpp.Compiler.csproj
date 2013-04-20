@@ -54,6 +54,7 @@
     <Compile Include="AstNode\AstNode.cs" />
     <Compile Include="AstNode\Expr.cs" />
     <Compile Include="AstNode\FuncDef.cs" />
+    <Compile Include="AstNode\Import.cs" />
     <Compile Include="AstNode\Root.cs" />
     <Compile Include="AstNode\Stmt.cs" />
     <Compile Include="AstNode\StmtBlock.cs" />

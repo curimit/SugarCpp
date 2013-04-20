@@ -26,6 +26,24 @@ namespace SugarCpp.Compiler
         }
     }
 
+    public class ExprBin : Expr
+    {
+        public Expr Left, Right;
+        public string Op;
+
+        public ExprBin(string op, Expr left, Expr right)
+        {
+            this.Op = op;
+            this.Left = left;
+            this.Right = right;
+        }
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
     public class ExprConst : Expr
     {
         public string Text;

@@ -6,13 +6,14 @@ using System.Text;
 
 namespace SugarCpp.Compiler
 {
-    public class Root : AstNode
+    public class Import : AstNode
     {
-        public List<AstNode> List = new List<AstNode>();
+        public List<string> NameList = new List<string>();
 
         public override Template Accept(Visitor visitor)
         {
             return visitor.Visit(this);
         }
+
     }
 }
