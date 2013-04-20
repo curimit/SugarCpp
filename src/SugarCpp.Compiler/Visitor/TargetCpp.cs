@@ -72,10 +72,11 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(FuncDef func_def)
         {
-            Template template = new Template("<type> <name>() {\n    <list; separator=\"\n\">\n}");
+            Template template = new Template("<type> <name>(<args; separator=\", \">) {\n    <list; separator=\"\n\">\n}");
             template.Add("type", func_def.Type);
             template.Add("name", func_def.Name);
-            template.Add("list", func_def.Block.Accept(this));
+            template.Add("args", func_def.Args.Select(x => x.Accept(this)));
+            template.Add("list", func_def.Body.Accept(this));
             return template;
         }
 
@@ -160,9 +161,48 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(ExprCall expr)
         {
-            Template template = new Template("<expr>(<args; separator=\", \">)");
+            Template template = new Template("(<expr>(<args; separator=\", \">))");
             template.Add("expr", expr.Expr.Accept(this));
             template.Add("args", expr.Args.Select(x => x.Accept(this)));
+            return template;
+        }
+
+        public override Template Visit(ExprDict expr)
+        {
+            Template template = new Template("(<expr>[<index>])");
+            template.Add("expr", expr.Expr.Accept(this));
+            template.Add("index", expr.Index.Accept(this));
+            return template;
+        }
+
+        public override Template Visit(ExprNew expr)
+        {
+            Template template = new Template("(new <elem><ranges>)");
+            template.Add("elem", expr.ElemType);
+            List<Template> list = new List<Template>();
+            foreach (var node in expr.Ranges)
+            {
+                Template item = new Template("[<expr>]");
+                item.Add("expr", node.Accept(this));
+                list.Add(item);
+            }
+            template.Add("ranges", list);
+            return template;
+        }
+
+        public override Template Visit(ExprDot expr)
+        {
+            Template template = new Template("(<expr>.<name>)");
+            template.Add("expr", expr.Expr.Accept(this));
+            template.Add("name", expr.Name);
+            return template;
+        }
+
+        public override Template Visit(ExprPrefix expr)
+        {
+            Template template = new Template("(<op><expr>)");
+            template.Add("op", expr.Op);
+            template.Add("expr", expr.Expr.Accept(this));
             return template;
         }
 

@@ -9,15 +9,9 @@ namespace SugarCpp.Compiler
     public class FuncDef : AstNode
     {
         public string Type;
+        public List<Expr> Args = new List<Expr>();
         public string Name;
-        public StmtBlock Block;
-
-        public FuncDef(string type, string name, StmtBlock block)
-        {
-            this.Type = type;
-            this.Name = name;
-            this.Block = block;
-        }
+        public StmtBlock Body;
 
         public override Template Accept(Visitor visitor)
         {

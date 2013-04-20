@@ -23,7 +23,7 @@ tokens
 
    Expr_Alloc;
    Expr_Block;
-   Expr_Call = '(';
+   Expr_New;
    Expr_Bin;
 }
 
@@ -118,15 +118,19 @@ struct
 	;
 
 type_name
-	: IDENT
+	: IDENT ('[' ']')*
+	;
+
+func_args
+	: stmt_alloc (',' stmt_alloc IDENT)*
 	;
 
 func_def
-	: type_name IDENT '(' ')' stmt_block NEWLINE*
+	: type_name IDENT '(' func_args? ')' stmt_block NEWLINE*
     ;
 
 stmt_block
-	: INDENT (NEWLINE+ stmt)+ DEDENT
+	: INDENT (NEWLINE+ stmt)* DEDENT
 	;
 
 stmt
@@ -136,8 +140,12 @@ stmt
 	| expr
 	;
 
+stmt_alloc
+	: type_name IDENT ('=' atom_expr)? -> ^(Expr_Alloc type_name IDENT atom_expr?)
+	;
+
 stmt_if
-	: 'if' expr stmt_block ('else' stmt_block)?
+	: 'if' expr stmt_block (NEWLINE* 'else' stmt_block)?
 	;
 	
 stmt_while
@@ -170,19 +178,36 @@ add_expr
 	;
 
 mul_expr
-	: call_expr (('*' | '/')^ call_expr)*
+	: new_expr (('*' | '/')^ new_expr)*
 	;
 
-Expr_Call
-	: '('
+new_expr
+	: 'new' IDENT ('[' expr ']')+ -> ^(Expr_New IDENT expr+)
+	| prefix_expr
 	;
+
+prefix_expr
+	: (('!' | '++' | '--')^)* call_expr
+	;
+	
+Expr_Call: '(' ;
+Expr_Dict: '[' ;
 
 args_list
 	: expr? (',' expr)* -> expr*
 	;
 
 call_expr
-	: atom_expr (Expr_Call^ args_list ')'!)*
+	: dot_expr (Expr_Call^ args_list ')'!
+			   |Expr_Dict^ expr ']'!)*
+	;
+
+Expr_Dot
+	: '.'
+	;
+
+dot_expr
+	: atom_expr (Expr_Dot^ IDENT)*
 	;
 
 atom_expr
@@ -195,14 +220,14 @@ atom_expr
 
 // Lexer Rules
 
-IDENT: 'a'..'z'+ ;
+IDENT: ('a'..'z' | 'A'..'Z' | '_')+ ;
 
 INT: '0'..'9'+ ;
 
 DOUBLE
 	: ('0'..'9')+ '.' ('0'..'9')* EXPONENT?
     | '.' ('0'..'9')+ EXPONENT?
-    | ('0'..'9')+ EXPONENT     
+    | ('0'..'9')+ EXPONENT
     ;
 
 STRING

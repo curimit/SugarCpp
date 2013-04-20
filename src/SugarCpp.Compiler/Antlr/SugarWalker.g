@@ -50,10 +50,24 @@ struct returns [Struct value]
 	: 'struct' a=IDENT { $value.Name = a.Text; } (INDENT (NEWLINE+ b=stmt { $value.List.Add(b); } )+ DEDENT) NEWLINE*
 	;
 
+type_name returns [string value]
+@init
+{
+	$value = "";
+}
+	: a=IDENT { $value+=a; } ('[' ']' { $value+="*"; })*
+	;
+
 func_def returns [FuncDef value]
-	: a=IDENT b=IDENT '(' ')' c=stmt_block NEWLINE*
+@init
+{
+	$value = new FuncDef();
+}
+	: a=type_name b=IDENT '(' (c=expr { $value.Args.Add(c); } (',' d=expr { $value.Args.Add(d); } IDENT)*)? ')' e=stmt_block NEWLINE*
 	{
-		$value = new FuncDef(a.Text, b.Text, c);
+		$value.Type = a;
+		$value.Name = b.Text;
+		$value.Body = e;
 	}
 	;
 
@@ -62,7 +76,7 @@ stmt_block returns [StmtBlock value]
 {
 	$value = new StmtBlock();
 }
-	: INDENT (NEWLINE+ a=stmt { $value.StmtList.Add(a); })+ NEWLINE* DEDENT
+	: INDENT (NEWLINE+ a=stmt { $value.StmtList.Add(a); })* NEWLINE* DEDENT
     ; 
 
 stmt returns [Stmt value]
@@ -73,7 +87,7 @@ stmt returns [Stmt value]
 	;
 	
 stmt_if returns [StmtIf value]
-	: 'if' a=expr b=stmt_block ('else' c=stmt_block)?
+	: 'if' a=expr b=stmt_block (NEWLINE* 'else' c=stmt_block)?
 	{
 		$value = new StmtIf();
 		$value.Condition = a;
@@ -103,10 +117,10 @@ stmt_for returns [StmtFor value]
 	;
 
 alloc_expr returns [ExprAlloc value]
-	: ^(Expr_Alloc a=IDENT b=IDENT (c=expr)?)
+	: ^(Expr_Alloc a=type_name b=IDENT (c=expr)?)
 	{
 		$value = new ExprAlloc();
-		$value.Type = a.Text;
+		$value.Type = a;
 		$value.Name = b.Text;
 		$value.Expr = c;
 	}
@@ -119,13 +133,32 @@ args_list returns [List<Expr> value]
 	: (a=expr { $value.Add(a); })*
 	;
 
-call_expr returns [ExprCall value]
+call_expr returns [Expr value]
 	: ^(Expr_Call a=expr b=args_list)
 	{
-		$value = new ExprCall();
-		$value.Expr = a;
-		$value.Args = b;
+		$value = new ExprCall(a, b);
 	}
+	| ^(Expr_Dict a=expr c=expr)
+	{
+		$value = new ExprDict(a, c);
+	}
+	;
+	
+dot_expr returns [ExprDot value]
+	: ^(Expr_Dot a=expr b=IDENT)
+	{
+		$value = new ExprDot();
+		$value.Expr = a;
+		$value.Name = b.Text;
+	}
+	;
+
+new_expr returns [ExprNew value]
+@init
+{
+	$value = new ExprNew();
+}
+	: ^(Expr_New a=IDENT { $value.ElemType = a.Text; } (b=expr { $value.Ranges.Add(b); })+)
 	;
 
 expr returns [Expr value]
@@ -136,6 +169,14 @@ expr returns [Expr value]
 	| call=call_expr
 	{
 		$value = call;
+	}
+	| dot=dot_expr
+	{
+		$value = dot;
+	}
+	| newExpr=new_expr
+	{
+		$value = newExpr;
 	}
 	| ^('=' a=expr b=expr)
 	{
@@ -180,6 +221,10 @@ expr returns [Expr value]
 	| ^('!=' a=expr b=expr)
 	{
 		$value = new ExprBin("!=", a, b);
+	}
+	| ^('!' a=expr)
+	{
+		$value = new ExprPrefix("!", a);
 	}
 	| INT
     {

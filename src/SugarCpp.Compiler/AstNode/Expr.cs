@@ -44,10 +44,72 @@ namespace SugarCpp.Compiler
         }
     }
 
+    public class ExprPrefix : Expr
+    {
+        public Expr Expr;
+        public string Op;
+
+        public ExprPrefix(string op, Expr expr)
+        {
+            this.Expr = expr;
+            this.Op = op;
+        }
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
+    public class ExprDict : Expr
+    {
+        public Expr Expr;
+        public Expr Index;
+
+        public ExprDict(Expr expr, Expr index)
+        {
+            this.Expr = expr;
+            this.Index = index;
+        }
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
     public class ExprCall : Expr
     {
         public Expr Expr;
         public List<Expr> Args = new List<Expr>();
+
+        public ExprCall(Expr expr, List<Expr> args)
+        {
+            this.Expr = expr;
+            this.Args = args;
+        }
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
+    public class ExprDot : Expr
+    {
+        public Expr Expr;
+        public string Name;
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
+    public class ExprNew : Expr
+    {
+        public List<Expr> Ranges = new List<Expr>();
+        public string ElemType;
 
         public override Template Accept(Visitor visitor)
         {

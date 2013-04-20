@@ -23,8 +23,12 @@ namespace SugarCpp.Compiler
 
         public abstract Template Visit(ExprAssign expr);
         public abstract Template Visit(ExprBin expr);
+        public abstract Template Visit(ExprPrefix expr);
         public abstract Template Visit(ExprAlloc expr);
         public abstract Template Visit(ExprCall expr);
+        public abstract Template Visit(ExprNew expr);
+        public abstract Template Visit(ExprDict expr);
+        public abstract Template Visit(ExprDot expr);
         public abstract Template Visit(ExprConst expr);
     }
 }
