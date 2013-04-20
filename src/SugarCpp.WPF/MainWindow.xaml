@@ -1,9 +1,23 @@
 ﻿<Window x:Class="SugarCpp.WPF.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="350" Width="525">
+        xmlns:AvalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit"
+        Title="MainWindow" Height="500" Width="700">
     <Grid>
-        <TextBox Name="Source" />
-        <TextBox Name="Result" />
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <AvalonEdit:TextEditor Name="Source"
+                               TextChanged="Source_TextChanged_1"
+                               FontFamily="Consolas"
+                               SyntaxHighlighting="C++"
+                               FontSize="12pt"
+                               Grid.Column="0"/>
+        <AvalonEdit:TextEditor Name="Result"
+                               FontFamily="Consolas"
+                               SyntaxHighlighting="C++"
+                               FontSize="12pt"
+                               Grid.Column="1"/>
     </Grid>
 </Window>

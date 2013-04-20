@@ -11,6 +11,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using SugarCpp.Compiler;
+using System.IO;
 
 namespace SugarCpp.WPF
 {
@@ -22,6 +24,31 @@ namespace SugarCpp.WPF
         public MainWindow()
         {
             InitializeComponent();
+
+            this.Source.Options.ConvertTabsToSpaces = true;
+
+            if (File.Exists("test.sc"))
+            {
+                this.Source.Text = File.ReadAllText("test.sc");
+            }
+        }
+
+        private void Source_TextChanged_1(object sender, EventArgs e)
+        {
+            string input = this.Source.Text;
+            File.WriteAllText("test.sc", input);
+            try
+            {
+                TargetCpp sugar_cpp = new TargetCpp();
+                string output = sugar_cpp.Compile(input);
+                this.Result.Text = output;
+                File.WriteAllText("test.cpp", output);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("编译错误:");
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }
