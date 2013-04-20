@@ -109,7 +109,7 @@ node
 	;
 
 imports
-	: 'import' STRING? (INDENT ((NEWLINE!)+ STRING)+ (NEWLINE!)* DEDENT)? (NEWLINE!)*
+	: 'import' STRING? (INDENT (NEWLINE+ STRING)+ NEWLINE* DEDENT)? NEWLINE*
 	;
 
 type_name
@@ -117,11 +117,11 @@ type_name
 	;
 
 func_def
-	: type_name IDENT '('! ')'! stmt_block (NEWLINE!)*
+	: type_name IDENT '(' ')' stmt_block NEWLINE*
     ;
 
 stmt_block
-	: INDENT ((NEWLINE!)+ stmt)+ DEDENT
+	: INDENT (NEWLINE+ stmt)+ DEDENT
 	;
 
 stmt
@@ -131,15 +131,24 @@ stmt
 	;
 
 stmt_if
-	: 'if'! '('! expr ')'! stmt_block ('else'! stmt_block)?
+	: 'if' expr stmt_block ('else' stmt_block)?
 	;
 
 stmt_while
-	: 'while'! '('! expr ')'! stmt_block
+	: 'while' expr stmt_block
 	;
 
 expr
-	: assign_expr
+	: alloc_expr
+	;
+
+alloc_expr
+	: type_name IDENT ('=' expr)? -> ^(Expr_Alloc type_name IDENT expr?)
+	| logic_expr
+	;
+
+logic_expr
+	: assign_expr (('==' | '!=' | '>' | '<' | '>=' | '<=')^ assign_expr)*
 	;
 
 assign_expr
@@ -226,6 +235,7 @@ NEWLINE
 				Indents.Pop();
 				CurrentIndent = Indents.Count == 0 ? 0 : Indents.First().Level;
 			}
+			Emit(new CommonToken(NEWLINE, "NEWLINE"));
 		}
 		else
 		{

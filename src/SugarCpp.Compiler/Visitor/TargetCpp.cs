@@ -78,12 +78,59 @@ namespace SugarCpp.Compiler
             return template;
         }
 
+        public override Template Visit(StmtIf stmt_if)
+        {
+            if (stmt_if.Else == null)
+            {
+                Template template = new Template("if <cond> {\n    <body>\n}");
+                template.Add("cond", stmt_if.Condition.Accept(this));
+                template.Add("body", stmt_if.Body.Accept(this));
+                return template;
+            }
+            else
+            {
+                Template template = new Template("if <cond> {\n    <body1>\n} else {\n    <body2>\n}");
+                template.Add("cond", stmt_if.Condition.Accept(this));
+                template.Add("body1", stmt_if.Body.Accept(this));
+                template.Add("body2", stmt_if.Else.Accept(this));
+                return template;
+            }
+
+        }
+
+        public override Template Visit(StmtWhile stmt_while)
+        {
+            Template template = new Template("while <cond> {\n    <body>\n}");
+            template.Add("cond", stmt_while.Condition.Accept(this));
+            template.Add("body", stmt_while.Body.Accept(this));
+            return template;
+        }
+
         public override Template Visit(ExprAssign expr)
         {
             Template template = new Template("<left> = <right>");
             template.Add("left", expr.Left.Accept(this));
             template.Add("right", expr.Right.Accept(this));
             return template;
+        }
+
+        public override Template Visit(ExprAlloc expr)
+        {
+            if (expr.Expr != null)
+            {
+                Template template = new Template("<type> <name> = <expr>");
+                template.Add("type", expr.Type);
+                template.Add("name", expr.Name);
+                template.Add("expr", expr.Expr.Accept(this));
+                return template;
+            }
+            else
+            {
+                Template template = new Template("<type> <name>");
+                template.Add("type", expr.Type);
+                template.Add("name", expr.Name);
+                return template;
+            }
         }
 
         public override Template Visit(ExprBin expr)

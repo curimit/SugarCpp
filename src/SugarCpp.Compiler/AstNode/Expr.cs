@@ -44,6 +44,18 @@ namespace SugarCpp.Compiler
         }
     }
 
+    public class ExprAlloc : Expr
+    {
+        public string Type;
+        public string Name;
+        public Expr Expr;
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
     public class ExprConst : Expr
     {
         public string Text;
