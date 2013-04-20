@@ -55,9 +55,24 @@ namespace SugarCpp.Compiler
             return template;
         }
 
+        public override Template Visit(Struct struct_def)
+        {
+            Template template = new Template("struct <name> {\n    <list; separator=\"\n\">\n}");
+            template.Add("name", struct_def.Name);
+            List<Template> list = new List<Template>();
+            foreach (var node in struct_def.List)
+            {
+                Template member = new Template("<expr>;");
+                member.Add("expr", node.Accept(this));
+                list.Add(member);
+            }
+            template.Add("list", list);
+            return template;
+        }
+
         public override Template Visit(FuncDef func_def)
         {
-            Template template = new Template("<type> <name>() {\n    <list>\n}");
+            Template template = new Template("<type> <name>() {\n    <list; separator=\"\n\">\n}");
             template.Add("type", func_def.Type);
             template.Add("name", func_def.Name);
             template.Add("list", func_def.Block.Accept(this));

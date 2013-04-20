@@ -10,6 +10,8 @@ namespace SugarCpp.Compiler
     {
         public abstract Template Visit(Root root);
 
+        public abstract Template Visit(Struct struct_def);
+
         public abstract Template Visit(Import import);
 
         public abstract Template Visit(FuncDef func_def);

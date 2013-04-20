@@ -106,10 +106,15 @@ public root
 node
 	: imports
 	| func_def
+	| struct
 	;
 
 imports
 	: 'import' STRING? (INDENT (NEWLINE+ STRING)+ NEWLINE* DEDENT)? NEWLINE*
+	;
+
+struct
+	: 'struct' IDENT (INDENT (NEWLINE+ stmt)+ DEDENT) NEWLINE*
 	;
 
 type_name

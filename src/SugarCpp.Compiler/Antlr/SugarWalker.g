@@ -30,6 +30,7 @@ public root returns [Root value]
 node returns [AstNode value]
 	: a = func_def { $value = a; }
 	| b = imports { $value = b; }
+	| c = struct { $value = c; }
 	;
 
 imports returns [Import value]
@@ -39,6 +40,14 @@ imports returns [Import value]
 }
 	: 'import' (a = STRING { $value.NameList.Add(a.Text); })?
 	  (INDENT (NEWLINE+ b = STRING { $value.NameList.Add(b.Text); })+ NEWLINE* DEDENT)? NEWLINE*
+	;
+
+struct returns [Struct value]
+@init
+{
+	$value = new Struct();
+}
+	: 'struct' a=IDENT { $value.Name = a.Text; } (INDENT (NEWLINE+ b=stmt { $value.List.Add(b); } )+ DEDENT) NEWLINE*
 	;
 
 func_def returns [FuncDef value]
