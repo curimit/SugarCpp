@@ -153,7 +153,7 @@ stmt_while
 	;
 
 stmt_for
-	: 'for' '(' expr ';' expr ';' expr ')' stmt_block
+	: 'for' '(' expr (';' expr ';' expr | 'to' expr ('by' expr)?) ')' stmt_block
 	;
 
 expr
@@ -212,7 +212,6 @@ dot_expr
 
 atom_expr
 	: INT
-	| DOUBLE
 	| IDENT
 	| STRING
 	| '('! expr ')'!
@@ -224,11 +223,6 @@ IDENT: ('a'..'z' | 'A'..'Z' | '_')+ ;
 
 INT: '0'..'9'+ ;
 
-DOUBLE
-	: ('0'..'9')+ '.' ('0'..'9')* EXPONENT?
-    | '.' ('0'..'9')+ EXPONENT?
-    | ('0'..'9')+ EXPONENT
-    ;
 
 STRING
 	: '"' (~'"')* '"'

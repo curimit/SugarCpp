@@ -106,14 +106,37 @@ stmt_while returns [StmtWhile value]
 	;
 
 stmt_for returns [StmtFor value]
-	: 'for' '(' a=expr ';' b=expr ';' c=expr ')' d=stmt_block
-	{
-		$value = new StmtFor();
-		$value.Start = a;
-		$value.Condition = b;
-		$value.Next = c;
-		$value.Body = d;
-	}
+@init
+{
+	$value = new StmtFor();
+}
+	: 'for' '(' a=expr
+			( ';' b=expr ';' c=expr 
+			{
+				$value.Start = a;
+				$value.Condition = b;
+				$value.Next = c;
+			}
+			| 'to' e=expr
+			{
+				ExprAlloc tmp = (ExprAlloc)a;
+				
+				$value.Start = a;
+				$value.Condition = new ExprBin("!=", new ExprConst(tmp.Name), new ExprBin("+", e, new ExprConst("1")));
+				$value.Next = new ExprBin("+=", new ExprConst(tmp.Name), new ExprConst("1"));
+			}
+			('by' h=expr
+			{
+				tmp = (ExprAlloc)a;
+				
+				$value.Start = a;
+				$value.Condition = new ExprBin("!=", new ExprConst(tmp.Name), new ExprBin("+", e, h));
+				$value.Next = new ExprBin("+=", new ExprConst(tmp.Name), h);
+			})?
+			) ')' d=stmt_block
+			{
+				$value.Body = d;
+			}
 	;
 
 alloc_expr returns [ExprAlloc value]
