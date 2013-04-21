@@ -184,6 +184,15 @@ new_expr returns [ExprNew value]
 	: ^(Expr_New a=IDENT { $value.ElemType = a.Text; } (b=expr { $value.Ranges.Add(b); })+)
 	;
 
+block_expr returns [ExprBlock value]
+@init
+{
+	$value = new ExprBlock();
+}
+	: INDENT (NEWLINE+ a=stmt { $value.StmtList.Add(a); })* NEWLINE* DEDENT
+    ; 
+
+
 expr returns [Expr value]
     : alloc=alloc_expr
 	{
@@ -200,6 +209,10 @@ expr returns [Expr value]
 	| newExpr=new_expr
 	{
 		$value = newExpr;
+	}
+	| blockExpr=block_expr
+	{
+		$value = blockExpr;
 	}
 	| ^('=' a=expr b=expr)
 	{

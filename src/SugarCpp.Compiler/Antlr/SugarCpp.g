@@ -215,6 +215,11 @@ atom_expr
 	| IDENT
 	| STRING
 	| '('! expr ')'!
+	| block_expr
+	;
+
+block_expr
+	: INDENT (NEWLINE+ stmt)* DEDENT
 	;
 
 // Lexer Rules

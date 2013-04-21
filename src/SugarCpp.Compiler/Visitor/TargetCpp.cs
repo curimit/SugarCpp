@@ -219,5 +219,19 @@ namespace SugarCpp.Compiler
         {
             return new Template(expr.Text);
         }
+
+        public override Template Visit(ExprBlock block)
+        {
+            Template template = new Template("({\n    <list; separator=\"\n\">})");
+            List<Template> list = new List<Template>();
+            foreach (var node in block.StmtList)
+            {
+                Template expr = new Template("<expr>;");
+                expr.Add("expr", node.Accept(this));
+                list.Add(expr);
+            }
+            template.Add("list", list);
+            return template;
+        }
     }
 }

@@ -19,5 +19,4 @@ int main()
     for (int i = 1 to n)
         sum = sum + i
     printf("sum = %d\n", sum)
-
 ```
