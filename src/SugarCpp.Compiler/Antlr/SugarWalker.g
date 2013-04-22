@@ -63,12 +63,24 @@ func_def returns [FuncDef value]
 {
 	$value = new FuncDef();
 }
-	: a=type_name b=IDENT '(' (c=expr { $value.Args.Add(c); } (',' d=expr { $value.Args.Add(d); } IDENT)*)? ')' e=stmt_block NEWLINE*
+	: a=type_name b=IDENT '(' (c=expr { $value.Args.Add(c); } (',' d=expr { $value.Args.Add(d); } IDENT)*)? ')'
+	( e=stmt_block
 	{
 		$value.Type = a;
 		$value.Name = b.Text;
 		$value.Body = e;
 	}
+	| '=' f=expr
+	{
+		$value.Type = a;
+		$value.Name = b.Text;
+		StmtBlock tmp = new StmtBlock();
+		if (a != "void")
+			tmp.StmtList.Add(new ExprReturn(f));
+		else tmp.StmtList.Add(f);
+		$value.Body = tmp;
+	}
+	)NEWLINE*
 	;
 
 stmt_block returns [StmtBlock value]
@@ -213,6 +225,10 @@ expr returns [Expr value]
 	| blockExpr=block_expr
 	{
 		$value = blockExpr;
+	}
+	| 'return' a=expr
+	{
+		$value = new ExprReturn(a);
 	}
 	| ^('=' a=expr b=expr)
 	{

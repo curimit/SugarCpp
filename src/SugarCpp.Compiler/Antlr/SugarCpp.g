@@ -126,7 +126,7 @@ func_args
 	;
 
 func_def
-	: type_name IDENT '(' func_args? ')' stmt_block NEWLINE*
+	: type_name IDENT '(' func_args? ')' ( stmt_block | '=' expr ) NEWLINE*
     ;
 
 stmt_block
@@ -157,7 +157,12 @@ stmt_for
 	;
 
 expr
-	: alloc_expr
+	: return_expr
+	;
+
+return_expr
+	: 'return' expr
+	| alloc_expr
 	;
 
 alloc_expr

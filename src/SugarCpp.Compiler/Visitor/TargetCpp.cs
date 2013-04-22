@@ -167,6 +167,13 @@ namespace SugarCpp.Compiler
             return template;
         }
 
+        public override Template Visit(ExprReturn expr)
+        {
+            Template template = new Template("return <expr>");
+            template.Add("expr", expr.Expr.Accept(this));
+            return template;
+        }
+
         public override Template Visit(ExprDict expr)
         {
             Template template = new Template("(<expr>[<index>])");
