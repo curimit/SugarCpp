@@ -240,7 +240,7 @@ expr returns [Expr value]
 	{
 		$value = blockExpr;
 	}
-	| 'return' (a=expr)?
+	| ^(Expr_Return (a=expr)?)
 	{
 		$value = new ExprReturn(a);
 	}

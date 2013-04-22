@@ -23,6 +23,7 @@ tokens
 
    Expr_Alloc;
    Expr_Block;
+   Expr_Return;
    Expr_New;
    Expr_Bin;
 }
@@ -175,8 +176,12 @@ expr
 	;
 
 return_expr
-	: 'return' expr?
+	: 'return' expr? -> ^(Expr_Return expr?)
 	| alloc_expr
+	;
+
+cond_expr
+	: alloc_expr
 	;
 
 alloc_expr
