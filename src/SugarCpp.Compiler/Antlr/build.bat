@@ -1,5 +1,3 @@
 @echo off
-java org.antlr.Tool SugarCpp.g
-java org.antlr.Tool SugarWalker.g
-echo %ERRORLEVEL%
+java org.antlr.Tool *.g
 if ERRORLEVEL 1 ( pause )
