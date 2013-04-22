@@ -146,7 +146,7 @@ func_def
     ;
 
 stmt_block
-	: INDENT (NEWLINE+ stmt)* DEDENT
+	: INDENT (NEWLINE+ stmt)* NEWLINE* DEDENT
 	;
 
 stmt
@@ -183,19 +183,20 @@ return_expr
 
 alloc_expr
 	: type_name IDENT ('=' expr)? -> ^(Expr_Alloc type_name IDENT expr?)
-	| cond_expr
-	;
-
-cond_expr
-	: logic_expr ('?' logic_expr ':' logic_expr -> ^(Expr_Cond logic_expr logic_expr logic_expr))?
-	;
-
-logic_expr
-	: assign_expr (('==' | '!=' | '>' | '<' | '>=' | '<=')^ assign_expr)*
+	| assign_expr
 	;
 
 assign_expr
-	: add_expr ('='^ add_expr)*
+	: cond_expr ('='^ cond_expr)*
+	;
+
+Expr_Cond: '?' ;
+cond_expr
+	: logic_expr (Expr_Cond^ logic_expr ':'! logic_expr)?
+	;
+
+logic_expr
+	: add_expr (('==' | '!=' | '>' | '<' | '>=' | '<=')^ add_expr)*
 	;
 
 add_expr
