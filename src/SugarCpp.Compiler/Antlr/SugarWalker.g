@@ -165,12 +165,24 @@ stmt_for returns [StmtFor value]
 			}
 	;
 
+ident returns [string value]
+	: a=IDENT { $value = a.Text; }
+	;
+
+ident_list returns [List<string> value]
+@init
+{
+	$value = new List<string>();
+}
+	: a=ident { $value.Add(a); } ((',' a=ident { $value.Add(a); })+ ';')?
+	;
+
 alloc_expr returns [ExprAlloc value]
-	: ^(Expr_Alloc a=type_name b=IDENT (c=expr)?)
+	: ^(Expr_Alloc a=type_name b=ident (c=expr)?)
 	{
 		$value = new ExprAlloc();
 		$value.Type = a;
-		$value.Name = b.Text;
+		$value.Name = b;
 		$value.Expr = c;
 	}
 	;
@@ -275,6 +287,10 @@ expr returns [Expr value]
 	{
 		$value = new ExprBin("/", a, b);
 	}
+	| ^('%' a=expr b=expr)
+	{
+		$value = new ExprBin("\%", a, b);
+	}
 	| ^('==' a=expr b=expr)
 	{
 		$value = new ExprBin("==", a, b);
@@ -302,6 +318,10 @@ expr returns [Expr value]
 	| ^('!' a=expr)
 	{
 		$value = new ExprPrefix("!", a);
+	}
+	| ^('&' a=expr)
+	{
+		$value = new ExprPrefix("&", a);
 	}
 	| INT
     {

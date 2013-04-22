@@ -181,6 +181,10 @@ return_expr
 	| alloc_expr
 	;
 
+ident_list
+	: IDENT ((',' IDENT)+ ';')?
+	;
+
 alloc_expr
 	: type_name IDENT ('=' expr)? -> ^(Expr_Alloc type_name IDENT expr?)
 	| assign_expr
@@ -204,7 +208,7 @@ add_expr
 	;
 
 mul_expr
-	: new_expr (('*' | '/')^ new_expr)*
+	: new_expr (('*' | '/' | '%')^ new_expr)*
 	;
 
 new_expr
@@ -213,7 +217,7 @@ new_expr
 	;
 
 prefix_expr
-	: (('!' | '++' | '--' | '-')^)* call_expr
+	: (('&' | '!' | '++' | '--' | '-')^)* call_expr
 	;
 	
 Expr_Call: '(' ;

@@ -16,9 +16,6 @@ using System.IO;
 
 namespace SugarCpp.WPF
 {
-    /// <summary>
-    /// MainWindow.xaml 的交互逻辑
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
@@ -46,7 +43,7 @@ namespace SugarCpp.WPF
             }
             catch (Exception ex)
             {
-                string output = string.Format("编译错误:\n{0}", ex.Message);
+                string output = string.Format("Compile Error:\n{0}", ex.Message);
                 this.Result.Text = output;
             }
         }
