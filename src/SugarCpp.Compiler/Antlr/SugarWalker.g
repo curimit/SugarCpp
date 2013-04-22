@@ -240,6 +240,10 @@ expr returns [Expr value]
 	{
 		$value = blockExpr;
 	}
+	| ^(Expr_Cond a=expr b=expr c=expr)
+	{
+		$value = new ExprCond(a, b, c);
+	}
 	| ^(Expr_Return (a=expr)?)
 	{
 		$value = new ExprReturn(a);

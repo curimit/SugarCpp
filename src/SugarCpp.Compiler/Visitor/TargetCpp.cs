@@ -188,6 +188,15 @@ namespace SugarCpp.Compiler
             return template;
         }
 
+        public override Template Visit(ExprCond expr)
+        {
+            Template template = new Template("(<cond> ? <expr1> : <expr2>)");
+            template.Add("cond", expr.Cond.Accept(this));
+            template.Add("expr1", expr.Expr1.Accept(this));
+            template.Add("expr2", expr.Expr2.Accept(this));
+            return template;
+        }
+
         public override Template Visit(ExprReturn expr)
         {
             if (expr.Expr != null)

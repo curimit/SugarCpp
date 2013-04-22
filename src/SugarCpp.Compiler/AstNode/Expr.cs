@@ -129,6 +129,25 @@ namespace SugarCpp.Compiler
         }
     }
 
+    public class ExprCond : Expr
+    {
+        public Expr Cond;
+        public Expr Expr1;
+        public Expr Expr2;
+
+        public ExprCond(Expr cond, Expr expr1, Expr expr2)
+        {
+            this.Cond = cond;
+            this.Expr1 = expr1;
+            this.Expr2 = expr2;
+        }
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
     public class ExprReturn : Expr
     {
         public Expr Expr;

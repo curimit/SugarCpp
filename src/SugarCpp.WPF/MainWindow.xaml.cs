@@ -47,6 +47,7 @@ namespace SugarCpp.WPF
             catch (Exception ex)
             {
                 string output = string.Format("编译错误:\n{0}", ex.Message);
+                this.Result.Text = output;
             }
         }
     }

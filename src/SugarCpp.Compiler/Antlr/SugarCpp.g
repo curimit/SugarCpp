@@ -23,9 +23,10 @@ tokens
 
    Expr_Alloc;
    Expr_Block;
-   Expr_Return;
+   Expr_Cond;
    Expr_New;
    Expr_Bin;
+   Expr_Return;
 }
 
 @lexer::header
@@ -180,13 +181,13 @@ return_expr
 	| alloc_expr
 	;
 
-cond_expr
-	: alloc_expr
-	;
-
 alloc_expr
 	: type_name IDENT ('=' expr)? -> ^(Expr_Alloc type_name IDENT expr?)
-	| logic_expr
+	| cond_expr
+	;
+
+cond_expr
+	: logic_expr ('?' logic_expr ':' logic_expr -> ^(Expr_Cond logic_expr logic_expr logic_expr))?
 	;
 
 logic_expr
