@@ -159,11 +159,11 @@ stmt_alloc
 	;
 
 stmt_if
-	: 'if' expr stmt_block (NEWLINE* 'else' stmt_block)?
+	: 'if' '(' expr ')' stmt_block (NEWLINE* 'else' stmt_block)?
 	;
 	
 stmt_while
-	: 'while' expr stmt_block
+	: 'while' '(' expr ')' stmt_block
 	;
 
 stmt_for
@@ -175,7 +175,7 @@ expr
 	;
 
 return_expr
-	: 'return' expr
+	: 'return' expr?
 	| alloc_expr
 	;
 

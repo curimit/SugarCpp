@@ -113,7 +113,7 @@ stmt returns [Stmt value]
 	;
 	
 stmt_if returns [StmtIf value]
-	: 'if' a=expr b=stmt_block (NEWLINE* 'else' c=stmt_block)?
+	: 'if' '(' a=expr ')' b=stmt_block (NEWLINE* 'else' c=stmt_block)?
 	{
 		$value = new StmtIf();
 		$value.Condition = a;
@@ -123,7 +123,7 @@ stmt_if returns [StmtIf value]
 	;
 
 stmt_while returns [StmtWhile value]
-	: 'while' a=expr b=stmt_block
+	: 'while' '(' a=expr ')' b=stmt_block
 	{
 		$value = new StmtWhile();
 		$value.Condition = a;
@@ -240,7 +240,7 @@ expr returns [Expr value]
 	{
 		$value = blockExpr;
 	}
-	| 'return' a=expr
+	| 'return' (a=expr)?
 	{
 		$value = new ExprReturn(a);
 	}
