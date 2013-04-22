@@ -41,6 +41,14 @@ namespace SugarCpp.Compiler
             return template;
         }
 
+        public override Template Visit(Enum enum_def)
+        {
+            Template template = new Template("enum <name> {\n    <list; separator=\",\n\">\n};");
+            template.Add("name", enum_def.Name);
+            template.Add("list", enum_def.Values);
+            return template;
+        }
+
         public override Template Visit(Import import)
         {
             Template template = new Template("<list; separator=\"\n\">");
@@ -57,7 +65,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(Struct struct_def)
         {
-            Template template = new Template("struct <name> {\n    <list; separator=\"\n\">\n}");
+            Template template = new Template("struct <name> {\n    <list; separator=\"\n\">\n};");
             template.Add("name", struct_def.Name);
             List<Template> list = new List<Template>();
             foreach (var node in struct_def.List)

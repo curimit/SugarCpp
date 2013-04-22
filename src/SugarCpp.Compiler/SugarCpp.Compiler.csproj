@@ -52,6 +52,7 @@
     <Compile Include="Antlr\SugarCppParser.cs" />
     <Compile Include="Antlr\SugarWalker.cs" />
     <Compile Include="AstNode\AstNode.cs" />
+    <Compile Include="AstNode\Enum.cs" />
     <Compile Include="AstNode\Expr.cs" />
     <Compile Include="AstNode\FuncDef.cs" />
     <Compile Include="AstNode\Import.cs" />

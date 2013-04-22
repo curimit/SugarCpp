@@ -24,13 +24,14 @@ public root returns [Root value]
 {
 	$value = new Root();
 }
-	: (a = node  { $value.List.Add(a); })+
+	: (a = node  { $value.List.Add(a); } NEWLINE*)+
 	;
 
 node returns [AstNode value]
 	: a = func_def { $value = a; }
 	| b = imports { $value = b; }
 	| c = struct { $value = c; }
+	| d = enum { $value= d; }
 	;
 
 imports returns [Import value]
@@ -39,7 +40,15 @@ imports returns [Import value]
 	$value = new Import();
 }
 	: 'import' (a = STRING { $value.NameList.Add(a.Text); })?
-	  (INDENT (NEWLINE+ b = STRING { $value.NameList.Add(b.Text); })+ NEWLINE* DEDENT)? NEWLINE*
+	  (INDENT (NEWLINE+ b = STRING { $value.NameList.Add(b.Text); })+ NEWLINE* DEDENT)? 
+	;
+
+enum returns [Enum value]
+@init
+{
+	$value = new Enum();
+}
+	: 'enum' a=IDENT { $value.Name = a.Text; } '=' a=IDENT { $value.Values.Add(a.Text); } ('|' a=IDENT { $value.Values.Add(a.Text); })*
 	;
 
 struct returns [Struct value]
@@ -47,7 +56,12 @@ struct returns [Struct value]
 {
 	$value = new Struct();
 }
-	: 'struct' a=IDENT { $value.Name = a.Text; } (INDENT (NEWLINE+ b=stmt { $value.List.Add(b); } )+ DEDENT) NEWLINE*
+	: 'struct' a=IDENT { $value.Name = a.Text; } (INDENT (NEWLINE+ b=struct_stmt { $value.List.Add(b); } )+ DEDENT)
+	;
+
+struct_stmt returns [AstNode value]
+	: a=func_def { $value = a; }
+	| b=alloc_expr { $value = b; }
 	;
 
 type_name returns [string value]
@@ -80,7 +94,7 @@ func_def returns [FuncDef value]
 		else tmp.StmtList.Add(f);
 		$value.Body = tmp;
 	}
-	)NEWLINE*
+	)
 	;
 
 stmt_block returns [StmtBlock value]

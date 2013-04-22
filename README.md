@@ -29,3 +29,7 @@ T max[T](T x, T y)
         return y
 ```
 
+#### Enumerated type
+```
+enum Color = Red | Green | Blue
+```

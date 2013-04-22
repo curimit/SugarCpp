@@ -100,21 +100,31 @@ tokens
 @lexer  :: namespace { SugarCpp.Compiler }
 
 public root
-	: node+ EOF
+	: (node NEWLINE*)+ EOF
 	;
 
 node
 	: imports
 	| func_def
 	| struct
+	| enum
 	;
 
 imports
-	: 'import' STRING? (INDENT (NEWLINE+ STRING)+ NEWLINE* DEDENT)? NEWLINE*
+	: 'import' STRING? (INDENT (NEWLINE+ STRING)+ NEWLINE* DEDENT)? 
+	;
+
+enum
+	: 'enum' IDENT '=' IDENT ('|' IDENT)*
 	;
 
 struct
-	: 'struct' IDENT (INDENT (NEWLINE+ stmt)+ DEDENT) NEWLINE*
+	: 'struct' IDENT (INDENT (NEWLINE+ struct_stmt)+ DEDENT)
+	;
+
+struct_stmt
+	: func_def
+	| type_name IDENT ('=' expr)? -> ^(Expr_Alloc type_name IDENT expr?)
 	;
 
 type_name
@@ -130,7 +140,7 @@ func_args
 	;
 
 func_def
-	: type_name IDENT ('[' generic_parameter ']')? '(' func_args? ')' ( stmt_block | '=' expr ) NEWLINE*
+	: type_name IDENT ('[' generic_parameter ']')? '(' func_args? ')' ( stmt_block | '=' expr )
     ;
 
 stmt_block
@@ -233,7 +243,7 @@ block_expr
 
 // Lexer Rules
 
-IDENT: ('a'..'z' | 'A'..'Z' | '_')+ ;
+IDENT: ('a'..'z' | 'A'..'Z' | '_')+ ('0'..'9')*;
 
 INT: '0'..'9'+ ;
 
