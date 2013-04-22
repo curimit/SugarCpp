@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// $ANTLR 3.4 SugarCpp.g 2013-04-22 09:33:00
+// $ANTLR 3.4 SugarCpp.g 2013-04-22 09:45:14
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219
@@ -1568,6 +1568,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			case STRING:
 			case 27:
 			case 32:
+			case 34:
 			case 35:
 			case 50:
 			case 51:
@@ -2366,7 +2367,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			{
 				alt25 = 1;
 			}
-			else if ((LA25_0==Expr_Call||(LA25_0>=IDENT && LA25_0<=INT)||LA25_0==STRING||LA25_0==27||LA25_0==32||LA25_0==35||LA25_0==50))
+			else if ((LA25_0==Expr_Call||(LA25_0>=IDENT && LA25_0<=INT)||LA25_0==STRING||LA25_0==27||LA25_0==32||(LA25_0>=34 && LA25_0<=35)||LA25_0==50))
 			{
 				alt25 = 2;
 			}
@@ -2490,7 +2491,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					{
 						alt27 = 1;
 					}
-					else if ((LA27_3==Expr_Call||(LA27_3>=IDENT && LA27_3<=INT)||LA27_3==STRING||LA27_3==27||LA27_3==32||LA27_3==35||(LA27_3>=50 && LA27_3<=51)))
+					else if ((LA27_3==Expr_Call||(LA27_3>=IDENT && LA27_3<=INT)||LA27_3==STRING||LA27_3==27||LA27_3==32||(LA27_3>=34 && LA27_3<=35)||(LA27_3>=50 && LA27_3<=51)))
 					{
 						alt27 = 2;
 					}
@@ -2596,7 +2597,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				}
 
 			}
-			else if ((LA27_0==Expr_Call||(LA27_0>=INDENT && LA27_0<=INT)||LA27_0==STRING||LA27_0==27||LA27_0==32||LA27_0==35||LA27_0==50))
+			else if ((LA27_0==Expr_Call||(LA27_0>=INDENT && LA27_0<=INT)||LA27_0==STRING||LA27_0==27||LA27_0==32||(LA27_0>=34 && LA27_0<=35)||LA27_0==50))
 			{
 				alt27 = 2;
 			}
@@ -3280,7 +3281,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			{
 				alt33 = 1;
 			}
-			else if ((LA33_0==Expr_Call||(LA33_0>=IDENT && LA33_0<=INT)||LA33_0==STRING||LA33_0==27||LA33_0==32||LA33_0==35))
+			else if ((LA33_0==Expr_Call||(LA33_0>=IDENT && LA33_0<=INT)||LA33_0==STRING||LA33_0==27||LA33_0==32||(LA33_0>=34 && LA33_0<=35)))
 			{
 				alt33 = 2;
 			}
@@ -3456,7 +3457,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_prefix_expr();
 
 	// $ANTLR start "prefix_expr"
-	// SugarCpp.g:194:1: prefix_expr : ( ( '!' | '++' | '--' ) ^)* call_expr ;
+	// SugarCpp.g:194:1: prefix_expr : ( ( '!' | '++' | '--' | '-' ) ^)* call_expr ;
 	[GrammarRule("prefix_expr")]
 	private AstParserRuleReturnScope<CommonTree, IToken> prefix_expr()
 	{
@@ -3476,14 +3477,14 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		DebugLocation(194, 1);
 		try
 		{
-			// SugarCpp.g:195:2: ( ( ( '!' | '++' | '--' ) ^)* call_expr )
+			// SugarCpp.g:195:2: ( ( ( '!' | '++' | '--' | '-' ) ^)* call_expr )
 			DebugEnterAlt(1);
-			// SugarCpp.g:195:4: ( ( '!' | '++' | '--' ) ^)* call_expr
+			// SugarCpp.g:195:4: ( ( '!' | '++' | '--' | '-' ) ^)* call_expr
 			{
 			root_0 = (CommonTree)adaptor.Nil();
 
 			DebugLocation(195, 4);
-			// SugarCpp.g:195:4: ( ( '!' | '++' | '--' ) ^)*
+			// SugarCpp.g:195:4: ( ( '!' | '++' | '--' | '-' ) ^)*
 			try { DebugEnterSubRule(34);
 			while (true)
 			{
@@ -3491,7 +3492,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				try { DebugEnterDecision(34, false);
 				int LA34_0 = input.LA(1);
 
-				if ((LA34_0==27||LA34_0==32||LA34_0==35))
+				if ((LA34_0==27||LA34_0==32||(LA34_0>=34 && LA34_0<=35)))
 				{
 					alt34 = 1;
 				}
@@ -3502,13 +3503,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:195:5: ( '!' | '++' | '--' ) ^
+					// SugarCpp.g:195:5: ( '!' | '++' | '--' | '-' ) ^
 					{
-					DebugLocation(195, 24);
+					DebugLocation(195, 30);
 
 					set98=(IToken)input.LT(1);
 					set98=(IToken)input.LT(1);
-					if (input.LA(1)==27||input.LA(1)==32||input.LA(1)==35)
+					if (input.LA(1)==27||input.LA(1)==32||(input.LA(1)>=34 && input.LA(1)<=35))
 					{
 						input.Consume();
 						root_0 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(set98), root_0);
@@ -3535,8 +3536,8 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			} finally { DebugExitSubRule(34); }
 
-			DebugLocation(195, 28);
-			PushFollow(Follow._call_expr_in_prefix_expr765);
+			DebugLocation(195, 34);
+			PushFollow(Follow._call_expr_in_prefix_expr769);
 			call_expr99=call_expr();
 			PopFollow();
 
@@ -3608,7 +3609,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			try { DebugEnterDecision(35, false);
 			int LA35_0 = input.LA(1);
 
-			if ((LA35_0==Expr_Call||(LA35_0>=IDENT && LA35_0<=INT)||LA35_0==STRING||LA35_0==27||LA35_0==32||LA35_0==35||(LA35_0>=50 && LA35_0<=51)))
+			if ((LA35_0==Expr_Call||(LA35_0>=IDENT && LA35_0<=INT)||LA35_0==STRING||LA35_0==27||LA35_0==32||(LA35_0>=34 && LA35_0<=35)||(LA35_0>=50 && LA35_0<=51)))
 			{
 				alt35 = 1;
 			}
@@ -3620,7 +3621,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				// SugarCpp.g:202:4: expr
 				{
 				DebugLocation(202, 4);
-				PushFollow(Follow._expr_in_args_list792);
+				PushFollow(Follow._expr_in_args_list796);
 				expr100=expr();
 				PopFollow();
 
@@ -3655,11 +3656,11 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					// SugarCpp.g:202:11: ',' expr
 					{
 					DebugLocation(202, 11);
-					char_literal101=(IToken)Match(input,33,Follow._33_in_args_list796);  
+					char_literal101=(IToken)Match(input,33,Follow._33_in_args_list800);  
 					stream_33.Add(char_literal101);
 
 					DebugLocation(202, 15);
-					PushFollow(Follow._expr_in_args_list798);
+					PushFollow(Follow._expr_in_args_list802);
 					expr102=expr();
 					PopFollow();
 
@@ -3776,7 +3777,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			root_0 = (CommonTree)adaptor.Nil();
 
 			DebugLocation(206, 4);
-			PushFollow(Follow._dot_expr_in_call_expr816);
+			PushFollow(Follow._dot_expr_in_call_expr820);
 			dot_expr103=dot_expr();
 			PopFollow();
 
@@ -3808,17 +3809,17 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					// SugarCpp.g:206:14: Expr_Call ^ args_list ')' !
 					{
 					DebugLocation(206, 23);
-					Expr_Call104=(IToken)Match(input,Expr_Call,Follow._Expr_Call_in_call_expr819); 
+					Expr_Call104=(IToken)Match(input,Expr_Call,Follow._Expr_Call_in_call_expr823); 
 					Expr_Call104_tree = (CommonTree)adaptor.Create(Expr_Call104);
 					root_0 = (CommonTree)adaptor.BecomeRoot(Expr_Call104_tree, root_0);
 					DebugLocation(206, 25);
-					PushFollow(Follow._args_list_in_call_expr822);
+					PushFollow(Follow._args_list_in_call_expr826);
 					args_list105=args_list();
 					PopFollow();
 
 					adaptor.AddChild(root_0, args_list105.Tree);
 					DebugLocation(206, 38);
-					char_literal106=(IToken)Match(input,29,Follow._29_in_call_expr824); 
+					char_literal106=(IToken)Match(input,29,Follow._29_in_call_expr828); 
 
 					}
 					break;
@@ -3827,17 +3828,17 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					// SugarCpp.g:207:8: Expr_Dict ^ expr ']' !
 					{
 					DebugLocation(207, 17);
-					Expr_Dict107=(IToken)Match(input,Expr_Dict,Follow._Expr_Dict_in_call_expr834); 
+					Expr_Dict107=(IToken)Match(input,Expr_Dict,Follow._Expr_Dict_in_call_expr838); 
 					Expr_Dict107_tree = (CommonTree)adaptor.Create(Expr_Dict107);
 					root_0 = (CommonTree)adaptor.BecomeRoot(Expr_Dict107_tree, root_0);
 					DebugLocation(207, 19);
-					PushFollow(Follow._expr_in_call_expr837);
+					PushFollow(Follow._expr_in_call_expr841);
 					expr108=expr();
 					PopFollow();
 
 					adaptor.AddChild(root_0, expr108.Tree);
 					DebugLocation(207, 27);
-					char_literal109=(IToken)Match(input,44,Follow._44_in_call_expr839); 
+					char_literal109=(IToken)Match(input,44,Follow._44_in_call_expr843); 
 
 					}
 					break;
@@ -3914,7 +3915,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			root_0 = (CommonTree)adaptor.Nil();
 
 			DebugLocation(215, 4);
-			PushFollow(Follow._atom_expr_in_dot_expr864);
+			PushFollow(Follow._atom_expr_in_dot_expr868);
 			atom_expr110=atom_expr();
 			PopFollow();
 
@@ -3942,11 +3943,11 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					// SugarCpp.g:215:15: Expr_Dot ^ IDENT
 					{
 					DebugLocation(215, 23);
-					Expr_Dot111=(IToken)Match(input,Expr_Dot,Follow._Expr_Dot_in_dot_expr867); 
+					Expr_Dot111=(IToken)Match(input,Expr_Dot,Follow._Expr_Dot_in_dot_expr871); 
 					Expr_Dot111_tree = (CommonTree)adaptor.Create(Expr_Dot111);
 					root_0 = (CommonTree)adaptor.BecomeRoot(Expr_Dot111_tree, root_0);
 					DebugLocation(215, 25);
-					IDENT112=(IToken)Match(input,IDENT,Follow._IDENT_in_dot_expr870); 
+					IDENT112=(IToken)Match(input,IDENT,Follow._IDENT_in_dot_expr874); 
 					IDENT112_tree = (CommonTree)adaptor.Create(IDENT112);
 					adaptor.AddChild(root_0, IDENT112_tree);
 
@@ -4073,7 +4074,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				root_0 = (CommonTree)adaptor.Nil();
 
 				DebugLocation(219, 4);
-				INT113=(IToken)Match(input,INT,Follow._INT_in_atom_expr883); 
+				INT113=(IToken)Match(input,INT,Follow._INT_in_atom_expr887); 
 				INT113_tree = (CommonTree)adaptor.Create(INT113);
 				adaptor.AddChild(root_0, INT113_tree);
 
@@ -4086,7 +4087,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				root_0 = (CommonTree)adaptor.Nil();
 
 				DebugLocation(220, 4);
-				IDENT114=(IToken)Match(input,IDENT,Follow._IDENT_in_atom_expr888); 
+				IDENT114=(IToken)Match(input,IDENT,Follow._IDENT_in_atom_expr892); 
 				IDENT114_tree = (CommonTree)adaptor.Create(IDENT114);
 				adaptor.AddChild(root_0, IDENT114_tree);
 
@@ -4099,7 +4100,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				root_0 = (CommonTree)adaptor.Nil();
 
 				DebugLocation(221, 4);
-				STRING115=(IToken)Match(input,STRING,Follow._STRING_in_atom_expr893); 
+				STRING115=(IToken)Match(input,STRING,Follow._STRING_in_atom_expr897); 
 				STRING115_tree = (CommonTree)adaptor.Create(STRING115);
 				adaptor.AddChild(root_0, STRING115_tree);
 
@@ -4112,15 +4113,15 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				root_0 = (CommonTree)adaptor.Nil();
 
 				DebugLocation(222, 7);
-				char_literal116=(IToken)Match(input,Expr_Call,Follow._Expr_Call_in_atom_expr898); 
+				char_literal116=(IToken)Match(input,Expr_Call,Follow._Expr_Call_in_atom_expr902); 
 				DebugLocation(222, 9);
-				PushFollow(Follow._expr_in_atom_expr901);
+				PushFollow(Follow._expr_in_atom_expr905);
 				expr117=expr();
 				PopFollow();
 
 				adaptor.AddChild(root_0, expr117.Tree);
 				DebugLocation(222, 17);
-				char_literal118=(IToken)Match(input,29,Follow._29_in_atom_expr903); 
+				char_literal118=(IToken)Match(input,29,Follow._29_in_atom_expr907); 
 
 				}
 				break;
@@ -4131,7 +4132,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				root_0 = (CommonTree)adaptor.Nil();
 
 				DebugLocation(223, 4);
-				PushFollow(Follow._block_expr_in_atom_expr909);
+				PushFollow(Follow._block_expr_in_atom_expr913);
 				block_expr119=block_expr();
 				PopFollow();
 
@@ -4202,7 +4203,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			root_0 = (CommonTree)adaptor.Nil();
 
 			DebugLocation(227, 4);
-			INDENT120=(IToken)Match(input,INDENT,Follow._INDENT_in_block_expr920); 
+			INDENT120=(IToken)Match(input,INDENT,Follow._INDENT_in_block_expr924); 
 			INDENT120_tree = (CommonTree)adaptor.Create(INDENT120);
 			adaptor.AddChild(root_0, INDENT120_tree);
 			DebugLocation(227, 11);
@@ -4251,7 +4252,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 							// SugarCpp.g:227:12: NEWLINE
 							{
 							DebugLocation(227, 12);
-							NEWLINE121=(IToken)Match(input,NEWLINE,Follow._NEWLINE_in_block_expr923); 
+							NEWLINE121=(IToken)Match(input,NEWLINE,Follow._NEWLINE_in_block_expr927); 
 							NEWLINE121_tree = (CommonTree)adaptor.Create(NEWLINE121);
 							adaptor.AddChild(root_0, NEWLINE121_tree);
 
@@ -4274,7 +4275,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					} finally { DebugExitSubRule(40); }
 
 					DebugLocation(227, 21);
-					PushFollow(Follow._stmt_in_block_expr926);
+					PushFollow(Follow._stmt_in_block_expr930);
 					stmt122=stmt();
 					PopFollow();
 
@@ -4294,7 +4295,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			} finally { DebugExitSubRule(41); }
 
 			DebugLocation(227, 28);
-			DEDENT123=(IToken)Match(input,DEDENT,Follow._DEDENT_in_block_expr930); 
+			DEDENT123=(IToken)Match(input,DEDENT,Follow._DEDENT_in_block_expr934); 
 			DEDENT123_tree = (CommonTree)adaptor.Create(DEDENT123);
 			adaptor.AddChild(root_0, DEDENT123_tree);
 
@@ -4418,7 +4419,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			{
 				"\x1\x3\xD\xFFFF\x1\x1\x1A\xFFFF\x1\x2",
 				"\x1\x3\x4\xFFFF\x3\x3\x1\xFFFF\x1\x1\x3\xFFFF\x1\x3\x3\xFFFF\x1\x3"+
-				"\x4\xFFFF\x1\x3\x2\xFFFF\x1\x3\xA\xFFFF\x1\x2\x2\x3\x1\xFFFF\x2\x3\x2"+
+				"\x4\xFFFF\x1\x3\x1\xFFFF\x2\x3\xA\xFFFF\x1\x2\x2\x3\x1\xFFFF\x2\x3\x2"+
 				"\xFFFF\x1\x3",
 				"",
 				""
@@ -4485,7 +4486,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		public static readonly BitSet _52_in_struct265 = new BitSet(new ulong[]{0x8000UL});
 		public static readonly BitSet _IDENT_in_struct267 = new BitSet(new ulong[]{0x10000UL});
 		public static readonly BitSet _INDENT_in_struct270 = new BitSet(new ulong[]{0x80000UL});
-		public static readonly BitSet _NEWLINE_in_struct273 = new BitSet(new ulong[]{0x4D8009088B8400UL});
+		public static readonly BitSet _NEWLINE_in_struct273 = new BitSet(new ulong[]{0x4D800D088B8400UL});
 		public static readonly BitSet _stmt_in_struct276 = new BitSet(new ulong[]{0x80020UL});
 		public static readonly BitSet _DEDENT_in_struct280 = new BitSet(new ulong[]{0x80002UL});
 		public static readonly BitSet _NEWLINE_in_struct283 = new BitSet(new ulong[]{0x80002UL});
@@ -4502,11 +4503,11 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		public static readonly BitSet _func_args_in_func_def339 = new BitSet(new ulong[]{0x20000000UL});
 		public static readonly BitSet _29_in_func_def342 = new BitSet(new ulong[]{0x10000010000UL});
 		public static readonly BitSet _stmt_block_in_func_def346 = new BitSet(new ulong[]{0x80002UL});
-		public static readonly BitSet _40_in_func_def350 = new BitSet(new ulong[]{0xC000908838400UL});
+		public static readonly BitSet _40_in_func_def350 = new BitSet(new ulong[]{0xC000D08838400UL});
 		public static readonly BitSet _expr_in_func_def352 = new BitSet(new ulong[]{0x80002UL});
 		public static readonly BitSet _NEWLINE_in_func_def356 = new BitSet(new ulong[]{0x80002UL});
 		public static readonly BitSet _INDENT_in_stmt_block371 = new BitSet(new ulong[]{0x80020UL});
-		public static readonly BitSet _NEWLINE_in_stmt_block374 = new BitSet(new ulong[]{0x4D8009088B8400UL});
+		public static readonly BitSet _NEWLINE_in_stmt_block374 = new BitSet(new ulong[]{0x4D800D088B8400UL});
 		public static readonly BitSet _stmt_in_stmt_block377 = new BitSet(new ulong[]{0x80020UL});
 		public static readonly BitSet _DEDENT_in_stmt_block381 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _stmt_if_in_stmt392 = new BitSet(new ulong[]{0x2UL});
@@ -4517,81 +4518,81 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		public static readonly BitSet _IDENT_in_stmt_alloc420 = new BitSet(new ulong[]{0x10000000002UL});
 		public static readonly BitSet _40_in_stmt_alloc423 = new BitSet(new ulong[]{0x838400UL});
 		public static readonly BitSet _atom_expr_in_stmt_alloc425 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _48_in_stmt_if451 = new BitSet(new ulong[]{0xC000908838400UL});
+		public static readonly BitSet _48_in_stmt_if451 = new BitSet(new ulong[]{0xC000D08838400UL});
 		public static readonly BitSet _expr_in_stmt_if453 = new BitSet(new ulong[]{0x10000UL});
 		public static readonly BitSet _stmt_block_in_stmt_if455 = new BitSet(new ulong[]{0x400000080002UL});
 		public static readonly BitSet _NEWLINE_in_stmt_if458 = new BitSet(new ulong[]{0x400000080000UL});
 		public static readonly BitSet _46_in_stmt_if461 = new BitSet(new ulong[]{0x10000UL});
 		public static readonly BitSet _stmt_block_in_stmt_if463 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _54_in_stmt_while477 = new BitSet(new ulong[]{0xC000908838400UL});
+		public static readonly BitSet _54_in_stmt_while477 = new BitSet(new ulong[]{0xC000D08838400UL});
 		public static readonly BitSet _expr_in_stmt_while479 = new BitSet(new ulong[]{0x10000UL});
 		public static readonly BitSet _stmt_block_in_stmt_while481 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _47_in_stmt_for492 = new BitSet(new ulong[]{0x400UL});
-		public static readonly BitSet _Expr_Call_in_stmt_for494 = new BitSet(new ulong[]{0xC000908838400UL});
+		public static readonly BitSet _Expr_Call_in_stmt_for494 = new BitSet(new ulong[]{0xC000D08838400UL});
 		public static readonly BitSet _expr_in_stmt_for496 = new BitSet(new ulong[]{0x20002000000000UL});
-		public static readonly BitSet _37_in_stmt_for499 = new BitSet(new ulong[]{0xC000908838400UL});
+		public static readonly BitSet _37_in_stmt_for499 = new BitSet(new ulong[]{0xC000D08838400UL});
 		public static readonly BitSet _expr_in_stmt_for501 = new BitSet(new ulong[]{0x2000000000UL});
-		public static readonly BitSet _37_in_stmt_for503 = new BitSet(new ulong[]{0xC000908838400UL});
+		public static readonly BitSet _37_in_stmt_for503 = new BitSet(new ulong[]{0xC000D08838400UL});
 		public static readonly BitSet _expr_in_stmt_for505 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _53_in_stmt_for509 = new BitSet(new ulong[]{0xC000908838400UL});
+		public static readonly BitSet _53_in_stmt_for509 = new BitSet(new ulong[]{0xC000D08838400UL});
 		public static readonly BitSet _expr_in_stmt_for511 = new BitSet(new ulong[]{0x200020000000UL});
-		public static readonly BitSet _45_in_stmt_for514 = new BitSet(new ulong[]{0xC000908838400UL});
+		public static readonly BitSet _45_in_stmt_for514 = new BitSet(new ulong[]{0xC000D08838400UL});
 		public static readonly BitSet _expr_in_stmt_for516 = new BitSet(new ulong[]{0x20000000UL});
 		public static readonly BitSet _29_in_stmt_for521 = new BitSet(new ulong[]{0x10000UL});
 		public static readonly BitSet _stmt_block_in_stmt_for523 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _return_expr_in_expr534 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _51_in_return_expr545 = new BitSet(new ulong[]{0xC000908838400UL});
+		public static readonly BitSet _51_in_return_expr545 = new BitSet(new ulong[]{0xC000D08838400UL});
 		public static readonly BitSet _expr_in_return_expr547 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _alloc_expr_in_return_expr552 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _type_name_in_alloc_expr563 = new BitSet(new ulong[]{0x8000UL});
 		public static readonly BitSet _IDENT_in_alloc_expr565 = new BitSet(new ulong[]{0x10000000002UL});
-		public static readonly BitSet _40_in_alloc_expr568 = new BitSet(new ulong[]{0xC000908838400UL});
+		public static readonly BitSet _40_in_alloc_expr568 = new BitSet(new ulong[]{0xC000D08838400UL});
 		public static readonly BitSet _expr_in_alloc_expr570 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _logic_expr_in_alloc_expr590 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _assign_expr_in_logic_expr601 = new BitSet(new ulong[]{0xEC010000002UL});
-		public static readonly BitSet _set_in_logic_expr604 = new BitSet(new ulong[]{0x4000908838400UL});
+		public static readonly BitSet _set_in_logic_expr604 = new BitSet(new ulong[]{0x4000D08838400UL});
 		public static readonly BitSet _assign_expr_in_logic_expr629 = new BitSet(new ulong[]{0xEC010000002UL});
 		public static readonly BitSet _add_expr_in_assign_expr642 = new BitSet(new ulong[]{0x10000000002UL});
-		public static readonly BitSet _40_in_assign_expr645 = new BitSet(new ulong[]{0x4000908838400UL});
+		public static readonly BitSet _40_in_assign_expr645 = new BitSet(new ulong[]{0x4000D08838400UL});
 		public static readonly BitSet _add_expr_in_assign_expr648 = new BitSet(new ulong[]{0x10000000002UL});
 		public static readonly BitSet _mul_expr_in_add_expr661 = new BitSet(new ulong[]{0x480000002UL});
-		public static readonly BitSet _set_in_add_expr664 = new BitSet(new ulong[]{0x4000908838400UL});
+		public static readonly BitSet _set_in_add_expr664 = new BitSet(new ulong[]{0x4000D08838400UL});
 		public static readonly BitSet _mul_expr_in_add_expr673 = new BitSet(new ulong[]{0x480000002UL});
 		public static readonly BitSet _new_expr_in_mul_expr686 = new BitSet(new ulong[]{0x1040000002UL});
-		public static readonly BitSet _set_in_mul_expr689 = new BitSet(new ulong[]{0x4000908838400UL});
+		public static readonly BitSet _set_in_mul_expr689 = new BitSet(new ulong[]{0x4000D08838400UL});
 		public static readonly BitSet _new_expr_in_mul_expr698 = new BitSet(new ulong[]{0x1040000002UL});
 		public static readonly BitSet _50_in_new_expr711 = new BitSet(new ulong[]{0x8000UL});
 		public static readonly BitSet _IDENT_in_new_expr713 = new BitSet(new ulong[]{0x800UL});
-		public static readonly BitSet _Expr_Dict_in_new_expr716 = new BitSet(new ulong[]{0xC000908838400UL});
+		public static readonly BitSet _Expr_Dict_in_new_expr716 = new BitSet(new ulong[]{0xC000D08838400UL});
 		public static readonly BitSet _expr_in_new_expr718 = new BitSet(new ulong[]{0x100000000000UL});
 		public static readonly BitSet _44_in_new_expr720 = new BitSet(new ulong[]{0x802UL});
 		public static readonly BitSet _prefix_expr_in_new_expr738 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _set_in_prefix_expr750 = new BitSet(new ulong[]{0x908838400UL});
-		public static readonly BitSet _call_expr_in_prefix_expr765 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _expr_in_args_list792 = new BitSet(new ulong[]{0x200000002UL});
-		public static readonly BitSet _33_in_args_list796 = new BitSet(new ulong[]{0xC000908838400UL});
-		public static readonly BitSet _expr_in_args_list798 = new BitSet(new ulong[]{0x200000002UL});
-		public static readonly BitSet _dot_expr_in_call_expr816 = new BitSet(new ulong[]{0xC02UL});
-		public static readonly BitSet _Expr_Call_in_call_expr819 = new BitSet(new ulong[]{0xC000B28838400UL});
-		public static readonly BitSet _args_list_in_call_expr822 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _29_in_call_expr824 = new BitSet(new ulong[]{0xC02UL});
-		public static readonly BitSet _Expr_Dict_in_call_expr834 = new BitSet(new ulong[]{0xC000908838400UL});
-		public static readonly BitSet _expr_in_call_expr837 = new BitSet(new ulong[]{0x100000000000UL});
-		public static readonly BitSet _44_in_call_expr839 = new BitSet(new ulong[]{0xC02UL});
-		public static readonly BitSet _atom_expr_in_dot_expr864 = new BitSet(new ulong[]{0x1002UL});
-		public static readonly BitSet _Expr_Dot_in_dot_expr867 = new BitSet(new ulong[]{0x8000UL});
-		public static readonly BitSet _IDENT_in_dot_expr870 = new BitSet(new ulong[]{0x1002UL});
-		public static readonly BitSet _INT_in_atom_expr883 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _IDENT_in_atom_expr888 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _STRING_in_atom_expr893 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _Expr_Call_in_atom_expr898 = new BitSet(new ulong[]{0xC000908838400UL});
-		public static readonly BitSet _expr_in_atom_expr901 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _29_in_atom_expr903 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _block_expr_in_atom_expr909 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _INDENT_in_block_expr920 = new BitSet(new ulong[]{0x80020UL});
-		public static readonly BitSet _NEWLINE_in_block_expr923 = new BitSet(new ulong[]{0x4D8009088B8400UL});
-		public static readonly BitSet _stmt_in_block_expr926 = new BitSet(new ulong[]{0x80020UL});
-		public static readonly BitSet _DEDENT_in_block_expr930 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _set_in_prefix_expr750 = new BitSet(new ulong[]{0xD08838400UL});
+		public static readonly BitSet _call_expr_in_prefix_expr769 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _expr_in_args_list796 = new BitSet(new ulong[]{0x200000002UL});
+		public static readonly BitSet _33_in_args_list800 = new BitSet(new ulong[]{0xC000D08838400UL});
+		public static readonly BitSet _expr_in_args_list802 = new BitSet(new ulong[]{0x200000002UL});
+		public static readonly BitSet _dot_expr_in_call_expr820 = new BitSet(new ulong[]{0xC02UL});
+		public static readonly BitSet _Expr_Call_in_call_expr823 = new BitSet(new ulong[]{0xC000F28838400UL});
+		public static readonly BitSet _args_list_in_call_expr826 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _29_in_call_expr828 = new BitSet(new ulong[]{0xC02UL});
+		public static readonly BitSet _Expr_Dict_in_call_expr838 = new BitSet(new ulong[]{0xC000D08838400UL});
+		public static readonly BitSet _expr_in_call_expr841 = new BitSet(new ulong[]{0x100000000000UL});
+		public static readonly BitSet _44_in_call_expr843 = new BitSet(new ulong[]{0xC02UL});
+		public static readonly BitSet _atom_expr_in_dot_expr868 = new BitSet(new ulong[]{0x1002UL});
+		public static readonly BitSet _Expr_Dot_in_dot_expr871 = new BitSet(new ulong[]{0x8000UL});
+		public static readonly BitSet _IDENT_in_dot_expr874 = new BitSet(new ulong[]{0x1002UL});
+		public static readonly BitSet _INT_in_atom_expr887 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _IDENT_in_atom_expr892 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _STRING_in_atom_expr897 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _Expr_Call_in_atom_expr902 = new BitSet(new ulong[]{0xC000D08838400UL});
+		public static readonly BitSet _expr_in_atom_expr905 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _29_in_atom_expr907 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _block_expr_in_atom_expr913 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _INDENT_in_block_expr924 = new BitSet(new ulong[]{0x80020UL});
+		public static readonly BitSet _NEWLINE_in_block_expr927 = new BitSet(new ulong[]{0x4D800D088B8400UL});
+		public static readonly BitSet _stmt_in_block_expr930 = new BitSet(new ulong[]{0x80020UL});
+		public static readonly BitSet _DEDENT_in_block_expr934 = new BitSet(new ulong[]{0x2UL});
 	}
 	#endregion Follow sets
 }

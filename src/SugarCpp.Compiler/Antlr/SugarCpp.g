@@ -192,7 +192,7 @@ new_expr
 	;
 
 prefix_expr
-	: (('!' | '++' | '--')^)* call_expr
+	: (('!' | '++' | '--' | '-')^)* call_expr
 	;
 	
 Expr_Call: '(' ;

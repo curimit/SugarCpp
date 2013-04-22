@@ -238,9 +238,16 @@ expr returns [Expr value]
 	{
 		$value = new ExprBin("+", a, b);
 	}
-	| ^('-' a=expr b=expr)
+	| ^('-' a=expr (b=expr)?)
 	{
-		$value = new ExprBin("-", a, b);
+		if (b != null)
+		{
+			$value = new ExprBin("-", a, b);
+		}
+		else
+		{
+			$value = new ExprPrefix("-", a);
+		}
 	}
 	| ^('*' a=expr b=expr)
 	{
