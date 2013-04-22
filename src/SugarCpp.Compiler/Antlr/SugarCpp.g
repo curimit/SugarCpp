@@ -121,12 +121,16 @@ type_name
 	: IDENT ('[' ']')*
 	;
 
+generic_parameter
+	: IDENT (','! IDENT)*
+	;
+
 func_args
 	: stmt_alloc (',' stmt_alloc IDENT)*
 	;
 
 func_def
-	: type_name IDENT '(' func_args? ')' ( stmt_block | '=' expr ) NEWLINE*
+	: type_name IDENT ('[' generic_parameter ']')? '(' func_args? ')' ( stmt_block | '=' expr ) NEWLINE*
     ;
 
 stmt_block

@@ -72,12 +72,25 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(FuncDef func_def)
         {
-            Template template = new Template("<type> <name>(<args; separator=\", \">) {\n    <list; separator=\"\n\">\n}");
-            template.Add("type", func_def.Type);
-            template.Add("name", func_def.Name);
-            template.Add("args", func_def.Args.Select(x => x.Accept(this)));
-            template.Add("list", func_def.Body.Accept(this));
-            return template;
+            if (func_def.GenericParameter.Count() == 0)
+            {
+                Template template = new Template("<type> <name>(<args; separator=\", \">) {\n    <list; separator=\"\n\">\n}");
+                template.Add("type", func_def.Type);
+                template.Add("name", func_def.Name);
+                template.Add("args", func_def.Args.Select(x => x.Accept(this)));
+                template.Add("list", func_def.Body.Accept(this));
+                return template;
+            }
+            else
+            {
+                Template template = new Template("template \\<<generics; separator=\", \">>\n<type> <name>(<args; separator=\", \">) {\n    <list; separator=\"\n\">\n}");
+                template.Add("type", func_def.Type);
+                template.Add("name", func_def.Name);
+                template.Add("args", func_def.Args.Select(x => x.Accept(this)));
+                template.Add("list", func_def.Body.Accept(this));
+                template.Add("generics", func_def.GenericParameter.Select(x => string.Format("typename {0}", x)));
+                return template;
+            }
         }
 
         public override Template Visit(StmtBlock block)

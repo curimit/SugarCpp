@@ -10,6 +10,7 @@ namespace SugarCpp.Compiler
     {
         public string Type;
         public List<Expr> Args = new List<Expr>();
+        public List<string> GenericParameter = new List<string>();
         public string Name;
         public StmtBlock Body;
 
