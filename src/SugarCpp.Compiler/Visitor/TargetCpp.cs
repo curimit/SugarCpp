@@ -153,9 +153,16 @@ namespace SugarCpp.Compiler
             return template;
         }
 
+        public override Template Visit(MatchTuple match)
+        {
+            Template template = new Template("std::tie(<list; separator=\",\">)");
+            template.Add("list", match.VarList);
+            return template;
+        }
+
         public override Template Visit(ExprAssign expr)
         {
-            Template template = new Template("<left> = <right>");
+            Template template = new Template("(<left> = <right>)");
             template.Add("left", expr.Left.Accept(this));
             template.Add("right", expr.Right.Accept(this));
             return template;
@@ -178,6 +185,13 @@ namespace SugarCpp.Compiler
                 template.Add("name", expr.Name);
                 return template;
             }
+        }
+
+        public override Template Visit(ExprTuple expr)
+        {
+            Template template = new Template("std::make_tuple(<list; separator=\", \">)");
+            template.Add("list", expr.ExprList.Select(x => x.Accept(this)));
+            return template;
         }
 
         public override Template Visit(ExprCall expr)

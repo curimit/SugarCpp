@@ -148,6 +148,16 @@ namespace SugarCpp.Compiler
         }
     }
 
+    public class ExprTuple : Expr
+    {
+        public List<Expr> ExprList = new List<Expr>();
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
     public class ExprReturn : Expr
     {
         public Expr Expr;

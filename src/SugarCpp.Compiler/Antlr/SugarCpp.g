@@ -5,6 +5,7 @@ options
     output=AST;  
     ASTLabelType=CommonTree;  
     language=CSharp3;   
+	backtrack=true;
 }
 
 tokens
@@ -21,6 +22,8 @@ tokens
    Stmt_For;
    Stmt_While;
 
+   Type_Tuple;
+
    Expr_Alloc;
    Expr_Alloc_Auto;
 
@@ -29,6 +32,9 @@ tokens
    Expr_New;
    Expr_Bin;
    Expr_Return;
+
+   Expr_Tuple;
+   Expr_Match_Tuple;
 }
 
 @lexer::header
@@ -110,7 +116,7 @@ public root
 node
 	: imports
 	| func_def
-	| struct
+	//| struct
 	| enum
 	;
 
@@ -122,17 +128,22 @@ enum
 	: 'enum' IDENT '=' IDENT ('|' IDENT)*
 	;
 
-struct
+/*struct
 	: 'struct' IDENT (INDENT (NEWLINE+ struct_stmt)+ DEDENT)
 	;
 
 struct_stmt
 	: func_def
 	| type_name IDENT ('=' expr)? -> ^(Expr_Alloc type_name IDENT expr?)
-	;
+	;*/
 
 type_name
-	: IDENT ('[' ']')*
+	: IDENT ('<' type_name (',' type_name)* '>')* ('*')*
+	;
+
+func_type_name
+	: IDENT ('<' func_type_name (',' func_type_name)* '>')* ('*')*
+	| '(' func_type_name (',' func_type_name) ')' -> ^(Type_Tuple func_type_name+)
 	;
 
 generic_parameter
@@ -144,7 +155,7 @@ func_args
 	;
 
 func_def
-	: type_name IDENT ('<' generic_parameter '>')? '(' func_args? ')' ( stmt_block | '=' expr )
+	: func_type_name IDENT ('<' generic_parameter '>')? '(' func_args? ')' ( stmt_block | '=' expr )
     ;
 
 stmt_block
@@ -180,7 +191,7 @@ expr
 	;
 
 return_expr
-	: 'return' expr? -> ^(Expr_Return expr?)
+	: 'return' expr -> ^(Expr_Return expr?)
 	| alloc_expr
 	;
 
@@ -189,13 +200,13 @@ ident_list
 	;
 
 alloc_expr
-	: type_name IDENT ('=' expr)? -> ^(Expr_Alloc type_name IDENT expr?)
-	| '|' IDENT '|' ('=' atom_expr)? -> ^(Expr_Alloc_Auto IDENT atom_expr?)
+	: /*type_name IDENT ('=' expr)? -> ^(Expr_Alloc type_name IDENT expr?)
+	| */'|' IDENT '|' ('=' atom_expr)? -> ^(Expr_Alloc_Auto IDENT atom_expr?)
 	| assign_expr
 	;
 
 assign_expr
-	: cond_expr ('='^ cond_expr)*
+	: (lvalue '='^)? cond_expr
 	;
 
 Expr_Cond: '?' ;
@@ -248,8 +259,13 @@ atom_expr
 	: INT
 	| IDENT
 	| STRING
-	| '('! expr ')'!
+	| '(' expr (','! expr)* ')'
 	| block_expr
+	;
+
+lvalue
+	: IDENT
+	| '(' IDENT (',' IDENT)+ ')' -> ^(Expr_Match_Tuple IDENT*)
 	;
 
 block_expr

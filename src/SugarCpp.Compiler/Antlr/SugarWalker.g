@@ -11,6 +11,7 @@ options
 {
 	using System;
 	using System.Collections;
+	using System.Linq;
 }
 
 @members
@@ -69,7 +70,16 @@ type_name returns [string value]
 {
 	$value = "";
 }
-	: a=IDENT { $value+=a; } ('[' ']' { $value+="*"; })*
+	: a=IDENT { $value+=a.Text; } ('<' { $value+="<"; } b=type_name { $value+=b; } (',' b=type_name { $value+=", " + b; })* '>' { $value+=">"; })* ('*' { $value+="*"; })*
+	| {bool isFirst = true; $value += "std::tuple<";} ^(Type_Tuple (b=type_name
+	{
+		if (!isFirst) $value += ",";
+		isFirst = false;
+		$value += b;
+	})+)
+	{
+		$value += ">";
+	}
 	;
 
 func_def returns [FuncDef value]
@@ -241,6 +251,34 @@ block_expr returns [ExprBlock value]
 	: INDENT (NEWLINE+ a=stmt { $value.StmtList.Add(a); })* NEWLINE* DEDENT
     ; 
 
+expr_tuple returns [Expr value]
+@init
+{
+	ExprTuple tuple = new ExprTuple();
+}
+	: '(' (a=expr { tuple.ExprList.Add(a); })+ ')'
+	{
+		if (tuple.ExprList.Count() == 1)
+		{
+			$value = tuple.ExprList.First();
+		}
+		else
+		{
+			$value = tuple;
+		}
+	}
+	;
+
+expr_match_tuple returns [Expr value]
+@init
+{
+	MatchTuple match = new MatchTuple();
+}
+	: ^(Expr_Match_Tuple (a=IDENT { match.VarList.Add(a.Text); })*)
+	{
+		$value = match;
+	}
+	;
 
 expr returns [Expr value]
     : alloc=alloc_expr
@@ -266,6 +304,14 @@ expr returns [Expr value]
 	| blockExpr=block_expr
 	{
 		$value = blockExpr;
+	}
+	| tuples=expr_tuple
+	{
+		$value = tuples;
+	}
+	| match_tuple=expr_match_tuple
+	{
+		$value = match_tuple;
 	}
 	| ^(Expr_Cond a=expr b=expr c=expr)
 	{
