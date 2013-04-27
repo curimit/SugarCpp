@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// $ANTLR 3.4 SugarWalker.g 2013-04-22 14:55:00
+// $ANTLR 3.4 SugarWalker.g 2013-04-27 10:40:11
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219
@@ -1087,7 +1087,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	partial void LeaveRule_func_def();
 
 	// $ANTLR start "func_def"
-	// SugarWalker.g:75:1: func_def returns [FuncDef value] : a= type_name b= IDENT ( '[' (x= IDENT )+ ']' )? '(' (c= expr ( ',' d= expr IDENT )* )? ')' (e= stmt_block | '=' f= expr ) ;
+	// SugarWalker.g:75:1: func_def returns [FuncDef value] : a= type_name b= IDENT ( '<' (x= IDENT )+ '>' )? '(' (c= expr ( ',' d= expr IDENT )* )? ')' (e= stmt_block | '=' f= expr ) ;
 	[GrammarRule("func_def")]
 	private FuncDef func_def()
 	{
@@ -1112,9 +1112,9 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		DebugLocation(75, 1);
 		try
 		{
-			// SugarWalker.g:80:2: (a= type_name b= IDENT ( '[' (x= IDENT )+ ']' )? '(' (c= expr ( ',' d= expr IDENT )* )? ')' (e= stmt_block | '=' f= expr ) )
+			// SugarWalker.g:80:2: (a= type_name b= IDENT ( '<' (x= IDENT )+ '>' )? '(' (c= expr ( ',' d= expr IDENT )* )? ')' (e= stmt_block | '=' f= expr ) )
 			DebugEnterAlt(1);
-			// SugarWalker.g:80:4: a= type_name b= IDENT ( '[' (x= IDENT )+ ']' )? '(' (c= expr ( ',' d= expr IDENT )* )? ')' (e= stmt_block | '=' f= expr )
+			// SugarWalker.g:80:4: a= type_name b= IDENT ( '<' (x= IDENT )+ '>' )? '(' (c= expr ( ',' d= expr IDENT )* )? ')' (e= stmt_block | '=' f= expr )
 			{
 			DebugLocation(80, 5);
 			PushFollow(Follow._type_name_in_func_def381);
@@ -1124,13 +1124,13 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			DebugLocation(80, 17);
 			b=(CommonTree)Match(input,IDENT,Follow._IDENT_in_func_def385); 
 			DebugLocation(80, 24);
-			// SugarWalker.g:80:24: ( '[' (x= IDENT )+ ']' )?
+			// SugarWalker.g:80:24: ( '<' (x= IDENT )+ '>' )?
 			int alt15=2;
 			try { DebugEnterSubRule(15);
 			try { DebugEnterDecision(15, false);
 			int LA15_0 = input.LA(1);
 
-			if ((LA15_0==Expr_Dict))
+			if ((LA15_0==43))
 			{
 				alt15 = 1;
 			}
@@ -1139,10 +1139,10 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarWalker.g:80:25: '[' (x= IDENT )+ ']'
+				// SugarWalker.g:80:25: '<' (x= IDENT )+ '>'
 				{
 				DebugLocation(80, 25);
-				Match(input,Expr_Dict,Follow._Expr_Dict_in_func_def388); 
+				Match(input,43,Follow._43_in_func_def388); 
 				DebugLocation(80, 29);
 				// SugarWalker.g:80:29: (x= IDENT )+
 				int cnt14=0;
@@ -1190,7 +1190,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				} finally { DebugExitSubRule(14); }
 
 				DebugLocation(80, 80);
-				Match(input,49,Follow._49_in_func_def399); 
+				Match(input,47,Follow._47_in_func_def399); 
 
 				}
 				break;
@@ -4122,10 +4122,10 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		public static readonly BitSet _Expr_Dict_in_type_name353 = new BitSet(new ulong[]{0x2000000000000UL});
 		public static readonly BitSet _49_in_type_name355 = new BitSet(new ulong[]{0x1002UL});
 		public static readonly BitSet _type_name_in_func_def381 = new BitSet(new ulong[]{0x20000UL});
-		public static readonly BitSet _IDENT_in_func_def385 = new BitSet(new ulong[]{0x1400UL});
-		public static readonly BitSet _Expr_Dict_in_func_def388 = new BitSet(new ulong[]{0x20000UL});
-		public static readonly BitSet _IDENT_in_func_def393 = new BitSet(new ulong[]{0x2000000020000UL});
-		public static readonly BitSet _49_in_func_def399 = new BitSet(new ulong[]{0x400UL});
+		public static readonly BitSet _IDENT_in_func_def385 = new BitSet(new ulong[]{0x80000000400UL});
+		public static readonly BitSet _43_in_func_def388 = new BitSet(new ulong[]{0x20000UL});
+		public static readonly BitSet _IDENT_in_func_def393 = new BitSet(new ulong[]{0x800000020000UL});
+		public static readonly BitSet _47_in_func_def399 = new BitSet(new ulong[]{0x400UL});
 		public static readonly BitSet _Expr_Call_in_func_def403 = new BitSet(new ulong[]{0x4001F94FE20EFC80UL});
 		public static readonly BitSet _expr_in_func_def408 = new BitSet(new ulong[]{0x2200000000UL});
 		public static readonly BitSet _37_in_func_def413 = new BitSet(new ulong[]{0x4001F94DE20EFC80UL});

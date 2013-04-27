@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// $ANTLR 3.4 SugarCpp.g 2013-04-22 14:55:00
+// $ANTLR 3.4 SugarCpp.g 2013-04-27 10:40:10
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219

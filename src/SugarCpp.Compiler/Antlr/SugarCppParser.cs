@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// $ANTLR 3.4 SugarCpp.g 2013-04-22 14:55:00
+// $ANTLR 3.4 SugarCpp.g 2013-04-27 10:40:10
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219
@@ -1141,7 +1141,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: type_name, expr, IDENT
+				// elements: IDENT, expr, type_name
 				// token labels: 
 				// rule labels: retval
 				// token list labels: 
@@ -1552,7 +1552,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_func_def();
 
 	// $ANTLR start "func_def"
-	// SugarCpp.g:144:1: func_def : type_name IDENT ( '[' generic_parameter ']' )? '(' ( func_args )? ')' ( stmt_block | '=' expr ) ;
+	// SugarCpp.g:144:1: func_def : type_name IDENT ( '<' generic_parameter '>' )? '(' ( func_args )? ')' ( stmt_block | '=' expr ) ;
 	[GrammarRule("func_def")]
 	private AstParserRuleReturnScope<CommonTree, IToken> func_def()
 	{
@@ -1586,9 +1586,9 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		DebugLocation(144, 4);
 		try
 		{
-			// SugarCpp.g:145:2: ( type_name IDENT ( '[' generic_parameter ']' )? '(' ( func_args )? ')' ( stmt_block | '=' expr ) )
+			// SugarCpp.g:145:2: ( type_name IDENT ( '<' generic_parameter '>' )? '(' ( func_args )? ')' ( stmt_block | '=' expr ) )
 			DebugEnterAlt(1);
-			// SugarCpp.g:145:4: type_name IDENT ( '[' generic_parameter ']' )? '(' ( func_args )? ')' ( stmt_block | '=' expr )
+			// SugarCpp.g:145:4: type_name IDENT ( '<' generic_parameter '>' )? '(' ( func_args )? ')' ( stmt_block | '=' expr )
 			{
 			root_0 = (CommonTree)adaptor.Nil();
 
@@ -1603,13 +1603,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			IDENT43_tree = (CommonTree)adaptor.Create(IDENT43);
 			adaptor.AddChild(root_0, IDENT43_tree);
 			DebugLocation(145, 20);
-			// SugarCpp.g:145:20: ( '[' generic_parameter ']' )?
+			// SugarCpp.g:145:20: ( '<' generic_parameter '>' )?
 			int alt17=2;
 			try { DebugEnterSubRule(17);
 			try { DebugEnterDecision(17, false);
 			int LA17_0 = input.LA(1);
 
-			if ((LA17_0==Expr_Dict))
+			if ((LA17_0==43))
 			{
 				alt17 = 1;
 			}
@@ -1618,10 +1618,10 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:145:21: '[' generic_parameter ']'
+				// SugarCpp.g:145:21: '<' generic_parameter '>'
 				{
 				DebugLocation(145, 21);
-				char_literal44=(IToken)Match(input,Expr_Dict,Follow._Expr_Dict_in_func_def436); 
+				char_literal44=(IToken)Match(input,43,Follow._43_in_func_def436); 
 				char_literal44_tree = (CommonTree)adaptor.Create(char_literal44);
 				adaptor.AddChild(root_0, char_literal44_tree);
 				DebugLocation(145, 25);
@@ -1631,7 +1631,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				adaptor.AddChild(root_0, generic_parameter45.Tree);
 				DebugLocation(145, 43);
-				char_literal46=(IToken)Match(input,49,Follow._49_in_func_def440); 
+				char_literal46=(IToken)Match(input,47,Follow._47_in_func_def440); 
 				char_literal46_tree = (CommonTree)adaptor.Create(char_literal46);
 				adaptor.AddChild(root_0, char_literal46_tree);
 
@@ -2213,7 +2213,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: IDENT, atom_expr, type_name
+			// elements: IDENT, type_name, atom_expr
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -3219,46 +3219,22 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 						break;
 					case IDENT:
 						{
-						switch (input.LA(4))
+						int LA34_6 = input.LA(4);
+
+						if ((LA34_6==Expr_Dict||LA34_6==IDENT))
 						{
-						case Expr_Dict:
-							{
-							int LA34_7 = input.LA(5);
-
-							if ((LA34_7==49))
-							{
-								alt34 = 1;
-							}
-							else if ((LA34_7==IDENT))
-							{
-								alt34 = 2;
-							}
-							else
-							{
-								NoViableAltException nvae = new NoViableAltException("", 34, 7, input);
-								DebugRecognitionException(nvae);
-								throw nvae;
-							}
-							}
-							break;
-						case IDENT:
-							{
 							alt34 = 1;
-							}
-							break;
-						case Expr_Call:
-							{
-							alt34 = 2;
-							}
-							break;
-						default:
-							{
-								NoViableAltException nvae = new NoViableAltException("", 34, 6, input);
-								DebugRecognitionException(nvae);
-								throw nvae;
-							}
 						}
-
+						else if ((LA34_6==Expr_Call||LA34_6==43))
+						{
+							alt34 = 2;
+						}
+						else
+						{
+							NoViableAltException nvae = new NoViableAltException("", 34, 6, input);
+							DebugRecognitionException(nvae);
+							throw nvae;
+						}
 						}
 						break;
 					case Expr_Dict:
@@ -4197,7 +4173,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: IDENT, expr
+				// elements: expr, IDENT
 				// token labels: 
 				// rule labels: retval
 				// token list labels: 
@@ -5257,7 +5233,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				"\x1\x1",
 				"\x1\x2\x4\xFFFF\x1\x3",
 				"\x1\x4",
-				"\x1\x6\x4\xFFFF\x1\x5\x1\xFFFF\x1\x5\x8\xFFFF\x1\x6\x17\xFFFF\x1\x6",
+				"\x1\x6\x4\xFFFF\x1\x5\xA\xFFFF\x1\x6\x15\xFFFF\x1\x5\x1\xFFFF\x1\x6",
 				"\x1\x2\x4\xFFFF\x1\x3",
 				"",
 				""
@@ -5431,18 +5407,17 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	private class DFA29 : DFA
 	{
 		private const string DFA29_eotS =
-			"\xA\xFFFF";
+			"\x9\xFFFF";
 		private const string DFA29_eofS =
-			"\x1\x3\x1\xFFFF\x1\x1\x2\xFFFF\x1\x1\x2\xFFFF\x1\x1\x1\xFFFF";
+			"\x1\x3\x1\xFFFF\x1\x1\x2\xFFFF\x1\x1\x1\xFFFF\x1\x1\x1\xFFFF";
 		private const string DFA29_minS =
-			"\x1\x5\x1\xFFFF\x1\x5\x1\xFFFF\x1\xA\x1\x5\x1\xC\x1\x11\x1\x5\x1\x31";
+			"\x1\x5\x1\xFFFF\x1\x5\x1\xFFFF\x1\xA\x1\x5\x1\xC\x1\x5\x1\x31";
 		private const string DFA29_maxS =
-			"\x1\x3B\x1\xFFFF\x1\x3B\x1\xFFFF\x1\x39\x1\x3B\x1\x11\x1\x31\x1\x3B\x1"+
-			"\x31";
+			"\x1\x3B\x1\xFFFF\x1\x3B\x1\xFFFF\x1\x39\x1\x3B\x1\x11\x1\x3B\x1\x31";
 		private const string DFA29_acceptS =
-			"\x1\xFFFF\x1\x1\x1\xFFFF\x1\x2\x6\xFFFF";
+			"\x1\xFFFF\x1\x1\x1\xFFFF\x1\x2\x5\xFFFF";
 		private const string DFA29_specialS =
-			"\xA\xFFFF}>";
+			"\x9\xFFFF}>";
 		private static readonly string[] DFA29_transitionS =
 			{
 				"\x1\x3\x4\xFFFF\x1\x1\x6\xFFFF\x1\x2\x2\x1\x1\xFFFF\x1\x3\x3\xFFFF\x1"+
@@ -5455,14 +5430,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				"",
 				"\x1\x1\x6\xFFFF\x3\x1\x5\xFFFF\x1\x1\x3\xFFFF\x1\x1\x2\xFFFF\x1\x1"+
 				"\x3\xFFFF\x1\x1\x1\xFFFF\x2\x1\x9\xFFFF\x1\x6\x6\xFFFF\x2\x1",
-				"\x1\x1\x4\xFFFF\x1\x3\x1\xFFFF\x1\x7\x4\xFFFF\x1\x1\x3\xFFFF\x1\x1"+
-				"\xB\xFFFF\x1\x1\x3\xFFFF\x1\x1\x4\xFFFF\x1\x1\x2\xFFFF\x1\x1\x3\xFFFF"+
-				"\x2\x1\x1\xFFFF\x1\x1\x2\xFFFF\x1\x1\x2\xFFFF\x2\x1",
-				"\x1\x9\x4\xFFFF\x1\x8",
-				"\x1\x3\x1F\xFFFF\x1\x1",
-				"\x1\x1\x4\xFFFF\x1\x3\x1\xFFFF\x1\x3\x4\xFFFF\x1\x1\x3\xFFFF\x1\x1"+
-				"\xB\xFFFF\x1\x1\x3\xFFFF\x1\x1\x4\xFFFF\x1\x1\x2\xFFFF\x1\x1\x3\xFFFF"+
-				"\x2\x1\x1\xFFFF\x1\x1\x2\xFFFF\x1\x1\x2\xFFFF\x2\x1",
+				"\x1\x1\x4\xFFFF\x1\x3\x1\xFFFF\x1\x1\x4\xFFFF\x1\x1\x3\xFFFF\x1\x1"+
+				"\xB\xFFFF\x1\x1\x3\xFFFF\x1\x1\x4\xFFFF\x1\x1\x1\x3\x1\xFFFF\x1\x1\x3"+
+				"\xFFFF\x2\x1\x1\xFFFF\x1\x1\x2\xFFFF\x1\x1\x2\xFFFF\x2\x1",
+				"\x1\x8\x4\xFFFF\x1\x7",
+				"\x1\x1\x4\xFFFF\x1\x3\x6\xFFFF\x1\x1\x3\xFFFF\x1\x1\xB\xFFFF\x1\x1"+
+				"\x3\xFFFF\x1\x1\x4\xFFFF\x1\x1\x1\x3\x1\xFFFF\x1\x1\x3\xFFFF\x2\x1\x1"+
+				"\xFFFF\x1\x1\x2\xFFFF\x1\x1\x2\xFFFF\x2\x1",
 				"\x1\x6"
 			};
 
@@ -5553,10 +5527,10 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		public static readonly BitSet _stmt_alloc_in_func_args416 = new BitSet(new ulong[]{0x20000UL});
 		public static readonly BitSet _IDENT_in_func_args418 = new BitSet(new ulong[]{0x2000000002UL});
 		public static readonly BitSet _type_name_in_func_def431 = new BitSet(new ulong[]{0x20000UL});
-		public static readonly BitSet _IDENT_in_func_def433 = new BitSet(new ulong[]{0x1400UL});
-		public static readonly BitSet _Expr_Dict_in_func_def436 = new BitSet(new ulong[]{0x20000UL});
-		public static readonly BitSet _generic_parameter_in_func_def438 = new BitSet(new ulong[]{0x2000000000000UL});
-		public static readonly BitSet _49_in_func_def440 = new BitSet(new ulong[]{0x400UL});
+		public static readonly BitSet _IDENT_in_func_def433 = new BitSet(new ulong[]{0x80000000400UL});
+		public static readonly BitSet _43_in_func_def436 = new BitSet(new ulong[]{0x20000UL});
+		public static readonly BitSet _generic_parameter_in_func_def438 = new BitSet(new ulong[]{0x800000000000UL});
+		public static readonly BitSet _47_in_func_def440 = new BitSet(new ulong[]{0x400UL});
 		public static readonly BitSet _Expr_Call_in_func_def444 = new BitSet(new ulong[]{0x200020000UL});
 		public static readonly BitSet _func_args_in_func_def446 = new BitSet(new ulong[]{0x200000000UL});
 		public static readonly BitSet _33_in_func_def449 = new BitSet(new ulong[]{0x200000040000UL});

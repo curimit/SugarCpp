@@ -77,7 +77,7 @@ func_def returns [FuncDef value]
 {
 	$value = new FuncDef();
 }
-	: a=type_name b=IDENT ('[' (x=IDENT {$value.GenericParameter.Add(x.Text); })+ ']')? '(' (c=expr { $value.Args.Add(c); } (',' d=expr { $value.Args.Add(d); } IDENT)*)? ')'
+	: a=type_name b=IDENT ('<' (x=IDENT {$value.GenericParameter.Add(x.Text); })+ '>')? '(' (c=expr { $value.Args.Add(c); } (',' d=expr { $value.Args.Add(d); } IDENT)*)? ')'
 	( e=stmt_block
 	{
 		$value.Type = a;
