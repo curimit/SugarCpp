@@ -22,6 +22,8 @@ tokens
    Stmt_While;
 
    Expr_Alloc;
+   Expr_Alloc_Auto;
+
    Expr_Block;
    Expr_Cond;
    Expr_New;
@@ -158,6 +160,7 @@ stmt
 
 stmt_alloc
 	: type_name IDENT ('=' atom_expr)? -> ^(Expr_Alloc type_name IDENT atom_expr?)
+	| '|' IDENT '|' ('=' atom_expr)? -> ^(Expr_Alloc_Auto IDENT atom_expr?)
 	;
 
 stmt_if
@@ -187,6 +190,7 @@ ident_list
 
 alloc_expr
 	: type_name IDENT ('=' expr)? -> ^(Expr_Alloc type_name IDENT expr?)
+	| '|' IDENT '|' ('=' atom_expr)? -> ^(Expr_Alloc_Auto IDENT atom_expr?)
 	| assign_expr
 	;
 

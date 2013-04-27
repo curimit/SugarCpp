@@ -4,7 +4,7 @@ options
 {
     tokenVocab=SugarCpp;   
     ASTLabelType=CommonTree;  
-    language=CSharp3;  
+    language=CSharp3;
 }
 
 @header
@@ -176,7 +176,7 @@ ident_list returns [List<string> value]
 }
 	: a=ident { $value.Add(a); } ((',' a=ident { $value.Add(a); })+ ';')?
 	;
-
+	
 alloc_expr returns [ExprAlloc value]
 	: ^(Expr_Alloc a=type_name b=ident (c=expr)?)
 	{
@@ -186,6 +186,17 @@ alloc_expr returns [ExprAlloc value]
 		$value.Expr = c;
 	}
 	;
+
+alloc_expr_auto returns [ExprAlloc value]
+	: ^(Expr_Alloc_Auto a=ident (b=expr)?)
+	{
+		$value = new ExprAlloc();
+		$value.Type = "auto";
+		$value.Name = a;
+		$value.Expr = b;
+	}
+	;
+
 args_list returns [List<Expr> value]
 @init
 {
@@ -235,6 +246,10 @@ expr returns [Expr value]
     : alloc=alloc_expr
 	{
 		$value = alloc;
+	}
+	| alloc_auto=alloc_expr_auto
+	{
+		$value = alloc_auto;
 	}
 	| call=call_expr
 	{
