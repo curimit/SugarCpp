@@ -22,7 +22,7 @@ int main()
 
 #### Generic Programming
 ```
-T max[T](T x, T y) = x > y ? x : y
+T max<T>(T x, T y) = x > y ? x : y
 ```
 
 #### Enumerated type
