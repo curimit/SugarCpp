@@ -95,6 +95,17 @@ namespace SugarCpp.Compiler
         }
     }
 
+    public class ExprLambda : Expr
+    {
+        public Expr Expr;
+        public List<Expr> Args = new List<Expr>();
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
     public class ExprDot : Expr
     {
         public Expr Expr;
