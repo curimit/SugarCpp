@@ -153,6 +153,25 @@ namespace SugarCpp.Compiler
             return template;
         }
 
+        public override Template Visit(StmtAlloc stmt)
+        {
+            if (stmt.Expr != null)
+            {
+                Template template = new Template("<type> <name> = <expr>");
+                template.Add("type", stmt.Type);
+                template.Add("name", stmt.Name);
+                template.Add("expr", stmt.Expr.Accept(this));
+                return template;
+            }
+            else
+            {
+                Template template = new Template("<type> <name>");
+                template.Add("type", stmt.Type);
+                template.Add("name", stmt.Name);
+                return template;
+            }
+        }
+
         public override Template Visit(MatchTuple match)
         {
             Template template = new Template("std::tie(<list; separator=\",\">)");
@@ -170,31 +189,11 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(ExprLambda expr)
         {
-            Template template = new Template("([](<args; separator=\",\">) { <expr>; })");
+            Template template = new Template("([](<args; separator=\",\">) { return <expr>; })");
             template.Add("args", expr.Args.Select(x => x.Accept(this)));
             template.Add("expr", expr.Expr.Accept(this));
             return template;
         }
-
-        public override Template Visit(ExprAlloc expr)
-        {
-            if (expr.Expr != null)
-            {
-                Template template = new Template("<type> <name> = <expr>");
-                template.Add("type", expr.Type);
-                template.Add("name", expr.Name);
-                template.Add("expr", expr.Expr.Accept(this));
-                return template;
-            }
-            else
-            {
-                Template template = new Template("<type> <name>");
-                template.Add("type", expr.Type);
-                template.Add("name", expr.Name);
-                return template;
-            }
-        }
-
         public override Template Visit(ExprTuple expr)
         {
             Template template = new Template("std::make_tuple(<list; separator=\", \">)");

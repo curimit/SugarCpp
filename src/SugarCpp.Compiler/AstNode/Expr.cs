@@ -115,7 +115,16 @@ namespace SugarCpp.Compiler
     public class ExprLambda : Expr
     {
         public Expr Expr;
-        public List<Expr> Args = new List<Expr>();
+        public List<Stmt> Args = new List<Stmt>();
+
+        public ExprLambda(Expr expr, List<Stmt> args)
+        {
+            this.Expr = expr;
+            if (args != null)
+            {
+                this.Args = args;
+            }
+        }
 
         public override Template Accept(Visitor visitor)
         {
@@ -144,18 +153,6 @@ namespace SugarCpp.Compiler
     {
         public List<Expr> Ranges = new List<Expr>();
         public string ElemType;
-
-        public override Template Accept(Visitor visitor)
-        {
-            return visitor.Visit(this);
-        }
-    }
-
-    public class ExprAlloc : Expr
-    {
-        public string Type;
-        public string Name;
-        public Expr Expr;
 
         public override Template Accept(Visitor visitor)
         {

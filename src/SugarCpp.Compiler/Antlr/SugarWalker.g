@@ -37,7 +37,12 @@ type_name returns [string value]
 {
 	$value = "";
 }
-	: a=IDENT { $value+=a.Text; } ('<' { $value+="<"; } b=type_name { $value+=b; } (',' b=type_name { $value+=", " + b; })* '>' { $value+=">"; })* ('*' { $value+="*"; })*
+	: a=IDENT { $value+=a.Text; }
+	  ('<' { $value+="<"; }
+	  b=type_name { $value+=b; }
+	  (',' b=type_name { $value+=", " + b; })*
+	  '>' { $value+=">"; })*
+	  ('*' { $value+="*"; })*
 	| {bool isFirst = true; $value += "std::tuple<";} ^(Type_Tuple (b=type_name
 	{
 		if (!isFirst) $value += ",";
@@ -49,12 +54,20 @@ type_name returns [string value]
 	}
 	;
 
+func_args returns [List<Stmt> value]
+@init
+{
+	$value = new List<Stmt>();
+}
+	: ^(Func_Args (a=stmt { $value.Add(a); })*)
+	;
+
 func_def returns [FuncDef value]
 @init
 {
 	$value = new FuncDef();
 }
-	: a=type_name b=IDENT ('<' (x=IDENT {$value.GenericParameter.Add(x.Text); })+ '>')? '(' (c=expr { $value.Args.Add(c); } (',' d=expr { $value.Args.Add(d); } IDENT)*)? ')'
+	: a=type_name b=IDENT ('<' (x=IDENT {$value.GenericParameter.Add(x.Text); })+ '>')? '(' (args=func_args { $value.Args = args; })? ')'
 	( e=stmt_block
 	{
 		$value.Type = a;
@@ -104,20 +117,20 @@ ident_list returns [List<string> value]
 	: a=ident { $value.Add(a); } ((',' a=ident { $value.Add(a); })+ ';')?
 	;
 	
-alloc_expr returns [ExprAlloc value]
+alloc_expr returns [StmtAlloc value]
 	: ^(Expr_Alloc a=type_name b=ident (c=expr)?)
 	{
-		$value = new ExprAlloc();
+		$value = new StmtAlloc();
 		$value.Type = a;
 		$value.Name = b;
 		$value.Expr = c;
 	}
 	;
 
-alloc_expr_auto returns [ExprAlloc value]
+alloc_expr_auto returns [StmtAlloc value]
 	: ^(Expr_Alloc_Auto a=ident (b=expr)?)
 	{
-		$value = new ExprAlloc();
+		$value = new StmtAlloc();
 		$value.Type = "auto";
 		$value.Name = a;
 		$value.Expr = b;
@@ -178,6 +191,13 @@ dict_expr returns [Expr value]
 	}
 	;
 
+lambda_expr returns [ExprLambda value]
+	: ^(Expr_Lambda b=func_args a=expr)
+	{
+		$value = new ExprLambda(a, b);
+	}
+	;
+
 expr returns [Expr value]
     : tuple=expr_tuple
 	{
@@ -190,6 +210,10 @@ expr returns [Expr value]
 	| dict=dict_expr
 	{
 		$value = dict;
+	}
+	| lambda=lambda_expr
+	{
+		$value = lambda;
 	}
 	| ^(Expr_Dot a=expr text=IDENT)
 	{

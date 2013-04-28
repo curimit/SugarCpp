@@ -22,6 +22,8 @@ tokens
 
    Type_Tuple;
 
+   Func_Args;
+
    Expr_Alloc;
    Expr_Alloc_Auto;
 
@@ -38,6 +40,8 @@ tokens
    Expr_Dot;
    Expr_Dict;
    Expr_Call;
+
+   Expr_Lambda;
 
    Expr_Tuple;
    Expr_Match_Tuple;
@@ -137,7 +141,7 @@ generic_parameter
 	;
 
 func_args
-	: stmt_alloc (',' stmt_alloc)*
+	: stmt_alloc (',' stmt_alloc)* -> ^(Func_Args stmt_alloc*)
 	;
 
 func_def
@@ -167,7 +171,12 @@ stmt_alloc
 	;
 
 expr
-	: add_expr
+	: lambda_expr
+	;
+
+lambda_expr
+	: '(' func_args ')' '=>' add_expr -> ^(Expr_Lambda func_args add_expr)
+	| add_expr
 	;
 
 add_expr

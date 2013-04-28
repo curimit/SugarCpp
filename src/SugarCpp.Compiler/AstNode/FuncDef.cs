@@ -9,7 +9,7 @@ namespace SugarCpp.Compiler
     public class FuncDef : AstNode
     {
         public string Type;
-        public List<Expr> Args = new List<Expr>();
+        public List<Stmt> Args = new List<Stmt>();
         public List<string> GenericParameter = new List<string>();
         public string Name;
         public StmtBlock Body;

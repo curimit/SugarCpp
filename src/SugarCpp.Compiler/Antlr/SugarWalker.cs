@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// $ANTLR 3.4 SugarWalker.g 2013-04-28 20:05:15
+// $ANTLR 3.4 SugarWalker.g 2013-04-28 20:34:27
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219
@@ -38,11 +38,9 @@ namespace  SugarCpp.Compiler
 public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 {
 	internal static readonly string[] tokenNames = new string[] {
-		"<invalid>", "<EOR>", "<DOWN>", "<UP>", "Block", "DEDENT", "EXPONENT", "Expr_Alloc", "Expr_Alloc_Auto", "Expr_Bin", "Expr_Block", "Expr_Call", "Expr_Cond", "Expr_Dict", "Expr_Dot", "Expr_Match_Tuple", "Expr_New", "Expr_Prefix", "Expr_Return", "Expr_Suffix", "Expr_Tuple", "Func_Def", "IDENT", "INDENT", "INT", "Left_Bracket", "NEWLINE", "Right_Bracket", "Root", "SP", "STRING", "Stmt_If", "Stmt_While", "Type_Tuple", "'!'", "'%'", "'('", "')'", "'*'", "'+'", "'++'", "','", "'-'", "'--'", "'.'", "'/'", "'<'", "'='", "'>'", "'['", "']'", "'return'", "'|'", "'~'", "DOUBLE", "';'"
+		"<invalid>", "<EOR>", "<DOWN>", "<UP>", "Block", "DEDENT", "EXPONENT", "Expr_Alloc", "Expr_Alloc_Auto", "Expr_Bin", "Expr_Block", "Expr_Call", "Expr_Cond", "Expr_Dict", "Expr_Dot", "Expr_Lambda", "Expr_Match_Tuple", "Expr_New", "Expr_Prefix", "Expr_Return", "Expr_Suffix", "Expr_Tuple", "Func_Args", "Func_Def", "IDENT", "INDENT", "INT", "Left_Bracket", "NEWLINE", "Right_Bracket", "Root", "SP", "STRING", "Stmt_If", "Stmt_While", "Type_Tuple", "'!'", "'%'", "'('", "')'", "'*'", "'+'", "'++'", "','", "'-'", "'--'", "'.'", "'/'", "'<'", "'='", "'=>'", "'>'", "'['", "']'", "'return'", "'|'", "'~'", "DOUBLE", "';'"
 	};
 	public const int EOF=-1;
-	public const int T__34=34;
-	public const int T__35=35;
 	public const int T__36=36;
 	public const int T__37=37;
 	public const int T__38=38;
@@ -61,6 +59,9 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	public const int T__51=51;
 	public const int T__52=52;
 	public const int T__53=53;
+	public const int T__54=54;
+	public const int T__55=55;
+	public const int T__56=56;
 	public const int Block=4;
 	public const int DEDENT=5;
 	public const int EXPONENT=6;
@@ -72,27 +73,29 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	public const int Expr_Cond=12;
 	public const int Expr_Dict=13;
 	public const int Expr_Dot=14;
-	public const int Expr_Match_Tuple=15;
-	public const int Expr_New=16;
-	public const int Expr_Prefix=17;
-	public const int Expr_Return=18;
-	public const int Expr_Suffix=19;
-	public const int Expr_Tuple=20;
-	public const int Func_Def=21;
-	public const int IDENT=22;
-	public const int INDENT=23;
-	public const int INT=24;
-	public const int Left_Bracket=25;
-	public const int NEWLINE=26;
-	public const int Right_Bracket=27;
-	public const int Root=28;
-	public const int SP=29;
-	public const int STRING=30;
-	public const int Stmt_If=31;
-	public const int Stmt_While=32;
-	public const int Type_Tuple=33;
-	public const int T__55=55;
-	public const int DOUBLE=54;
+	public const int Expr_Lambda=15;
+	public const int Expr_Match_Tuple=16;
+	public const int Expr_New=17;
+	public const int Expr_Prefix=18;
+	public const int Expr_Return=19;
+	public const int Expr_Suffix=20;
+	public const int Expr_Tuple=21;
+	public const int Func_Args=22;
+	public const int Func_Def=23;
+	public const int IDENT=24;
+	public const int INDENT=25;
+	public const int INT=26;
+	public const int Left_Bracket=27;
+	public const int NEWLINE=28;
+	public const int Right_Bracket=29;
+	public const int Root=30;
+	public const int SP=31;
+	public const int STRING=32;
+	public const int Stmt_If=33;
+	public const int Stmt_While=34;
+	public const int Type_Tuple=35;
+	public const int T__58=58;
+	public const int DOUBLE=57;
 
 	public SugarWalker(ITreeNodeStream input)
 		: this(input, new RecognizerSharedState())
@@ -358,8 +361,8 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				a=(CommonTree)Match(input,IDENT,Follow._IDENT_in_type_name136); 
 				DebugLocation(40, 12);
 				 value+=a.Text; 
-				DebugLocation(40, 32);
-				// SugarWalker.g:40:32: ( '<' b= type_name ( ',' b= type_name )* '>' )*
+				DebugLocation(41, 4);
+				// SugarWalker.g:41:4: ( '<' b= type_name ( ',' b= type_name )* '>' )*
 				try { DebugEnterSubRule(4);
 				while (true)
 				{
@@ -367,7 +370,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 					try { DebugEnterDecision(4, false);
 					int LA4_0 = input.LA(1);
 
-					if ((LA4_0==46))
+					if ((LA4_0==48))
 					{
 						alt4 = 1;
 					}
@@ -378,21 +381,21 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 					{
 					case 1:
 						DebugEnterAlt(1);
-						// SugarWalker.g:40:33: '<' b= type_name ( ',' b= type_name )* '>'
+						// SugarWalker.g:41:5: '<' b= type_name ( ',' b= type_name )* '>'
 						{
-						DebugLocation(40, 33);
-						Match(input,46,Follow._46_in_type_name141); 
-						DebugLocation(40, 37);
+						DebugLocation(41, 5);
+						Match(input,48,Follow._48_in_type_name144); 
+						DebugLocation(41, 9);
 						 value+="<"; 
-						DebugLocation(40, 55);
-						PushFollow(Follow._type_name_in_type_name147);
+						DebugLocation(42, 5);
+						PushFollow(Follow._type_name_in_type_name153);
 						b=type_name();
 						PopFollow();
 
-						DebugLocation(40, 66);
+						DebugLocation(42, 16);
 						 value+=b; 
-						DebugLocation(40, 81);
-						// SugarWalker.g:40:81: ( ',' b= type_name )*
+						DebugLocation(43, 4);
+						// SugarWalker.g:43:4: ( ',' b= type_name )*
 						try { DebugEnterSubRule(3);
 						while (true)
 						{
@@ -400,7 +403,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 							try { DebugEnterDecision(3, false);
 							int LA3_0 = input.LA(1);
 
-							if ((LA3_0==41))
+							if ((LA3_0==43))
 							{
 								alt3 = 1;
 							}
@@ -411,16 +414,16 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 							{
 							case 1:
 								DebugEnterAlt(1);
-								// SugarWalker.g:40:82: ',' b= type_name
+								// SugarWalker.g:43:5: ',' b= type_name
 								{
-								DebugLocation(40, 82);
-								Match(input,41,Follow._41_in_type_name152); 
-								DebugLocation(40, 87);
-								PushFollow(Follow._type_name_in_type_name156);
+								DebugLocation(43, 5);
+								Match(input,43,Follow._43_in_type_name161); 
+								DebugLocation(43, 10);
+								PushFollow(Follow._type_name_in_type_name165);
 								b=type_name();
 								PopFollow();
 
-								DebugLocation(40, 98);
+								DebugLocation(43, 21);
 								 value+=", " + b; 
 
 								}
@@ -436,9 +439,9 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 
 						} finally { DebugExitSubRule(3); }
 
-						DebugLocation(40, 122);
-						Match(input,48,Follow._48_in_type_name162); 
-						DebugLocation(40, 126);
+						DebugLocation(44, 4);
+						Match(input,51,Follow._51_in_type_name174); 
+						DebugLocation(44, 8);
 						 value+=">"; 
 
 						}
@@ -454,8 +457,8 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 
 				} finally { DebugExitSubRule(4); }
 
-				DebugLocation(40, 145);
-				// SugarWalker.g:40:145: ( '*' )*
+				DebugLocation(45, 4);
+				// SugarWalker.g:45:4: ( '*' )*
 				try { DebugEnterSubRule(5);
 				while (true)
 				{
@@ -463,7 +466,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 					try { DebugEnterDecision(5, false);
 					int LA5_0 = input.LA(1);
 
-					if ((LA5_0==38))
+					if ((LA5_0==40))
 					{
 						alt5 = 1;
 					}
@@ -474,11 +477,11 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 					{
 					case 1:
 						DebugEnterAlt(1);
-						// SugarWalker.g:40:146: '*'
+						// SugarWalker.g:45:5: '*'
 						{
-						DebugLocation(40, 146);
-						Match(input,38,Follow._38_in_type_name169); 
-						DebugLocation(40, 150);
+						DebugLocation(45, 5);
+						Match(input,40,Follow._40_in_type_name184); 
+						DebugLocation(45, 9);
 						 value+="*"; 
 
 						}
@@ -499,17 +502,17 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				break;
 			case 2:
 				DebugEnterAlt(2);
-				// SugarWalker.g:41:4: ^( Type_Tuple (b= type_name )+ )
+				// SugarWalker.g:46:4: ^( Type_Tuple (b= type_name )+ )
 				{
-				DebugLocation(41, 4);
+				DebugLocation(46, 4);
 				bool isFirst = true; value += "std::tuple<";
-				DebugLocation(41, 52);
-				DebugLocation(41, 54);
-				Match(input,Type_Tuple,Follow._Type_Tuple_in_type_name181); 
+				DebugLocation(46, 52);
+				DebugLocation(46, 54);
+				Match(input,Type_Tuple,Follow._Type_Tuple_in_type_name196); 
 
 				Match(input, TokenTypes.Down, null); 
-				DebugLocation(41, 65);
-				// SugarWalker.g:41:65: (b= type_name )+
+				DebugLocation(46, 65);
+				// SugarWalker.g:46:65: (b= type_name )+
 				int cnt6=0;
 				try { DebugEnterSubRule(6);
 				while (true)
@@ -529,14 +532,14 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 					{
 					case 1:
 						DebugEnterAlt(1);
-						// SugarWalker.g:41:66: b= type_name
+						// SugarWalker.g:46:66: b= type_name
 						{
-						DebugLocation(41, 67);
-						PushFollow(Follow._type_name_in_type_name186);
+						DebugLocation(46, 67);
+						PushFollow(Follow._type_name_in_type_name201);
 						b=type_name();
 						PopFollow();
 
-						DebugLocation(42, 2);
+						DebugLocation(47, 2);
 
 								if (!isFirst) value += ",";
 								isFirst = false;
@@ -564,7 +567,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 
 				Match(input, TokenTypes.Up, null); 
 
-				DebugLocation(47, 2);
+				DebugLocation(52, 2);
 
 						value += ">";
 					
@@ -585,75 +588,49 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			LeaveRule("type_name", 3);
 			LeaveRule_type_name();
 		}
-		DebugLocation(50, 1);
+		DebugLocation(55, 1);
 		} finally { DebugExitRule(GrammarFileName, "type_name"); }
 		return value;
 
 	}
 	// $ANTLR end "type_name"
 
-	partial void EnterRule_func_def();
-	partial void LeaveRule_func_def();
+	partial void EnterRule_func_args();
+	partial void LeaveRule_func_args();
 
-	// $ANTLR start "func_def"
-	// SugarWalker.g:52:1: func_def returns [FuncDef value] : a= type_name b= IDENT ( '<' (x= IDENT )+ '>' )? '(' (c= expr ( ',' d= expr IDENT )* )? ')' (e= stmt_block ) ;
-	[GrammarRule("func_def")]
-	private FuncDef func_def()
+	// $ANTLR start "func_args"
+	// SugarWalker.g:57:1: func_args returns [List<Stmt> value] : ^( Func_Args (a= stmt )* ) ;
+	[GrammarRule("func_args")]
+	private List<Stmt> func_args()
 	{
-		EnterRule_func_def();
-		EnterRule("func_def", 4);
-		TraceIn("func_def", 4);
-		FuncDef value = default(FuncDef);
+		EnterRule_func_args();
+		EnterRule("func_args", 4);
+		TraceIn("func_args", 4);
+		List<Stmt> value = default(List<Stmt>);
 
 
-		CommonTree b = default(CommonTree);
-		CommonTree x = default(CommonTree);
-		string a = default(string);
-		Expr c = default(Expr);
-		Expr d = default(Expr);
-		StmtBlock e = default(StmtBlock);
+		Stmt a = default(Stmt);
 
 
-			value = new FuncDef();
+			value = new List<Stmt>();
 
-		try { DebugEnterRule(GrammarFileName, "func_def");
-		DebugLocation(52, 1);
+		try { DebugEnterRule(GrammarFileName, "func_args");
+		DebugLocation(57, 1);
 		try
 		{
-			// SugarWalker.g:57:2: (a= type_name b= IDENT ( '<' (x= IDENT )+ '>' )? '(' (c= expr ( ',' d= expr IDENT )* )? ')' (e= stmt_block ) )
+			// SugarWalker.g:62:2: ( ^( Func_Args (a= stmt )* ) )
 			DebugEnterAlt(1);
-			// SugarWalker.g:57:4: a= type_name b= IDENT ( '<' (x= IDENT )+ '>' )? '(' (c= expr ( ',' d= expr IDENT )* )? ')' (e= stmt_block )
+			// SugarWalker.g:62:4: ^( Func_Args (a= stmt )* )
 			{
-			DebugLocation(57, 5);
-			PushFollow(Follow._type_name_in_func_def217);
-			a=type_name();
-			PopFollow();
+			DebugLocation(62, 4);
+			DebugLocation(62, 6);
+			Match(input,Func_Args,Follow._Func_Args_in_func_args231); 
 
-			DebugLocation(57, 17);
-			b=(CommonTree)Match(input,IDENT,Follow._IDENT_in_func_def221); 
-			DebugLocation(57, 24);
-			// SugarWalker.g:57:24: ( '<' (x= IDENT )+ '>' )?
-			int alt9=2;
-			try { DebugEnterSubRule(9);
-			try { DebugEnterDecision(9, false);
-			int LA9_0 = input.LA(1);
-
-			if ((LA9_0==46))
+			if (input.LA(1) == TokenTypes.Down)
 			{
-				alt9 = 1;
-			}
-			} finally { DebugExitDecision(9); }
-			switch (alt9)
-			{
-			case 1:
-				DebugEnterAlt(1);
-				// SugarWalker.g:57:25: '<' (x= IDENT )+ '>'
-				{
-				DebugLocation(57, 25);
-				Match(input,46,Follow._46_in_func_def224); 
-				DebugLocation(57, 29);
-				// SugarWalker.g:57:29: (x= IDENT )+
-				int cnt8=0;
+				Match(input, TokenTypes.Down, null); 
+				DebugLocation(62, 16);
+				// SugarWalker.g:62:16: (a= stmt )*
 				try { DebugEnterSubRule(8);
 				while (true)
 				{
@@ -661,61 +638,189 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 					try { DebugEnterDecision(8, false);
 					int LA8_0 = input.LA(1);
 
-					if ((LA8_0==IDENT))
+					if (((LA8_0>=Expr_Alloc && LA8_0<=Expr_Alloc_Auto)||LA8_0==Expr_Return))
 					{
 						alt8 = 1;
 					}
 
 
 					} finally { DebugExitDecision(8); }
-					switch (alt8)
+					switch ( alt8 )
 					{
 					case 1:
 						DebugEnterAlt(1);
-						// SugarWalker.g:57:30: x= IDENT
+						// SugarWalker.g:62:17: a= stmt
 						{
-						DebugLocation(57, 31);
-						x=(CommonTree)Match(input,IDENT,Follow._IDENT_in_func_def229); 
-						DebugLocation(57, 38);
+						DebugLocation(62, 18);
+						PushFollow(Follow._stmt_in_func_args236);
+						a=stmt();
+						PopFollow();
+
+						DebugLocation(62, 24);
+						 value.Add(a); 
+
+						}
+						break;
+
+					default:
+						goto loop8;
+					}
+				}
+
+				loop8:
+					;
+
+				} finally { DebugExitSubRule(8); }
+
+
+				Match(input, TokenTypes.Up, null); 
+			}
+
+
+			}
+
+		}
+		catch (RecognitionException re)
+		{
+			ReportError(re);
+			Recover(input,re);
+		}
+		finally
+		{
+			TraceOut("func_args", 4);
+			LeaveRule("func_args", 4);
+			LeaveRule_func_args();
+		}
+		DebugLocation(63, 1);
+		} finally { DebugExitRule(GrammarFileName, "func_args"); }
+		return value;
+
+	}
+	// $ANTLR end "func_args"
+
+	partial void EnterRule_func_def();
+	partial void LeaveRule_func_def();
+
+	// $ANTLR start "func_def"
+	// SugarWalker.g:65:1: func_def returns [FuncDef value] : a= type_name b= IDENT ( '<' (x= IDENT )+ '>' )? '(' (args= func_args )? ')' (e= stmt_block ) ;
+	[GrammarRule("func_def")]
+	private FuncDef func_def()
+	{
+		EnterRule_func_def();
+		EnterRule("func_def", 5);
+		TraceIn("func_def", 5);
+		FuncDef value = default(FuncDef);
+
+
+		CommonTree b = default(CommonTree);
+		CommonTree x = default(CommonTree);
+		string a = default(string);
+		List<Stmt> args = default(List<Stmt>);
+		StmtBlock e = default(StmtBlock);
+
+
+			value = new FuncDef();
+
+		try { DebugEnterRule(GrammarFileName, "func_def");
+		DebugLocation(65, 1);
+		try
+		{
+			// SugarWalker.g:70:2: (a= type_name b= IDENT ( '<' (x= IDENT )+ '>' )? '(' (args= func_args )? ')' (e= stmt_block ) )
+			DebugEnterAlt(1);
+			// SugarWalker.g:70:4: a= type_name b= IDENT ( '<' (x= IDENT )+ '>' )? '(' (args= func_args )? ')' (e= stmt_block )
+			{
+			DebugLocation(70, 5);
+			PushFollow(Follow._type_name_in_func_def263);
+			a=type_name();
+			PopFollow();
+
+			DebugLocation(70, 17);
+			b=(CommonTree)Match(input,IDENT,Follow._IDENT_in_func_def267); 
+			DebugLocation(70, 24);
+			// SugarWalker.g:70:24: ( '<' (x= IDENT )+ '>' )?
+			int alt10=2;
+			try { DebugEnterSubRule(10);
+			try { DebugEnterDecision(10, false);
+			int LA10_0 = input.LA(1);
+
+			if ((LA10_0==48))
+			{
+				alt10 = 1;
+			}
+			} finally { DebugExitDecision(10); }
+			switch (alt10)
+			{
+			case 1:
+				DebugEnterAlt(1);
+				// SugarWalker.g:70:25: '<' (x= IDENT )+ '>'
+				{
+				DebugLocation(70, 25);
+				Match(input,48,Follow._48_in_func_def270); 
+				DebugLocation(70, 29);
+				// SugarWalker.g:70:29: (x= IDENT )+
+				int cnt9=0;
+				try { DebugEnterSubRule(9);
+				while (true)
+				{
+					int alt9=2;
+					try { DebugEnterDecision(9, false);
+					int LA9_0 = input.LA(1);
+
+					if ((LA9_0==IDENT))
+					{
+						alt9 = 1;
+					}
+
+
+					} finally { DebugExitDecision(9); }
+					switch (alt9)
+					{
+					case 1:
+						DebugEnterAlt(1);
+						// SugarWalker.g:70:30: x= IDENT
+						{
+						DebugLocation(70, 31);
+						x=(CommonTree)Match(input,IDENT,Follow._IDENT_in_func_def275); 
+						DebugLocation(70, 38);
 						value.GenericParameter.Add(x.Text); 
 
 						}
 						break;
 
 					default:
-						if (cnt8 >= 1)
-							goto loop8;
+						if (cnt9 >= 1)
+							goto loop9;
 
-						EarlyExitException eee8 = new EarlyExitException( 8, input );
-						DebugRecognitionException(eee8);
-						throw eee8;
+						EarlyExitException eee9 = new EarlyExitException( 9, input );
+						DebugRecognitionException(eee9);
+						throw eee9;
 					}
-					cnt8++;
+					cnt9++;
 				}
-				loop8:
+				loop9:
 					;
 
-				} finally { DebugExitSubRule(8); }
+				} finally { DebugExitSubRule(9); }
 
-				DebugLocation(57, 80);
-				Match(input,48,Follow._48_in_func_def235); 
+				DebugLocation(70, 80);
+				Match(input,51,Follow._51_in_func_def281); 
 
 				}
 				break;
 
 			}
-			} finally { DebugExitSubRule(9); }
+			} finally { DebugExitSubRule(10); }
 
-			DebugLocation(57, 86);
-			Match(input,36,Follow._36_in_func_def239); 
-			DebugLocation(57, 90);
-			// SugarWalker.g:57:90: (c= expr ( ',' d= expr IDENT )* )?
+			DebugLocation(70, 86);
+			Match(input,38,Follow._38_in_func_def285); 
+			DebugLocation(70, 90);
+			// SugarWalker.g:70:90: (args= func_args )?
 			int alt11=2;
 			try { DebugEnterSubRule(11);
 			try { DebugEnterDecision(11, false);
 			int LA11_0 = input.LA(1);
 
-			if ((LA11_0==Expr_Bin||LA11_0==Expr_Call||(LA11_0>=Expr_Dict && LA11_0<=Expr_Dot)||LA11_0==Expr_Prefix||(LA11_0>=Expr_Suffix && LA11_0<=Expr_Tuple)||LA11_0==IDENT||LA11_0==INT||LA11_0==STRING||LA11_0==DOUBLE))
+			if ((LA11_0==Func_Args))
 			{
 				alt11 = 1;
 			}
@@ -724,62 +829,15 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarWalker.g:57:91: c= expr ( ',' d= expr IDENT )*
+				// SugarWalker.g:70:91: args= func_args
 				{
-				DebugLocation(57, 92);
-				PushFollow(Follow._expr_in_func_def244);
-				c=expr();
+				DebugLocation(70, 95);
+				PushFollow(Follow._func_args_in_func_def290);
+				args=func_args();
 				PopFollow();
 
-				DebugLocation(57, 98);
-				 value.Args.Add(c); 
-				DebugLocation(57, 122);
-				// SugarWalker.g:57:122: ( ',' d= expr IDENT )*
-				try { DebugEnterSubRule(10);
-				while (true)
-				{
-					int alt10=2;
-					try { DebugEnterDecision(10, false);
-					int LA10_0 = input.LA(1);
-
-					if ((LA10_0==41))
-					{
-						alt10 = 1;
-					}
-
-
-					} finally { DebugExitDecision(10); }
-					switch ( alt10 )
-					{
-					case 1:
-						DebugEnterAlt(1);
-						// SugarWalker.g:57:123: ',' d= expr IDENT
-						{
-						DebugLocation(57, 123);
-						Match(input,41,Follow._41_in_func_def249); 
-						DebugLocation(57, 128);
-						PushFollow(Follow._expr_in_func_def253);
-						d=expr();
-						PopFollow();
-
-						DebugLocation(57, 134);
-						 value.Args.Add(d); 
-						DebugLocation(57, 158);
-						Match(input,IDENT,Follow._IDENT_in_func_def257); 
-
-						}
-						break;
-
-					default:
-						goto loop10;
-					}
-				}
-
-				loop10:
-					;
-
-				} finally { DebugExitSubRule(10); }
-
+				DebugLocation(70, 106);
+				 value.Args = args; 
 
 				}
 				break;
@@ -787,19 +845,19 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			}
 			} finally { DebugExitSubRule(11); }
 
-			DebugLocation(57, 168);
-			Match(input,37,Follow._37_in_func_def263); 
-			DebugLocation(58, 2);
-			// SugarWalker.g:58:2: (e= stmt_block )
+			DebugLocation(70, 132);
+			Match(input,39,Follow._39_in_func_def296); 
+			DebugLocation(71, 2);
+			// SugarWalker.g:71:2: (e= stmt_block )
 			DebugEnterAlt(1);
-			// SugarWalker.g:58:4: e= stmt_block
+			// SugarWalker.g:71:4: e= stmt_block
 			{
-			DebugLocation(58, 5);
-			PushFollow(Follow._stmt_block_in_func_def270);
+			DebugLocation(71, 5);
+			PushFollow(Follow._stmt_block_in_func_def303);
 			e=stmt_block();
 			PopFollow();
 
-			DebugLocation(59, 2);
+			DebugLocation(72, 2);
 
 					value.Type = a;
 					value.Name = b.Text;
@@ -819,11 +877,11 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		}
 		finally
 		{
-			TraceOut("func_def", 4);
-			LeaveRule("func_def", 4);
+			TraceOut("func_def", 5);
+			LeaveRule("func_def", 5);
 			LeaveRule_func_def();
 		}
-		DebugLocation(64, 1);
+		DebugLocation(77, 1);
 		} finally { DebugExitRule(GrammarFileName, "func_def"); }
 		return value;
 
@@ -834,13 +892,13 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	partial void LeaveRule_stmt_block();
 
 	// $ANTLR start "stmt_block"
-	// SugarWalker.g:66:1: stmt_block returns [StmtBlock value] : INDENT ( ( NEWLINE )+ a= stmt )* ( NEWLINE )* DEDENT ;
+	// SugarWalker.g:79:1: stmt_block returns [StmtBlock value] : INDENT ( ( NEWLINE )+ a= stmt )* ( NEWLINE )* DEDENT ;
 	[GrammarRule("stmt_block")]
 	private StmtBlock stmt_block()
 	{
 		EnterRule_stmt_block();
-		EnterRule("stmt_block", 5);
-		TraceIn("stmt_block", 5);
+		EnterRule("stmt_block", 6);
+		TraceIn("stmt_block", 6);
 		StmtBlock value = default(StmtBlock);
 
 
@@ -850,17 +908,17 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			value = new StmtBlock();
 
 		try { DebugEnterRule(GrammarFileName, "stmt_block");
-		DebugLocation(66, 4);
+		DebugLocation(79, 4);
 		try
 		{
-			// SugarWalker.g:71:2: ( INDENT ( ( NEWLINE )+ a= stmt )* ( NEWLINE )* DEDENT )
+			// SugarWalker.g:84:2: ( INDENT ( ( NEWLINE )+ a= stmt )* ( NEWLINE )* DEDENT )
 			DebugEnterAlt(1);
-			// SugarWalker.g:71:4: INDENT ( ( NEWLINE )+ a= stmt )* ( NEWLINE )* DEDENT
+			// SugarWalker.g:84:4: INDENT ( ( NEWLINE )+ a= stmt )* ( NEWLINE )* DEDENT
 			{
-			DebugLocation(71, 4);
-			Match(input,INDENT,Follow._INDENT_in_stmt_block294); 
-			DebugLocation(71, 11);
-			// SugarWalker.g:71:11: ( ( NEWLINE )+ a= stmt )*
+			DebugLocation(84, 4);
+			Match(input,INDENT,Follow._INDENT_in_stmt_block327); 
+			DebugLocation(84, 11);
+			// SugarWalker.g:84:11: ( ( NEWLINE )+ a= stmt )*
 			try { DebugEnterSubRule(13);
 			while (true)
 			{
@@ -880,10 +938,10 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarWalker.g:71:12: ( NEWLINE )+ a= stmt
+					// SugarWalker.g:84:12: ( NEWLINE )+ a= stmt
 					{
-					DebugLocation(71, 12);
-					// SugarWalker.g:71:12: ( NEWLINE )+
+					DebugLocation(84, 12);
+					// SugarWalker.g:84:12: ( NEWLINE )+
 					int cnt12=0;
 					try { DebugEnterSubRule(12);
 					while (true)
@@ -903,10 +961,10 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 						{
 						case 1:
 							DebugEnterAlt(1);
-							// SugarWalker.g:71:12: NEWLINE
+							// SugarWalker.g:84:12: NEWLINE
 							{
-							DebugLocation(71, 12);
-							Match(input,NEWLINE,Follow._NEWLINE_in_stmt_block297); 
+							DebugLocation(84, 12);
+							Match(input,NEWLINE,Follow._NEWLINE_in_stmt_block330); 
 
 							}
 							break;
@@ -926,12 +984,12 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 
 					} finally { DebugExitSubRule(12); }
 
-					DebugLocation(71, 22);
-					PushFollow(Follow._stmt_in_stmt_block302);
+					DebugLocation(84, 22);
+					PushFollow(Follow._stmt_in_stmt_block335);
 					a=stmt();
 					PopFollow();
 
-					DebugLocation(71, 28);
+					DebugLocation(84, 28);
 					 value.StmtList.Add(a); 
 
 					}
@@ -947,8 +1005,8 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 
 			} finally { DebugExitSubRule(13); }
 
-			DebugLocation(71, 58);
-			// SugarWalker.g:71:58: ( NEWLINE )*
+			DebugLocation(84, 58);
+			// SugarWalker.g:84:58: ( NEWLINE )*
 			try { DebugEnterSubRule(14);
 			while (true)
 			{
@@ -967,10 +1025,10 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarWalker.g:71:58: NEWLINE
+					// SugarWalker.g:84:58: NEWLINE
 					{
-					DebugLocation(71, 58);
-					Match(input,NEWLINE,Follow._NEWLINE_in_stmt_block308); 
+					DebugLocation(84, 58);
+					Match(input,NEWLINE,Follow._NEWLINE_in_stmt_block341); 
 
 					}
 					break;
@@ -985,8 +1043,8 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 
 			} finally { DebugExitSubRule(14); }
 
-			DebugLocation(71, 67);
-			Match(input,DEDENT,Follow._DEDENT_in_stmt_block311); 
+			DebugLocation(84, 67);
+			Match(input,DEDENT,Follow._DEDENT_in_stmt_block344); 
 
 			}
 
@@ -998,11 +1056,11 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		}
 		finally
 		{
-			TraceOut("stmt_block", 5);
-			LeaveRule("stmt_block", 5);
+			TraceOut("stmt_block", 6);
+			LeaveRule("stmt_block", 6);
 			LeaveRule_stmt_block();
 		}
-		DebugLocation(72, 4);
+		DebugLocation(85, 4);
 		} finally { DebugExitRule(GrammarFileName, "stmt_block"); }
 		return value;
 
@@ -1013,32 +1071,32 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	partial void LeaveRule_stmt();
 
 	// $ANTLR start "stmt"
-	// SugarWalker.g:74:1: stmt returns [Stmt value] : a= stmt_expr ;
+	// SugarWalker.g:87:1: stmt returns [Stmt value] : a= stmt_expr ;
 	[GrammarRule("stmt")]
 	private Stmt stmt()
 	{
 		EnterRule_stmt();
-		EnterRule("stmt", 6);
-		TraceIn("stmt", 6);
+		EnterRule("stmt", 7);
+		TraceIn("stmt", 7);
 		Stmt value = default(Stmt);
 
 
 		Stmt a = default(Stmt);
 
 		try { DebugEnterRule(GrammarFileName, "stmt");
-		DebugLocation(74, 1);
+		DebugLocation(87, 1);
 		try
 		{
-			// SugarWalker.g:75:2: (a= stmt_expr )
+			// SugarWalker.g:88:2: (a= stmt_expr )
 			DebugEnterAlt(1);
-			// SugarWalker.g:75:4: a= stmt_expr
+			// SugarWalker.g:88:4: a= stmt_expr
 			{
-			DebugLocation(75, 5);
-			PushFollow(Follow._stmt_expr_in_stmt332);
+			DebugLocation(88, 5);
+			PushFollow(Follow._stmt_expr_in_stmt365);
 			a=stmt_expr();
 			PopFollow();
 
-			DebugLocation(75, 16);
+			DebugLocation(88, 16);
 			 value = a; 
 
 			}
@@ -1051,11 +1109,11 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		}
 		finally
 		{
-			TraceOut("stmt", 6);
-			LeaveRule("stmt", 6);
+			TraceOut("stmt", 7);
+			LeaveRule("stmt", 7);
 			LeaveRule_stmt();
 		}
-		DebugLocation(76, 1);
+		DebugLocation(89, 1);
 		} finally { DebugExitRule(GrammarFileName, "stmt"); }
 		return value;
 
@@ -1066,23 +1124,23 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	partial void LeaveRule_stmt_expr();
 
 	// $ANTLR start "stmt_expr"
-	// SugarWalker.g:78:1: stmt_expr returns [Stmt value] : (a= stmt_alloc |a= stmt_return );
+	// SugarWalker.g:91:1: stmt_expr returns [Stmt value] : (a= stmt_alloc |a= stmt_return );
 	[GrammarRule("stmt_expr")]
 	private Stmt stmt_expr()
 	{
 		EnterRule_stmt_expr();
-		EnterRule("stmt_expr", 7);
-		TraceIn("stmt_expr", 7);
+		EnterRule("stmt_expr", 8);
+		TraceIn("stmt_expr", 8);
 		Stmt value = default(Stmt);
 
 
 		Stmt a = default(Stmt);
 
 		try { DebugEnterRule(GrammarFileName, "stmt_expr");
-		DebugLocation(78, 1);
+		DebugLocation(91, 1);
 		try
 		{
-			// SugarWalker.g:79:2: (a= stmt_alloc |a= stmt_return )
+			// SugarWalker.g:92:2: (a= stmt_alloc |a= stmt_return )
 			int alt15=2;
 			try { DebugEnterDecision(15, false);
 			int LA15_0 = input.LA(1);
@@ -1106,28 +1164,28 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarWalker.g:79:4: a= stmt_alloc
+				// SugarWalker.g:92:4: a= stmt_alloc
 				{
-				DebugLocation(79, 5);
-				PushFollow(Follow._stmt_alloc_in_stmt_expr351);
+				DebugLocation(92, 5);
+				PushFollow(Follow._stmt_alloc_in_stmt_expr384);
 				a=stmt_alloc();
 				PopFollow();
 
-				DebugLocation(79, 17);
+				DebugLocation(92, 17);
 				 value = a; 
 
 				}
 				break;
 			case 2:
 				DebugEnterAlt(2);
-				// SugarWalker.g:80:4: a= stmt_return
+				// SugarWalker.g:93:4: a= stmt_return
 				{
-				DebugLocation(80, 5);
-				PushFollow(Follow._stmt_return_in_stmt_expr360);
+				DebugLocation(93, 5);
+				PushFollow(Follow._stmt_return_in_stmt_expr393);
 				a=stmt_return();
 				PopFollow();
 
-				DebugLocation(80, 18);
+				DebugLocation(93, 18);
 				 value = a; 
 
 				}
@@ -1142,11 +1200,11 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		}
 		finally
 		{
-			TraceOut("stmt_expr", 7);
-			LeaveRule("stmt_expr", 7);
+			TraceOut("stmt_expr", 8);
+			LeaveRule("stmt_expr", 8);
 			LeaveRule_stmt_expr();
 		}
-		DebugLocation(81, 1);
+		DebugLocation(94, 1);
 		} finally { DebugExitRule(GrammarFileName, "stmt_expr"); }
 		return value;
 
@@ -1157,23 +1215,23 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	partial void LeaveRule_stmt_alloc();
 
 	// $ANTLR start "stmt_alloc"
-	// SugarWalker.g:83:1: stmt_alloc returns [Stmt value] : (a= alloc_expr |a= alloc_expr_auto );
+	// SugarWalker.g:96:1: stmt_alloc returns [Stmt value] : (a= alloc_expr |a= alloc_expr_auto );
 	[GrammarRule("stmt_alloc")]
 	private Stmt stmt_alloc()
 	{
 		EnterRule_stmt_alloc();
-		EnterRule("stmt_alloc", 8);
-		TraceIn("stmt_alloc", 8);
+		EnterRule("stmt_alloc", 9);
+		TraceIn("stmt_alloc", 9);
 		Stmt value = default(Stmt);
 
 
-		ExprAlloc a = default(ExprAlloc);
+		StmtAlloc a = default(StmtAlloc);
 
 		try { DebugEnterRule(GrammarFileName, "stmt_alloc");
-		DebugLocation(83, 1);
+		DebugLocation(96, 1);
 		try
 		{
-			// SugarWalker.g:84:2: (a= alloc_expr |a= alloc_expr_auto )
+			// SugarWalker.g:97:2: (a= alloc_expr |a= alloc_expr_auto )
 			int alt16=2;
 			try { DebugEnterDecision(16, false);
 			int LA16_0 = input.LA(1);
@@ -1197,28 +1255,28 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarWalker.g:84:4: a= alloc_expr
+				// SugarWalker.g:97:4: a= alloc_expr
 				{
-				DebugLocation(84, 5);
-				PushFollow(Follow._alloc_expr_in_stmt_alloc379);
+				DebugLocation(97, 5);
+				PushFollow(Follow._alloc_expr_in_stmt_alloc412);
 				a=alloc_expr();
 				PopFollow();
 
-				DebugLocation(84, 17);
+				DebugLocation(97, 17);
 				 value = a; 
 
 				}
 				break;
 			case 2:
 				DebugEnterAlt(2);
-				// SugarWalker.g:85:4: a= alloc_expr_auto
+				// SugarWalker.g:98:4: a= alloc_expr_auto
 				{
-				DebugLocation(85, 5);
-				PushFollow(Follow._alloc_expr_auto_in_stmt_alloc388);
+				DebugLocation(98, 5);
+				PushFollow(Follow._alloc_expr_auto_in_stmt_alloc421);
 				a=alloc_expr_auto();
 				PopFollow();
 
-				DebugLocation(85, 22);
+				DebugLocation(98, 22);
 				 value = a; 
 
 				}
@@ -1233,11 +1291,11 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		}
 		finally
 		{
-			TraceOut("stmt_alloc", 8);
-			LeaveRule("stmt_alloc", 8);
+			TraceOut("stmt_alloc", 9);
+			LeaveRule("stmt_alloc", 9);
 			LeaveRule_stmt_alloc();
 		}
-		DebugLocation(86, 1);
+		DebugLocation(99, 1);
 		} finally { DebugExitRule(GrammarFileName, "stmt_alloc"); }
 		return value;
 
@@ -1248,41 +1306,41 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	partial void LeaveRule_stmt_return();
 
 	// $ANTLR start "stmt_return"
-	// SugarWalker.g:88:1: stmt_return returns [Stmt value] : ^( Expr_Return (a= expr )? ) ;
+	// SugarWalker.g:101:1: stmt_return returns [Stmt value] : ^( Expr_Return (a= expr )? ) ;
 	[GrammarRule("stmt_return")]
 	private Stmt stmt_return()
 	{
 		EnterRule_stmt_return();
-		EnterRule("stmt_return", 9);
-		TraceIn("stmt_return", 9);
+		EnterRule("stmt_return", 10);
+		TraceIn("stmt_return", 10);
 		Stmt value = default(Stmt);
 
 
 		Expr a = default(Expr);
 
 		try { DebugEnterRule(GrammarFileName, "stmt_return");
-		DebugLocation(88, 1);
+		DebugLocation(101, 1);
 		try
 		{
-			// SugarWalker.g:89:2: ( ^( Expr_Return (a= expr )? ) )
+			// SugarWalker.g:102:2: ( ^( Expr_Return (a= expr )? ) )
 			DebugEnterAlt(1);
-			// SugarWalker.g:89:4: ^( Expr_Return (a= expr )? )
+			// SugarWalker.g:102:4: ^( Expr_Return (a= expr )? )
 			{
-			DebugLocation(89, 4);
-			DebugLocation(89, 6);
-			Match(input,Expr_Return,Follow._Expr_Return_in_stmt_return406); 
+			DebugLocation(102, 4);
+			DebugLocation(102, 6);
+			Match(input,Expr_Return,Follow._Expr_Return_in_stmt_return439); 
 
 			if (input.LA(1) == TokenTypes.Down)
 			{
 				Match(input, TokenTypes.Down, null); 
-				DebugLocation(89, 18);
-				// SugarWalker.g:89:18: (a= expr )?
+				DebugLocation(102, 18);
+				// SugarWalker.g:102:18: (a= expr )?
 				int alt17=2;
 				try { DebugEnterSubRule(17);
 				try { DebugEnterDecision(17, false);
 				int LA17_0 = input.LA(1);
 
-				if ((LA17_0==Expr_Bin||LA17_0==Expr_Call||(LA17_0>=Expr_Dict && LA17_0<=Expr_Dot)||LA17_0==Expr_Prefix||(LA17_0>=Expr_Suffix && LA17_0<=Expr_Tuple)||LA17_0==IDENT||LA17_0==INT||LA17_0==STRING||LA17_0==DOUBLE))
+				if ((LA17_0==Expr_Bin||LA17_0==Expr_Call||(LA17_0>=Expr_Dict && LA17_0<=Expr_Lambda)||LA17_0==Expr_Prefix||(LA17_0>=Expr_Suffix && LA17_0<=Expr_Tuple)||LA17_0==IDENT||LA17_0==INT||LA17_0==STRING||LA17_0==DOUBLE))
 				{
 					alt17 = 1;
 				}
@@ -1291,10 +1349,10 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarWalker.g:89:19: a= expr
+					// SugarWalker.g:102:19: a= expr
 					{
-					DebugLocation(89, 20);
-					PushFollow(Follow._expr_in_stmt_return411);
+					DebugLocation(102, 20);
+					PushFollow(Follow._expr_in_stmt_return444);
 					a=expr();
 					PopFollow();
 
@@ -1309,7 +1367,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				Match(input, TokenTypes.Up, null); 
 			}
 
-			DebugLocation(90, 2);
+			DebugLocation(103, 2);
 
 					value = new ExprReturn(a);
 				
@@ -1324,11 +1382,11 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		}
 		finally
 		{
-			TraceOut("stmt_return", 9);
-			LeaveRule("stmt_return", 9);
+			TraceOut("stmt_return", 10);
+			LeaveRule("stmt_return", 10);
 			LeaveRule_stmt_return();
 		}
-		DebugLocation(93, 1);
+		DebugLocation(106, 1);
 		} finally { DebugExitRule(GrammarFileName, "stmt_return"); }
 		return value;
 
@@ -1339,29 +1397,29 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	partial void LeaveRule_ident();
 
 	// $ANTLR start "ident"
-	// SugarWalker.g:95:1: ident returns [string value] : a= IDENT ;
+	// SugarWalker.g:108:1: ident returns [string value] : a= IDENT ;
 	[GrammarRule("ident")]
 	private string ident()
 	{
 		EnterRule_ident();
-		EnterRule("ident", 10);
-		TraceIn("ident", 10);
+		EnterRule("ident", 11);
+		TraceIn("ident", 11);
 		string value = default(string);
 
 
 		CommonTree a = default(CommonTree);
 
 		try { DebugEnterRule(GrammarFileName, "ident");
-		DebugLocation(95, 1);
+		DebugLocation(108, 1);
 		try
 		{
-			// SugarWalker.g:96:2: (a= IDENT )
+			// SugarWalker.g:109:2: (a= IDENT )
 			DebugEnterAlt(1);
-			// SugarWalker.g:96:4: a= IDENT
+			// SugarWalker.g:109:4: a= IDENT
 			{
-			DebugLocation(96, 5);
-			a=(CommonTree)Match(input,IDENT,Follow._IDENT_in_ident434); 
-			DebugLocation(96, 12);
+			DebugLocation(109, 5);
+			a=(CommonTree)Match(input,IDENT,Follow._IDENT_in_ident467); 
+			DebugLocation(109, 12);
 			 value = a.Text; 
 
 			}
@@ -1374,11 +1432,11 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		}
 		finally
 		{
-			TraceOut("ident", 10);
-			LeaveRule("ident", 10);
+			TraceOut("ident", 11);
+			LeaveRule("ident", 11);
 			LeaveRule_ident();
 		}
-		DebugLocation(97, 1);
+		DebugLocation(110, 1);
 		} finally { DebugExitRule(GrammarFileName, "ident"); }
 		return value;
 
@@ -1389,13 +1447,13 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	partial void LeaveRule_ident_list();
 
 	// $ANTLR start "ident_list"
-	// SugarWalker.g:99:1: ident_list returns [List<string> value] : a= ident ( ( ',' a= ident )+ ';' )? ;
+	// SugarWalker.g:112:1: ident_list returns [List<string> value] : a= ident ( ( ',' a= ident )+ ';' )? ;
 	[GrammarRule("ident_list")]
 	private List<string> ident_list()
 	{
 		EnterRule_ident_list();
-		EnterRule("ident_list", 11);
-		TraceIn("ident_list", 11);
+		EnterRule("ident_list", 12);
+		TraceIn("ident_list", 12);
 		List<string> value = default(List<string>);
 
 
@@ -1405,28 +1463,28 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			value = new List<string>();
 
 		try { DebugEnterRule(GrammarFileName, "ident_list");
-		DebugLocation(99, 1);
+		DebugLocation(112, 1);
 		try
 		{
-			// SugarWalker.g:104:2: (a= ident ( ( ',' a= ident )+ ';' )? )
+			// SugarWalker.g:117:2: (a= ident ( ( ',' a= ident )+ ';' )? )
 			DebugEnterAlt(1);
-			// SugarWalker.g:104:4: a= ident ( ( ',' a= ident )+ ';' )?
+			// SugarWalker.g:117:4: a= ident ( ( ',' a= ident )+ ';' )?
 			{
-			DebugLocation(104, 5);
-			PushFollow(Follow._ident_in_ident_list458);
+			DebugLocation(117, 5);
+			PushFollow(Follow._ident_in_ident_list491);
 			a=ident();
 			PopFollow();
 
-			DebugLocation(104, 12);
+			DebugLocation(117, 12);
 			 value.Add(a); 
-			DebugLocation(104, 31);
-			// SugarWalker.g:104:31: ( ( ',' a= ident )+ ';' )?
+			DebugLocation(117, 31);
+			// SugarWalker.g:117:31: ( ( ',' a= ident )+ ';' )?
 			int alt19=2;
 			try { DebugEnterSubRule(19);
 			try { DebugEnterDecision(19, false);
 			int LA19_0 = input.LA(1);
 
-			if ((LA19_0==41))
+			if ((LA19_0==43))
 			{
 				alt19 = 1;
 			}
@@ -1435,10 +1493,10 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarWalker.g:104:32: ( ',' a= ident )+ ';'
+				// SugarWalker.g:117:32: ( ',' a= ident )+ ';'
 				{
-				DebugLocation(104, 32);
-				// SugarWalker.g:104:32: ( ',' a= ident )+
+				DebugLocation(117, 32);
+				// SugarWalker.g:117:32: ( ',' a= ident )+
 				int cnt18=0;
 				try { DebugEnterSubRule(18);
 				while (true)
@@ -1447,7 +1505,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 					try { DebugEnterDecision(18, false);
 					int LA18_0 = input.LA(1);
 
-					if ((LA18_0==41))
+					if ((LA18_0==43))
 					{
 						alt18 = 1;
 					}
@@ -1458,16 +1516,16 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 					{
 					case 1:
 						DebugEnterAlt(1);
-						// SugarWalker.g:104:33: ',' a= ident
+						// SugarWalker.g:117:33: ',' a= ident
 						{
-						DebugLocation(104, 33);
-						Match(input,41,Follow._41_in_ident_list464); 
-						DebugLocation(104, 38);
-						PushFollow(Follow._ident_in_ident_list468);
+						DebugLocation(117, 33);
+						Match(input,43,Follow._43_in_ident_list497); 
+						DebugLocation(117, 38);
+						PushFollow(Follow._ident_in_ident_list501);
 						a=ident();
 						PopFollow();
 
-						DebugLocation(104, 45);
+						DebugLocation(117, 45);
 						 value.Add(a); 
 
 						}
@@ -1488,8 +1546,8 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 
 				} finally { DebugExitSubRule(18); }
 
-				DebugLocation(104, 66);
-				Match(input,55,Follow._55_in_ident_list474); 
+				DebugLocation(117, 66);
+				Match(input,58,Follow._58_in_ident_list507); 
 
 				}
 				break;
@@ -1508,11 +1566,11 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		}
 		finally
 		{
-			TraceOut("ident_list", 11);
-			LeaveRule("ident_list", 11);
+			TraceOut("ident_list", 12);
+			LeaveRule("ident_list", 12);
 			LeaveRule_ident_list();
 		}
-		DebugLocation(105, 1);
+		DebugLocation(118, 1);
 		} finally { DebugExitRule(GrammarFileName, "ident_list"); }
 		return value;
 
@@ -1523,14 +1581,14 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	partial void LeaveRule_alloc_expr();
 
 	// $ANTLR start "alloc_expr"
-	// SugarWalker.g:107:1: alloc_expr returns [ExprAlloc value] : ^( Expr_Alloc a= type_name b= ident (c= expr )? ) ;
+	// SugarWalker.g:120:1: alloc_expr returns [StmtAlloc value] : ^( Expr_Alloc a= type_name b= ident (c= expr )? ) ;
 	[GrammarRule("alloc_expr")]
-	private ExprAlloc alloc_expr()
+	private StmtAlloc alloc_expr()
 	{
 		EnterRule_alloc_expr();
-		EnterRule("alloc_expr", 12);
-		TraceIn("alloc_expr", 12);
-		ExprAlloc value = default(ExprAlloc);
+		EnterRule("alloc_expr", 13);
+		TraceIn("alloc_expr", 13);
+		StmtAlloc value = default(StmtAlloc);
 
 
 		string a = default(string);
@@ -1538,36 +1596,36 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		Expr c = default(Expr);
 
 		try { DebugEnterRule(GrammarFileName, "alloc_expr");
-		DebugLocation(107, 1);
+		DebugLocation(120, 1);
 		try
 		{
-			// SugarWalker.g:108:2: ( ^( Expr_Alloc a= type_name b= ident (c= expr )? ) )
+			// SugarWalker.g:121:2: ( ^( Expr_Alloc a= type_name b= ident (c= expr )? ) )
 			DebugEnterAlt(1);
-			// SugarWalker.g:108:4: ^( Expr_Alloc a= type_name b= ident (c= expr )? )
+			// SugarWalker.g:121:4: ^( Expr_Alloc a= type_name b= ident (c= expr )? )
 			{
-			DebugLocation(108, 4);
-			DebugLocation(108, 6);
-			Match(input,Expr_Alloc,Follow._Expr_Alloc_in_alloc_expr493); 
+			DebugLocation(121, 4);
+			DebugLocation(121, 6);
+			Match(input,Expr_Alloc,Follow._Expr_Alloc_in_alloc_expr526); 
 
 			Match(input, TokenTypes.Down, null); 
-			DebugLocation(108, 18);
-			PushFollow(Follow._type_name_in_alloc_expr497);
+			DebugLocation(121, 18);
+			PushFollow(Follow._type_name_in_alloc_expr530);
 			a=type_name();
 			PopFollow();
 
-			DebugLocation(108, 30);
-			PushFollow(Follow._ident_in_alloc_expr501);
+			DebugLocation(121, 30);
+			PushFollow(Follow._ident_in_alloc_expr534);
 			b=ident();
 			PopFollow();
 
-			DebugLocation(108, 37);
-			// SugarWalker.g:108:37: (c= expr )?
+			DebugLocation(121, 37);
+			// SugarWalker.g:121:37: (c= expr )?
 			int alt20=2;
 			try { DebugEnterSubRule(20);
 			try { DebugEnterDecision(20, false);
 			int LA20_0 = input.LA(1);
 
-			if ((LA20_0==Expr_Bin||LA20_0==Expr_Call||(LA20_0>=Expr_Dict && LA20_0<=Expr_Dot)||LA20_0==Expr_Prefix||(LA20_0>=Expr_Suffix && LA20_0<=Expr_Tuple)||LA20_0==IDENT||LA20_0==INT||LA20_0==STRING||LA20_0==DOUBLE))
+			if ((LA20_0==Expr_Bin||LA20_0==Expr_Call||(LA20_0>=Expr_Dict && LA20_0<=Expr_Lambda)||LA20_0==Expr_Prefix||(LA20_0>=Expr_Suffix && LA20_0<=Expr_Tuple)||LA20_0==IDENT||LA20_0==INT||LA20_0==STRING||LA20_0==DOUBLE))
 			{
 				alt20 = 1;
 			}
@@ -1576,10 +1634,10 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarWalker.g:108:38: c= expr
+				// SugarWalker.g:121:38: c= expr
 				{
-				DebugLocation(108, 39);
-				PushFollow(Follow._expr_in_alloc_expr506);
+				DebugLocation(121, 39);
+				PushFollow(Follow._expr_in_alloc_expr539);
 				c=expr();
 				PopFollow();
 
@@ -1593,9 +1651,9 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 
 			Match(input, TokenTypes.Up, null); 
 
-			DebugLocation(109, 2);
+			DebugLocation(122, 2);
 
-					value = new ExprAlloc();
+					value = new StmtAlloc();
 					value.Type = a;
 					value.Name = b;
 					value.Expr = c;
@@ -1611,11 +1669,11 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		}
 		finally
 		{
-			TraceOut("alloc_expr", 12);
-			LeaveRule("alloc_expr", 12);
+			TraceOut("alloc_expr", 13);
+			LeaveRule("alloc_expr", 13);
 			LeaveRule_alloc_expr();
 		}
-		DebugLocation(115, 1);
+		DebugLocation(128, 1);
 		} finally { DebugExitRule(GrammarFileName, "alloc_expr"); }
 		return value;
 
@@ -1626,45 +1684,45 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	partial void LeaveRule_alloc_expr_auto();
 
 	// $ANTLR start "alloc_expr_auto"
-	// SugarWalker.g:117:1: alloc_expr_auto returns [ExprAlloc value] : ^( Expr_Alloc_Auto a= ident (b= expr )? ) ;
+	// SugarWalker.g:130:1: alloc_expr_auto returns [StmtAlloc value] : ^( Expr_Alloc_Auto a= ident (b= expr )? ) ;
 	[GrammarRule("alloc_expr_auto")]
-	private ExprAlloc alloc_expr_auto()
+	private StmtAlloc alloc_expr_auto()
 	{
 		EnterRule_alloc_expr_auto();
-		EnterRule("alloc_expr_auto", 13);
-		TraceIn("alloc_expr_auto", 13);
-		ExprAlloc value = default(ExprAlloc);
+		EnterRule("alloc_expr_auto", 14);
+		TraceIn("alloc_expr_auto", 14);
+		StmtAlloc value = default(StmtAlloc);
 
 
 		string a = default(string);
 		Expr b = default(Expr);
 
 		try { DebugEnterRule(GrammarFileName, "alloc_expr_auto");
-		DebugLocation(117, 1);
+		DebugLocation(130, 1);
 		try
 		{
-			// SugarWalker.g:118:2: ( ^( Expr_Alloc_Auto a= ident (b= expr )? ) )
+			// SugarWalker.g:131:2: ( ^( Expr_Alloc_Auto a= ident (b= expr )? ) )
 			DebugEnterAlt(1);
-			// SugarWalker.g:118:4: ^( Expr_Alloc_Auto a= ident (b= expr )? )
+			// SugarWalker.g:131:4: ^( Expr_Alloc_Auto a= ident (b= expr )? )
 			{
-			DebugLocation(118, 4);
-			DebugLocation(118, 6);
-			Match(input,Expr_Alloc_Auto,Follow._Expr_Alloc_Auto_in_alloc_expr_auto528); 
+			DebugLocation(131, 4);
+			DebugLocation(131, 6);
+			Match(input,Expr_Alloc_Auto,Follow._Expr_Alloc_Auto_in_alloc_expr_auto561); 
 
 			Match(input, TokenTypes.Down, null); 
-			DebugLocation(118, 23);
-			PushFollow(Follow._ident_in_alloc_expr_auto532);
+			DebugLocation(131, 23);
+			PushFollow(Follow._ident_in_alloc_expr_auto565);
 			a=ident();
 			PopFollow();
 
-			DebugLocation(118, 30);
-			// SugarWalker.g:118:30: (b= expr )?
+			DebugLocation(131, 30);
+			// SugarWalker.g:131:30: (b= expr )?
 			int alt21=2;
 			try { DebugEnterSubRule(21);
 			try { DebugEnterDecision(21, false);
 			int LA21_0 = input.LA(1);
 
-			if ((LA21_0==Expr_Bin||LA21_0==Expr_Call||(LA21_0>=Expr_Dict && LA21_0<=Expr_Dot)||LA21_0==Expr_Prefix||(LA21_0>=Expr_Suffix && LA21_0<=Expr_Tuple)||LA21_0==IDENT||LA21_0==INT||LA21_0==STRING||LA21_0==DOUBLE))
+			if ((LA21_0==Expr_Bin||LA21_0==Expr_Call||(LA21_0>=Expr_Dict && LA21_0<=Expr_Lambda)||LA21_0==Expr_Prefix||(LA21_0>=Expr_Suffix && LA21_0<=Expr_Tuple)||LA21_0==IDENT||LA21_0==INT||LA21_0==STRING||LA21_0==DOUBLE))
 			{
 				alt21 = 1;
 			}
@@ -1673,10 +1731,10 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarWalker.g:118:31: b= expr
+				// SugarWalker.g:131:31: b= expr
 				{
-				DebugLocation(118, 32);
-				PushFollow(Follow._expr_in_alloc_expr_auto537);
+				DebugLocation(131, 32);
+				PushFollow(Follow._expr_in_alloc_expr_auto570);
 				b=expr();
 				PopFollow();
 
@@ -1690,9 +1748,9 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 
 			Match(input, TokenTypes.Up, null); 
 
-			DebugLocation(119, 2);
+			DebugLocation(132, 2);
 
-					value = new ExprAlloc();
+					value = new StmtAlloc();
 					value.Type = "auto";
 					value.Name = a;
 					value.Expr = b;
@@ -1708,11 +1766,11 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		}
 		finally
 		{
-			TraceOut("alloc_expr_auto", 13);
-			LeaveRule("alloc_expr_auto", 13);
+			TraceOut("alloc_expr_auto", 14);
+			LeaveRule("alloc_expr_auto", 14);
 			LeaveRule_alloc_expr_auto();
 		}
-		DebugLocation(125, 1);
+		DebugLocation(138, 1);
 		} finally { DebugExitRule(GrammarFileName, "alloc_expr_auto"); }
 		return value;
 
@@ -1723,13 +1781,13 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	partial void LeaveRule_new_expr();
 
 	// $ANTLR start "new_expr"
-	// SugarWalker.g:127:1: new_expr returns [ExprNew value] : ^( Expr_New a= IDENT (b= expr )+ ) ;
+	// SugarWalker.g:140:1: new_expr returns [ExprNew value] : ^( Expr_New a= IDENT (b= expr )+ ) ;
 	[GrammarRule("new_expr")]
 	private ExprNew new_expr()
 	{
 		EnterRule_new_expr();
-		EnterRule("new_expr", 14);
-		TraceIn("new_expr", 14);
+		EnterRule("new_expr", 15);
+		TraceIn("new_expr", 15);
 		ExprNew value = default(ExprNew);
 
 
@@ -1740,24 +1798,24 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			value = new ExprNew();
 
 		try { DebugEnterRule(GrammarFileName, "new_expr");
-		DebugLocation(127, 1);
+		DebugLocation(140, 1);
 		try
 		{
-			// SugarWalker.g:132:2: ( ^( Expr_New a= IDENT (b= expr )+ ) )
+			// SugarWalker.g:145:2: ( ^( Expr_New a= IDENT (b= expr )+ ) )
 			DebugEnterAlt(1);
-			// SugarWalker.g:132:4: ^( Expr_New a= IDENT (b= expr )+ )
+			// SugarWalker.g:145:4: ^( Expr_New a= IDENT (b= expr )+ )
 			{
-			DebugLocation(132, 4);
-			DebugLocation(132, 6);
-			Match(input,Expr_New,Follow._Expr_New_in_new_expr564); 
+			DebugLocation(145, 4);
+			DebugLocation(145, 6);
+			Match(input,Expr_New,Follow._Expr_New_in_new_expr597); 
 
 			Match(input, TokenTypes.Down, null); 
-			DebugLocation(132, 16);
-			a=(CommonTree)Match(input,IDENT,Follow._IDENT_in_new_expr568); 
-			DebugLocation(132, 23);
+			DebugLocation(145, 16);
+			a=(CommonTree)Match(input,IDENT,Follow._IDENT_in_new_expr601); 
+			DebugLocation(145, 23);
 			 value.ElemType = a.Text; 
-			DebugLocation(132, 53);
-			// SugarWalker.g:132:53: (b= expr )+
+			DebugLocation(145, 53);
+			// SugarWalker.g:145:53: (b= expr )+
 			int cnt22=0;
 			try { DebugEnterSubRule(22);
 			while (true)
@@ -1766,7 +1824,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				try { DebugEnterDecision(22, false);
 				int LA22_0 = input.LA(1);
 
-				if ((LA22_0==Expr_Bin||LA22_0==Expr_Call||(LA22_0>=Expr_Dict && LA22_0<=Expr_Dot)||LA22_0==Expr_Prefix||(LA22_0>=Expr_Suffix && LA22_0<=Expr_Tuple)||LA22_0==IDENT||LA22_0==INT||LA22_0==STRING||LA22_0==DOUBLE))
+				if ((LA22_0==Expr_Bin||LA22_0==Expr_Call||(LA22_0>=Expr_Dict && LA22_0<=Expr_Lambda)||LA22_0==Expr_Prefix||(LA22_0>=Expr_Suffix && LA22_0<=Expr_Tuple)||LA22_0==IDENT||LA22_0==INT||LA22_0==STRING||LA22_0==DOUBLE))
 				{
 					alt22 = 1;
 				}
@@ -1777,14 +1835,14 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarWalker.g:132:54: b= expr
+					// SugarWalker.g:145:54: b= expr
 					{
-					DebugLocation(132, 55);
-					PushFollow(Follow._expr_in_new_expr575);
+					DebugLocation(145, 55);
+					PushFollow(Follow._expr_in_new_expr608);
 					b=expr();
 					PopFollow();
 
-					DebugLocation(132, 61);
+					DebugLocation(145, 61);
 					 value.Ranges.Add(b); 
 
 					}
@@ -1819,11 +1877,11 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		}
 		finally
 		{
-			TraceOut("new_expr", 14);
-			LeaveRule("new_expr", 14);
+			TraceOut("new_expr", 15);
+			LeaveRule("new_expr", 15);
 			LeaveRule_new_expr();
 		}
-		DebugLocation(133, 1);
+		DebugLocation(146, 1);
 		} finally { DebugExitRule(GrammarFileName, "new_expr"); }
 		return value;
 
@@ -1834,13 +1892,13 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	partial void LeaveRule_block_expr();
 
 	// $ANTLR start "block_expr"
-	// SugarWalker.g:135:1: block_expr returns [ExprBlock value] : INDENT ( ( NEWLINE )+ a= stmt )* ( NEWLINE )* DEDENT ;
+	// SugarWalker.g:148:1: block_expr returns [ExprBlock value] : INDENT ( ( NEWLINE )+ a= stmt )* ( NEWLINE )* DEDENT ;
 	[GrammarRule("block_expr")]
 	private ExprBlock block_expr()
 	{
 		EnterRule_block_expr();
-		EnterRule("block_expr", 15);
-		TraceIn("block_expr", 15);
+		EnterRule("block_expr", 16);
+		TraceIn("block_expr", 16);
 		ExprBlock value = default(ExprBlock);
 
 
@@ -1850,17 +1908,17 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			value = new ExprBlock();
 
 		try { DebugEnterRule(GrammarFileName, "block_expr");
-		DebugLocation(135, 4);
+		DebugLocation(148, 4);
 		try
 		{
-			// SugarWalker.g:140:2: ( INDENT ( ( NEWLINE )+ a= stmt )* ( NEWLINE )* DEDENT )
+			// SugarWalker.g:153:2: ( INDENT ( ( NEWLINE )+ a= stmt )* ( NEWLINE )* DEDENT )
 			DebugEnterAlt(1);
-			// SugarWalker.g:140:4: INDENT ( ( NEWLINE )+ a= stmt )* ( NEWLINE )* DEDENT
+			// SugarWalker.g:153:4: INDENT ( ( NEWLINE )+ a= stmt )* ( NEWLINE )* DEDENT
 			{
-			DebugLocation(140, 4);
-			Match(input,INDENT,Follow._INDENT_in_block_expr600); 
-			DebugLocation(140, 11);
-			// SugarWalker.g:140:11: ( ( NEWLINE )+ a= stmt )*
+			DebugLocation(153, 4);
+			Match(input,INDENT,Follow._INDENT_in_block_expr633); 
+			DebugLocation(153, 11);
+			// SugarWalker.g:153:11: ( ( NEWLINE )+ a= stmt )*
 			try { DebugEnterSubRule(24);
 			while (true)
 			{
@@ -1880,10 +1938,10 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarWalker.g:140:12: ( NEWLINE )+ a= stmt
+					// SugarWalker.g:153:12: ( NEWLINE )+ a= stmt
 					{
-					DebugLocation(140, 12);
-					// SugarWalker.g:140:12: ( NEWLINE )+
+					DebugLocation(153, 12);
+					// SugarWalker.g:153:12: ( NEWLINE )+
 					int cnt23=0;
 					try { DebugEnterSubRule(23);
 					while (true)
@@ -1903,10 +1961,10 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 						{
 						case 1:
 							DebugEnterAlt(1);
-							// SugarWalker.g:140:12: NEWLINE
+							// SugarWalker.g:153:12: NEWLINE
 							{
-							DebugLocation(140, 12);
-							Match(input,NEWLINE,Follow._NEWLINE_in_block_expr603); 
+							DebugLocation(153, 12);
+							Match(input,NEWLINE,Follow._NEWLINE_in_block_expr636); 
 
 							}
 							break;
@@ -1926,12 +1984,12 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 
 					} finally { DebugExitSubRule(23); }
 
-					DebugLocation(140, 22);
-					PushFollow(Follow._stmt_in_block_expr608);
+					DebugLocation(153, 22);
+					PushFollow(Follow._stmt_in_block_expr641);
 					a=stmt();
 					PopFollow();
 
-					DebugLocation(140, 28);
+					DebugLocation(153, 28);
 					 value.StmtList.Add(a); 
 
 					}
@@ -1947,8 +2005,8 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 
 			} finally { DebugExitSubRule(24); }
 
-			DebugLocation(140, 58);
-			// SugarWalker.g:140:58: ( NEWLINE )*
+			DebugLocation(153, 58);
+			// SugarWalker.g:153:58: ( NEWLINE )*
 			try { DebugEnterSubRule(25);
 			while (true)
 			{
@@ -1967,10 +2025,10 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarWalker.g:140:58: NEWLINE
+					// SugarWalker.g:153:58: NEWLINE
 					{
-					DebugLocation(140, 58);
-					Match(input,NEWLINE,Follow._NEWLINE_in_block_expr614); 
+					DebugLocation(153, 58);
+					Match(input,NEWLINE,Follow._NEWLINE_in_block_expr647); 
 
 					}
 					break;
@@ -1985,8 +2043,8 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 
 			} finally { DebugExitSubRule(25); }
 
-			DebugLocation(140, 67);
-			Match(input,DEDENT,Follow._DEDENT_in_block_expr617); 
+			DebugLocation(153, 67);
+			Match(input,DEDENT,Follow._DEDENT_in_block_expr650); 
 
 			}
 
@@ -1998,11 +2056,11 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		}
 		finally
 		{
-			TraceOut("block_expr", 15);
-			LeaveRule("block_expr", 15);
+			TraceOut("block_expr", 16);
+			LeaveRule("block_expr", 16);
 			LeaveRule_block_expr();
 		}
-		DebugLocation(141, 4);
+		DebugLocation(154, 4);
 		} finally { DebugExitRule(GrammarFileName, "block_expr"); }
 		return value;
 
@@ -2013,13 +2071,13 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	partial void LeaveRule_expr_tuple();
 
 	// $ANTLR start "expr_tuple"
-	// SugarWalker.g:143:1: expr_tuple returns [ExprTuple value] : ^( Expr_Tuple (a= expr )+ ) ;
+	// SugarWalker.g:156:1: expr_tuple returns [ExprTuple value] : ^( Expr_Tuple (a= expr )+ ) ;
 	[GrammarRule("expr_tuple")]
 	private ExprTuple expr_tuple()
 	{
 		EnterRule_expr_tuple();
-		EnterRule("expr_tuple", 16);
-		TraceIn("expr_tuple", 16);
+		EnterRule("expr_tuple", 17);
+		TraceIn("expr_tuple", 17);
 		ExprTuple value = default(ExprTuple);
 
 
@@ -2029,20 +2087,20 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			value = new ExprTuple();
 
 		try { DebugEnterRule(GrammarFileName, "expr_tuple");
-		DebugLocation(143, 1);
+		DebugLocation(156, 1);
 		try
 		{
-			// SugarWalker.g:148:2: ( ^( Expr_Tuple (a= expr )+ ) )
+			// SugarWalker.g:161:2: ( ^( Expr_Tuple (a= expr )+ ) )
 			DebugEnterAlt(1);
-			// SugarWalker.g:148:4: ^( Expr_Tuple (a= expr )+ )
+			// SugarWalker.g:161:4: ^( Expr_Tuple (a= expr )+ )
 			{
-			DebugLocation(148, 4);
-			DebugLocation(148, 6);
-			Match(input,Expr_Tuple,Follow._Expr_Tuple_in_expr_tuple642); 
+			DebugLocation(161, 4);
+			DebugLocation(161, 6);
+			Match(input,Expr_Tuple,Follow._Expr_Tuple_in_expr_tuple675); 
 
 			Match(input, TokenTypes.Down, null); 
-			DebugLocation(148, 17);
-			// SugarWalker.g:148:17: (a= expr )+
+			DebugLocation(161, 17);
+			// SugarWalker.g:161:17: (a= expr )+
 			int cnt26=0;
 			try { DebugEnterSubRule(26);
 			while (true)
@@ -2051,7 +2109,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				try { DebugEnterDecision(26, false);
 				int LA26_0 = input.LA(1);
 
-				if ((LA26_0==Expr_Bin||LA26_0==Expr_Call||(LA26_0>=Expr_Dict && LA26_0<=Expr_Dot)||LA26_0==Expr_Prefix||(LA26_0>=Expr_Suffix && LA26_0<=Expr_Tuple)||LA26_0==IDENT||LA26_0==INT||LA26_0==STRING||LA26_0==DOUBLE))
+				if ((LA26_0==Expr_Bin||LA26_0==Expr_Call||(LA26_0>=Expr_Dict && LA26_0<=Expr_Lambda)||LA26_0==Expr_Prefix||(LA26_0>=Expr_Suffix && LA26_0<=Expr_Tuple)||LA26_0==IDENT||LA26_0==INT||LA26_0==STRING||LA26_0==DOUBLE))
 				{
 					alt26 = 1;
 				}
@@ -2062,14 +2120,14 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarWalker.g:148:18: a= expr
+					// SugarWalker.g:161:18: a= expr
 					{
-					DebugLocation(148, 19);
-					PushFollow(Follow._expr_in_expr_tuple647);
+					DebugLocation(161, 19);
+					PushFollow(Follow._expr_in_expr_tuple680);
 					a=expr();
 					PopFollow();
 
-					DebugLocation(148, 25);
+					DebugLocation(161, 25);
 					 value.ExprList.Add(a); 
 
 					}
@@ -2104,11 +2162,11 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		}
 		finally
 		{
-			TraceOut("expr_tuple", 16);
-			LeaveRule("expr_tuple", 16);
+			TraceOut("expr_tuple", 17);
+			LeaveRule("expr_tuple", 17);
 			LeaveRule_expr_tuple();
 		}
-		DebugLocation(149, 1);
+		DebugLocation(162, 1);
 		} finally { DebugExitRule(GrammarFileName, "expr_tuple"); }
 		return value;
 
@@ -2119,13 +2177,13 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	partial void LeaveRule_expr_match_tuple();
 
 	// $ANTLR start "expr_match_tuple"
-	// SugarWalker.g:151:1: expr_match_tuple returns [MatchTuple value] : ^( Expr_Match_Tuple (a= IDENT )* ) ;
+	// SugarWalker.g:164:1: expr_match_tuple returns [MatchTuple value] : ^( Expr_Match_Tuple (a= IDENT )* ) ;
 	[GrammarRule("expr_match_tuple")]
 	private MatchTuple expr_match_tuple()
 	{
 		EnterRule_expr_match_tuple();
-		EnterRule("expr_match_tuple", 17);
-		TraceIn("expr_match_tuple", 17);
+		EnterRule("expr_match_tuple", 18);
+		TraceIn("expr_match_tuple", 18);
 		MatchTuple value = default(MatchTuple);
 
 
@@ -2135,22 +2193,22 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			value = new MatchTuple();
 
 		try { DebugEnterRule(GrammarFileName, "expr_match_tuple");
-		DebugLocation(151, 1);
+		DebugLocation(164, 1);
 		try
 		{
-			// SugarWalker.g:156:2: ( ^( Expr_Match_Tuple (a= IDENT )* ) )
+			// SugarWalker.g:169:2: ( ^( Expr_Match_Tuple (a= IDENT )* ) )
 			DebugEnterAlt(1);
-			// SugarWalker.g:156:4: ^( Expr_Match_Tuple (a= IDENT )* )
+			// SugarWalker.g:169:4: ^( Expr_Match_Tuple (a= IDENT )* )
 			{
-			DebugLocation(156, 4);
-			DebugLocation(156, 6);
-			Match(input,Expr_Match_Tuple,Follow._Expr_Match_Tuple_in_expr_match_tuple674); 
+			DebugLocation(169, 4);
+			DebugLocation(169, 6);
+			Match(input,Expr_Match_Tuple,Follow._Expr_Match_Tuple_in_expr_match_tuple707); 
 
 			if (input.LA(1) == TokenTypes.Down)
 			{
 				Match(input, TokenTypes.Down, null); 
-				DebugLocation(156, 23);
-				// SugarWalker.g:156:23: (a= IDENT )*
+				DebugLocation(169, 23);
+				// SugarWalker.g:169:23: (a= IDENT )*
 				try { DebugEnterSubRule(27);
 				while (true)
 				{
@@ -2169,11 +2227,11 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 					{
 					case 1:
 						DebugEnterAlt(1);
-						// SugarWalker.g:156:24: a= IDENT
+						// SugarWalker.g:169:24: a= IDENT
 						{
-						DebugLocation(156, 25);
-						a=(CommonTree)Match(input,IDENT,Follow._IDENT_in_expr_match_tuple679); 
-						DebugLocation(156, 32);
+						DebugLocation(169, 25);
+						a=(CommonTree)Match(input,IDENT,Follow._IDENT_in_expr_match_tuple712); 
+						DebugLocation(169, 32);
 						 value.VarList.Add(a.Text); 
 
 						}
@@ -2204,11 +2262,11 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		}
 		finally
 		{
-			TraceOut("expr_match_tuple", 17);
-			LeaveRule("expr_match_tuple", 17);
+			TraceOut("expr_match_tuple", 18);
+			LeaveRule("expr_match_tuple", 18);
 			LeaveRule_expr_match_tuple();
 		}
-		DebugLocation(157, 1);
+		DebugLocation(170, 1);
 		} finally { DebugExitRule(GrammarFileName, "expr_match_tuple"); }
 		return value;
 
@@ -2219,13 +2277,13 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	partial void LeaveRule_expr_list();
 
 	// $ANTLR start "expr_list"
-	// SugarWalker.g:159:1: expr_list returns [List<Expr> value] : (a= expr )* ;
+	// SugarWalker.g:172:1: expr_list returns [List<Expr> value] : (a= expr )* ;
 	[GrammarRule("expr_list")]
 	private List<Expr> expr_list()
 	{
 		EnterRule_expr_list();
-		EnterRule("expr_list", 18);
-		TraceIn("expr_list", 18);
+		EnterRule("expr_list", 19);
+		TraceIn("expr_list", 19);
 		List<Expr> value = default(List<Expr>);
 
 
@@ -2235,15 +2293,15 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			value = new List<Expr>();
 
 		try { DebugEnterRule(GrammarFileName, "expr_list");
-		DebugLocation(159, 1);
+		DebugLocation(172, 1);
 		try
 		{
-			// SugarWalker.g:164:2: ( (a= expr )* )
+			// SugarWalker.g:177:2: ( (a= expr )* )
 			DebugEnterAlt(1);
-			// SugarWalker.g:164:4: (a= expr )*
+			// SugarWalker.g:177:4: (a= expr )*
 			{
-			DebugLocation(164, 4);
-			// SugarWalker.g:164:4: (a= expr )*
+			DebugLocation(177, 4);
+			// SugarWalker.g:177:4: (a= expr )*
 			try { DebugEnterSubRule(28);
 			while (true)
 			{
@@ -2251,7 +2309,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				try { DebugEnterDecision(28, false);
 				int LA28_0 = input.LA(1);
 
-				if ((LA28_0==Expr_Bin||LA28_0==Expr_Call||(LA28_0>=Expr_Dict && LA28_0<=Expr_Dot)||LA28_0==Expr_Prefix||(LA28_0>=Expr_Suffix && LA28_0<=Expr_Tuple)||LA28_0==IDENT||LA28_0==INT||LA28_0==STRING||LA28_0==DOUBLE))
+				if ((LA28_0==Expr_Bin||LA28_0==Expr_Call||(LA28_0>=Expr_Dict && LA28_0<=Expr_Lambda)||LA28_0==Expr_Prefix||(LA28_0>=Expr_Suffix && LA28_0<=Expr_Tuple)||LA28_0==IDENT||LA28_0==INT||LA28_0==STRING||LA28_0==DOUBLE))
 				{
 					alt28 = 1;
 				}
@@ -2262,14 +2320,14 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarWalker.g:164:5: a= expr
+					// SugarWalker.g:177:5: a= expr
 					{
-					DebugLocation(164, 6);
-					PushFollow(Follow._expr_in_expr_list707);
+					DebugLocation(177, 6);
+					PushFollow(Follow._expr_in_expr_list740);
 					a=expr();
 					PopFollow();
 
-					DebugLocation(164, 12);
+					DebugLocation(177, 12);
 					 value.Add(a); 
 
 					}
@@ -2296,11 +2354,11 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		}
 		finally
 		{
-			TraceOut("expr_list", 18);
-			LeaveRule("expr_list", 18);
+			TraceOut("expr_list", 19);
+			LeaveRule("expr_list", 19);
 			LeaveRule_expr_list();
 		}
-		DebugLocation(165, 1);
+		DebugLocation(178, 1);
 		} finally { DebugExitRule(GrammarFileName, "expr_list"); }
 		return value;
 
@@ -2311,13 +2369,13 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	partial void LeaveRule_call_expr();
 
 	// $ANTLR start "call_expr"
-	// SugarWalker.g:167:1: call_expr returns [Expr value] : ^( Expr_Call a= expr b= expr_list ) ;
+	// SugarWalker.g:180:1: call_expr returns [Expr value] : ^( Expr_Call a= expr b= expr_list ) ;
 	[GrammarRule("call_expr")]
 	private Expr call_expr()
 	{
 		EnterRule_call_expr();
-		EnterRule("call_expr", 19);
-		TraceIn("call_expr", 19);
+		EnterRule("call_expr", 20);
+		TraceIn("call_expr", 20);
 		Expr value = default(Expr);
 
 
@@ -2325,32 +2383,32 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		List<Expr> b = default(List<Expr>);
 
 		try { DebugEnterRule(GrammarFileName, "call_expr");
-		DebugLocation(167, 1);
+		DebugLocation(180, 1);
 		try
 		{
-			// SugarWalker.g:168:2: ( ^( Expr_Call a= expr b= expr_list ) )
+			// SugarWalker.g:181:2: ( ^( Expr_Call a= expr b= expr_list ) )
 			DebugEnterAlt(1);
-			// SugarWalker.g:168:4: ^( Expr_Call a= expr b= expr_list )
+			// SugarWalker.g:181:4: ^( Expr_Call a= expr b= expr_list )
 			{
-			DebugLocation(168, 4);
-			DebugLocation(168, 6);
-			Match(input,Expr_Call,Follow._Expr_Call_in_call_expr727); 
+			DebugLocation(181, 4);
+			DebugLocation(181, 6);
+			Match(input,Expr_Call,Follow._Expr_Call_in_call_expr760); 
 
 			Match(input, TokenTypes.Down, null); 
-			DebugLocation(168, 17);
-			PushFollow(Follow._expr_in_call_expr731);
+			DebugLocation(181, 17);
+			PushFollow(Follow._expr_in_call_expr764);
 			a=expr();
 			PopFollow();
 
-			DebugLocation(168, 24);
-			PushFollow(Follow._expr_list_in_call_expr735);
+			DebugLocation(181, 24);
+			PushFollow(Follow._expr_list_in_call_expr768);
 			b=expr_list();
 			PopFollow();
 
 
 			Match(input, TokenTypes.Up, null); 
 
-			DebugLocation(169, 2);
+			DebugLocation(182, 2);
 
 					value = new ExprCall(a, b);
 				
@@ -2365,11 +2423,11 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		}
 		finally
 		{
-			TraceOut("call_expr", 19);
-			LeaveRule("call_expr", 19);
+			TraceOut("call_expr", 20);
+			LeaveRule("call_expr", 20);
 			LeaveRule_call_expr();
 		}
-		DebugLocation(172, 1);
+		DebugLocation(185, 1);
 		} finally { DebugExitRule(GrammarFileName, "call_expr"); }
 		return value;
 
@@ -2380,13 +2438,13 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	partial void LeaveRule_dict_expr();
 
 	// $ANTLR start "dict_expr"
-	// SugarWalker.g:174:1: dict_expr returns [Expr value] : ^( Expr_Dict a= expr b= expr ) ;
+	// SugarWalker.g:187:1: dict_expr returns [Expr value] : ^( Expr_Dict a= expr b= expr ) ;
 	[GrammarRule("dict_expr")]
 	private Expr dict_expr()
 	{
 		EnterRule_dict_expr();
-		EnterRule("dict_expr", 20);
-		TraceIn("dict_expr", 20);
+		EnterRule("dict_expr", 21);
+		TraceIn("dict_expr", 21);
 		Expr value = default(Expr);
 
 
@@ -2394,32 +2452,32 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		Expr b = default(Expr);
 
 		try { DebugEnterRule(GrammarFileName, "dict_expr");
-		DebugLocation(174, 1);
+		DebugLocation(187, 1);
 		try
 		{
-			// SugarWalker.g:175:2: ( ^( Expr_Dict a= expr b= expr ) )
+			// SugarWalker.g:188:2: ( ^( Expr_Dict a= expr b= expr ) )
 			DebugEnterAlt(1);
-			// SugarWalker.g:175:4: ^( Expr_Dict a= expr b= expr )
+			// SugarWalker.g:188:4: ^( Expr_Dict a= expr b= expr )
 			{
-			DebugLocation(175, 4);
-			DebugLocation(175, 6);
-			Match(input,Expr_Dict,Follow._Expr_Dict_in_dict_expr755); 
+			DebugLocation(188, 4);
+			DebugLocation(188, 6);
+			Match(input,Expr_Dict,Follow._Expr_Dict_in_dict_expr788); 
 
 			Match(input, TokenTypes.Down, null); 
-			DebugLocation(175, 17);
-			PushFollow(Follow._expr_in_dict_expr759);
+			DebugLocation(188, 17);
+			PushFollow(Follow._expr_in_dict_expr792);
 			a=expr();
 			PopFollow();
 
-			DebugLocation(175, 24);
-			PushFollow(Follow._expr_in_dict_expr763);
+			DebugLocation(188, 24);
+			PushFollow(Follow._expr_in_dict_expr796);
 			b=expr();
 			PopFollow();
 
 
 			Match(input, TokenTypes.Up, null); 
 
-			DebugLocation(176, 2);
+			DebugLocation(189, 2);
 
 					value = new ExprDict(a, b);
 				
@@ -2434,28 +2492,97 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		}
 		finally
 		{
-			TraceOut("dict_expr", 20);
-			LeaveRule("dict_expr", 20);
+			TraceOut("dict_expr", 21);
+			LeaveRule("dict_expr", 21);
 			LeaveRule_dict_expr();
 		}
-		DebugLocation(179, 1);
+		DebugLocation(192, 1);
 		} finally { DebugExitRule(GrammarFileName, "dict_expr"); }
 		return value;
 
 	}
 	// $ANTLR end "dict_expr"
 
+	partial void EnterRule_lambda_expr();
+	partial void LeaveRule_lambda_expr();
+
+	// $ANTLR start "lambda_expr"
+	// SugarWalker.g:194:1: lambda_expr returns [ExprLambda value] : ^( Expr_Lambda b= func_args a= expr ) ;
+	[GrammarRule("lambda_expr")]
+	private ExprLambda lambda_expr()
+	{
+		EnterRule_lambda_expr();
+		EnterRule("lambda_expr", 22);
+		TraceIn("lambda_expr", 22);
+		ExprLambda value = default(ExprLambda);
+
+
+		List<Stmt> b = default(List<Stmt>);
+		Expr a = default(Expr);
+
+		try { DebugEnterRule(GrammarFileName, "lambda_expr");
+		DebugLocation(194, 1);
+		try
+		{
+			// SugarWalker.g:195:2: ( ^( Expr_Lambda b= func_args a= expr ) )
+			DebugEnterAlt(1);
+			// SugarWalker.g:195:4: ^( Expr_Lambda b= func_args a= expr )
+			{
+			DebugLocation(195, 4);
+			DebugLocation(195, 6);
+			Match(input,Expr_Lambda,Follow._Expr_Lambda_in_lambda_expr816); 
+
+			Match(input, TokenTypes.Down, null); 
+			DebugLocation(195, 19);
+			PushFollow(Follow._func_args_in_lambda_expr820);
+			b=func_args();
+			PopFollow();
+
+			DebugLocation(195, 31);
+			PushFollow(Follow._expr_in_lambda_expr824);
+			a=expr();
+			PopFollow();
+
+
+			Match(input, TokenTypes.Up, null); 
+
+			DebugLocation(196, 2);
+
+					value = new ExprLambda(a, b);
+				
+
+			}
+
+		}
+		catch (RecognitionException re)
+		{
+			ReportError(re);
+			Recover(input,re);
+		}
+		finally
+		{
+			TraceOut("lambda_expr", 22);
+			LeaveRule("lambda_expr", 22);
+			LeaveRule_lambda_expr();
+		}
+		DebugLocation(199, 1);
+		} finally { DebugExitRule(GrammarFileName, "lambda_expr"); }
+		return value;
+
+	}
+	// $ANTLR end "lambda_expr"
+
 	partial void EnterRule_expr();
 	partial void LeaveRule_expr();
 
 	// $ANTLR start "expr"
-	// SugarWalker.g:181:1: expr returns [Expr value] : (tuple= expr_tuple |call= call_expr |dict= dict_expr | ^( Expr_Dot a= expr text= IDENT ) | ^( Expr_Bin op= ( '+' | '-' | '*' | '/' ) a= expr b= expr ) | ^( Expr_Suffix op= ( '++' | '--' ) a= expr ) | ^( Expr_Prefix op= ( '++' | '--' | '!' | '~' ) a= expr ) |text= ( INT | DOUBLE | IDENT | STRING ) );
+	// SugarWalker.g:201:1: expr returns [Expr value] : (tuple= expr_tuple |call= call_expr |dict= dict_expr |lambda= lambda_expr | ^( Expr_Dot a= expr text= IDENT ) | ^( Expr_Bin op= ( '+' | '-' | '*' | '/' ) a= expr b= expr ) | ^( Expr_Suffix op= ( '++' | '--' ) a= expr ) | ^( Expr_Prefix op= ( '++' | '--' | '!' | '~' ) a= expr ) |text= ( INT | DOUBLE | IDENT | STRING ) );
 	[GrammarRule("expr")]
 	private Expr expr()
 	{
 		EnterRule_expr();
-		EnterRule("expr", 21);
-		TraceIn("expr", 21);
+		EnterRule("expr", 23);
+		TraceIn("expr", 23);
 		Expr value = default(Expr);
 
 
@@ -2464,15 +2591,16 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		ExprTuple tuple = default(ExprTuple);
 		Expr call = default(Expr);
 		Expr dict = default(Expr);
+		ExprLambda lambda = default(ExprLambda);
 		Expr a = default(Expr);
 		Expr b = default(Expr);
 
 		try { DebugEnterRule(GrammarFileName, "expr");
-		DebugLocation(181, 1);
+		DebugLocation(201, 1);
 		try
 		{
-			// SugarWalker.g:182:5: (tuple= expr_tuple |call= call_expr |dict= dict_expr | ^( Expr_Dot a= expr text= IDENT ) | ^( Expr_Bin op= ( '+' | '-' | '*' | '/' ) a= expr b= expr ) | ^( Expr_Suffix op= ( '++' | '--' ) a= expr ) | ^( Expr_Prefix op= ( '++' | '--' | '!' | '~' ) a= expr ) |text= ( INT | DOUBLE | IDENT | STRING ) )
-			int alt29=8;
+			// SugarWalker.g:202:5: (tuple= expr_tuple |call= call_expr |dict= dict_expr |lambda= lambda_expr | ^( Expr_Dot a= expr text= IDENT ) | ^( Expr_Bin op= ( '+' | '-' | '*' | '/' ) a= expr b= expr ) | ^( Expr_Suffix op= ( '++' | '--' ) a= expr ) | ^( Expr_Prefix op= ( '++' | '--' | '!' | '~' ) a= expr ) |text= ( INT | DOUBLE | IDENT | STRING ) )
+			int alt29=9;
 			try { DebugEnterDecision(29, false);
 			switch (input.LA(1))
 			{
@@ -2491,24 +2619,29 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				alt29 = 3;
 				}
 				break;
-			case Expr_Dot:
+			case Expr_Lambda:
 				{
 				alt29 = 4;
 				}
 				break;
-			case Expr_Bin:
+			case Expr_Dot:
 				{
 				alt29 = 5;
 				}
 				break;
-			case Expr_Suffix:
+			case Expr_Bin:
 				{
 				alt29 = 6;
 				}
 				break;
-			case Expr_Prefix:
+			case Expr_Suffix:
 				{
 				alt29 = 7;
+				}
+				break;
+			case Expr_Prefix:
+				{
+				alt29 = 8;
 				}
 				break;
 			case IDENT:
@@ -2516,7 +2649,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			case STRING:
 			case DOUBLE:
 				{
-				alt29 = 8;
+				alt29 = 9;
 				}
 				break;
 			default:
@@ -2532,14 +2665,14 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarWalker.g:182:7: tuple= expr_tuple
+				// SugarWalker.g:202:7: tuple= expr_tuple
 				{
-				DebugLocation(182, 12);
-				PushFollow(Follow._expr_tuple_in_expr787);
+				DebugLocation(202, 12);
+				PushFollow(Follow._expr_tuple_in_expr848);
 				tuple=expr_tuple();
 				PopFollow();
 
-				DebugLocation(183, 2);
+				DebugLocation(203, 2);
 
 						value = tuple;
 					
@@ -2548,14 +2681,14 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				break;
 			case 2:
 				DebugEnterAlt(2);
-				// SugarWalker.g:186:4: call= call_expr
+				// SugarWalker.g:206:4: call= call_expr
 				{
-				DebugLocation(186, 8);
-				PushFollow(Follow._call_expr_in_expr797);
+				DebugLocation(206, 8);
+				PushFollow(Follow._call_expr_in_expr858);
 				call=call_expr();
 				PopFollow();
 
-				DebugLocation(187, 2);
+				DebugLocation(207, 2);
 
 						value = call;
 					
@@ -2564,14 +2697,14 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				break;
 			case 3:
 				DebugEnterAlt(3);
-				// SugarWalker.g:190:4: dict= dict_expr
+				// SugarWalker.g:210:4: dict= dict_expr
 				{
-				DebugLocation(190, 8);
-				PushFollow(Follow._dict_expr_in_expr807);
+				DebugLocation(210, 8);
+				PushFollow(Follow._dict_expr_in_expr868);
 				dict=dict_expr();
 				PopFollow();
 
-				DebugLocation(191, 2);
+				DebugLocation(211, 2);
 
 						value = dict;
 					
@@ -2580,87 +2713,59 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				break;
 			case 4:
 				DebugEnterAlt(4);
-				// SugarWalker.g:194:4: ^( Expr_Dot a= expr text= IDENT )
+				// SugarWalker.g:214:4: lambda= lambda_expr
 				{
-				DebugLocation(194, 4);
-				DebugLocation(194, 6);
-				Match(input,Expr_Dot,Follow._Expr_Dot_in_expr816); 
-
-				Match(input, TokenTypes.Down, null); 
-				DebugLocation(194, 16);
-				PushFollow(Follow._expr_in_expr820);
-				a=expr();
+				DebugLocation(214, 10);
+				PushFollow(Follow._lambda_expr_in_expr878);
+				lambda=lambda_expr();
 				PopFollow();
 
-				DebugLocation(194, 26);
-				text=(CommonTree)Match(input,IDENT,Follow._IDENT_in_expr824); 
+				DebugLocation(215, 2);
 
-				Match(input, TokenTypes.Up, null); 
-
-				DebugLocation(195, 2);
-
-						value = new ExprDot(a, text.Text);
+						value = lambda;
 					
 
 				}
 				break;
 			case 5:
 				DebugEnterAlt(5);
-				// SugarWalker.g:198:4: ^( Expr_Bin op= ( '+' | '-' | '*' | '/' ) a= expr b= expr )
+				// SugarWalker.g:218:4: ^( Expr_Dot a= expr text= IDENT )
 				{
-				DebugLocation(198, 4);
-				DebugLocation(198, 6);
-				Match(input,Expr_Bin,Follow._Expr_Bin_in_expr834); 
+				DebugLocation(218, 4);
+				DebugLocation(218, 6);
+				Match(input,Expr_Dot,Follow._Expr_Dot_in_expr887); 
 
 				Match(input, TokenTypes.Down, null); 
-				DebugLocation(198, 17);
-
-				op=(CommonTree)input.LT(1);
-				if ((input.LA(1)>=38 && input.LA(1)<=39)||input.LA(1)==42||input.LA(1)==45)
-				{
-					input.Consume();
-					state.errorRecovery=false;
-				}
-				else
-				{
-					MismatchedSetException mse = new MismatchedSetException(null,input);
-					DebugRecognitionException(mse);
-					throw mse;
-				}
-
-				DebugLocation(198, 43);
-				PushFollow(Follow._expr_in_expr856);
+				DebugLocation(218, 16);
+				PushFollow(Follow._expr_in_expr891);
 				a=expr();
 				PopFollow();
 
-				DebugLocation(198, 50);
-				PushFollow(Follow._expr_in_expr860);
-				b=expr();
-				PopFollow();
-
+				DebugLocation(218, 26);
+				text=(CommonTree)Match(input,IDENT,Follow._IDENT_in_expr895); 
 
 				Match(input, TokenTypes.Up, null); 
 
-				DebugLocation(199, 2);
+				DebugLocation(219, 2);
 
-						value = new ExprBin(op.Text, a, b);
+						value = new ExprDot(a, text.Text);
 					
 
 				}
 				break;
 			case 6:
 				DebugEnterAlt(6);
-				// SugarWalker.g:202:4: ^( Expr_Suffix op= ( '++' | '--' ) a= expr )
+				// SugarWalker.g:222:4: ^( Expr_Bin op= ( '+' | '-' | '*' | '/' ) a= expr b= expr )
 				{
-				DebugLocation(202, 4);
-				DebugLocation(202, 6);
-				Match(input,Expr_Suffix,Follow._Expr_Suffix_in_expr870); 
+				DebugLocation(222, 4);
+				DebugLocation(222, 6);
+				Match(input,Expr_Bin,Follow._Expr_Bin_in_expr905); 
 
 				Match(input, TokenTypes.Down, null); 
-				DebugLocation(202, 20);
+				DebugLocation(222, 17);
 
 				op=(CommonTree)input.LT(1);
-				if (input.LA(1)==40||input.LA(1)==43)
+				if ((input.LA(1)>=40 && input.LA(1)<=41)||input.LA(1)==44||input.LA(1)==47)
 				{
 					input.Consume();
 					state.errorRecovery=false;
@@ -2672,34 +2777,39 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 					throw mse;
 				}
 
-				DebugLocation(202, 36);
-				PushFollow(Follow._expr_in_expr884);
+				DebugLocation(222, 43);
+				PushFollow(Follow._expr_in_expr927);
 				a=expr();
+				PopFollow();
+
+				DebugLocation(222, 50);
+				PushFollow(Follow._expr_in_expr931);
+				b=expr();
 				PopFollow();
 
 
 				Match(input, TokenTypes.Up, null); 
 
-				DebugLocation(203, 2);
+				DebugLocation(223, 2);
 
-						value = new ExprSuffix(op.Text, a);
+						value = new ExprBin(op.Text, a, b);
 					
 
 				}
 				break;
 			case 7:
 				DebugEnterAlt(7);
-				// SugarWalker.g:206:4: ^( Expr_Prefix op= ( '++' | '--' | '!' | '~' ) a= expr )
+				// SugarWalker.g:226:4: ^( Expr_Suffix op= ( '++' | '--' ) a= expr )
 				{
-				DebugLocation(206, 4);
-				DebugLocation(206, 6);
-				Match(input,Expr_Prefix,Follow._Expr_Prefix_in_expr894); 
+				DebugLocation(226, 4);
+				DebugLocation(226, 6);
+				Match(input,Expr_Suffix,Follow._Expr_Suffix_in_expr941); 
 
 				Match(input, TokenTypes.Down, null); 
-				DebugLocation(206, 20);
+				DebugLocation(226, 20);
 
 				op=(CommonTree)input.LT(1);
-				if (input.LA(1)==34||input.LA(1)==40||input.LA(1)==43||input.LA(1)==53)
+				if (input.LA(1)==42||input.LA(1)==45)
 				{
 					input.Consume();
 					state.errorRecovery=false;
@@ -2711,26 +2821,65 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 					throw mse;
 				}
 
-				DebugLocation(206, 48);
-				PushFollow(Follow._expr_in_expr916);
+				DebugLocation(226, 36);
+				PushFollow(Follow._expr_in_expr955);
 				a=expr();
 				PopFollow();
 
 
 				Match(input, TokenTypes.Up, null); 
 
-				DebugLocation(207, 2);
+				DebugLocation(227, 2);
 
-						value = new ExprPrefix(op.Text, a);
+						value = new ExprSuffix(op.Text, a);
 					
 
 				}
 				break;
 			case 8:
 				DebugEnterAlt(8);
-				// SugarWalker.g:210:4: text= ( INT | DOUBLE | IDENT | STRING )
+				// SugarWalker.g:230:4: ^( Expr_Prefix op= ( '++' | '--' | '!' | '~' ) a= expr )
 				{
-				DebugLocation(210, 8);
+				DebugLocation(230, 4);
+				DebugLocation(230, 6);
+				Match(input,Expr_Prefix,Follow._Expr_Prefix_in_expr965); 
+
+				Match(input, TokenTypes.Down, null); 
+				DebugLocation(230, 20);
+
+				op=(CommonTree)input.LT(1);
+				if (input.LA(1)==36||input.LA(1)==42||input.LA(1)==45||input.LA(1)==56)
+				{
+					input.Consume();
+					state.errorRecovery=false;
+				}
+				else
+				{
+					MismatchedSetException mse = new MismatchedSetException(null,input);
+					DebugRecognitionException(mse);
+					throw mse;
+				}
+
+				DebugLocation(230, 48);
+				PushFollow(Follow._expr_in_expr987);
+				a=expr();
+				PopFollow();
+
+
+				Match(input, TokenTypes.Up, null); 
+
+				DebugLocation(231, 2);
+
+						value = new ExprPrefix(op.Text, a);
+					
+
+				}
+				break;
+			case 9:
+				DebugEnterAlt(9);
+				// SugarWalker.g:234:4: text= ( INT | DOUBLE | IDENT | STRING )
+				{
+				DebugLocation(234, 8);
 
 				text=(CommonTree)input.LT(1);
 				if (input.LA(1)==IDENT||input.LA(1)==INT||input.LA(1)==STRING||input.LA(1)==DOUBLE)
@@ -2745,7 +2894,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 					throw mse;
 				}
 
-				DebugLocation(211, 5);
+				DebugLocation(235, 5);
 
 				        value = new ExprConst(text.Text);
 				    
@@ -2762,11 +2911,11 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		}
 		finally
 		{
-			TraceOut("expr", 21);
-			LeaveRule("expr", 21);
+			TraceOut("expr", 23);
+			LeaveRule("expr", 23);
 			LeaveRule_expr();
 		}
-		DebugLocation(214, 1);
+		DebugLocation(238, 1);
 		} finally { DebugExitRule(GrammarFileName, "expr"); }
 		return value;
 
@@ -2795,15 +2944,15 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		private const string DFA13_minS =
 			"\x2\x5\x2\xFFFF";
 		private const string DFA13_maxS =
-			"\x2\x1A\x2\xFFFF";
+			"\x2\x1C\x2\xFFFF";
 		private const string DFA13_acceptS =
 			"\x2\xFFFF\x1\x2\x1\x1";
 		private const string DFA13_specialS =
 			"\x4\xFFFF}>";
 		private static readonly string[] DFA13_transitionS =
 			{
-				"\x1\x2\x14\xFFFF\x1\x1",
-				"\x1\x2\x1\xFFFF\x2\x3\x9\xFFFF\x1\x3\x7\xFFFF\x1\x1",
+				"\x1\x2\x16\xFFFF\x1\x1",
+				"\x1\x2\x1\xFFFF\x2\x3\xA\xFFFF\x1\x3\x8\xFFFF\x1\x1",
 				"",
 				""
 			};
@@ -2839,7 +2988,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			this.transition = DFA13_transition;
 		}
 
-		public override string Description { get { return "()* loopback of 71:11: ( ( NEWLINE )+ a= stmt )*"; } }
+		public override string Description { get { return "()* loopback of 84:11: ( ( NEWLINE )+ a= stmt )*"; } }
 
 		public override void Error(NoViableAltException nvae)
 		{
@@ -2856,15 +3005,15 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		private const string DFA24_minS =
 			"\x2\x5\x2\xFFFF";
 		private const string DFA24_maxS =
-			"\x2\x1A\x2\xFFFF";
+			"\x2\x1C\x2\xFFFF";
 		private const string DFA24_acceptS =
 			"\x2\xFFFF\x1\x2\x1\x1";
 		private const string DFA24_specialS =
 			"\x4\xFFFF}>";
 		private static readonly string[] DFA24_transitionS =
 			{
-				"\x1\x2\x14\xFFFF\x1\x1",
-				"\x1\x2\x1\xFFFF\x2\x3\x9\xFFFF\x1\x3\x7\xFFFF\x1\x1",
+				"\x1\x2\x16\xFFFF\x1\x1",
+				"\x1\x2\x1\xFFFF\x2\x3\xA\xFFFF\x1\x3\x8\xFFFF\x1\x1",
 				"",
 				""
 			};
@@ -2900,7 +3049,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			this.transition = DFA24_transition;
 		}
 
-		public override string Description { get { return "()* loopback of 140:11: ( ( NEWLINE )+ a= stmt )*"; } }
+		public override string Description { get { return "()* loopback of 153:11: ( ( NEWLINE )+ a= stmt )*"; } }
 
 		public override void Error(NoViableAltException nvae)
 		{
@@ -2914,90 +3063,93 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	#region Follow sets
 	private static class Follow
 	{
-		public static readonly BitSet _node_in_root85 = new BitSet(new ulong[]{0x204400002UL});
-		public static readonly BitSet _NEWLINE_in_root90 = new BitSet(new ulong[]{0x204400002UL});
+		public static readonly BitSet _node_in_root85 = new BitSet(new ulong[]{0x811000002UL});
+		public static readonly BitSet _NEWLINE_in_root90 = new BitSet(new ulong[]{0x811000002UL});
 		public static readonly BitSet _func_def_in_node112 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _IDENT_in_type_name136 = new BitSet(new ulong[]{0x404000000002UL});
-		public static readonly BitSet _46_in_type_name141 = new BitSet(new ulong[]{0x200400000UL});
-		public static readonly BitSet _type_name_in_type_name147 = new BitSet(new ulong[]{0x1020000000000UL});
-		public static readonly BitSet _41_in_type_name152 = new BitSet(new ulong[]{0x200400000UL});
-		public static readonly BitSet _type_name_in_type_name156 = new BitSet(new ulong[]{0x1020000000000UL});
-		public static readonly BitSet _48_in_type_name162 = new BitSet(new ulong[]{0x404000000002UL});
-		public static readonly BitSet _38_in_type_name169 = new BitSet(new ulong[]{0x4000000002UL});
-		public static readonly BitSet _Type_Tuple_in_type_name181 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _type_name_in_type_name186 = new BitSet(new ulong[]{0x200400008UL});
-		public static readonly BitSet _type_name_in_func_def217 = new BitSet(new ulong[]{0x400000UL});
-		public static readonly BitSet _IDENT_in_func_def221 = new BitSet(new ulong[]{0x401000000000UL});
-		public static readonly BitSet _46_in_func_def224 = new BitSet(new ulong[]{0x400000UL});
-		public static readonly BitSet _IDENT_in_func_def229 = new BitSet(new ulong[]{0x1000000400000UL});
-		public static readonly BitSet _48_in_func_def235 = new BitSet(new ulong[]{0x1000000000UL});
-		public static readonly BitSet _36_in_func_def239 = new BitSet(new ulong[]{0x400020415A6A00UL});
-		public static readonly BitSet _expr_in_func_def244 = new BitSet(new ulong[]{0x22000000000UL});
-		public static readonly BitSet _41_in_func_def249 = new BitSet(new ulong[]{0x400000415A6A00UL});
-		public static readonly BitSet _expr_in_func_def253 = new BitSet(new ulong[]{0x400000UL});
-		public static readonly BitSet _IDENT_in_func_def257 = new BitSet(new ulong[]{0x22000000000UL});
-		public static readonly BitSet _37_in_func_def263 = new BitSet(new ulong[]{0x800000UL});
-		public static readonly BitSet _stmt_block_in_func_def270 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _INDENT_in_stmt_block294 = new BitSet(new ulong[]{0x4000020UL});
-		public static readonly BitSet _NEWLINE_in_stmt_block297 = new BitSet(new ulong[]{0x4040180UL});
-		public static readonly BitSet _stmt_in_stmt_block302 = new BitSet(new ulong[]{0x4000020UL});
-		public static readonly BitSet _NEWLINE_in_stmt_block308 = new BitSet(new ulong[]{0x4000020UL});
-		public static readonly BitSet _DEDENT_in_stmt_block311 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _stmt_expr_in_stmt332 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _stmt_alloc_in_stmt_expr351 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _stmt_return_in_stmt_expr360 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _alloc_expr_in_stmt_alloc379 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _alloc_expr_auto_in_stmt_alloc388 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _Expr_Return_in_stmt_return406 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _expr_in_stmt_return411 = new BitSet(new ulong[]{0x8UL});
-		public static readonly BitSet _IDENT_in_ident434 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _ident_in_ident_list458 = new BitSet(new ulong[]{0x20000000002UL});
-		public static readonly BitSet _41_in_ident_list464 = new BitSet(new ulong[]{0x400000UL});
-		public static readonly BitSet _ident_in_ident_list468 = new BitSet(new ulong[]{0x80020000000000UL});
-		public static readonly BitSet _55_in_ident_list474 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _Expr_Alloc_in_alloc_expr493 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _type_name_in_alloc_expr497 = new BitSet(new ulong[]{0x400000UL});
-		public static readonly BitSet _ident_in_alloc_expr501 = new BitSet(new ulong[]{0x400000415A6A08UL});
-		public static readonly BitSet _expr_in_alloc_expr506 = new BitSet(new ulong[]{0x8UL});
-		public static readonly BitSet _Expr_Alloc_Auto_in_alloc_expr_auto528 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _ident_in_alloc_expr_auto532 = new BitSet(new ulong[]{0x400000415A6A08UL});
-		public static readonly BitSet _expr_in_alloc_expr_auto537 = new BitSet(new ulong[]{0x8UL});
-		public static readonly BitSet _Expr_New_in_new_expr564 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _IDENT_in_new_expr568 = new BitSet(new ulong[]{0x400000415A6A00UL});
-		public static readonly BitSet _expr_in_new_expr575 = new BitSet(new ulong[]{0x400000415A6A08UL});
-		public static readonly BitSet _INDENT_in_block_expr600 = new BitSet(new ulong[]{0x4000020UL});
-		public static readonly BitSet _NEWLINE_in_block_expr603 = new BitSet(new ulong[]{0x4040180UL});
-		public static readonly BitSet _stmt_in_block_expr608 = new BitSet(new ulong[]{0x4000020UL});
-		public static readonly BitSet _NEWLINE_in_block_expr614 = new BitSet(new ulong[]{0x4000020UL});
-		public static readonly BitSet _DEDENT_in_block_expr617 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _Expr_Tuple_in_expr_tuple642 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _expr_in_expr_tuple647 = new BitSet(new ulong[]{0x400000415A6A08UL});
-		public static readonly BitSet _Expr_Match_Tuple_in_expr_match_tuple674 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _IDENT_in_expr_match_tuple679 = new BitSet(new ulong[]{0x400008UL});
-		public static readonly BitSet _expr_in_expr_list707 = new BitSet(new ulong[]{0x400000415A6A02UL});
-		public static readonly BitSet _Expr_Call_in_call_expr727 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _expr_in_call_expr731 = new BitSet(new ulong[]{0x400000415A6A08UL});
-		public static readonly BitSet _expr_list_in_call_expr735 = new BitSet(new ulong[]{0x8UL});
-		public static readonly BitSet _Expr_Dict_in_dict_expr755 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _expr_in_dict_expr759 = new BitSet(new ulong[]{0x400000415A6A00UL});
-		public static readonly BitSet _expr_in_dict_expr763 = new BitSet(new ulong[]{0x8UL});
-		public static readonly BitSet _expr_tuple_in_expr787 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _call_expr_in_expr797 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _dict_expr_in_expr807 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _Expr_Dot_in_expr816 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _expr_in_expr820 = new BitSet(new ulong[]{0x400000UL});
-		public static readonly BitSet _IDENT_in_expr824 = new BitSet(new ulong[]{0x8UL});
-		public static readonly BitSet _Expr_Bin_in_expr834 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _set_in_expr838 = new BitSet(new ulong[]{0x400000415A6A00UL});
-		public static readonly BitSet _expr_in_expr856 = new BitSet(new ulong[]{0x400000415A6A00UL});
-		public static readonly BitSet _expr_in_expr860 = new BitSet(new ulong[]{0x8UL});
-		public static readonly BitSet _Expr_Suffix_in_expr870 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _set_in_expr874 = new BitSet(new ulong[]{0x400000415A6A00UL});
-		public static readonly BitSet _expr_in_expr884 = new BitSet(new ulong[]{0x8UL});
-		public static readonly BitSet _Expr_Prefix_in_expr894 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _set_in_expr898 = new BitSet(new ulong[]{0x400000415A6A00UL});
-		public static readonly BitSet _expr_in_expr916 = new BitSet(new ulong[]{0x8UL});
-		public static readonly BitSet _set_in_expr927 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _IDENT_in_type_name136 = new BitSet(new ulong[]{0x1010000000002UL});
+		public static readonly BitSet _48_in_type_name144 = new BitSet(new ulong[]{0x801000000UL});
+		public static readonly BitSet _type_name_in_type_name153 = new BitSet(new ulong[]{0x8080000000000UL});
+		public static readonly BitSet _43_in_type_name161 = new BitSet(new ulong[]{0x801000000UL});
+		public static readonly BitSet _type_name_in_type_name165 = new BitSet(new ulong[]{0x8080000000000UL});
+		public static readonly BitSet _51_in_type_name174 = new BitSet(new ulong[]{0x1010000000002UL});
+		public static readonly BitSet _40_in_type_name184 = new BitSet(new ulong[]{0x10000000002UL});
+		public static readonly BitSet _Type_Tuple_in_type_name196 = new BitSet(new ulong[]{0x4UL});
+		public static readonly BitSet _type_name_in_type_name201 = new BitSet(new ulong[]{0x801000008UL});
+		public static readonly BitSet _Func_Args_in_func_args231 = new BitSet(new ulong[]{0x4UL});
+		public static readonly BitSet _stmt_in_func_args236 = new BitSet(new ulong[]{0x80188UL});
+		public static readonly BitSet _type_name_in_func_def263 = new BitSet(new ulong[]{0x1000000UL});
+		public static readonly BitSet _IDENT_in_func_def267 = new BitSet(new ulong[]{0x1004000000000UL});
+		public static readonly BitSet _48_in_func_def270 = new BitSet(new ulong[]{0x1000000UL});
+		public static readonly BitSet _IDENT_in_func_def275 = new BitSet(new ulong[]{0x8000001000000UL});
+		public static readonly BitSet _51_in_func_def281 = new BitSet(new ulong[]{0x4000000000UL});
+		public static readonly BitSet _38_in_func_def285 = new BitSet(new ulong[]{0x8000400000UL});
+		public static readonly BitSet _func_args_in_func_def290 = new BitSet(new ulong[]{0x8000000000UL});
+		public static readonly BitSet _39_in_func_def296 = new BitSet(new ulong[]{0x2000000UL});
+		public static readonly BitSet _stmt_block_in_func_def303 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _INDENT_in_stmt_block327 = new BitSet(new ulong[]{0x10000020UL});
+		public static readonly BitSet _NEWLINE_in_stmt_block330 = new BitSet(new ulong[]{0x10080180UL});
+		public static readonly BitSet _stmt_in_stmt_block335 = new BitSet(new ulong[]{0x10000020UL});
+		public static readonly BitSet _NEWLINE_in_stmt_block341 = new BitSet(new ulong[]{0x10000020UL});
+		public static readonly BitSet _DEDENT_in_stmt_block344 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _stmt_expr_in_stmt365 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _stmt_alloc_in_stmt_expr384 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _stmt_return_in_stmt_expr393 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _alloc_expr_in_stmt_alloc412 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _alloc_expr_auto_in_stmt_alloc421 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _Expr_Return_in_stmt_return439 = new BitSet(new ulong[]{0x4UL});
+		public static readonly BitSet _expr_in_stmt_return444 = new BitSet(new ulong[]{0x8UL});
+		public static readonly BitSet _IDENT_in_ident467 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _ident_in_ident_list491 = new BitSet(new ulong[]{0x80000000002UL});
+		public static readonly BitSet _43_in_ident_list497 = new BitSet(new ulong[]{0x1000000UL});
+		public static readonly BitSet _ident_in_ident_list501 = new BitSet(new ulong[]{0x400080000000000UL});
+		public static readonly BitSet _58_in_ident_list507 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _Expr_Alloc_in_alloc_expr526 = new BitSet(new ulong[]{0x4UL});
+		public static readonly BitSet _type_name_in_alloc_expr530 = new BitSet(new ulong[]{0x1000000UL});
+		public static readonly BitSet _ident_in_alloc_expr534 = new BitSet(new ulong[]{0x20000010534EA08UL});
+		public static readonly BitSet _expr_in_alloc_expr539 = new BitSet(new ulong[]{0x8UL});
+		public static readonly BitSet _Expr_Alloc_Auto_in_alloc_expr_auto561 = new BitSet(new ulong[]{0x4UL});
+		public static readonly BitSet _ident_in_alloc_expr_auto565 = new BitSet(new ulong[]{0x20000010534EA08UL});
+		public static readonly BitSet _expr_in_alloc_expr_auto570 = new BitSet(new ulong[]{0x8UL});
+		public static readonly BitSet _Expr_New_in_new_expr597 = new BitSet(new ulong[]{0x4UL});
+		public static readonly BitSet _IDENT_in_new_expr601 = new BitSet(new ulong[]{0x20000010534EA00UL});
+		public static readonly BitSet _expr_in_new_expr608 = new BitSet(new ulong[]{0x20000010534EA08UL});
+		public static readonly BitSet _INDENT_in_block_expr633 = new BitSet(new ulong[]{0x10000020UL});
+		public static readonly BitSet _NEWLINE_in_block_expr636 = new BitSet(new ulong[]{0x10080180UL});
+		public static readonly BitSet _stmt_in_block_expr641 = new BitSet(new ulong[]{0x10000020UL});
+		public static readonly BitSet _NEWLINE_in_block_expr647 = new BitSet(new ulong[]{0x10000020UL});
+		public static readonly BitSet _DEDENT_in_block_expr650 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _Expr_Tuple_in_expr_tuple675 = new BitSet(new ulong[]{0x4UL});
+		public static readonly BitSet _expr_in_expr_tuple680 = new BitSet(new ulong[]{0x20000010534EA08UL});
+		public static readonly BitSet _Expr_Match_Tuple_in_expr_match_tuple707 = new BitSet(new ulong[]{0x4UL});
+		public static readonly BitSet _IDENT_in_expr_match_tuple712 = new BitSet(new ulong[]{0x1000008UL});
+		public static readonly BitSet _expr_in_expr_list740 = new BitSet(new ulong[]{0x20000010534EA02UL});
+		public static readonly BitSet _Expr_Call_in_call_expr760 = new BitSet(new ulong[]{0x4UL});
+		public static readonly BitSet _expr_in_call_expr764 = new BitSet(new ulong[]{0x20000010534EA08UL});
+		public static readonly BitSet _expr_list_in_call_expr768 = new BitSet(new ulong[]{0x8UL});
+		public static readonly BitSet _Expr_Dict_in_dict_expr788 = new BitSet(new ulong[]{0x4UL});
+		public static readonly BitSet _expr_in_dict_expr792 = new BitSet(new ulong[]{0x20000010534EA00UL});
+		public static readonly BitSet _expr_in_dict_expr796 = new BitSet(new ulong[]{0x8UL});
+		public static readonly BitSet _Expr_Lambda_in_lambda_expr816 = new BitSet(new ulong[]{0x4UL});
+		public static readonly BitSet _func_args_in_lambda_expr820 = new BitSet(new ulong[]{0x20000010534EA00UL});
+		public static readonly BitSet _expr_in_lambda_expr824 = new BitSet(new ulong[]{0x8UL});
+		public static readonly BitSet _expr_tuple_in_expr848 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _call_expr_in_expr858 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _dict_expr_in_expr868 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _lambda_expr_in_expr878 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _Expr_Dot_in_expr887 = new BitSet(new ulong[]{0x4UL});
+		public static readonly BitSet _expr_in_expr891 = new BitSet(new ulong[]{0x1000000UL});
+		public static readonly BitSet _IDENT_in_expr895 = new BitSet(new ulong[]{0x8UL});
+		public static readonly BitSet _Expr_Bin_in_expr905 = new BitSet(new ulong[]{0x4UL});
+		public static readonly BitSet _set_in_expr909 = new BitSet(new ulong[]{0x20000010534EA00UL});
+		public static readonly BitSet _expr_in_expr927 = new BitSet(new ulong[]{0x20000010534EA00UL});
+		public static readonly BitSet _expr_in_expr931 = new BitSet(new ulong[]{0x8UL});
+		public static readonly BitSet _Expr_Suffix_in_expr941 = new BitSet(new ulong[]{0x4UL});
+		public static readonly BitSet _set_in_expr945 = new BitSet(new ulong[]{0x20000010534EA00UL});
+		public static readonly BitSet _expr_in_expr955 = new BitSet(new ulong[]{0x8UL});
+		public static readonly BitSet _Expr_Prefix_in_expr965 = new BitSet(new ulong[]{0x4UL});
+		public static readonly BitSet _set_in_expr969 = new BitSet(new ulong[]{0x20000010534EA00UL});
+		public static readonly BitSet _expr_in_expr987 = new BitSet(new ulong[]{0x8UL});
+		public static readonly BitSet _set_in_expr998 = new BitSet(new ulong[]{0x2UL});
 	}
 	#endregion Follow sets
 }
