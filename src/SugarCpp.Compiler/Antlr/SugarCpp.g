@@ -33,6 +33,11 @@ tokens
    
    Expr_Bin;
    Expr_Suffix;
+   Expr_Prefix;
+
+   Expr_Dot;
+   Expr_Dict;
+   Expr_Call;
 
    Expr_Tuple;
    Expr_Match_Tuple;
@@ -107,11 +112,11 @@ tokens
 	using System.Linq;
 }
 
-@parser :: namespace { SugarCpp.Compiler }
 @lexer  :: namespace { SugarCpp.Compiler }
+@parser :: namespace { SugarCpp.Compiler }
 
 public root
-	: (node NEWLINE*)+ EOF
+	: NEWLINE* (node)+ NEWLINE* EOF
 	;
 
 node
@@ -132,11 +137,11 @@ generic_parameter
 	;
 
 func_args
-	: stmt_alloc (',' stmt_alloc IDENT)*
+	: stmt_alloc (',' stmt_alloc)*
 	;
 
 func_def
-	: func_type_name IDENT ('<' generic_parameter '>')? '(' func_args? ')' ( stmt_block | '=' expr )
+	: func_type_name IDENT ('<' generic_parameter '>')? '(' func_args? ')' stmt_block
     ;
 
 stmt_block
@@ -172,16 +177,31 @@ add_expr
 	;
 
 mul_expr
-	: (a=suffix_expr -> $a) ( '*' b=suffix_expr -> ^(Expr_Bin '*' $mul_expr $b)
-						    | '/' b=suffix_expr -> ^(Expr_Bin '/' $mul_expr $b)
-						    | '%' b=suffix_expr -> ^(Expr_Bin '%' $mul_expr $b)
+	: (a=prefix_expr -> $a) ( '*' b=prefix_expr -> ^(Expr_Bin '*' $mul_expr $b)
+						    | '/' b=prefix_expr -> ^(Expr_Bin '/' $mul_expr $b)
+						    | '%' b=prefix_expr -> ^(Expr_Bin '%' $mul_expr $b)
 						    )*
+	;
+
+prefix_expr
+	: ('++' suffix_expr) -> ^(Expr_Prefix '++' suffix_expr)
+	| ('--' suffix_expr) -> ^(Expr_Prefix '--' suffix_expr)
+	| ('!'  suffix_expr) -> ^(Expr_Prefix '!'  suffix_expr)
+	| ('~'  suffix_expr) -> ^(Expr_Prefix '~'  suffix_expr)
+	| suffix_expr
+	;
+	
+expr_list
+	: expr (','! expr)*
 	;
 
 suffix_expr
 	: (a=atom_expr -> $a) ( '++' -> ^(Expr_Suffix '++' $suffix_expr)
-						  | '--' -> ^(Expr_Suffix '--' $suffix_expr)
-						  )*
+					      | '--' -> ^(Expr_Suffix '--' $suffix_expr)
+						  | '.' IDENT -> ^(Expr_Dot $suffix_expr IDENT)
+						  | '(' expr_list? ')' -> ^(Expr_Call $suffix_expr expr_list?)
+						  | '[' expr ']' -> ^(Expr_Dict $suffix_expr expr)
+					      )*
 	;
 
 atom_expr
@@ -189,7 +209,7 @@ atom_expr
 	| IDENT
 	| STRING
 	| { bool more_than_one = false; }
-	 '(' expr (',' expr { more_than_one = true; Console.WriteLine("More Than One!"); } )* ')'
+	 '(' expr (',' expr { more_than_one = true; } )* ')'
 	 -> { more_than_one }? ^(Expr_Tuple expr+)
 	 -> expr
 	;

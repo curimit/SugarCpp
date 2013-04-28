@@ -128,6 +128,12 @@ namespace SugarCpp.Compiler
         public Expr Expr;
         public string Name;
 
+        public ExprDot(Expr expr, string name)
+        {
+            this.Expr = expr;
+            this.Name = name;
+        }
+
         public override Template Accept(Visitor visitor)
         {
             return visitor.Visit(this);

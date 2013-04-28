@@ -124,34 +124,6 @@ alloc_expr_auto returns [ExprAlloc value]
 	}
 	;
 
-args_list returns [List<Expr> value]
-@init
-{
-	$value = new List<Expr>();
-}
-	: (a=expr { $value.Add(a); })*
-	;
-
-call_expr returns [Expr value]
-	: ^(Expr_Call a=expr b=args_list)
-	{
-		$value = new ExprCall(a, b);
-	}
-	| ^(Expr_Dict a=expr c=expr)
-	{
-		$value = new ExprDict(a, c);
-	}
-	;
-	
-dot_expr returns [ExprDot value]
-	: ^(Expr_Dot a=expr b=IDENT)
-	{
-		$value = new ExprDot();
-		$value.Expr = a;
-		$value.Name = b.Text;
-	}
-	;
-
 new_expr returns [ExprNew value]
 @init
 {
@@ -176,14 +148,33 @@ expr_tuple returns [ExprTuple value]
 	: ^(Expr_Tuple (a=expr { $value.ExprList.Add(a); })+ )
 	;
 
-expr_match_tuple returns [Expr value]
+expr_match_tuple returns [MatchTuple value]
 @init
 {
-	MatchTuple match = new MatchTuple();
+	$value = new MatchTuple();
 }
-	: ^(Expr_Match_Tuple (a=IDENT { match.VarList.Add(a.Text); })*)
+	: ^(Expr_Match_Tuple (a=IDENT { $value.VarList.Add(a.Text); })*)
+	;
+
+expr_list returns [List<Expr> value]
+@init
+{
+	$value = new List<Expr>();
+}
+	: (a=expr { $value.Add(a); })*
+	;
+
+call_expr returns [Expr value]
+	: ^(Expr_Call a=expr b=expr_list)
 	{
-		$value = match;
+		$value = new ExprCall(a, b);
+	}
+	;
+
+dict_expr returns [Expr value]
+	: ^(Expr_Dict a=expr b=expr)
+	{
+		$value = new ExprDict(a, b);
 	}
 	;
 
@@ -192,44 +183,32 @@ expr returns [Expr value]
 	{
 		$value = tuple;
 	}
-	| ^(Expr_Bin '+' a=expr b=expr)
+	| call=call_expr
 	{
-		$value = new ExprBin("+", a, b);
+		$value = call;
 	}
-	| ^(Expr_Bin '-' a=expr b=expr)
+	| dict=dict_expr
 	{
-		$value = new ExprBin("-", a, b);
+		$value = dict;
 	}
-	| ^(Expr_Bin '*' a=expr b=expr)
+	| ^(Expr_Dot a=expr text=IDENT)
 	{
-		$value = new ExprBin("*", a, b);
+		$value = new ExprDot(a, text.Text);
 	}
-	| ^(Expr_Bin '/' a=expr b=expr)
+	| ^(Expr_Bin op=('+' | '-' | '*' | '/') a=expr b=expr)
 	{
-		$value = new ExprBin("/", a, b);
+		$value = new ExprBin(op.Text, a, b);
 	}
-	| ^(Expr_Suffix '++' a=expr)
+	| ^(Expr_Suffix op=('++' | '--') a=expr)
 	{
-		$value = new ExprSuffix("++", a);
+		$value = new ExprSuffix(op.Text, a);
 	}
-	| ^(Expr_Suffix '--' a=expr)
+	| ^(Expr_Prefix op=('++' | '--' | '!' | '~') a=expr)
 	{
-		$value = new ExprSuffix("--", a);
+		$value = new ExprPrefix(op.Text, a);
 	}
-	| INT
+	| text=(INT | DOUBLE | IDENT | STRING)
     {
-        $value = new ExprConst($INT.Text);
+        $value = new ExprConst(text.Text);
     }
-	| DOUBLE
-	{
-		$value = new ExprConst($DOUBLE.Text);
-	}
-	| IDENT
-	{
-		$value = new ExprConst($IDENT.Text);
-	}
-	| STRING
-	{
-		$value = new ExprConst($STRING.Text);
-	}
 	;
