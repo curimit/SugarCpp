@@ -256,10 +256,11 @@ namespace SugarCpp.Compiler
             return template;
         }
 
-        public override Template Visit(ExprDot expr)
+        public override Template Visit(ExprAccess expr)
         {
-            Template template = new Template("(<expr>.<name>)");
+            Template template = new Template("(<expr><op><name>)");
             template.Add("expr", expr.Expr.Accept(this));
+            template.Add("op", expr.Op);
             template.Add("name", expr.Name);
             return template;
         }

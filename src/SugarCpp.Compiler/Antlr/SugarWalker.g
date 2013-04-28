@@ -215,11 +215,18 @@ expr returns [Expr value]
 	{
 		$value = lambda;
 	}
-	| ^(Expr_Dot a=expr text=IDENT)
+	|^(Expr_Cond a=expr b=expr c=expr)
 	{
-		$value = new ExprDot(a, text.Text);
+		$value = new ExprCond(a, b, c);
 	}
-	| ^(Expr_Bin op=('+' | '-' | '*' | '/') a=expr b=expr)
+	| ^(Expr_Access op=('.' | '::' | '->') a=expr text=IDENT)
+	{
+		$value = new ExprAccess(a, op.Text, text.Text);
+	}
+	| ^(Expr_Bin op=( '+' | '-' | '*' | '/'
+	                | '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>='
+					| '<' | '<=' | '>' | '>=' | '==' | '!='
+					) a=expr b=expr)
 	{
 		$value = new ExprBin(op.Text, a, b);
 	}
@@ -227,7 +234,7 @@ expr returns [Expr value]
 	{
 		$value = new ExprSuffix(op.Text, a);
 	}
-	| ^(Expr_Prefix op=('++' | '--' | '!' | '~') a=expr)
+	| ^(Expr_Prefix op=('!' | '~' | '++' | '--' | '-' | '+' | '*' | '&') a=expr)
 	{
 		$value = new ExprPrefix(op.Text, a);
 	}

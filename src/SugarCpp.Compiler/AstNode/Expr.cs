@@ -132,14 +132,16 @@ namespace SugarCpp.Compiler
         }
     }
 
-    public class ExprDot : Expr
+    public class ExprAccess : Expr
     {
         public Expr Expr;
+        public string Op;
         public string Name;
 
-        public ExprDot(Expr expr, string name)
+        public ExprAccess(Expr expr, string op, string name)
         {
             this.Expr = expr;
+            this.Op = op;
             this.Name = name;
         }
 

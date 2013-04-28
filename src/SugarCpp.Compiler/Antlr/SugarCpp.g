@@ -37,7 +37,7 @@ tokens
    Expr_Suffix;
    Expr_Prefix;
 
-   Expr_Dot;
+   Expr_Access;
    Expr_Dict;
    Expr_Call;
 
@@ -128,11 +128,11 @@ node
 	;
 
 type_name
-	: IDENT ('<' type_name (',' type_name)* '>')* ('*')*
+	: IDENT // ('<' type_name (',' type_name)* '>')* ('*')*
 	;
 
 func_type_name
-	: IDENT ('<' func_type_name (',' func_type_name)* '>')* ('*')*
+	: IDENT // ('<' func_type_name (',' func_type_name)* '>')* ('*')*
 	| '(' func_type_name (',' func_type_name) ')' -> ^(Type_Tuple func_type_name+)
 	;
 
@@ -175,8 +175,23 @@ expr
 	;
 
 lambda_expr
-	: '(' func_args ')' '=>' add_expr -> ^(Expr_Lambda func_args add_expr)
-	| add_expr
+	: '(' func_args ')' '=>' modify_expr -> ^(Expr_Lambda func_args modify_expr)
+	| modify_expr
+	;
+
+modify_expr_op: '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=' ;
+modify_expr
+	: (a=cond_expr -> $a) (modify_expr_op b=cond_expr -> ^(Expr_Bin modify_expr_op $modify_expr $b))*
+	;
+
+cond_expr_item: cond_expr ;
+cond_expr
+	: (a=cmp_expr -> $a) ('?' a=cond_expr_item ':' b=cond_expr_item -> ^(Expr_Cond $cond_expr $a $b))?
+	;
+	
+cmp_expr_op: '<' | '<=' | '>' | '>=' | '==' | '!=' ;
+cmp_expr
+	: (a=add_expr -> $a) (cmp_expr_op b=add_expr -> ^(Expr_Bin cmp_expr_op $cmp_expr $b))*
 	;
 
 add_expr
@@ -192,11 +207,9 @@ mul_expr
 						    )*
 	;
 
+prefix_expr_op: '!' | '~' | '++' | '--' | '-' | '+' | '*' | '&' ;
 prefix_expr
-	: ('++' suffix_expr) -> ^(Expr_Prefix '++' suffix_expr)
-	| ('--' suffix_expr) -> ^(Expr_Prefix '--' suffix_expr)
-	| ('!'  suffix_expr) -> ^(Expr_Prefix '!'  suffix_expr)
-	| ('~'  suffix_expr) -> ^(Expr_Prefix '~'  suffix_expr)
+	: (prefix_expr_op prefix_expr) -> ^(Expr_Prefix prefix_expr_op prefix_expr)
 	| suffix_expr
 	;
 	
@@ -207,7 +220,9 @@ expr_list
 suffix_expr
 	: (a=atom_expr -> $a) ( '++' -> ^(Expr_Suffix '++' $suffix_expr)
 					      | '--' -> ^(Expr_Suffix '--' $suffix_expr)
-						  | '.' IDENT -> ^(Expr_Dot $suffix_expr IDENT)
+						  | '.' IDENT -> ^(Expr_Access '.' $suffix_expr IDENT)
+						  | '->' IDENT -> ^(Expr_Access '->' $suffix_expr IDENT)
+						  | '::' IDENT -> ^(Expr_Access '::' $suffix_expr IDENT)
 						  | '(' expr_list? ')' -> ^(Expr_Call $suffix_expr expr_list?)
 						  | '[' expr ']' -> ^(Expr_Dict $suffix_expr expr)
 					      )*

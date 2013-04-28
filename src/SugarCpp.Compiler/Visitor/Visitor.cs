@@ -35,7 +35,7 @@ namespace SugarCpp.Compiler
         public abstract Template Visit(ExprCall expr);
         public abstract Template Visit(ExprNew expr);
         public abstract Template Visit(ExprDict expr);
-        public abstract Template Visit(ExprDot expr);
+        public abstract Template Visit(ExprAccess expr);
         public abstract Template Visit(ExprCond expr);
         public abstract Template Visit(ExprConst expr);
 
