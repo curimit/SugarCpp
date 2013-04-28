@@ -168,22 +168,12 @@ block_expr returns [ExprBlock value]
 	: INDENT (NEWLINE+ a=stmt { $value.StmtList.Add(a); })* NEWLINE* DEDENT
     ; 
 
-expr_tuple returns [Expr value]
+expr_tuple returns [ExprTuple value]
 @init
 {
-	ExprTuple tuple = new ExprTuple();
+	$value = new ExprTuple();
 }
-	: '(' (a=expr { tuple.ExprList.Add(a); })+ ')'
-	{
-		if (tuple.ExprList.Count() == 1)
-		{
-			$value = tuple.ExprList.First();
-		}
-		else
-		{
-			$value = tuple;
-		}
-	}
+	: ^(Expr_Tuple (a=expr { $value.ExprList.Add(a); })+ )
 	;
 
 expr_match_tuple returns [Expr value]

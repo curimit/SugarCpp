@@ -188,7 +188,10 @@ atom_expr
 	: INT
 	| IDENT
 	| STRING
-	| '('! expr ')'!
+	| { bool more_than_one = false; }
+	 '(' expr (',' expr { more_than_one = true; Console.WriteLine("More Than One!"); } )* ')'
+	 -> { more_than_one }? ^(Expr_Tuple expr+)
+	 -> expr
 	;
 
 lvalue
