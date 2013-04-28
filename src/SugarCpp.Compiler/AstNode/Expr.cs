@@ -61,6 +61,23 @@ namespace SugarCpp.Compiler
         }
     }
 
+    public class ExprSuffix : Expr
+    {
+        public Expr Expr;
+        public string Op;
+
+        public ExprSuffix(string op, Expr expr)
+        {
+            this.Expr = expr;
+            this.Op = op;
+        }
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
     public class ExprDict : Expr
     {
         public Expr Expr;

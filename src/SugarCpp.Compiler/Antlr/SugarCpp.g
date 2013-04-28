@@ -5,7 +5,6 @@ options
     output=AST;  
     ASTLabelType=CommonTree;  
     language=CSharp3;   
-	backtrack=true;
 }
 
 tokens
@@ -19,7 +18,6 @@ tokens
    Func_Def;
 
    Stmt_If;
-   Stmt_For;
    Stmt_While;
 
    Type_Tuple;
@@ -32,6 +30,9 @@ tokens
    Expr_New;
    Expr_Bin;
    Expr_Return;
+   
+   Expr_Bin;
+   Expr_Suffix;
 
    Expr_Tuple;
    Expr_Match_Tuple;
@@ -114,28 +115,8 @@ public root
 	;
 
 node
-	: imports
-	| func_def
-	//| struct
-	| enum
-	;
-
-imports
-	: 'import' STRING? (INDENT (NEWLINE+ STRING)+ NEWLINE* DEDENT)? 
-	;
-
-enum
-	: 'enum' IDENT '=' IDENT ('|' IDENT)*
-	;
-
-/*struct
-	: 'struct' IDENT (INDENT (NEWLINE+ struct_stmt)+ DEDENT)
-	;
-
-struct_stmt
 	: func_def
-	| type_name IDENT ('=' expr)? -> ^(Expr_Alloc type_name IDENT expr?)
-	;*/
+	;
 
 type_name
 	: IDENT ('<' type_name (',' type_name)* '>')* ('*')*
@@ -163,113 +144,56 @@ stmt_block
 	;
 
 stmt
-	: stmt_if
-	| stmt_while
-	| stmt_for
-	| expr
+	: stmt_expr
+	;
+
+stmt_expr
+	: stmt_alloc
+	| stmt_return
+	;
+
+stmt_return
+	: 'return' expr? -> ^(Expr_Return expr?)
 	;
 
 stmt_alloc
-	: type_name IDENT ('=' atom_expr)? -> ^(Expr_Alloc type_name IDENT atom_expr?)
-	| '|' IDENT '|' ('=' atom_expr)? -> ^(Expr_Alloc_Auto IDENT atom_expr?)
-	;
-
-stmt_if
-	: 'if' '(' expr ')' stmt_block (NEWLINE* 'else' stmt_block)?
-	;
-	
-stmt_while
-	: 'while' '(' expr ')' stmt_block
-	;
-
-stmt_for
-	: 'for' '(' expr (';' expr ';' expr | 'to' expr ('by' expr)?) ')' stmt_block
+	: type_name IDENT ('=' expr)? -> ^(Expr_Alloc type_name IDENT expr?)
+	| '|' IDENT '|' ('=' expr)? -> ^(Expr_Alloc_Auto IDENT expr?)
 	;
 
 expr
-	: return_expr
-	;
-
-return_expr
-	: 'return' expr -> ^(Expr_Return expr?)
-	| alloc_expr
-	;
-
-ident_list
-	: IDENT ((',' IDENT)+ ';')?
-	;
-
-alloc_expr
-	: /*type_name IDENT ('=' expr)? -> ^(Expr_Alloc type_name IDENT expr?)
-	| */'|' IDENT '|' ('=' atom_expr)? -> ^(Expr_Alloc_Auto IDENT atom_expr?)
-	| assign_expr
-	;
-
-assign_expr
-	: (lvalue '='^)? cond_expr
-	;
-
-Expr_Cond: '?' ;
-cond_expr
-	: logic_expr (Expr_Cond^ logic_expr ':'! logic_expr)?
-	;
-
-logic_expr
-	: add_expr (('==' | '!=' | '>' | '<' | '>=' | '<=')^ add_expr)*
+	: add_expr
 	;
 
 add_expr
-	: mul_expr (('+' | '-')^ mul_expr)*
+	: (a=mul_expr -> $a) ( '+' b=mul_expr -> ^(Expr_Bin '+' $add_expr $b)
+						 | '-' b=mul_expr -> ^(Expr_Bin '-' $add_expr $b)
+						 )*
 	;
 
 mul_expr
-	: new_expr (('*' | '/' | '%')^ new_expr)*
+	: (a=suffix_expr -> $a) ( '*' b=suffix_expr -> ^(Expr_Bin '*' $mul_expr $b)
+						    | '/' b=suffix_expr -> ^(Expr_Bin '/' $mul_expr $b)
+						    | '%' b=suffix_expr -> ^(Expr_Bin '%' $mul_expr $b)
+						    )*
 	;
 
-new_expr
-	: 'new' IDENT ('[' expr ']')+ -> ^(Expr_New IDENT expr+)
-	| prefix_expr
-	;
-
-prefix_expr
-	: (('&' | '!' | '++' | '--' | '-')^)* call_expr
-	;
-	
-Expr_Call: '(' ;
-Expr_Dict: '[' ;
-
-args_list
-	: expr? (',' expr)* -> expr*
-	;
-
-call_expr
-	: dot_expr (Expr_Call^ args_list ')'!
-			   |Expr_Dict^ expr ']'!)*
-	;
-
-Expr_Dot
-	: '.'
-	;
-
-dot_expr
-	: atom_expr (Expr_Dot^ IDENT)*
+suffix_expr
+	: (a=atom_expr -> $a) ( '++' -> ^(Expr_Suffix '++' $suffix_expr)
+						  | '--' -> ^(Expr_Suffix '--' $suffix_expr)
+						  )*
 	;
 
 atom_expr
 	: INT
 	| IDENT
 	| STRING
-	| '(' expr (','! expr)* ')'
-	| block_expr
+	| '('! expr ')'!
 	;
 
 lvalue
 	: IDENT
-	| '(' IDENT (',' IDENT)+ ')' -> ^(Expr_Match_Tuple IDENT*)
-	;
-
-block_expr
-	: INDENT (NEWLINE+ stmt)* DEDENT
+	//| '(' IDENT (',' IDENT)+ ')' -> ^(Expr_Match_Tuple IDENT*)
 	;
 
 // Lexer Rules
