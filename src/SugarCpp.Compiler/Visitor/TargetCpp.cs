@@ -285,7 +285,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(ExprNew expr)
         {
-            Template template = new Template("(new <elem><op_left><args; separator=\", \"><op_right>)");
+            Template template = new Template("shared_ptr\\<<elem>>(new <elem><op_left><args; separator=\", \"><op_right>)");
             template.Add("elem", expr.ElemType);
             template.Add("op_left", expr.Op[0]);
             template.Add("op_right", expr.Op[1]);

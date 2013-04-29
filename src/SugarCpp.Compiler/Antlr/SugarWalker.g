@@ -90,7 +90,7 @@ type_name returns [string value]
 			$value+=b;
 		})*
 		'>' { $value+=">"; })?
-	  ('*' { $value+="*"; })*
+	  ('*' { $value="shared_ptr<"+$value+">"; })*
 	  ('&' { $value+="&"; })?
 	  )
 	;
