@@ -87,5 +87,9 @@ namespace SugarCpp::AstNode::Expr
     struct ExprBin
         Left, Right : Expr
         Op : string
+```
 
+#### Typedef
+```c++
+type uint = unsigned int
 ```
