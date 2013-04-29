@@ -28,11 +28,11 @@ namespace SugarCpp.Compiler
 
     public class ExprAlloc : Expr
     {
-        public List<string> Name = new List<string>();
+        public List<Expr> Name = new List<Expr>();
         public string Type;
         public Expr Expr;
 
-        public ExprAlloc(string type, List<string> name, Expr expr)
+        public ExprAlloc(string type, List<Expr> name, Expr expr)
         {
             this.Type = type;
             this.Name = name;

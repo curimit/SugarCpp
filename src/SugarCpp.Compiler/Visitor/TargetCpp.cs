@@ -201,7 +201,7 @@ namespace SugarCpp.Compiler
             {
                 Template template = new Template("<type> <name; separator=\", \"> = <expr>");
                 template.Add("type", expr.Type);
-                template.Add("name", expr.Name);
+                template.Add("name", expr.Name.Select(x => x.Accept(this)));
                 template.Add("expr", expr.Expr.Accept(this));
                 return template;
             }
@@ -209,7 +209,7 @@ namespace SugarCpp.Compiler
             {
                 Template template = new Template("<type> <name; separator=\", \">");
                 template.Add("type", expr.Type);
-                template.Add("name", expr.Name);
+                template.Add("name", expr.Name.Select(x => x.Accept(this)));
                 return template;
             }
         }

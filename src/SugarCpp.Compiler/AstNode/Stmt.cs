@@ -16,6 +16,13 @@ namespace SugarCpp.Compiler
         public StmtBlock Body;
         public StmtBlock Else;
 
+        public StmtIf(Expr condition, StmtBlock body_block, StmtBlock else_block)
+        {
+            this.Condition = condition;
+            this.Body = body_block;
+            this.Else = else_block;
+        }
+
         public override Template Accept(Visitor visitor)
         {
             return visitor.Visit(this);
@@ -26,6 +33,12 @@ namespace SugarCpp.Compiler
     {
         public Expr Condition;
         public StmtBlock Body;
+
+        public StmtWhile(Expr condition, StmtBlock body)
+        {
+            this.Condition = condition;
+            this.Body = body;
+        }
 
         public override Template Accept(Visitor visitor)
         {
@@ -39,6 +52,14 @@ namespace SugarCpp.Compiler
         public Expr Condition;
         public Expr Next;
         public StmtBlock Body;
+
+        public StmtFor(Expr start, Expr condition, Expr next, StmtBlock body)
+        {
+            this.Start = start;
+            this.Condition = condition;
+            this.Next = next;
+            this.Body = body;
+        }
 
         public override Template Accept(Visitor visitor)
         {

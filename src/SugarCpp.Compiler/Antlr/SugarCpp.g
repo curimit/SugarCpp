@@ -28,6 +28,7 @@ tokens
 
    Stmt_If;
    Stmt_While;
+   Stmt_For;
 
    Type_IDENT;
    Type_Ref;
@@ -199,6 +200,9 @@ stmt_expr
 	| stmt_return
 	| stmt_using
 	| stmt_typedef
+	| stmt_if
+	| stmt_while
+	| stmt_for
 	| expr
 	;
 
@@ -213,6 +217,18 @@ stmt_using
 
 stmt_return
 	: 'return' expr? -> ^(Expr_Return expr?)
+	;
+
+stmt_if
+	: 'if' '(' expr ')' stmt_block ('else' stmt_block)? -> ^(Stmt_If expr stmt_block stmt_block?)
+	;
+
+stmt_while
+	: 'while' '(' expr ')' stmt_block -> ^(Stmt_While expr stmt_block)
+	;
+
+stmt_for
+	: 'for' '(' expr ';' expr ';' expr ')' stmt_block -> ^(Stmt_For expr expr expr stmt_block)
 	;
 
 ident_list
@@ -350,7 +366,7 @@ IDENT: ('a'..'z' | 'A'..'Z' | '_')+ ('0'..'9')* ('::' ('a'..'z' | 'A'..'Z' | '_'
 
 INT: '0'..'9'+ ;
 
-Infix_Func: '`' IDENT '`';
+Infix_Func: '`' ('a'..'z' | 'A'..'Z' | '_')+ ('0'..'9')* ('::' ('a'..'z' | 'A'..'Z' | '_')+ ('0'..'9')*)* '`';
 
 STRING
 	: '"' (~'"')* '"'

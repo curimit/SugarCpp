@@ -133,6 +133,9 @@ stmt_expr returns [Stmt value]
 	: a=stmt_alloc { $value = a; }
 	| a=stmt_return { $value = a; }
 	| a=stmt_typedef { $value = a; }
+	| a=stmt_if { $value = a; }
+	| a=stmt_while { $value = a; }
+	| a=stmt_for { $value = a; }
 	| b=expr { $value = b; }
 	| c=stmt_using { $value = c; }
 	;
@@ -156,6 +159,27 @@ stmt_alloc returns [Stmt value]
 	: a=alloc_expr { $value = a; }
 	;
 
+stmt_if returns [Stmt value]
+	: ^(Stmt_If a=expr b=stmt_block (c=stmt_block)?)
+	{
+		$value = new StmtIf(a, b, c);
+	}
+	;
+
+stmt_while returns [Stmt value]
+	: ^(Stmt_While a=expr b=stmt_block)
+	{
+		$value = new StmtWhile(a, b);
+	}
+	;
+
+stmt_for returns [Stmt value]
+	: ^(Stmt_For a=expr b=expr c=expr d=stmt_block)
+	{
+		$value = new StmtFor(a, b, c, d);
+	}
+	;
+
 stmt_return returns [Stmt value]
 	: ^(Expr_Return (a=expr)?)
 	{
@@ -167,12 +191,12 @@ ident returns [string value]
 	: a=IDENT { $value = a.Text; }
 	;
 
-ident_list returns [List<string> value]
+ident_list returns [List<Expr> value]
 @init
 {
-	$value = new List<string>();
+	$value = new List<Expr>();
 }
-	: ^(Ident_List (a=ident { $value.Add(a); })+)
+	: ^(Ident_List (a=ident { $value.Add(new ExprConst(a)); })+)
 	;
 	
 alloc_expr returns [ExprAlloc value]
@@ -316,9 +340,9 @@ expr returns [Expr value]
 	{
 		$value = new ExprBin(op.Text, a, b);
 	}
-	| ^(':=' text=IDENT b=expr)
+	| ^(':=' a=expr b=expr)
 	{
-		$value = new ExprAlloc("auto", new List<string> { text.Text }, b);
+		$value = new ExprAlloc("auto", new List<Expr> { a }, b);
 	}
 	| ^(Expr_Suffix op=('++' | '--') a=expr)
 	{
