@@ -63,6 +63,13 @@ namespace SugarCpp.Compiler
             return template;
         }
 
+        public override Template Visit(Using using_def)
+        {
+            Template template = new Template("using <list; separator=\" \">;");
+            template.Add("list", using_def.List);
+            return template;
+        }
+
         public override Template Visit(Struct struct_def)
         {
             Template template = new Template("struct <name> {\n    <list; separator=\"\n\">\n};");
@@ -75,6 +82,33 @@ namespace SugarCpp.Compiler
                 list.Add(member);
             }
             template.Add("list", list);
+            return template;
+        }
+
+        public override Template Visit(Namespace namespace_def)
+        {
+            Template template = new Template("namespace <name> {\n    <list; separator=\"\n\">\n}");
+            string name = namespace_def.Name;
+            if (name.IndexOf("::") != -1)
+            {
+                int k = name.IndexOf("::");
+                string prefix = name.Substring(0, k);
+                string suffix = name.Substring(k + 2, name.Length - k - 2);
+                template.Add("name", prefix);
+                template.Add("list", Visit(new Namespace(suffix, namespace_def.List)));
+            }
+            else
+            {
+                template.Add("name", namespace_def.Name);
+                List<Template> list = new List<Template>();
+                foreach (var node in namespace_def.List)
+                {
+                    Template member = new Template("<expr>;");
+                    member.Add("expr", node.Accept(this));
+                    list.Add(member);
+                }
+                template.Add("list", list);
+            }
             return template;
         }
 

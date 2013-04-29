@@ -21,15 +21,58 @@ options
 @namespace { SugarCpp.Compiler }
 
 public root returns [Root value]
+	: a=overall_block NEWLINE*
+	{
+		$value = new Root(a);
+	}
+	;
+
+overall_block returns [List<AstNode> value]
 @init
 {
-	$value = new Root();
+	$value = new List<AstNode>();
 }
-	: (a = node  { $value.List.Add(a); } NEWLINE*)+
+	: (NEWLINE* a=node { $value.Add(a); } )+
 	;
 
 node returns [AstNode value]
 	: a = func_def { $value = a; }
+	| b = import_def { $value = b; }
+	| c = enum_def { $value = c; }
+	| d = struct_def { $value = d; }
+	| e = stmt_alloc { $value = e; }
+	| f = namespace_def { $value = f; }
+	| g = stmt_using { $value = g; }
+	;
+
+namespace_def returns [Namespace value]
+	: ^(Namespace a=IDENT b=overall_block)
+	{
+		$value = new Namespace(a.Text, b);
+	}
+	;
+
+import_def returns [Import value]
+@init
+{
+	$value = new Import();
+}
+	: ^(Import (a=STRING { $value.NameList.Add(a.Text); })*)
+	;
+
+enum_def returns [Enum value]
+@init
+{
+	$value = new Enum();
+}
+	: ^(Enum a=IDENT { $value.Name=a.Text; } (a=IDENT { $value.Values.Add(a.Text); })*)
+	;
+
+struct_def returns [Struct value]
+	: ^(Struct a=IDENT b=overall_block)
+	{
+		$value = new Struct(a.Text, b);
+	}
 	;
 
 type_name returns [string value]
@@ -45,22 +88,10 @@ type_name returns [string value]
 			isFirst = false;
 			$value+=b;
 		})*
-		'>' { $value+=">"; })?)
-	| {bool isFirst = true; $value += "std::tuple<";}
-	  ^(Type_Tuple
-	   (b=type_name
-		{
-			if (!isFirst) $value += ",";
-			isFirst = false;
-			$value += b;
-		})+)
-		{
-			$value += ">";
-		}
-	| ^(Type_Ref b=type_name)
-	{
-		$value = b + "&";
-	}
+		'>' { $value+=">"; })?
+	  ('*' { $value+="*"; })*
+	  ('&' { $value+="&"; })?
+	  )
 	;
 
 func_args returns [List<Stmt> value]
@@ -90,7 +121,7 @@ stmt_block returns [StmtBlock value]
 {
 	$value = new StmtBlock();
 }
-	: INDENT (NEWLINE+ a=stmt { $value.StmtList.Add(a); })* NEWLINE* DEDENT
+	: ^(Stmt_Block (a=stmt { $value.StmtList.Add(a); })*)
     ; 
 
 stmt returns [Stmt value]
@@ -101,6 +132,15 @@ stmt_expr returns [Stmt value]
 	: a=stmt_alloc { $value = a; }
 	| a=stmt_return { $value = a; }
 	| b=expr { $value = b; }
+	| c=stmt_using { $value = c; }
+	;
+
+stmt_using returns [Using value]
+@init
+{
+	$value = new Using();
+}
+	: ^(Stmt_Using (a=(IDENT | 'namespace') { $value.List.Add(a.Text); })*)
 	;
 
 stmt_alloc returns [Stmt value]

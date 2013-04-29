@@ -11,6 +11,15 @@ namespace SugarCpp.Compiler
         public List<AstNode> List = new List<AstNode>();
         public string Name;
 
+        public Struct(string name, List<AstNode> list)
+        {
+            this.Name = name;
+            if (list != null)
+            {
+                this.List = list;
+            }
+        }
+
         public override Template Accept(Visitor visitor)
         {
             return visitor.Visit(this);

@@ -10,6 +10,14 @@ namespace SugarCpp.Compiler
     {
         public List<AstNode> List = new List<AstNode>();
 
+        public Root(List<AstNode> list)
+        {
+            if (list != null)
+            {
+                this.List = list;
+            }
+        }
+
         public override Template Accept(Visitor visitor)
         {
             return visitor.Visit(this);

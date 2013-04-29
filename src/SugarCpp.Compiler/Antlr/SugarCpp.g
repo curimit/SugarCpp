@@ -14,8 +14,16 @@ tokens
    
    Root;
    Block;
+   Import;
+   Enum;
+   Struct;
+   Namespace;
 
    Func_Def;
+   
+   Stmt_Block;
+
+   Stmt_Using;
 
    Stmt_If;
    Stmt_While;
@@ -127,17 +135,41 @@ tokens
 @parser :: namespace { SugarCpp.Compiler }
 
 public root
-	: NEWLINE* (node)+ NEWLINE* EOF
+	: overall_block  NEWLINE* EOF
+	;
+
+overall_block
+	: (NEWLINE* node)+
 	;
 
 node
 	: func_def
+	| import_def
+	| enum_def
+	| struct_def
+	| namespace_def
+	| stmt_alloc
+	| stmt_using
+	;
+
+import_def
+	: 'import' STRING? (INDENT (NEWLINE+ STRING)* NEWLINE* DEDENT)? -> ^(Import STRING*)
+	;
+
+enum_def
+	: 'enum' IDENT '=' IDENT ('|' IDENT)* -> ^(Enum IDENT+)
+	;
+
+namespace_def
+	: 'namespace' IDENT INDENT overall_block NEWLINE* DEDENT -> ^(Namespace IDENT overall_block)
+	;
+
+struct_def
+	: 'struct' IDENT INDENT overall_block NEWLINE* DEDENT -> ^(Struct IDENT overall_block)
 	;
 
 type_name
-	: IDENT ('<' (type_name (',' type_name)*)? '>')? -> ^(Type_IDENT IDENT ('<' type_name* '>')?)
-	| 'ref' '<' type_name '>' -> ^(Type_Ref type_name)
-	| 'tuple' '<' type_name (',' type_name)* '>' -> ^(Type_Tuple type_name+)
+	: IDENT ('<' (type_name (',' type_name)*)? '>')? '*'* '&'? -> ^(Type_IDENT IDENT ('<' type_name* '>')?  '*'* '&'?)
 	;
 
 generic_parameter
@@ -153,7 +185,7 @@ func_def
     ;
 
 stmt_block
-	: INDENT (NEWLINE+ stmt)* NEWLINE* DEDENT
+	: INDENT (NEWLINE+ stmt)* NEWLINE* DEDENT -> ^(Stmt_Block stmt*)
 	;
 
 stmt
@@ -163,7 +195,13 @@ stmt
 stmt_expr
 	: stmt_alloc
 	| stmt_return
-	| stmt_modify
+	| stmt_using
+	| expr
+	;
+
+stmt_using_item: IDENT | 'namespace';
+stmt_using
+	: 'using' stmt_using_item* -> ^(Stmt_Using stmt_using_item*)
 	;
 
 stmt_return
@@ -301,11 +339,11 @@ lvalue
 
 // Lexer Rules
 
-IDENT: ('a'..'z' | 'A'..'Z' | '_')+ ('0'..'9')*;
+IDENT: ('a'..'z' | 'A'..'Z' | '_')+ ('0'..'9')* ('::' ('a'..'z' | 'A'..'Z' | '_')+ ('0'..'9')*)*;
 
 INT: '0'..'9'+ ;
 
-Infix_Func: '`' ('a'..'z' | 'A'..'Z' | '_')+ ('0'..'9')* '`';
+Infix_Func: '`' IDENT '`';
 
 STRING
 	: '"' (~'"')* '"'

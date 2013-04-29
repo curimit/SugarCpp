@@ -45,4 +45,14 @@ namespace SugarCpp.Compiler
             return visitor.Visit(this);
         }
     }
+
+    public class Using : Stmt
+    {
+        public List<string> List = new List<string>();
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
 }
