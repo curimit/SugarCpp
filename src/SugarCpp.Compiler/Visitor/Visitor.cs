@@ -14,7 +14,6 @@ namespace SugarCpp.Compiler
 
         public abstract Template Visit(Struct struct_def);
         public abstract Template Visit(Namespace namespace_def);
-        public abstract Template Visit(Using using_def);
         public abstract Template Visit(Enum enum_def);
 
         public abstract Template Visit(FuncDef func_def);
@@ -23,6 +22,8 @@ namespace SugarCpp.Compiler
         public abstract Template Visit(StmtIf stmt_if);
         public abstract Template Visit(StmtWhile stmt_while);
         public abstract Template Visit(StmtFor stmt_for);
+        public abstract Template Visit(StmtTypeDef stmt_typedef);
+        public abstract Template Visit(StmtUsing stmt_using);
 
         public abstract Template Visit(MatchTuple match);
 

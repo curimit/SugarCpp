@@ -24,6 +24,7 @@ tokens
    Stmt_Block;
 
    Stmt_Using;
+   Stmt_Typedef;
 
    Stmt_If;
    Stmt_While;
@@ -150,6 +151,7 @@ node
 	| namespace_def
 	| stmt_alloc
 	| stmt_using
+	| stmt_typedef
 	;
 
 import_def
@@ -196,7 +198,12 @@ stmt_expr
 	: stmt_alloc
 	| stmt_return
 	| stmt_using
+	| stmt_typedef
 	| expr
+	;
+
+stmt_typedef
+	: 'typedef' IDENT '=' type_name -> ^(Stmt_Typedef type_name IDENT)
 	;
 
 stmt_using_item: IDENT | 'namespace';

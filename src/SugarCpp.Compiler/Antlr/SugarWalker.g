@@ -43,6 +43,7 @@ node returns [AstNode value]
 	| e = stmt_alloc { $value = e; }
 	| f = namespace_def { $value = f; }
 	| g = stmt_using { $value = g; }
+	| h = stmt_typedef { $value = h; }
 	;
 
 namespace_def returns [Namespace value]
@@ -131,16 +132,24 @@ stmt returns [Stmt value]
 stmt_expr returns [Stmt value]
 	: a=stmt_alloc { $value = a; }
 	| a=stmt_return { $value = a; }
+	| a=stmt_typedef { $value = a; }
 	| b=expr { $value = b; }
 	| c=stmt_using { $value = c; }
 	;
 
-stmt_using returns [Using value]
+stmt_using returns [StmtUsing value]
 @init
 {
-	$value = new Using();
+	$value = new StmtUsing();
 }
 	: ^(Stmt_Using (a=(IDENT | 'namespace') { $value.List.Add(a.Text); })*)
+	;
+
+stmt_typedef returns [Stmt value]
+	: ^(Stmt_Typedef a=type_name b=IDENT)
+	{
+		$value = new StmtTypeDef(a, b.Text);
+	}
 	;
 
 stmt_alloc returns [Stmt value]

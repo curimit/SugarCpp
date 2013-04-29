@@ -63,10 +63,18 @@ namespace SugarCpp.Compiler
             return template;
         }
 
-        public override Template Visit(Using using_def)
+        public override Template Visit(StmtUsing stmt_using)
         {
             Template template = new Template("using <list; separator=\" \">;");
-            template.Add("list", using_def.List);
+            template.Add("list", stmt_using.List);
+            return template;
+        }
+
+        public override Template Visit(StmtTypeDef stmt_typedef)
+        {
+            Template template = new Template("typedef <type> <name>;");
+            template.Add("type", stmt_typedef.Type);
+            template.Add("name", stmt_typedef.Name);
             return template;
         }
 
