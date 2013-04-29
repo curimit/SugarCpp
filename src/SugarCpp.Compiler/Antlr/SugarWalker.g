@@ -352,7 +352,7 @@ expr returns [Expr value]
 	{
 		$value = new ExprPrefix(op.Text, a);
 	}
-	| text=(INT | DOUBLE | IDENT | STRING)
+	| text=(NUMBER | DOUBLE | IDENT | STRING)
     {
         $value = new ExprConst(text.Text);
     }

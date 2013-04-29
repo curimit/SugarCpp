@@ -4,7 +4,7 @@ options
 {
     output=AST;  
     ASTLabelType=CommonTree;  
-    language=CSharp3;   
+    language=CSharp3;
 }
 
 tokens
@@ -203,7 +203,7 @@ stmt_expr
 	| stmt_if
 	| stmt_while
 	| stmt_for
-	| expr
+	| stmt_modify
 	;
 
 stmt_typedef
@@ -240,7 +240,7 @@ stmt_alloc
 	;
 
 stmt_modify
-	: (a=lvalue b=modify_expr_op^)+ cond_expr
+	: lvalue (modify_expr_op^ cond_expr)?
 	;
 
 expr
@@ -254,7 +254,7 @@ lambda_expr
 
 modify_expr_op: ':=' | '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=' ;
 modify_expr
-	: (a=lvalue b=modify_expr_op^)* cond_expr
+	: cond_expr (modify_expr_op^ modify_expr)?
 	;
 
 cond_expr_item: cond_expr ;
@@ -346,25 +346,40 @@ suffix_expr
 	;
 
 atom_expr
-	: INT
+@init
+{
+	bool more_than_one = false;
+}
+	: NUMBER
 	| IDENT
 	| STRING
-	| { bool more_than_one = false; }
-	 '(' expr (',' expr { more_than_one = true; } )* ')'
+	| '(' expr (',' expr { more_than_one = true; } )* ')'
 	 -> { more_than_one }? ^(Expr_Tuple expr+)
 	 -> expr
 	;
 
 lvalue
-	: IDENT
-	| '(' (IDENT (',' IDENT)*)? ')' -> ^(Match_Tuple IDENT*)
+	: //(a=or_expr -> $a) ('if' a=cond_expr_item 'else' b=cond_expr_item -> ^(Expr_Cond $a $lvalue $b))?
+	  (a=lvalue_atom -> $a) ( '++' -> ^(Expr_Suffix '++' $lvalue)
+					        | '--' -> ^(Expr_Suffix '--' $lvalue)
+						    | '.' IDENT -> ^(Expr_Access '.' $lvalue IDENT)
+						    | '->' IDENT -> ^(Expr_Access '->' $lvalue IDENT)
+						    | '::' IDENT -> ^(Expr_Access '::' $lvalue IDENT)
+						    | '(' expr_list? ')' -> ^(Expr_Call $lvalue expr_list?)
+						    | '[' expr ']' -> ^(Expr_Dict $lvalue expr)
+					        )*
+	;
+
+lvalue_atom
+	: '(' (IDENT (',' IDENT)*)? ')' -> ^(Match_Tuple IDENT*)
+	| IDENT
 	;
 
 // Lexer Rules
 
 IDENT: ('a'..'z' | 'A'..'Z' | '_')+ ('0'..'9')* ('::' ('a'..'z' | 'A'..'Z' | '_')+ ('0'..'9')*)*;
 
-INT: '0'..'9'+ ;
+NUMBER: '0'..'9'+ ('.' '0'..'9'+)? ('ll' | 'f')?;
 
 Infix_Func: '`' ('a'..'z' | 'A'..'Z' | '_')+ ('0'..'9')* ('::' ('a'..'z' | 'A'..'Z' | '_')+ ('0'..'9')*)* '`';
 

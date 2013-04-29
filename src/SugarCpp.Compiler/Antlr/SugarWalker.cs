@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// $ANTLR 3.4 SugarWalker.g 2013-04-29 17:17:39
+// $ANTLR 3.4 SugarWalker.g 2013-04-29 21:13:50
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219
@@ -38,7 +38,7 @@ namespace  SugarCpp.Compiler
 public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 {
 	internal static readonly string[] tokenNames = new string[] {
-		"<invalid>", "<EOR>", "<DOWN>", "<UP>", "Block", "DEDENT", "EXPONENT", "Enum", "Expr_Access", "Expr_Alloc", "Expr_Bin", "Expr_Block", "Expr_Call", "Expr_Call_With", "Expr_Cond", "Expr_Dict", "Expr_Infix", "Expr_Lambda", "Expr_New_Array", "Expr_New_Type", "Expr_Prefix", "Expr_Return", "Expr_Suffix", "Expr_Tuple", "Func_Args", "Func_Def", "IDENT", "INDENT", "INT", "Ident_List", "Import", "Infix_Func", "Left_Bracket", "Match_Tuple", "NEWLINE", "Namespace", "Right_Bracket", "Root", "SP", "STRING", "Stmt_Block", "Stmt_For", "Stmt_If", "Stmt_Typedef", "Stmt_Using", "Stmt_While", "Struct", "Type_IDENT", "Type_Ref", "Type_Tuple", "'!'", "'!='", "'%'", "'%='", "'&&'", "'&'", "'&='", "'('", "')'", "'*'", "'*='", "'+'", "'++'", "'+='", "','", "'-'", "'--'", "'-='", "'->'", "'->*'", "'.'", "'.*'", "'/'", "'/='", "':'", "'::'", "':='", "';'", "'<'", "'<<'", "'<<='", "'<='", "'='", "'=='", "'=>'", "'>'", "'>='", "'>>'", "'>>='", "'['", "']'", "'^'", "'^='", "'else'", "'enum'", "'for'", "'if'", "'import'", "'namespace'", "'new'", "'return'", "'struct'", "'typedef'", "'using'", "'while'", "'|'", "'|='", "'||'", "'~'", "DOUBLE"
+		"<invalid>", "<EOR>", "<DOWN>", "<UP>", "Block", "DEDENT", "EXPONENT", "Enum", "Expr_Access", "Expr_Alloc", "Expr_Bin", "Expr_Block", "Expr_Call", "Expr_Call_With", "Expr_Cond", "Expr_Dict", "Expr_Infix", "Expr_Lambda", "Expr_New_Array", "Expr_New_Type", "Expr_Prefix", "Expr_Return", "Expr_Suffix", "Expr_Tuple", "Func_Args", "Func_Def", "IDENT", "INDENT", "Ident_List", "Import", "Infix_Func", "Left_Bracket", "Match_Tuple", "NEWLINE", "NUMBER", "Namespace", "Right_Bracket", "Root", "SP", "STRING", "Stmt_Block", "Stmt_For", "Stmt_If", "Stmt_Typedef", "Stmt_Using", "Stmt_While", "Struct", "Type_IDENT", "Type_Ref", "Type_Tuple", "'!'", "'!='", "'%'", "'%='", "'&&'", "'&'", "'&='", "'('", "')'", "'*'", "'*='", "'+'", "'++'", "'+='", "','", "'-'", "'--'", "'-='", "'->'", "'->*'", "'.'", "'.*'", "'/'", "'/='", "':'", "'::'", "':='", "';'", "'<'", "'<<'", "'<<='", "'<='", "'='", "'=='", "'=>'", "'>'", "'>='", "'>>'", "'>>='", "'['", "']'", "'^'", "'^='", "'else'", "'enum'", "'for'", "'if'", "'import'", "'namespace'", "'new'", "'return'", "'struct'", "'typedef'", "'using'", "'while'", "'|'", "'|='", "'||'", "'~'", "DOUBLE"
 	};
 	public const int EOF=-1;
 	public const int T__50=50;
@@ -124,13 +124,13 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	public const int Func_Def=25;
 	public const int IDENT=26;
 	public const int INDENT=27;
-	public const int INT=28;
-	public const int Ident_List=29;
-	public const int Import=30;
-	public const int Infix_Func=31;
-	public const int Left_Bracket=32;
-	public const int Match_Tuple=33;
-	public const int NEWLINE=34;
+	public const int Ident_List=28;
+	public const int Import=29;
+	public const int Infix_Func=30;
+	public const int Left_Bracket=31;
+	public const int Match_Tuple=32;
+	public const int NEWLINE=33;
+	public const int NUMBER=34;
 	public const int Namespace=35;
 	public const int Right_Bracket=36;
 	public const int Root=37;
@@ -1202,7 +1202,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 					try { DebugEnterDecision(11, false);
 					int LA11_0 = input.LA(1);
 
-					if (((LA11_0>=Expr_Access && LA11_0<=Expr_Bin)||(LA11_0>=Expr_Call && LA11_0<=Expr_Tuple)||LA11_0==IDENT||LA11_0==INT||LA11_0==Match_Tuple||LA11_0==STRING||(LA11_0>=Stmt_For && LA11_0<=Stmt_While)||LA11_0==53||LA11_0==56||LA11_0==60||LA11_0==63||LA11_0==67||LA11_0==73||LA11_0==76||LA11_0==80||LA11_0==82||LA11_0==88||LA11_0==92||LA11_0==106||LA11_0==DOUBLE))
+					if (((LA11_0>=Expr_Access && LA11_0<=Expr_Bin)||(LA11_0>=Expr_Call && LA11_0<=Expr_Tuple)||LA11_0==IDENT||LA11_0==Match_Tuple||LA11_0==NUMBER||LA11_0==STRING||(LA11_0>=Stmt_For && LA11_0<=Stmt_While)||LA11_0==53||LA11_0==56||LA11_0==60||LA11_0==63||LA11_0==67||LA11_0==73||LA11_0==76||LA11_0==80||LA11_0==82||LA11_0==88||LA11_0==92||LA11_0==106||LA11_0==DOUBLE))
 					{
 						alt11 = 1;
 					}
@@ -1495,7 +1495,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 					try { DebugEnterDecision(15, false);
 					int LA15_0 = input.LA(1);
 
-					if (((LA15_0>=Expr_Access && LA15_0<=Expr_Bin)||(LA15_0>=Expr_Call && LA15_0<=Expr_Tuple)||LA15_0==IDENT||LA15_0==INT||LA15_0==Match_Tuple||LA15_0==STRING||(LA15_0>=Stmt_For && LA15_0<=Stmt_While)||LA15_0==53||LA15_0==56||LA15_0==60||LA15_0==63||LA15_0==67||LA15_0==73||LA15_0==76||LA15_0==80||LA15_0==82||LA15_0==88||LA15_0==92||LA15_0==106||LA15_0==DOUBLE))
+					if (((LA15_0>=Expr_Access && LA15_0<=Expr_Bin)||(LA15_0>=Expr_Call && LA15_0<=Expr_Tuple)||LA15_0==IDENT||LA15_0==Match_Tuple||LA15_0==NUMBER||LA15_0==STRING||(LA15_0>=Stmt_For && LA15_0<=Stmt_While)||LA15_0==53||LA15_0==56||LA15_0==60||LA15_0==63||LA15_0==67||LA15_0==73||LA15_0==76||LA15_0==80||LA15_0==82||LA15_0==88||LA15_0==92||LA15_0==106||LA15_0==DOUBLE))
 					{
 						alt15 = 1;
 					}
@@ -1679,8 +1679,8 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			case Expr_Suffix:
 			case Expr_Tuple:
 			case IDENT:
-			case INT:
 			case Match_Tuple:
+			case NUMBER:
 			case STRING:
 			case 53:
 			case 56:
@@ -2368,7 +2368,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				try { DebugEnterDecision(19, false);
 				int LA19_0 = input.LA(1);
 
-				if ((LA19_0==Expr_Access||LA19_0==Expr_Bin||(LA19_0>=Expr_Call && LA19_0<=Expr_Prefix)||(LA19_0>=Expr_Suffix && LA19_0<=Expr_Tuple)||LA19_0==IDENT||LA19_0==INT||LA19_0==Match_Tuple||LA19_0==STRING||LA19_0==53||LA19_0==56||LA19_0==60||LA19_0==63||LA19_0==67||LA19_0==73||LA19_0==76||LA19_0==80||LA19_0==82||LA19_0==88||LA19_0==92||LA19_0==106||LA19_0==DOUBLE))
+				if ((LA19_0==Expr_Access||LA19_0==Expr_Bin||(LA19_0>=Expr_Call && LA19_0<=Expr_Prefix)||(LA19_0>=Expr_Suffix && LA19_0<=Expr_Tuple)||LA19_0==IDENT||LA19_0==Match_Tuple||LA19_0==NUMBER||LA19_0==STRING||LA19_0==53||LA19_0==56||LA19_0==60||LA19_0==63||LA19_0==67||LA19_0==73||LA19_0==76||LA19_0==80||LA19_0==82||LA19_0==88||LA19_0==92||LA19_0==106||LA19_0==DOUBLE))
 				{
 					alt19 = 1;
 				}
@@ -2625,7 +2625,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			try { DebugEnterDecision(21, false);
 			int LA21_0 = input.LA(1);
 
-			if ((LA21_0==Expr_Access||LA21_0==Expr_Bin||(LA21_0>=Expr_Call && LA21_0<=Expr_Prefix)||(LA21_0>=Expr_Suffix && LA21_0<=Expr_Tuple)||LA21_0==IDENT||LA21_0==INT||LA21_0==Match_Tuple||LA21_0==STRING||LA21_0==53||LA21_0==56||LA21_0==60||LA21_0==63||LA21_0==67||LA21_0==73||LA21_0==76||LA21_0==80||LA21_0==82||LA21_0==88||LA21_0==92||LA21_0==106||LA21_0==DOUBLE))
+			if ((LA21_0==Expr_Access||LA21_0==Expr_Bin||(LA21_0>=Expr_Call && LA21_0<=Expr_Prefix)||(LA21_0>=Expr_Suffix && LA21_0<=Expr_Tuple)||LA21_0==IDENT||LA21_0==Match_Tuple||LA21_0==NUMBER||LA21_0==STRING||LA21_0==53||LA21_0==56||LA21_0==60||LA21_0==63||LA21_0==67||LA21_0==73||LA21_0==76||LA21_0==80||LA21_0==82||LA21_0==88||LA21_0==92||LA21_0==106||LA21_0==DOUBLE))
 			{
 				alt21 = 1;
 			}
@@ -2898,7 +2898,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				try { DebugEnterDecision(25, false);
 				int LA25_0 = input.LA(1);
 
-				if ((LA25_0==Expr_Access||LA25_0==Expr_Bin||(LA25_0>=Expr_Call && LA25_0<=Expr_Prefix)||(LA25_0>=Expr_Suffix && LA25_0<=Expr_Tuple)||LA25_0==IDENT||LA25_0==INT||LA25_0==Match_Tuple||LA25_0==STRING||LA25_0==53||LA25_0==56||LA25_0==60||LA25_0==63||LA25_0==67||LA25_0==73||LA25_0==76||LA25_0==80||LA25_0==82||LA25_0==88||LA25_0==92||LA25_0==106||LA25_0==DOUBLE))
+				if ((LA25_0==Expr_Access||LA25_0==Expr_Bin||(LA25_0>=Expr_Call && LA25_0<=Expr_Prefix)||(LA25_0>=Expr_Suffix && LA25_0<=Expr_Tuple)||LA25_0==IDENT||LA25_0==Match_Tuple||LA25_0==NUMBER||LA25_0==STRING||LA25_0==53||LA25_0==56||LA25_0==60||LA25_0==63||LA25_0==67||LA25_0==73||LA25_0==76||LA25_0==80||LA25_0==82||LA25_0==88||LA25_0==92||LA25_0==106||LA25_0==DOUBLE))
 				{
 					alt25 = 1;
 				}
@@ -3099,7 +3099,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				try { DebugEnterDecision(27, false);
 				int LA27_0 = input.LA(1);
 
-				if ((LA27_0==Expr_Access||LA27_0==Expr_Bin||(LA27_0>=Expr_Call && LA27_0<=Expr_Prefix)||(LA27_0>=Expr_Suffix && LA27_0<=Expr_Tuple)||LA27_0==IDENT||LA27_0==INT||LA27_0==Match_Tuple||LA27_0==STRING||LA27_0==53||LA27_0==56||LA27_0==60||LA27_0==63||LA27_0==67||LA27_0==73||LA27_0==76||LA27_0==80||LA27_0==82||LA27_0==88||LA27_0==92||LA27_0==106||LA27_0==DOUBLE))
+				if ((LA27_0==Expr_Access||LA27_0==Expr_Bin||(LA27_0>=Expr_Call && LA27_0<=Expr_Prefix)||(LA27_0>=Expr_Suffix && LA27_0<=Expr_Tuple)||LA27_0==IDENT||LA27_0==Match_Tuple||LA27_0==NUMBER||LA27_0==STRING||LA27_0==53||LA27_0==56||LA27_0==60||LA27_0==63||LA27_0==67||LA27_0==73||LA27_0==76||LA27_0==80||LA27_0==82||LA27_0==88||LA27_0==92||LA27_0==106||LA27_0==DOUBLE))
 				{
 					alt27 = 1;
 				}
@@ -3431,7 +3431,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				try { DebugEnterDecision(28, false);
 				int LA28_0 = input.LA(1);
 
-				if ((LA28_0==Expr_Access||LA28_0==Expr_Bin||(LA28_0>=Expr_Call && LA28_0<=Expr_Prefix)||(LA28_0>=Expr_Suffix && LA28_0<=Expr_Tuple)||LA28_0==IDENT||LA28_0==INT||LA28_0==Match_Tuple||LA28_0==STRING||LA28_0==53||LA28_0==56||LA28_0==60||LA28_0==63||LA28_0==67||LA28_0==73||LA28_0==76||LA28_0==80||LA28_0==82||LA28_0==88||LA28_0==92||LA28_0==106||LA28_0==DOUBLE))
+				if ((LA28_0==Expr_Access||LA28_0==Expr_Bin||(LA28_0>=Expr_Call && LA28_0<=Expr_Prefix)||(LA28_0>=Expr_Suffix && LA28_0<=Expr_Tuple)||LA28_0==IDENT||LA28_0==Match_Tuple||LA28_0==NUMBER||LA28_0==STRING||LA28_0==53||LA28_0==56||LA28_0==60||LA28_0==63||LA28_0==67||LA28_0==73||LA28_0==76||LA28_0==80||LA28_0==82||LA28_0==88||LA28_0==92||LA28_0==106||LA28_0==DOUBLE))
 				{
 					alt28 = 1;
 				}
@@ -3485,7 +3485,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				try { DebugEnterDecision(29, false);
 				int LA29_0 = input.LA(1);
 
-				if ((LA29_0==Expr_Access||LA29_0==Expr_Bin||(LA29_0>=Expr_Call && LA29_0<=Expr_Prefix)||(LA29_0>=Expr_Suffix && LA29_0<=Expr_Tuple)||LA29_0==IDENT||LA29_0==INT||LA29_0==Match_Tuple||LA29_0==STRING||LA29_0==53||LA29_0==56||LA29_0==60||LA29_0==63||LA29_0==67||LA29_0==73||LA29_0==76||LA29_0==80||LA29_0==82||LA29_0==88||LA29_0==92||LA29_0==106||LA29_0==DOUBLE))
+				if ((LA29_0==Expr_Access||LA29_0==Expr_Bin||(LA29_0>=Expr_Call && LA29_0<=Expr_Prefix)||(LA29_0>=Expr_Suffix && LA29_0<=Expr_Tuple)||LA29_0==IDENT||LA29_0==Match_Tuple||LA29_0==NUMBER||LA29_0==STRING||LA29_0==53||LA29_0==56||LA29_0==60||LA29_0==63||LA29_0==67||LA29_0==73||LA29_0==76||LA29_0==80||LA29_0==82||LA29_0==88||LA29_0==92||LA29_0==106||LA29_0==DOUBLE))
 				{
 					alt29 = 1;
 				}
@@ -3584,7 +3584,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			try { DebugEnterDecision(31, false);
 			int LA31_0 = input.LA(1);
 
-			if ((LA31_0==Expr_Access||LA31_0==Expr_Bin||(LA31_0>=Expr_Call && LA31_0<=Expr_Prefix)||(LA31_0>=Expr_Suffix && LA31_0<=Expr_Tuple)||LA31_0==IDENT||LA31_0==INT||LA31_0==Match_Tuple||LA31_0==STRING||LA31_0==53||LA31_0==56||LA31_0==60||LA31_0==63||LA31_0==67||LA31_0==73||LA31_0==76||LA31_0==80||LA31_0==82||LA31_0==88||LA31_0==92||LA31_0==106||LA31_0==DOUBLE))
+			if ((LA31_0==Expr_Access||LA31_0==Expr_Bin||(LA31_0>=Expr_Call && LA31_0<=Expr_Prefix)||(LA31_0>=Expr_Suffix && LA31_0<=Expr_Tuple)||LA31_0==IDENT||LA31_0==Match_Tuple||LA31_0==NUMBER||LA31_0==STRING||LA31_0==53||LA31_0==56||LA31_0==60||LA31_0==63||LA31_0==67||LA31_0==73||LA31_0==76||LA31_0==80||LA31_0==82||LA31_0==88||LA31_0==92||LA31_0==106||LA31_0==DOUBLE))
 			{
 				alt31 = 1;
 			}
@@ -3649,7 +3649,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	partial void LeaveRule_expr();
 
 	// $ANTLR start "expr"
-	// SugarWalker.g:289:1: expr returns [Expr value] : (tuple= expr_tuple |match= match_tuple |call= call_expr |call_with= call_with_expr |dict= dict_expr |lambda= lambda_expr |expr_new= new_expr | ^( Expr_Infix op= Infix_Func a= expr b= expr ) | ^( Expr_Cond a= expr b= expr c= expr ) | ^( Expr_Access op= ( '.' | '::' | '->' | '->*' | '.*' ) a= expr text= IDENT ) | ^( Expr_Bin op= ( '+' | '-' | '*' | '/' | '<' | '<=' | '>' | '>=' | '==' | '!=' | '<<' | '>>' | '&' | '^' | '|' | '&&' | '||' ) a= expr b= expr ) | ^(op= ( '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=' ) a= expr b= expr ) | ^( ':=' a= expr b= expr ) | ^( Expr_Suffix op= ( '++' | '--' ) a= expr ) | ^( Expr_Prefix op= ( '!' | '~' | '++' | '--' | '-' | '+' | '*' | '&' ) a= expr ) |text= ( INT | DOUBLE | IDENT | STRING ) );
+	// SugarWalker.g:289:1: expr returns [Expr value] : (tuple= expr_tuple |match= match_tuple |call= call_expr |call_with= call_with_expr |dict= dict_expr |lambda= lambda_expr |expr_new= new_expr | ^( Expr_Infix op= Infix_Func a= expr b= expr ) | ^( Expr_Cond a= expr b= expr c= expr ) | ^( Expr_Access op= ( '.' | '::' | '->' | '->*' | '.*' ) a= expr text= IDENT ) | ^( Expr_Bin op= ( '+' | '-' | '*' | '/' | '<' | '<=' | '>' | '>=' | '==' | '!=' | '<<' | '>>' | '&' | '^' | '|' | '&&' | '||' ) a= expr b= expr ) | ^(op= ( '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=' ) a= expr b= expr ) | ^( ':=' a= expr b= expr ) | ^( Expr_Suffix op= ( '++' | '--' ) a= expr ) | ^( Expr_Prefix op= ( '!' | '~' | '++' | '--' | '-' | '+' | '*' | '&' ) a= expr ) |text= ( NUMBER | DOUBLE | IDENT | STRING ) );
 	[GrammarRule("expr")]
 	private Expr expr()
 	{
@@ -3676,7 +3676,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		DebugLocation(289, 1);
 		try
 		{
-			// SugarWalker.g:290:5: (tuple= expr_tuple |match= match_tuple |call= call_expr |call_with= call_with_expr |dict= dict_expr |lambda= lambda_expr |expr_new= new_expr | ^( Expr_Infix op= Infix_Func a= expr b= expr ) | ^( Expr_Cond a= expr b= expr c= expr ) | ^( Expr_Access op= ( '.' | '::' | '->' | '->*' | '.*' ) a= expr text= IDENT ) | ^( Expr_Bin op= ( '+' | '-' | '*' | '/' | '<' | '<=' | '>' | '>=' | '==' | '!=' | '<<' | '>>' | '&' | '^' | '|' | '&&' | '||' ) a= expr b= expr ) | ^(op= ( '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=' ) a= expr b= expr ) | ^( ':=' a= expr b= expr ) | ^( Expr_Suffix op= ( '++' | '--' ) a= expr ) | ^( Expr_Prefix op= ( '!' | '~' | '++' | '--' | '-' | '+' | '*' | '&' ) a= expr ) |text= ( INT | DOUBLE | IDENT | STRING ) )
+			// SugarWalker.g:290:5: (tuple= expr_tuple |match= match_tuple |call= call_expr |call_with= call_with_expr |dict= dict_expr |lambda= lambda_expr |expr_new= new_expr | ^( Expr_Infix op= Infix_Func a= expr b= expr ) | ^( Expr_Cond a= expr b= expr c= expr ) | ^( Expr_Access op= ( '.' | '::' | '->' | '->*' | '.*' ) a= expr text= IDENT ) | ^( Expr_Bin op= ( '+' | '-' | '*' | '/' | '<' | '<=' | '>' | '>=' | '==' | '!=' | '<<' | '>>' | '&' | '^' | '|' | '&&' | '||' ) a= expr b= expr ) | ^(op= ( '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=' ) a= expr b= expr ) | ^( ':=' a= expr b= expr ) | ^( Expr_Suffix op= ( '++' | '--' ) a= expr ) | ^( Expr_Prefix op= ( '!' | '~' | '++' | '--' | '-' | '+' | '*' | '&' ) a= expr ) |text= ( NUMBER | DOUBLE | IDENT | STRING ) )
 			int alt32=16;
 			try { DebugEnterDecision(32, false);
 			switch (input.LA(1))
@@ -3768,7 +3768,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				}
 				break;
 			case IDENT:
-			case INT:
+			case NUMBER:
 			case STRING:
 			case DOUBLE:
 				{
@@ -4199,12 +4199,12 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				break;
 			case 16:
 				DebugEnterAlt(16);
-				// SugarWalker.g:355:4: text= ( INT | DOUBLE | IDENT | STRING )
+				// SugarWalker.g:355:4: text= ( NUMBER | DOUBLE | IDENT | STRING )
 				{
 				DebugLocation(355, 8);
 
 				text=(CommonTree)input.LT(1);
-				if (input.LA(1)==IDENT||input.LA(1)==INT||input.LA(1)==STRING||input.LA(1)==DOUBLE)
+				if (input.LA(1)==IDENT||input.LA(1)==NUMBER||input.LA(1)==STRING||input.LA(1)==DOUBLE)
 				{
 					input.Consume();
 					state.errorRecovery=false;
@@ -4273,10 +4273,10 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			"\x4\xFFFF}>";
 		private static readonly string[] DFA3_transitionS =
 			{
-				"\x1\x2\x3\xFFFF\x1\x3\x1\xFFFF\x1\x3\x14\xFFFF\x1\x3\x3\xFFFF\x1\x1"+
-				"\x1\x3\x7\xFFFF\x2\x3\x1\xFFFF\x2\x3",
-				"\x1\x3\x1\xFFFF\x1\x3\x14\xFFFF\x1\x3\x3\xFFFF\x1\x1\x1\x3\x7\xFFFF"+
-				"\x2\x3\x1\xFFFF\x2\x3",
+				"\x1\x2\x3\xFFFF\x1\x3\x1\xFFFF\x1\x3\x13\xFFFF\x1\x3\x3\xFFFF\x1\x1"+
+				"\x1\xFFFF\x1\x3\x7\xFFFF\x2\x3\x1\xFFFF\x2\x3",
+				"\x1\x3\x1\xFFFF\x1\x3\x13\xFFFF\x1\x3\x3\xFFFF\x1\x1\x1\xFFFF\x1\x3"+
+				"\x7\xFFFF\x2\x3\x1\xFFFF\x2\x3",
 				"",
 				""
 			};
@@ -4329,19 +4329,19 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		private const string DFA23_minS =
 			"\x2\x5\x2\xFFFF";
 		private const string DFA23_maxS =
-			"\x1\x22\x1\x6D\x2\xFFFF";
+			"\x1\x21\x1\x6D\x2\xFFFF";
 		private const string DFA23_acceptS =
 			"\x2\xFFFF\x1\x2\x1\x1";
 		private const string DFA23_specialS =
 			"\x4\xFFFF}>";
 		private static readonly string[] DFA23_transitionS =
 			{
-				"\x1\x2\x1C\xFFFF\x1\x1",
-				"\x1\x2\x2\xFFFF\x3\x3\x1\xFFFF\xC\x3\x2\xFFFF\x1\x3\x1\xFFFF\x1\x3"+
-				"\x4\xFFFF\x1\x3\x1\x1\x4\xFFFF\x1\x3\x1\xFFFF\x5\x3\x7\xFFFF\x1\x3\x2"+
-				"\xFFFF\x1\x3\x3\xFFFF\x1\x3\x2\xFFFF\x1\x3\x3\xFFFF\x1\x3\x5\xFFFF\x1"+
-				"\x3\x2\xFFFF\x1\x3\x3\xFFFF\x1\x3\x1\xFFFF\x1\x3\x5\xFFFF\x1\x3\x3\xFFFF"+
-				"\x1\x3\xD\xFFFF\x1\x3\x2\xFFFF\x1\x3",
+				"\x1\x2\x1B\xFFFF\x1\x1",
+				"\x1\x2\x2\xFFFF\x3\x3\x1\xFFFF\xC\x3\x2\xFFFF\x1\x3\x5\xFFFF\x1\x3"+
+				"\x1\x1\x1\x3\x4\xFFFF\x1\x3\x1\xFFFF\x5\x3\x7\xFFFF\x1\x3\x2\xFFFF\x1"+
+				"\x3\x3\xFFFF\x1\x3\x2\xFFFF\x1\x3\x3\xFFFF\x1\x3\x5\xFFFF\x1\x3\x2\xFFFF"+
+				"\x1\x3\x3\xFFFF\x1\x3\x1\xFFFF\x1\x3\x5\xFFFF\x1\x3\x3\xFFFF\x1\x3\xD"+
+				"\xFFFF\x1\x3\x2\xFFFF\x1\x3",
 				"",
 				""
 			};
@@ -4391,10 +4391,10 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	#region Follow sets
 	private static class Follow
 	{
-		public static readonly BitSet _overall_block_in_root77 = new BitSet(new ulong[]{0x400000002UL});
-		public static readonly BitSet _NEWLINE_in_root79 = new BitSet(new ulong[]{0x400000002UL});
-		public static readonly BitSet _NEWLINE_in_overall_block104 = new BitSet(new ulong[]{0xD80C40000280UL});
-		public static readonly BitSet _node_in_overall_block109 = new BitSet(new ulong[]{0xD80C40000282UL});
+		public static readonly BitSet _overall_block_in_root77 = new BitSet(new ulong[]{0x200000002UL});
+		public static readonly BitSet _NEWLINE_in_root79 = new BitSet(new ulong[]{0x200000002UL});
+		public static readonly BitSet _NEWLINE_in_overall_block104 = new BitSet(new ulong[]{0xD80A20000280UL});
+		public static readonly BitSet _node_in_overall_block109 = new BitSet(new ulong[]{0xD80A20000282UL});
 		public static readonly BitSet _func_def_in_node133 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _import_def_in_node144 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _enum_def_in_node155 = new BitSet(new ulong[]{0x2UL});
@@ -4404,7 +4404,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		public static readonly BitSet _stmt_using_in_node199 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _stmt_typedef_in_node210 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _Namespace_in_namespace_def228 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _IDENT_in_namespace_def232 = new BitSet(new ulong[]{0xD80C40000280UL});
+		public static readonly BitSet _IDENT_in_namespace_def232 = new BitSet(new ulong[]{0xD80A20000280UL});
 		public static readonly BitSet _overall_block_in_namespace_def236 = new BitSet(new ulong[]{0x8UL});
 		public static readonly BitSet _Import_in_import_def261 = new BitSet(new ulong[]{0x4UL});
 		public static readonly BitSet _STRING_in_import_def266 = new BitSet(new ulong[]{0x8000000008UL});
@@ -4412,7 +4412,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		public static readonly BitSet _IDENT_in_enum_def296 = new BitSet(new ulong[]{0x4000008UL});
 		public static readonly BitSet _IDENT_in_enum_def303 = new BitSet(new ulong[]{0x4000008UL});
 		public static readonly BitSet _Struct_in_struct_def324 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _IDENT_in_struct_def328 = new BitSet(new ulong[]{0xD80C40000280UL});
+		public static readonly BitSet _IDENT_in_struct_def328 = new BitSet(new ulong[]{0xD80A20000280UL});
 		public static readonly BitSet _overall_block_in_struct_def332 = new BitSet(new ulong[]{0x8UL});
 		public static readonly BitSet _Type_IDENT_in_type_name357 = new BitSet(new ulong[]{0x4UL});
 		public static readonly BitSet _IDENT_in_type_name361 = new BitSet(new ulong[]{0x880000000000008UL,0x4000UL});
@@ -4422,7 +4422,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		public static readonly BitSet _59_in_type_name402 = new BitSet(new ulong[]{0x880000000000008UL});
 		public static readonly BitSet _55_in_type_name412 = new BitSet(new ulong[]{0x8UL});
 		public static readonly BitSet _Func_Args_in_func_args442 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _stmt_in_func_args447 = new BitSet(new ulong[]{0x91203E8214FFF708UL,0x240011051208UL});
+		public static readonly BitSet _stmt_in_func_args447 = new BitSet(new ulong[]{0x91203E8504FFF708UL,0x240011051208UL});
 		public static readonly BitSet _type_name_in_func_def474 = new BitSet(new ulong[]{0x4000000UL});
 		public static readonly BitSet _IDENT_in_func_def478 = new BitSet(new ulong[]{0x200000000000000UL,0x4000UL});
 		public static readonly BitSet _78_in_func_def481 = new BitSet(new ulong[]{0x4000000UL});
@@ -4433,7 +4433,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		public static readonly BitSet _58_in_func_def507 = new BitSet(new ulong[]{0x10000000000UL});
 		public static readonly BitSet _stmt_block_in_func_def514 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _Stmt_Block_in_stmt_block539 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _stmt_in_stmt_block544 = new BitSet(new ulong[]{0x91203E8214FFF708UL,0x240011051208UL});
+		public static readonly BitSet _stmt_in_stmt_block544 = new BitSet(new ulong[]{0x91203E8504FFF708UL,0x240011051208UL});
 		public static readonly BitSet _stmt_expr_in_stmt570 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _stmt_alloc_in_stmt_expr589 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _stmt_return_in_stmt_expr598 = new BitSet(new ulong[]{0x2UL});
@@ -4457,8 +4457,8 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		public static readonly BitSet _expr_in_stmt_while793 = new BitSet(new ulong[]{0x10000000000UL});
 		public static readonly BitSet _stmt_block_in_stmt_while797 = new BitSet(new ulong[]{0x8UL});
 		public static readonly BitSet _Stmt_For_in_stmt_for817 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _expr_in_stmt_for821 = new BitSet(new ulong[]{0x9120008214DFF500UL,0x240011051208UL});
-		public static readonly BitSet _expr_in_stmt_for825 = new BitSet(new ulong[]{0x9120008214DFF500UL,0x240011051208UL});
+		public static readonly BitSet _expr_in_stmt_for821 = new BitSet(new ulong[]{0x9120008504DFF500UL,0x240011051208UL});
+		public static readonly BitSet _expr_in_stmt_for825 = new BitSet(new ulong[]{0x9120008504DFF500UL,0x240011051208UL});
 		public static readonly BitSet _expr_in_stmt_for829 = new BitSet(new ulong[]{0x10000000000UL});
 		public static readonly BitSet _stmt_block_in_stmt_for833 = new BitSet(new ulong[]{0x8UL});
 		public static readonly BitSet _Expr_Return_in_stmt_return853 = new BitSet(new ulong[]{0x4UL});
@@ -4467,37 +4467,37 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		public static readonly BitSet _Ident_List_in_ident_list904 = new BitSet(new ulong[]{0x4UL});
 		public static readonly BitSet _ident_in_ident_list909 = new BitSet(new ulong[]{0x4000008UL});
 		public static readonly BitSet _Expr_Alloc_in_alloc_expr931 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _type_name_in_alloc_expr935 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _ident_list_in_alloc_expr939 = new BitSet(new ulong[]{0x9120008214DFF508UL,0x240011051208UL});
+		public static readonly BitSet _type_name_in_alloc_expr935 = new BitSet(new ulong[]{0x10000000UL});
+		public static readonly BitSet _ident_list_in_alloc_expr939 = new BitSet(new ulong[]{0x9120008504DFF508UL,0x240011051208UL});
 		public static readonly BitSet _expr_in_alloc_expr944 = new BitSet(new ulong[]{0x8UL});
-		public static readonly BitSet _INDENT_in_block_expr970 = new BitSet(new ulong[]{0x400000020UL});
-		public static readonly BitSet _NEWLINE_in_block_expr973 = new BitSet(new ulong[]{0x91203E8614FFF700UL,0x240011051208UL});
-		public static readonly BitSet _stmt_in_block_expr978 = new BitSet(new ulong[]{0x400000020UL});
-		public static readonly BitSet _NEWLINE_in_block_expr984 = new BitSet(new ulong[]{0x400000020UL});
+		public static readonly BitSet _INDENT_in_block_expr970 = new BitSet(new ulong[]{0x200000020UL});
+		public static readonly BitSet _NEWLINE_in_block_expr973 = new BitSet(new ulong[]{0x91203E8704FFF700UL,0x240011051208UL});
+		public static readonly BitSet _stmt_in_block_expr978 = new BitSet(new ulong[]{0x200000020UL});
+		public static readonly BitSet _NEWLINE_in_block_expr984 = new BitSet(new ulong[]{0x200000020UL});
 		public static readonly BitSet _DEDENT_in_block_expr987 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _Expr_Tuple_in_expr_tuple1012 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _expr_in_expr_tuple1017 = new BitSet(new ulong[]{0x9120008214DFF508UL,0x240011051208UL});
+		public static readonly BitSet _expr_in_expr_tuple1017 = new BitSet(new ulong[]{0x9120008504DFF508UL,0x240011051208UL});
 		public static readonly BitSet _Match_Tuple_in_match_tuple1044 = new BitSet(new ulong[]{0x4UL});
 		public static readonly BitSet _IDENT_in_match_tuple1049 = new BitSet(new ulong[]{0x4000008UL});
-		public static readonly BitSet _expr_in_expr_list1077 = new BitSet(new ulong[]{0x9120008214DFF502UL,0x240011051208UL});
+		public static readonly BitSet _expr_in_expr_list1077 = new BitSet(new ulong[]{0x9120008504DFF502UL,0x240011051208UL});
 		public static readonly BitSet _Expr_Call_in_call_expr1097 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _expr_in_call_expr1101 = new BitSet(new ulong[]{0x9120008214DFF500UL,0x240011051208UL});
+		public static readonly BitSet _expr_in_call_expr1101 = new BitSet(new ulong[]{0x9120008504DFF500UL,0x240011051208UL});
 		public static readonly BitSet _expr_list_in_call_expr1105 = new BitSet(new ulong[]{0x8UL});
 		public static readonly BitSet _Expr_Dict_in_dict_expr1125 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _expr_in_dict_expr1129 = new BitSet(new ulong[]{0x9120008214DFF500UL,0x240011051208UL});
+		public static readonly BitSet _expr_in_dict_expr1129 = new BitSet(new ulong[]{0x9120008504DFF500UL,0x240011051208UL});
 		public static readonly BitSet _expr_in_dict_expr1133 = new BitSet(new ulong[]{0x8UL});
 		public static readonly BitSet _Expr_Lambda_in_lambda_expr1153 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _func_args_in_lambda_expr1157 = new BitSet(new ulong[]{0x9120008214DFF500UL,0x240011051208UL});
+		public static readonly BitSet _func_args_in_lambda_expr1157 = new BitSet(new ulong[]{0x9120008504DFF500UL,0x240011051208UL});
 		public static readonly BitSet _expr_in_lambda_expr1161 = new BitSet(new ulong[]{0x8UL});
 		public static readonly BitSet _Expr_New_Type_in_new_expr1181 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _type_name_in_new_expr1185 = new BitSet(new ulong[]{0x9120008214DFF508UL,0x240011051208UL});
+		public static readonly BitSet _type_name_in_new_expr1185 = new BitSet(new ulong[]{0x9120008504DFF508UL,0x240011051208UL});
 		public static readonly BitSet _expr_list_in_new_expr1189 = new BitSet(new ulong[]{0x8UL});
 		public static readonly BitSet _Expr_New_Array_in_new_expr1200 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _type_name_in_new_expr1204 = new BitSet(new ulong[]{0x9120008214DFF508UL,0x240011051208UL});
+		public static readonly BitSet _type_name_in_new_expr1204 = new BitSet(new ulong[]{0x9120008504DFF508UL,0x240011051208UL});
 		public static readonly BitSet _expr_list_in_new_expr1208 = new BitSet(new ulong[]{0x8UL});
 		public static readonly BitSet _Expr_Call_With_in_call_with_expr1229 = new BitSet(new ulong[]{0x4UL});
 		public static readonly BitSet _expr_in_call_with_expr1233 = new BitSet(new ulong[]{0x4000000UL});
-		public static readonly BitSet _IDENT_in_call_with_expr1237 = new BitSet(new ulong[]{0x9120008214DFF508UL,0x240011051208UL});
+		public static readonly BitSet _IDENT_in_call_with_expr1237 = new BitSet(new ulong[]{0x9120008504DFF508UL,0x240011051208UL});
 		public static readonly BitSet _expr_list_in_call_with_expr1241 = new BitSet(new ulong[]{0x8UL});
 		public static readonly BitSet _expr_tuple_in_expr1266 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _match_tuple_in_expr1276 = new BitSet(new ulong[]{0x2UL});
@@ -4507,32 +4507,32 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		public static readonly BitSet _lambda_expr_in_expr1316 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _new_expr_in_expr1326 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _Expr_Infix_in_expr1335 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _Infix_Func_in_expr1339 = new BitSet(new ulong[]{0x9120008214DFF500UL,0x240011051208UL});
-		public static readonly BitSet _expr_in_expr1343 = new BitSet(new ulong[]{0x9120008214DFF500UL,0x240011051208UL});
+		public static readonly BitSet _Infix_Func_in_expr1339 = new BitSet(new ulong[]{0x9120008504DFF500UL,0x240011051208UL});
+		public static readonly BitSet _expr_in_expr1343 = new BitSet(new ulong[]{0x9120008504DFF500UL,0x240011051208UL});
 		public static readonly BitSet _expr_in_expr1347 = new BitSet(new ulong[]{0x8UL});
 		public static readonly BitSet _Expr_Cond_in_expr1356 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _expr_in_expr1360 = new BitSet(new ulong[]{0x9120008214DFF500UL,0x240011051208UL});
-		public static readonly BitSet _expr_in_expr1364 = new BitSet(new ulong[]{0x9120008214DFF500UL,0x240011051208UL});
+		public static readonly BitSet _expr_in_expr1360 = new BitSet(new ulong[]{0x9120008504DFF500UL,0x240011051208UL});
+		public static readonly BitSet _expr_in_expr1364 = new BitSet(new ulong[]{0x9120008504DFF500UL,0x240011051208UL});
 		public static readonly BitSet _expr_in_expr1368 = new BitSet(new ulong[]{0x8UL});
 		public static readonly BitSet _Expr_Access_in_expr1378 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _set_in_expr1382 = new BitSet(new ulong[]{0x9120008214DFF500UL,0x240011051208UL});
+		public static readonly BitSet _set_in_expr1382 = new BitSet(new ulong[]{0x9120008504DFF500UL,0x240011051208UL});
 		public static readonly BitSet _expr_in_expr1404 = new BitSet(new ulong[]{0x4000000UL});
 		public static readonly BitSet _IDENT_in_expr1408 = new BitSet(new ulong[]{0x8UL});
 		public static readonly BitSet _Expr_Bin_in_expr1418 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _set_in_expr1422 = new BitSet(new ulong[]{0x9120008214DFF500UL,0x240011051208UL});
-		public static readonly BitSet _expr_in_expr1519 = new BitSet(new ulong[]{0x9120008214DFF500UL,0x240011051208UL});
+		public static readonly BitSet _set_in_expr1422 = new BitSet(new ulong[]{0x9120008504DFF500UL,0x240011051208UL});
+		public static readonly BitSet _expr_in_expr1519 = new BitSet(new ulong[]{0x9120008504DFF500UL,0x240011051208UL});
 		public static readonly BitSet _expr_in_expr1523 = new BitSet(new ulong[]{0x8UL});
 		public static readonly BitSet _set_in_expr1535 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _expr_in_expr1581 = new BitSet(new ulong[]{0x9120008214DFF500UL,0x240011051208UL});
+		public static readonly BitSet _expr_in_expr1581 = new BitSet(new ulong[]{0x9120008504DFF500UL,0x240011051208UL});
 		public static readonly BitSet _expr_in_expr1585 = new BitSet(new ulong[]{0x8UL});
 		public static readonly BitSet _76_in_expr1595 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _expr_in_expr1599 = new BitSet(new ulong[]{0x9120008214DFF500UL,0x240011051208UL});
+		public static readonly BitSet _expr_in_expr1599 = new BitSet(new ulong[]{0x9120008504DFF500UL,0x240011051208UL});
 		public static readonly BitSet _expr_in_expr1603 = new BitSet(new ulong[]{0x8UL});
 		public static readonly BitSet _Expr_Suffix_in_expr1613 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _set_in_expr1617 = new BitSet(new ulong[]{0x9120008214DFF500UL,0x240011051208UL});
+		public static readonly BitSet _set_in_expr1617 = new BitSet(new ulong[]{0x9120008504DFF500UL,0x240011051208UL});
 		public static readonly BitSet _expr_in_expr1627 = new BitSet(new ulong[]{0x8UL});
 		public static readonly BitSet _Expr_Prefix_in_expr1637 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _set_in_expr1641 = new BitSet(new ulong[]{0x9120008214DFF500UL,0x240011051208UL});
+		public static readonly BitSet _set_in_expr1641 = new BitSet(new ulong[]{0x9120008504DFF500UL,0x240011051208UL});
 		public static readonly BitSet _expr_in_expr1675 = new BitSet(new ulong[]{0x8UL});
 		public static readonly BitSet _set_in_expr1686 = new BitSet(new ulong[]{0x2UL});
 	}

@@ -168,7 +168,7 @@ namespace SugarCpp.Compiler
             }
             else
             {
-                Template template = new Template("if <cond> {\n    <body1>\n} else {\n    <body2>\n}");
+                Template template = new Template("if (<cond>) {\n    <body1>\n} else {\n    <body2>\n}");
                 template.Add("cond", stmt_if.Condition.Accept(this));
                 template.Add("body1", stmt_if.Body.Accept(this));
                 template.Add("body2", stmt_if.Else.Accept(this));
@@ -179,7 +179,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(StmtWhile stmt_while)
         {
-            Template template = new Template("while <cond> {\n    <body>\n}");
+            Template template = new Template("while (<cond>) {\n    <body>\n}");
             template.Add("cond", stmt_while.Condition.Accept(this));
             template.Add("body", stmt_while.Body.Accept(this));
             return template;
@@ -277,7 +277,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(ExprDict expr)
         {
-            Template template = new Template("(<expr>[<index>])");
+            Template template = new Template("((&*<expr>)[<index>])");
             template.Add("expr", expr.Expr.Accept(this));
             template.Add("index", expr.Index.Accept(this));
             return template;
