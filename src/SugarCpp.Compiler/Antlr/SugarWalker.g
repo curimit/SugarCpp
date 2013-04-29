@@ -37,7 +37,15 @@ type_name returns [string value]
 {
 	$value = "";
 }
-	: ^(Type_IDENT a=IDENT { $value+=a.Text; })
+	: ^(Type_IDENT a=IDENT { $value+=a.Text; }
+	  ( '<' { $value+="<"; bool isFirst = true; }
+	    (b=type_name
+		{
+			if (!isFirst) $value+=", ";
+			isFirst = false;
+			$value+=b;
+		})*
+		'>' { $value+=">"; })?)
 	| {bool isFirst = true; $value += "std::tuple<";}
 	  ^(Type_Tuple
 	   (b=type_name
@@ -49,6 +57,10 @@ type_name returns [string value]
 		{
 			$value += ">";
 		}
+	| ^(Type_Ref b=type_name)
+	{
+		$value = b + "&";
+	}
 	;
 
 func_args returns [List<Stmt> value]
@@ -88,11 +100,11 @@ stmt returns [Stmt value]
 stmt_expr returns [Stmt value]
 	: a=stmt_alloc { $value = a; }
 	| a=stmt_return { $value = a; }
+	| b=expr { $value = b; }
 	;
 
 stmt_alloc returns [Stmt value]
 	: a=alloc_expr { $value = a; }
-	| a=alloc_expr_auto { $value = a; }
 	;
 
 stmt_return returns [Stmt value]
@@ -111,26 +123,13 @@ ident_list returns [List<string> value]
 {
 	$value = new List<string>();
 }
-	: a=ident { $value.Add(a); } ((',' a=ident { $value.Add(a); })+ ';')?
+	: ^(Ident_List (a=ident { $value.Add(a); })+)
 	;
 	
-alloc_expr returns [StmtAlloc value]
-	: ^(Expr_Alloc a=type_name b=ident (c=expr)?)
+alloc_expr returns [ExprAlloc value]
+	: ^(Expr_Alloc a=type_name b=ident_list (c=expr)?)
 	{
-		$value = new StmtAlloc();
-		$value.Type = a;
-		$value.Name = b;
-		$value.Expr = c;
-	}
-	;
-
-alloc_expr_auto returns [StmtAlloc value]
-	: ^(Expr_Alloc_Auto a=ident (b=expr)?)
-	{
-		$value = new StmtAlloc();
-		$value.Type = "auto";
-		$value.Name = a;
-		$value.Expr = b;
+		$value = new ExprAlloc(a, b, c);
 	}
 	;
 
@@ -150,12 +149,12 @@ expr_tuple returns [ExprTuple value]
 	: ^(Expr_Tuple (a=expr { $value.ExprList.Add(a); })+ )
 	;
 
-expr_match_tuple returns [MatchTuple value]
+match_tuple returns [MatchTuple value]
 @init
 {
 	$value = new MatchTuple();
 }
-	: ^(Expr_Match_Tuple (a=IDENT { $value.VarList.Add(a.Text); })*)
+	: ^(Match_Tuple (a=IDENT { $value.VarList.Add(a.Text); })*)
 	;
 
 expr_list returns [List<Expr> value]
@@ -198,15 +197,38 @@ new_expr returns [ExprNew value]
 	}
 	;
 
+call_with_expr returns [ExprCall value]
+	: ^(Expr_Call_With a=expr b=IDENT c=expr_list?)
+	{
+		List<Expr> Args = new List<Expr>();
+		Args.Add(a);
+		if (c != null)
+		{
+			foreach (var item in c)
+			{
+				Args.Add(item);
+			}
+		}
+		$value = new ExprCall(new ExprConst(b.Text), Args);
+	}
+	;
 
 expr returns [Expr value]
     : tuple=expr_tuple
 	{
 		$value = tuple;
 	}
+	| match=match_tuple
+	{
+		$value = match;
+	}
 	| call=call_expr
 	{
 		$value = call;
+	}
+	| call_with=call_with_expr
+	{
+		$value = call_with;
 	}
 	| dict=dict_expr
 	{
@@ -220,6 +242,10 @@ expr returns [Expr value]
 	{
 		$value = expr_new;
 	}
+	| ^(Expr_Infix op=Infix_Func a=expr b=expr)
+	{
+		$value = new ExprInfix(op.Text.Substring(1, op.Text.Length - 2), a, b);
+	}
 	|^(Expr_Cond a=expr b=expr c=expr)
 	{
 		$value = new ExprCond(a, b, c);
@@ -229,7 +255,6 @@ expr returns [Expr value]
 		$value = new ExprAccess(a, op.Text, text.Text);
 	}
 	| ^(Expr_Bin op=( '+' | '-' | '*' | '/'
-	                | '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>='
 					| '<' | '<=' | '>' | '>=' | '==' | '!='
 					| '<<' | '>>'
 					| '&' | '^' | '|'
@@ -237,6 +262,14 @@ expr returns [Expr value]
 					) a=expr b=expr)
 	{
 		$value = new ExprBin(op.Text, a, b);
+	}
+	| ^(op=('=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=') a=expr b=expr)
+	{
+		$value = new ExprBin(op.Text, a, b);
+	}
+	| ^(':=' text=IDENT b=expr)
+	{
+		$value = new ExprAlloc("auto", new List<string> { text.Text }, b);
 	}
 	| ^(Expr_Suffix op=('++' | '--') a=expr)
 	{

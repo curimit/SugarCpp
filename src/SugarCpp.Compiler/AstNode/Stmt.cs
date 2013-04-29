@@ -45,16 +45,4 @@ namespace SugarCpp.Compiler
             return visitor.Visit(this);
         }
     }
-
-    public class StmtAlloc : Stmt
-    {
-        public string Type;
-        public string Name;
-        public Expr Expr;
-
-        public override Template Accept(Visitor visitor)
-        {
-            return visitor.Visit(this);
-        }
-    }
 }

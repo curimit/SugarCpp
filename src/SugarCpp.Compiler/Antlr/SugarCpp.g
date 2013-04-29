@@ -21,12 +21,12 @@ tokens
    Stmt_While;
 
    Type_IDENT;
+   Type_Ref;
    Type_Tuple;
 
    Func_Args;
 
    Expr_Alloc;
-   Expr_Alloc_Auto;
 
    Expr_Block;
    Expr_Cond;
@@ -42,11 +42,16 @@ tokens
    Expr_Access;
    Expr_Dict;
    Expr_Call;
+   Expr_Call_With;
+
+   Expr_Infix;
 
    Expr_Lambda;
 
    Expr_Tuple;
-   Expr_Match_Tuple;
+
+   Ident_List;
+   Match_Tuple;
 }
 
 @lexer::header
@@ -130,12 +135,9 @@ node
 	;
 
 type_name
-	: IDENT -> ^(Type_IDENT IDENT)
-	;
-
-func_type_name
-	: IDENT -> ^(Type_IDENT IDENT)
-	| '(' func_type_name (',' func_type_name) ')' -> ^(Type_Tuple func_type_name+)
+	: IDENT ('<' (type_name (',' type_name)*)? '>')? -> ^(Type_IDENT IDENT ('<' type_name* '>')?)
+	| 'ref' '<' type_name '>' -> ^(Type_Ref type_name)
+	| 'tuple' '<' type_name (',' type_name)* '>' -> ^(Type_Tuple type_name+)
 	;
 
 generic_parameter
@@ -147,7 +149,7 @@ func_args
 	;
 
 func_def
-	: func_type_name IDENT ('<' generic_parameter '>')? '(' func_args? ')' stmt_block
+	: type_name IDENT ('<' generic_parameter '>')? '(' func_args? ')' stmt_block
     ;
 
 stmt_block
@@ -161,15 +163,23 @@ stmt
 stmt_expr
 	: stmt_alloc
 	| stmt_return
+	| stmt_modify
 	;
 
 stmt_return
 	: 'return' expr? -> ^(Expr_Return expr?)
 	;
 
+ident_list
+	: IDENT (',' IDENT)* -> ^(Ident_List IDENT+)
+	;
+
 stmt_alloc
-	: type_name IDENT ('=' expr)? -> ^(Expr_Alloc type_name IDENT expr?)
-	| '|' IDENT '|' ('=' expr)? -> ^(Expr_Alloc_Auto IDENT expr?)
+	: ident_list ':' type_name ('=' expr)? -> ^(Expr_Alloc type_name ident_list expr?)
+	;
+
+stmt_modify
+	: (a=lvalue b=modify_expr_op^)+ cond_expr
 	;
 
 expr
@@ -181,14 +191,14 @@ lambda_expr
 	| modify_expr
 	;
 
-modify_expr_op: '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=' ;
+modify_expr_op: ':=' | '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=' ;
 modify_expr
-	: (a=cond_expr -> $a) (modify_expr_op b=cond_expr -> ^(Expr_Bin modify_expr_op $modify_expr $b))*
+	: (a=lvalue b=modify_expr_op^)* cond_expr
 	;
 
 cond_expr_item: cond_expr ;
 cond_expr
-	: (a=or_expr -> $a) ('?' a=cond_expr_item ':' b=cond_expr_item -> ^(Expr_Cond $cond_expr $a $b))?
+	: (a=or_expr -> $a) ('if' a=cond_expr_item 'else' b=cond_expr_item -> ^(Expr_Cond $a $cond_expr $b))?
 	;
 
 or_expr
@@ -208,7 +218,7 @@ bit_xor
 	;
 
 bit_and
-	: (a=shift_expr -> $a) ('&' b=shift_expr -> ^(Expr_Bin '&' $bit_and $b))*
+	: (a=cmp_equ_expr -> $a) ('&' b=cmp_equ_expr -> ^(Expr_Bin '&' $bit_and $b))*
 	;
 
 cmp_equ_expr_op: '==' | '!=' ;
@@ -227,9 +237,13 @@ shift_expr
 	;
 
 add_expr
-	: (a=mul_expr -> $a) ( '+' b=mul_expr -> ^(Expr_Bin '+' $add_expr $b)
-						 | '-' b=mul_expr -> ^(Expr_Bin '-' $add_expr $b)
-						 )*
+	: (a=infix_expr -> $a) ( '+' b=infix_expr -> ^(Expr_Bin '+' $add_expr $b)
+						   | '-' b=infix_expr -> ^(Expr_Bin '-' $add_expr $b)
+						   )*
+	;
+
+infix_expr
+	: (a=mul_expr -> $a) ( Infix_Func b=mul_expr  -> ^(Expr_Infix Infix_Func $infix_expr $b) )*
 	;
 
 mul_expr
@@ -266,6 +280,7 @@ suffix_expr
 						  | '::' IDENT -> ^(Expr_Access '::' $suffix_expr IDENT)
 						  | '(' expr_list? ')' -> ^(Expr_Call $suffix_expr expr_list?)
 						  | '[' expr ']' -> ^(Expr_Dict $suffix_expr expr)
+						  | ':' IDENT '(' expr_list? ')' -> ^(Expr_Call_With $suffix_expr IDENT expr_list?)
 					      )*
 	;
 
@@ -281,7 +296,7 @@ atom_expr
 
 lvalue
 	: IDENT
-	//| '(' IDENT (',' IDENT)+ ')' -> ^(Expr_Match_Tuple IDENT*)
+	| '(' (IDENT (',' IDENT)*)? ')' -> ^(Match_Tuple IDENT*)
 	;
 
 // Lexer Rules
@@ -290,6 +305,7 @@ IDENT: ('a'..'z' | 'A'..'Z' | '_')+ ('0'..'9')*;
 
 INT: '0'..'9'+ ;
 
+Infix_Func: '`' ('a'..'z' | 'A'..'Z' | '_')+ ('0'..'9')* '`';
 
 STRING
 	: '"' (~'"')* '"'

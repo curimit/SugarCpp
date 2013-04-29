@@ -153,28 +153,28 @@ namespace SugarCpp.Compiler
             return template;
         }
 
-        public override Template Visit(StmtAlloc stmt)
+        public override Template Visit(ExprAlloc expr)
         {
-            if (stmt.Expr != null)
+            if (expr.Expr != null)
             {
-                Template template = new Template("<type> <name> = <expr>");
-                template.Add("type", stmt.Type);
-                template.Add("name", stmt.Name);
-                template.Add("expr", stmt.Expr.Accept(this));
+                Template template = new Template("<type> <name; separator=\", \"> = <expr>");
+                template.Add("type", expr.Type);
+                template.Add("name", expr.Name);
+                template.Add("expr", expr.Expr.Accept(this));
                 return template;
             }
             else
             {
-                Template template = new Template("<type> <name>");
-                template.Add("type", stmt.Type);
-                template.Add("name", stmt.Name);
+                Template template = new Template("<type> <name; separator=\", \">");
+                template.Add("type", expr.Type);
+                template.Add("name", expr.Name);
                 return template;
             }
         }
 
         public override Template Visit(MatchTuple match)
         {
-            Template template = new Template("std::tie(<list; separator=\",\">)");
+            Template template = new Template("std::tie(<list; separator=\", \">)");
             template.Add("list", match.VarList);
             return template;
         }
@@ -282,6 +282,15 @@ namespace SugarCpp.Compiler
             template.Add("left", expr.Left.Accept(this));
             template.Add("right", expr.Right.Accept(this));
             template.Add("op", expr.Op);
+            return template;
+        }
+
+        public override Template Visit(ExprInfix expr)
+        {
+            Template template = new Template("<func>(<left>, <right>)");
+            template.Add("func", expr.Func);
+            template.Add("left", expr.Left.Accept(this));
+            template.Add("right", expr.Right.Accept(this));
             return template;
         }
 

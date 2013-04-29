@@ -26,6 +26,25 @@ namespace SugarCpp.Compiler
         }
     }
 
+    public class ExprAlloc : Expr
+    {
+        public List<string> Name = new List<string>();
+        public string Type;
+        public Expr Expr;
+
+        public ExprAlloc(string type, List<string> name, Expr expr)
+        {
+            this.Type = type;
+            this.Name = name;
+            this.Expr = expr;
+        }
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
     public class ExprBin : Expr
     {
         public Expr Left, Right;
@@ -34,6 +53,24 @@ namespace SugarCpp.Compiler
         public ExprBin(string op, Expr left, Expr right)
         {
             this.Op = op;
+            this.Left = left;
+            this.Right = right;
+        }
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
+    public class ExprInfix : Expr
+    {
+        public Expr Left, Right;
+        public string Func;
+
+        public ExprInfix(string func, Expr left, Expr right)
+        {
+            this.Func = func;
             this.Left = left;
             this.Right = right;
         }
@@ -103,7 +140,10 @@ namespace SugarCpp.Compiler
         public ExprCall(Expr expr, List<Expr> args)
         {
             this.Expr = expr;
-            this.Args = args;
+            if (args != null)
+            {
+                this.Args = args;
+            }
         }
 
         public override Template Accept(Visitor visitor)

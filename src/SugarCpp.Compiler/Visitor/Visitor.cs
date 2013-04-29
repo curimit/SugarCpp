@@ -30,7 +30,7 @@ namespace SugarCpp.Compiler
         public abstract Template Visit(ExprBin expr);
         public abstract Template Visit(ExprPrefix expr);
         public abstract Template Visit(ExprSuffix expr);
-        public abstract Template Visit(StmtAlloc expr);
+        public abstract Template Visit(ExprAlloc expr);
         public abstract Template Visit(ExprReturn expr);
         public abstract Template Visit(ExprCall expr);
         public abstract Template Visit(ExprNew expr);
@@ -38,6 +38,8 @@ namespace SugarCpp.Compiler
         public abstract Template Visit(ExprAccess expr);
         public abstract Template Visit(ExprCond expr);
         public abstract Template Visit(ExprConst expr);
+
+        public abstract Template Visit(ExprInfix expr);
 
         public abstract Template Visit(ExprBlock expr);
     }
