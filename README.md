@@ -91,5 +91,56 @@ namespace SugarCpp::AstNode::Expr
 
 #### Typedef
 ```c++
-type uint = unsigned int
+typedef uint = unsigned int
+```
+
+#### Garbage collection
+SugarCpp use `shared_ptr` for all pointers.
+Every array types are `shared_ptr<vector>`.
+
+###### Pointer definition
+SugarCpp Code
+```c++
+a := new int(10)
+```
+C++ Code
+```c++
+auto a = shared_ptr<int>(new int(10));
+```
+
+###### Array definition
+SugarCpp Code
+```c++
+a := new int[n,m]
+```
+C++ Code
+```c++
+auto a = shared_ptr<vector<vector<int>>>(new vector<vector<int>>(n, vector<int>(m)));
+```
+
+###### Array access
+SugarCpp Code
+```c++
+t := a[x, y, z]
+```
+C++ Code
+```c++
+auto t = a->at(x)[y][z];
+```
+
+###### Example: Fibonacci numbers
+```c++
+import "cstdio"
+       "memory"
+       "vector"
+
+using namespace std
+
+int main()
+    n := 10
+    fib := new int[n]
+    (fib[0], fib[1]) = (1, 1)
+    for (i := 2; i < n; i++)
+        fib[i] = fib[i-1] + fib[i-2]
+    printf("%d\n", fib[n-1])
 ```
