@@ -219,13 +219,16 @@ expr returns [Expr value]
 	{
 		$value = new ExprCond(a, b, c);
 	}
-	| ^(Expr_Access op=('.' | '::' | '->') a=expr text=IDENT)
+	| ^(Expr_Access op=('.' | '::' | '->' | '->*' | '.*') a=expr text=IDENT)
 	{
 		$value = new ExprAccess(a, op.Text, text.Text);
 	}
 	| ^(Expr_Bin op=( '+' | '-' | '*' | '/'
 	                | '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>='
 					| '<' | '<=' | '>' | '>=' | '==' | '!='
+					| '<<' | '>>'
+					| '&' | '^' | '|'
+					| '&&' | '||'
 					) a=expr b=expr)
 	{
 		$value = new ExprBin(op.Text, a, b);

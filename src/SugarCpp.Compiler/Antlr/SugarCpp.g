@@ -186,12 +186,42 @@ modify_expr
 
 cond_expr_item: cond_expr ;
 cond_expr
-	: (a=cmp_expr -> $a) ('?' a=cond_expr_item ':' b=cond_expr_item -> ^(Expr_Cond $cond_expr $a $b))?
+	: (a=or_expr -> $a) ('?' a=cond_expr_item ':' b=cond_expr_item -> ^(Expr_Cond $cond_expr $a $b))?
+	;
+
+or_expr
+	: (a=and_expr -> $a) ('||' b=and_expr -> ^(Expr_Bin '||' $or_expr $b))*
+	;
+
+and_expr
+	: (a=bit_or -> $a) ('&&' b=bit_or -> ^(Expr_Bin '&&' $and_expr $b))*
+	;
+
+bit_or
+	: (a=bit_xor -> $a) ('|' b=bit_xor -> ^(Expr_Bin '|' $bit_or $b))*
+	;
+
+bit_xor
+	: (a=bit_and -> $a) ('^' b=bit_and -> ^(Expr_Bin '^' $bit_xor $b))*
+	;
+
+bit_and
+	: (a=shift_expr -> $a) ('&' b=shift_expr -> ^(Expr_Bin '&' $bit_and $b))*
+	;
+
+cmp_equ_expr_op: '==' | '!=' ;
+cmp_equ_expr
+	: (a=cmp_expr -> $a) (cmp_equ_expr_op b=cmp_expr -> ^(Expr_Bin cmp_equ_expr_op $cmp_equ_expr $b))*
 	;
 	
-cmp_expr_op: '<' | '<=' | '>' | '>=' | '==' | '!=' ;
+cmp_expr_op: '<' | '<=' | '>' | '>=' ;
 cmp_expr
-	: (a=add_expr -> $a) (cmp_expr_op b=add_expr -> ^(Expr_Bin cmp_expr_op $cmp_expr $b))*
+	: (a=shift_expr -> $a) (cmp_expr_op b=shift_expr -> ^(Expr_Bin cmp_expr_op $cmp_expr $b))*
+	;
+
+shift_expr_op: '<<' | '>>' ;
+shift_expr
+	: (a=add_expr -> $a) (shift_expr_op b=add_expr -> ^(Expr_Bin shift_expr_op $shift_expr $b))*
 	;
 
 add_expr
@@ -201,9 +231,15 @@ add_expr
 	;
 
 mul_expr
-	: (a=prefix_expr -> $a) ( '*' b=prefix_expr -> ^(Expr_Bin '*' $mul_expr $b)
-						    | '/' b=prefix_expr -> ^(Expr_Bin '/' $mul_expr $b)
-						    | '%' b=prefix_expr -> ^(Expr_Bin '%' $mul_expr $b)
+	: (a=selector_expr -> $a) ( '*' b=selector_expr -> ^(Expr_Bin '*' $mul_expr $b)
+						      | '/' b=selector_expr -> ^(Expr_Bin '/' $mul_expr $b)
+						      | '%' b=selector_expr -> ^(Expr_Bin '%' $mul_expr $b)
+						      )*
+	;
+
+selector_expr
+	: (a=prefix_expr -> $a) ( '->*' b=IDENT -> ^(Expr_Access '->*' $selector_expr $b)
+						    | '.*'  b=IDENT -> ^(Expr_Access '.*'  $selector_expr $b)
 						    )*
 	;
 
