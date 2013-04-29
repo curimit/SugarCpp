@@ -243,16 +243,11 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(ExprNew expr)
         {
-            Template template = new Template("(new <elem><ranges>)");
+            Template template = new Template("(new <elem><op_left><args; separator=\", \"><op_right>)");
             template.Add("elem", expr.ElemType);
-            List<Template> list = new List<Template>();
-            foreach (var node in expr.Ranges)
-            {
-                Template item = new Template("[<expr>]");
-                item.Add("expr", node.Accept(this));
-                list.Add(item);
-            }
-            template.Add("ranges", list);
+            template.Add("op_left", expr.Op[0]);
+            template.Add("op_right", expr.Op[1]);
+            template.Add("args", expr.Args.Select(x => x.Accept(this)));
             return template;
         }
 

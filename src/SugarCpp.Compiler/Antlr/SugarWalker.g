@@ -37,21 +37,18 @@ type_name returns [string value]
 {
 	$value = "";
 }
-	: a=IDENT { $value+=a.Text; }
-	  ('<' { $value+="<"; }
-	  b=type_name { $value+=b; }
-	  (',' b=type_name { $value+=", " + b; })*
-	  '>' { $value+=">"; })*
-	  ('*' { $value+="*"; })*
-	| {bool isFirst = true; $value += "std::tuple<";} ^(Type_Tuple (b=type_name
-	{
-		if (!isFirst) $value += ",";
-		isFirst = false;
-		$value += b;
-	})+)
-	{
-		$value += ">";
-	}
+	: ^(Type_IDENT a=IDENT { $value+=a.Text; })
+	| {bool isFirst = true; $value += "std::tuple<";}
+	  ^(Type_Tuple
+	   (b=type_name
+		{
+			if (!isFirst) $value += ",";
+			isFirst = false;
+			$value += b;
+		})+)
+		{
+			$value += ">";
+		}
 	;
 
 func_args returns [List<Stmt> value]
@@ -137,14 +134,6 @@ alloc_expr_auto returns [StmtAlloc value]
 	}
 	;
 
-new_expr returns [ExprNew value]
-@init
-{
-	$value = new ExprNew();
-}
-	: ^(Expr_New a=IDENT { $value.ElemType = a.Text; } (b=expr { $value.Ranges.Add(b); })+)
-	;
-
 block_expr returns [ExprBlock value]
 @init
 {
@@ -174,7 +163,7 @@ expr_list returns [List<Expr> value]
 {
 	$value = new List<Expr>();
 }
-	: (a=expr { $value.Add(a); })*
+	: (a=expr { $value.Add(a); })+
 	;
 
 call_expr returns [Expr value]
@@ -198,6 +187,18 @@ lambda_expr returns [ExprLambda value]
 	}
 	;
 
+new_expr returns [ExprNew value]
+	: ^(Expr_New_Type a=type_name b=expr_list?)
+	{
+		$value = new ExprNew("()", a, b);
+	}
+	| ^(Expr_New_Array a=type_name b=expr_list?)
+	{
+		$value = new ExprNew("[]", a, b);
+	}
+	;
+
+
 expr returns [Expr value]
     : tuple=expr_tuple
 	{
@@ -214,6 +215,10 @@ expr returns [Expr value]
 	| lambda=lambda_expr
 	{
 		$value = lambda;
+	}
+	| expr_new=new_expr
+	{
+		$value = expr_new;
 	}
 	|^(Expr_Cond a=expr b=expr c=expr)
 	{

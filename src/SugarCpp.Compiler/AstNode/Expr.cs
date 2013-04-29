@@ -153,8 +153,19 @@ namespace SugarCpp.Compiler
 
     public class ExprNew : Expr
     {
-        public List<Expr> Ranges = new List<Expr>();
+        public List<Expr> Args = new List<Expr>();
+        public string Op;
         public string ElemType;
+
+        public ExprNew(string op, string type, List<Expr> args)
+        {
+            this.Op = op;
+            this.ElemType = type;
+            if (args != null)
+            {
+                this.Args = args;
+            }
+        }
 
         public override Template Accept(Visitor visitor)
         {

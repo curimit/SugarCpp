@@ -20,6 +20,7 @@ tokens
    Stmt_If;
    Stmt_While;
 
+   Type_IDENT;
    Type_Tuple;
 
    Func_Args;
@@ -29,7 +30,8 @@ tokens
 
    Expr_Block;
    Expr_Cond;
-   Expr_New;
+   Expr_New_Type;
+   Expr_New_Array;
    Expr_Bin;
    Expr_Return;
    
@@ -128,11 +130,11 @@ node
 	;
 
 type_name
-	: IDENT // ('<' type_name (',' type_name)* '>')* ('*')*
+	: IDENT -> ^(Type_IDENT IDENT)
 	;
 
 func_type_name
-	: IDENT // ('<' func_type_name (',' func_type_name)* '>')* ('*')*
+	: IDENT -> ^(Type_IDENT IDENT)
 	| '(' func_type_name (',' func_type_name) ')' -> ^(Type_Tuple func_type_name+)
 	;
 
@@ -246,6 +248,9 @@ selector_expr
 prefix_expr_op: '!' | '~' | '++' | '--' | '-' | '+' | '*' | '&' ;
 prefix_expr
 	: (prefix_expr_op prefix_expr) -> ^(Expr_Prefix prefix_expr_op prefix_expr)
+	| 'new' type_name ( '(' expr_list? ')' -> ^(Expr_New_Type  type_name expr_list?)
+	                  | '[' expr_list? ']' -> ^(Expr_New_Array type_name expr_list?)
+					  )
 	| suffix_expr
 	;
 	
