@@ -33,7 +33,7 @@ namespace SugarCpp.Compiler
 
                 CommonTreeNodeStream nodes = new CommonTreeNodeStream(ct);
                 SugarWalker walker = new SugarWalker(nodes);
-
+                
                 Root x = walker.root();
                 TargetCpp cpp = new TargetCpp();
                 Console.WriteLine("Program:");

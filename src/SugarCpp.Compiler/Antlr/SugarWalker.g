@@ -81,8 +81,8 @@ type_name returns [string value]
 {
 	$value = "";
 }
-	: ^(Type_IDENT a=IDENT { $value+=a.Text; }
-	  ( '<' { $value+="<"; bool isFirst = true; }
+	: ^( Type_IDENT a=IDENT { $value+=a.Text; }
+	   ( '<' { $value+="<"; bool isFirst = true; }
 	    (b=type_name
 		{
 			if (!isFirst) $value+=", ";
@@ -90,9 +90,10 @@ type_name returns [string value]
 			$value+=b;
 		})*
 		'>' { $value+=">"; })?
-	  ('*' { $value="shared_ptr<"+$value+">"; })*
-	  ('&' { $value+="&"; })?
-	  )
+	  ( '*' { $value="shared_ptr<"+$value+">"; }
+	  | '[' ']' { $value="vector<"+$value+">"; }
+	  | '&' { $value+="&"; }
+	  )*)
 	;
 
 func_args returns [List<Stmt> value]
@@ -108,7 +109,7 @@ func_def returns [FuncDef value]
 {
 	$value = new FuncDef();
 }
-	: a=type_name b=IDENT ('<' (x=IDENT {$value.GenericParameter.Add(x.Text); })+ '>')? '(' (args=func_args { $value.Args = args; })? ')'
+	: a=type_name b=IDENT ('<' x=IDENT { $value.GenericParameter.Add(x.Text); } '>')? '(' (args=func_args { $value.Args = args; })? ')'
 	( e=stmt_block
 	{
 		$value.Type = a;
@@ -178,6 +179,10 @@ stmt_for returns [Stmt value]
 	{
 		$value = new StmtFor(a, b, c, d);
 	}
+	| ^(Stmt_ForEach a=expr b=expr d=stmt_block)
+	{
+		$value = new StmtForEach(a, b, d);
+	}
 	;
 
 stmt_return returns [Stmt value]
@@ -227,7 +232,7 @@ match_tuple returns [MatchTuple value]
 {
 	$value = new MatchTuple();
 }
-	: ^(Match_Tuple (a=IDENT { $value.VarList.Add(a.Text); })*)
+	: ^(Match_Tuple (a=expr { $value.ExprList.Add(a); })*)
 	;
 
 expr_list returns [List<Expr> value]
@@ -238,15 +243,16 @@ expr_list returns [List<Expr> value]
 	: (a=expr { $value.Add(a); })+
 	;
 
-call_expr returns [Expr value]
-	: ^(Expr_Call a=expr b=expr_list)
-	{
-		$value = new ExprCall(a, b);
-	}
+call_expr returns [ExprCall value]
+@init
+{
+	$value = new ExprCall();
+}
+	: ^(Expr_Call a=expr { $value.Expr=a; } ('<' (x=IDENT { $value.GenericParameter.Add(x.Text); })* '>')? (b=expr_list { $value.Args=b; })?)
 	;
 
 dict_expr returns [Expr value]
-	: ^(Expr_Dict a=expr b=expr)
+	: ^(Expr_Dict a=expr (b=expr_list)?)
 	{
 		$value = new ExprDict(a, b);
 	}
@@ -259,14 +265,14 @@ lambda_expr returns [ExprLambda value]
 	}
 	;
 
-new_expr returns [ExprNew value]
+new_expr returns [Expr value]
 	: ^(Expr_New_Type a=type_name b=expr_list?)
 	{
-		$value = new ExprNew("()", a, b);
+		$value = new ExprNewType(a, b);
 	}
-	| ^(Expr_New_Array a=type_name b=expr_list?)
+	| ^(Expr_New_Array a=type_name b=expr_list)
 	{
-		$value = new ExprNew("[]", a, b);
+		$value = new ExprNewArray(a, b);
 	}
 	;
 
@@ -282,7 +288,9 @@ call_with_expr returns [ExprCall value]
 				Args.Add(item);
 			}
 		}
-		$value = new ExprCall(new ExprConst(b.Text), Args);
+		$value = new ExprCall();
+		$value.Expr = new ExprConst(b.Text);
+		$value.Args = Args;
 	}
 	;
 

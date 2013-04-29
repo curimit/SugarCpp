@@ -118,12 +118,15 @@ namespace SugarCpp.Compiler
     public class ExprDict : Expr
     {
         public Expr Expr;
-        public Expr Index;
+        public List<Expr> Index = new List<Expr>();
 
-        public ExprDict(Expr expr, Expr index)
+        public ExprDict(Expr expr, List<Expr> index)
         {
             this.Expr = expr;
-            this.Index = index;
+            if (index != null)
+            {
+                this.Index = index;
+            }
         }
 
         public override Template Accept(Visitor visitor)
@@ -136,15 +139,7 @@ namespace SugarCpp.Compiler
     {
         public Expr Expr;
         public List<Expr> Args = new List<Expr>();
-
-        public ExprCall(Expr expr, List<Expr> args)
-        {
-            this.Expr = expr;
-            if (args != null)
-            {
-                this.Args = args;
-            }
-        }
+        public List<string> GenericParameter = new List<string>();
 
         public override Template Accept(Visitor visitor)
         {
@@ -191,15 +186,33 @@ namespace SugarCpp.Compiler
         }
     }
 
-    public class ExprNew : Expr
+    public class ExprNewType : Expr
     {
         public List<Expr> Args = new List<Expr>();
-        public string Op;
         public string ElemType;
 
-        public ExprNew(string op, string type, List<Expr> args)
+        public ExprNewType(string type, List<Expr> args)
         {
-            this.Op = op;
+            this.ElemType = type;
+            if (args != null)
+            {
+                this.Args = args;
+            }
+        }
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
+    public class ExprNewArray : Expr
+    {
+        public List<Expr> Args = new List<Expr>();
+        public string ElemType;
+
+        public ExprNewArray(string type, List<Expr> args)
+        {
             this.ElemType = type;
             if (args != null)
             {

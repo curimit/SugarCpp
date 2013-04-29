@@ -22,6 +22,7 @@ namespace SugarCpp.Compiler
         public abstract Template Visit(StmtIf stmt_if);
         public abstract Template Visit(StmtWhile stmt_while);
         public abstract Template Visit(StmtFor stmt_for);
+        public abstract Template Visit(StmtForEach stmt_for_each);
         public abstract Template Visit(StmtTypeDef stmt_typedef);
         public abstract Template Visit(StmtUsing stmt_using);
 
@@ -36,7 +37,8 @@ namespace SugarCpp.Compiler
         public abstract Template Visit(ExprAlloc expr);
         public abstract Template Visit(ExprReturn expr);
         public abstract Template Visit(ExprCall expr);
-        public abstract Template Visit(ExprNew expr);
+        public abstract Template Visit(ExprNewType expr);
+        public abstract Template Visit(ExprNewArray expr);
         public abstract Template Visit(ExprDict expr);
         public abstract Template Visit(ExprAccess expr);
         public abstract Template Visit(ExprCond expr);

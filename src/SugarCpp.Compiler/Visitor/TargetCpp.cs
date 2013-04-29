@@ -195,6 +195,15 @@ namespace SugarCpp.Compiler
             return template;
         }
 
+        public override Template Visit(StmtForEach stmt_for_each)
+        {
+            Template template = new Template("for (auto <var> : <expr>) {\n    <body>\n}");
+            template.Add("var", stmt_for_each.Var);
+            template.Add("expr", stmt_for_each.Target.Accept(this));
+            template.Add("body", stmt_for_each.Body.Accept(this));
+            return template;
+        }
+
         public override Template Visit(ExprAlloc expr)
         {
             if (expr.Expr != null)
@@ -217,7 +226,7 @@ namespace SugarCpp.Compiler
         public override Template Visit(MatchTuple match)
         {
             Template template = new Template("std::tie(<list; separator=\", \">)");
-            template.Add("list", match.VarList);
+            template.Add("list", match.ExprList.Select(x => x.Accept(this)));
             return template;
         }
 
@@ -245,10 +254,21 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(ExprCall expr)
         {
-            Template template = new Template("(<expr>(<args; separator=\", \">))");
-            template.Add("expr", expr.Expr.Accept(this));
-            template.Add("args", expr.Args.Select(x => x.Accept(this)));
-            return template;
+            if (expr.GenericParameter.Count() == 0)
+            {
+                Template template = new Template("(<expr>(<args; separator=\", \">))");
+                template.Add("expr", expr.Expr.Accept(this));
+                template.Add("args", expr.Args.Select(x => x.Accept(this)));
+                return template;
+            }
+            else
+            {
+                Template template = new Template("(<expr>\\<<generics; separator=\", \">>(<args; separator=\", \">))");
+                template.Add("expr", expr.Expr.Accept(this));
+                template.Add("generics", expr.GenericParameter);
+                template.Add("args", expr.Args.Select(x => x.Accept(this)));
+                return template;
+            }
         }
 
         public override Template Visit(ExprCond expr)
@@ -277,20 +297,74 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(ExprDict expr)
         {
-            Template template = new Template("((&*<expr>)[<index>])");
+            Template template = new Template("<expr>");
             template.Add("expr", expr.Expr.Accept(this));
-            template.Add("index", expr.Index.Accept(this));
+            bool isFirst = true;
+            foreach (var index in expr.Index)
+            {
+                if (isFirst)
+                {
+                    Template result = new Template("(<expr>->at(<index>))");
+                    result.Add("expr", template);
+                    result.Add("index", index.Accept(this));
+                    template = result;
+                }
+                else
+                {
+                    Template result = new Template("(<expr>[<index>])");
+                    result.Add("expr", template);
+                    result.Add("index", index.Accept(this));
+                    template = result;
+                }
+                isFirst = false;
+            }
             return template;
         }
 
-        public override Template Visit(ExprNew expr)
+        public override Template Visit(ExprNewType expr)
         {
-            Template template = new Template("shared_ptr\\<<elem>>(new <elem><op_left><args; separator=\", \"><op_right>)");
+            Template template = new Template("shared_ptr\\<<elem>>(new <elem>(<args; separator=\", \">))");
             template.Add("elem", expr.ElemType);
-            template.Add("op_left", expr.Op[0]);
-            template.Add("op_right", expr.Op[1]);
             template.Add("args", expr.Args.Select(x => x.Accept(this)));
             return template;
+        }
+
+        public override Template Visit(ExprNewArray expr)
+        {
+            StringBuilder sb = new StringBuilder("shared_ptr");
+            Expr[] exprs = expr.Args.ToArray();
+            string[] level = new string[exprs.Length];
+            for (int i = 0; i < exprs.Length; i++)
+            {
+                if (i == 0)
+                {
+                    level[0] = string.Format("vector\\<{0}>", expr.ElemType);
+                }
+                else
+                {
+                    level[i] = string.Format("vector\\<{0}>", level[i - 1]);
+                }
+            }
+            sb.Append("\\<");
+            sb.Append(level.Last());
+            sb.Append(">");
+            sb.Append(string.Format("(new {0}", level[exprs.Length - 1]));
+            for (int i = 0; i < level.Length; i++)
+            {
+                sb.Append("(");
+                sb.Append(exprs[i].Accept(this).Render());
+                if (i < level.Length - 1)
+                {
+                    sb.Append(", ");
+                    sb.Append(level[level.Length - i - 2]);
+                }
+            }
+            for (int i = 0; i < level.Length; i++)
+            {
+                sb.Append(")");
+            }
+            sb.Append(")");
+            return new Template(sb.ToString());
         }
 
         public override Template Visit(ExprAccess expr)

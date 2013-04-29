@@ -5,6 +5,8 @@ options
     output=AST;  
     ASTLabelType=CommonTree;  
     language=CSharp3;
+	backtrack=true;
+	memoize=true;
 }
 
 tokens
@@ -29,6 +31,7 @@ tokens
    Stmt_If;
    Stmt_While;
    Stmt_For;
+   Stmt_ForEach;
 
    Type_IDENT;
    Type_Ref;
@@ -171,12 +174,13 @@ struct_def
 	: 'struct' IDENT INDENT overall_block NEWLINE* DEDENT -> ^(Struct IDENT overall_block)
 	;
 
+type_name_op: '*' | '[' ']' | '&' ;
 type_name
-	: IDENT ('<' (type_name (',' type_name)*)? '>')? '*'* '&'? -> ^(Type_IDENT IDENT ('<' type_name* '>')?  '*'* '&'?)
+	: IDENT ('<' (type_name (',' type_name)*)? '>')? type_name_op* -> ^(Type_IDENT IDENT ('<' type_name* '>')?  type_name_op*)
 	;
 
 generic_parameter
-	: IDENT (','! IDENT)*
+	: '<' IDENT (','! IDENT)* '>'
 	;
 
 func_args
@@ -184,7 +188,7 @@ func_args
 	;
 
 func_def
-	: type_name IDENT ('<' generic_parameter '>')? '(' func_args? ')' stmt_block
+	: type_name IDENT generic_parameter? '(' func_args? ')' stmt_block
     ;
 
 stmt_block
@@ -228,7 +232,13 @@ stmt_while
 	;
 
 stmt_for
-	: 'for' '(' expr ';' expr ';' expr ')' stmt_block -> ^(Stmt_For expr expr expr stmt_block)
+@init
+{
+	int type = 0;
+}
+	: 'for' '(' expr (';' expr ';' expr {type=0;} | 'in' expr {type=1;}) ')' stmt_block
+	  -> {type==0}? ^(Stmt_For expr expr expr stmt_block)
+	  -> ^(Stmt_ForEach expr expr stmt_block)
 	;
 
 ident_list
@@ -284,12 +294,12 @@ bit_and
 
 cmp_equ_expr_op: '==' | '!=' ;
 cmp_equ_expr
-	: (a=cmp_expr -> $a) (cmp_equ_expr_op b=cmp_expr -> ^(Expr_Bin cmp_equ_expr_op $cmp_equ_expr $b))*
+	: (a=cmp_expr -> $a) (cmp_equ_expr_op b=cmp_expr -> ^(Expr_Bin cmp_equ_expr_op $cmp_equ_expr $b))?
 	;
 	
 cmp_expr_op: '<' | '<=' | '>' | '>=' ;
 cmp_expr
-	: (a=shift_expr -> $a) (cmp_expr_op b=shift_expr -> ^(Expr_Bin cmp_expr_op $cmp_expr $b))*
+	: (a=shift_expr -> $a) (cmp_expr_op b=shift_expr -> ^(Expr_Bin cmp_expr_op $cmp_expr $b))?
 	;
 
 shift_expr_op: '<<' | '>>' ;
@@ -323,9 +333,8 @@ selector_expr
 prefix_expr_op: '!' | '~' | '++' | '--' | '-' | '+' | '*' | '&' ;
 prefix_expr
 	: (prefix_expr_op prefix_expr) -> ^(Expr_Prefix prefix_expr_op prefix_expr)
-	| 'new' type_name ( '(' expr_list? ')' -> ^(Expr_New_Type  type_name expr_list?)
-	                  | '[' expr_list? ']' -> ^(Expr_New_Array type_name expr_list?)
-					  )
+	| 'new' type_name ( '(' expr_list? ')' -> ^(Expr_New_Type type_name expr_list?)
+					  | '[' expr_list ']' -> ^(Expr_New_Array type_name expr_list))
 	| suffix_expr
 	;
 	
@@ -339,8 +348,8 @@ suffix_expr
 						  | '.' IDENT -> ^(Expr_Access '.' $suffix_expr IDENT)
 						  | '->' IDENT -> ^(Expr_Access '->' $suffix_expr IDENT)
 						  | '::' IDENT -> ^(Expr_Access '::' $suffix_expr IDENT)
-						  | '(' expr_list? ')' -> ^(Expr_Call $suffix_expr expr_list?)
-						  | '[' expr ']' -> ^(Expr_Dict $suffix_expr expr)
+						  | generic_parameter? '(' expr_list? ')' -> ^(Expr_Call $suffix_expr generic_parameter? expr_list?)
+						  | '[' expr_list? ']' -> ^(Expr_Dict $suffix_expr expr_list?)
 						  | ':' IDENT '(' expr_list? ')' -> ^(Expr_Call_With $suffix_expr IDENT expr_list?)
 					      )*
 	;
@@ -359,19 +368,18 @@ atom_expr
 	;
 
 lvalue
-	: //(a=or_expr -> $a) ('if' a=cond_expr_item 'else' b=cond_expr_item -> ^(Expr_Cond $a $lvalue $b))?
-	  (a=lvalue_atom -> $a) ( '++' -> ^(Expr_Suffix '++' $lvalue)
+	: (a=lvalue_atom -> $a) ( '++' -> ^(Expr_Suffix '++' $lvalue)
 					        | '--' -> ^(Expr_Suffix '--' $lvalue)
 						    | '.' IDENT -> ^(Expr_Access '.' $lvalue IDENT)
 						    | '->' IDENT -> ^(Expr_Access '->' $lvalue IDENT)
 						    | '::' IDENT -> ^(Expr_Access '::' $lvalue IDENT)
-						    | '(' expr_list? ')' -> ^(Expr_Call $lvalue expr_list?)
+						    | generic_parameter? '(' expr_list? ')' -> ^(Expr_Call $lvalue generic_parameter? expr_list?)
 						    | '[' expr ']' -> ^(Expr_Dict $lvalue expr)
 					        )*
 	;
 
 lvalue_atom
-	: '(' (IDENT (',' IDENT)*)? ')' -> ^(Match_Tuple IDENT*)
+	: '(' (lvalue (',' lvalue)*)? ')' -> ^(Match_Tuple lvalue*)
 	| IDENT
 	;
 

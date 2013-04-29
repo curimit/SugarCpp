@@ -1,6 +1,7 @@
 ﻿using Antlr4.StringTemplate;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -58,6 +59,26 @@ namespace SugarCpp.Compiler
             this.Start = start;
             this.Condition = condition;
             this.Next = next;
+            this.Body = body;
+        }
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
+    public class StmtForEach : Stmt
+    {
+        public string Var;
+        public Expr Target;
+        public StmtBlock Body;
+
+        public StmtForEach(Expr expr, Expr target, StmtBlock body)
+        {
+            Debug.Assert(expr is ExprConst);
+            this.Var = ((ExprConst)expr).Text;
+            this.Target = target;
             this.Body = body;
         }
 

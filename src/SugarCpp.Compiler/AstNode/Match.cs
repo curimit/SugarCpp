@@ -12,7 +12,7 @@ namespace SugarCpp.Compiler
 
     public class MatchTuple : Match
     {
-        public List<string> VarList = new List<string>();
+        public List<Expr> ExprList = new List<Expr>();
 
         public override Template Accept(Visitor visitor)
         {
