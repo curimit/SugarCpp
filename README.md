@@ -99,32 +99,30 @@ SugarCpp use `shared_ptr` for all pointers.
 Every array types are `shared_ptr<vector>`.
 
 ###### Pointer definition
-SugarCpp Code
+
 ```c++
+// SugarCpp Code
 a := new int(10)
-```
-C++ Code
-```c++
+
+// C++ Code
 auto a = shared_ptr<int>(new int(10));
 ```
 
 ###### Array definition
-SugarCpp Code
 ```c++
-a := new int[n,m]
-```
-C++ Code
-```c++
+// SugarCpp Code
+a := new int[n, m]
+
+// C++ Code
 auto a = shared_ptr<vector<vector<int>>>(new vector<vector<int>>(n, vector<int>(m)));
 ```
 
 ###### Array access
-SugarCpp Code
 ```c++
+// SugarCpp Code
 t := a[x, y, z]
-```
-C++ Code
-```c++
+
+// C++ Code
 auto t = a->at(x)[y][z];
 ```
 
