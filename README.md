@@ -41,7 +41,9 @@ c : int = 0
 import "stdio.h"
        "tuple"
 
-(T, T) sort<T>(a : T, b : T) = (a,b) if a < b else (b,a)
+using std::tuple
+
+tuple<T, T> sort<T>(a : T, b : T) = (a,b) if a < b else (b,a)
 
 int main()
 	a := 10
@@ -53,7 +55,7 @@ int main()
 ```
 
 #### Haskell style infix function
-```c++
+```haskell
 import "stdio.h"
        "algorithm"
 
