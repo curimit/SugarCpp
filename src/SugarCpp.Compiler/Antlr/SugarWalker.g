@@ -47,9 +47,9 @@ node returns [AstNode value]
 	;
 
 namespace_def returns [Namespace value]
-	: ^(Namespace a=IDENT b=overall_block)
+	: ^(Namespace a=ident b=overall_block)
 	{
-		$value = new Namespace(a.Text, b);
+		$value = new Namespace(a, b);
 	}
 	;
 
@@ -66,13 +66,13 @@ enum_def returns [Enum value]
 {
 	$value = new Enum();
 }
-	: ^(Enum a=IDENT { $value.Name=a.Text; } (a=IDENT { $value.Values.Add(a.Text); })*)
+	: ^(Enum a=ident { $value.Name=a; } (a=ident { $value.Values.Add(a); })*)
 	;
 
 class_def returns [Class value]
-	: ^(Class a=IDENT b=class_block)
+	: ^(Class a=ident b=class_block)
 	{
-		$value = new Class(a.Text, b);
+		$value = new Class(a, b);
 	}
 	;
 
@@ -108,7 +108,7 @@ type_name returns [string value]
 {
 	$value = "";
 }
-	: ^( Type_IDENT a=IDENT { $value+=a.Text; }
+	: ^( Type_IDENT a=ident { $value+=a; }
 	   ( '<' { $value+="<"; bool isFirst = true; }
 	    (b=type_name
 		{
@@ -136,17 +136,17 @@ func_def returns [FuncDef value]
 {
 	$value = new FuncDef();
 }
-	: a=type_name b=IDENT ('<' x=IDENT { $value.GenericParameter.Add(x.Text); } '>')? '(' (args=func_args { $value.Args = args; })? ')'
+	: a=type_name b=ident ('<' x=ident { $value.GenericParameter.Add(x); } '>')? '(' (args=func_args { $value.Args = args; })? ')'
 	( e=stmt_block
 	{
 		$value.Type = a;
-		$value.Name = b.Text;
+		$value.Name = b;
 		$value.Body = e;
 	}
 	| '=' f=expr
 	{
 		$value.Type = a;
-		$value.Name = b.Text;
+		$value.Name = b;
 		StmtBlock block = new StmtBlock();
 		block.StmtList.Add(new ExprReturn(f));
 		$value.Body = block;
@@ -183,13 +183,14 @@ stmt_using returns [StmtUsing value]
 {
 	$value = new StmtUsing();
 }
-	: ^(Stmt_Using (a=(IDENT | 'namespace') { $value.List.Add(a.Text); })*)
+	: ^(Stmt_Using ( a=ident { $value.List.Add(a); }
+				   | b='namespace' { $value.List.Add("namespace"); })*)
 	;
 
 stmt_typedef returns [Stmt value]
-	: ^(Stmt_Typedef a=type_name b=IDENT)
+	: ^(Stmt_Typedef a=type_name b=ident)
 	{
-		$value = new StmtTypeDef(a, b.Text);
+		$value = new StmtTypeDef(a, b);
 	}
 	;
 
@@ -237,7 +238,11 @@ stmt_return returns [Stmt value]
 	;
 
 ident returns [string value]
-	: a=IDENT { $value = a.Text; }
+@init
+{
+	$value = "";
+}
+	: a=IDENT { $value = a.Text; } ('::' a=IDENT { $value += "::" + a.Text; })*
 	;
 
 ident_list returns [List<Expr> value]
@@ -292,7 +297,7 @@ call_expr returns [ExprCall value]
 {
 	$value = new ExprCall();
 }
-	: ^(Expr_Call a=expr { $value.Expr=a; } ('<' (x=IDENT { $value.GenericParameter.Add(x.Text); })* '>')? (b=expr_list { $value.Args=b; })?)
+	: ^(Expr_Call a=expr { $value.Expr=a; } ('<' (x=ident { $value.GenericParameter.Add(x); })* '>')? (b=expr_list { $value.Args=b; })?)
 	;
 
 dict_expr returns [Expr value]
@@ -321,7 +326,7 @@ new_expr returns [Expr value]
 	;
 
 call_with_expr returns [ExprCall value]
-	: ^(Expr_Call_With a=expr b=IDENT c=expr_list?)
+	: ^(Expr_Call_With a=expr b=ident c=expr_list?)
 	{
 		List<Expr> Args = new List<Expr>();
 		Args.Add(a);
@@ -333,7 +338,7 @@ call_with_expr returns [ExprCall value]
 			}
 		}
 		$value = new ExprCall();
-		$value.Expr = new ExprConst(b.Text);
+		$value.Expr = new ExprConst(b);
 		$value.Args = Args;
 	}
 	;
@@ -367,17 +372,17 @@ expr returns [Expr value]
 	{
 		$value = expr_new;
 	}
-	| ^(Expr_Infix op=Infix_Func a=expr b=expr)
+	| ^(Expr_Infix ident_text=ident a=expr b=expr)
 	{
-		$value = new ExprInfix(op.Text.Substring(1, op.Text.Length - 2), a, b);
+		$value = new ExprInfix(ident_text, a, b);
 	}
-	|^(Expr_Cond a=expr b=expr c=expr)
+	| ^(Expr_Cond a=expr b=expr c=expr)
 	{
 		$value = new ExprCond(a, b, c);
 	}
-	| ^(Expr_Access op=('.' | '::' | '->' | '->*' | '.*') a=expr text=IDENT)
+	| ^(Expr_Access op=('.' | '::' | '->' | '->*' | '.*') a=expr ident_text=ident)
 	{
-		$value = new ExprAccess(a, op.Text, text.Text);
+		$value = new ExprAccess(a, op.Text, ident_text);
 	}
 	| ^(Expr_Bin op=( '+' | '-' | '*' | '/'
 					| '<' | '<=' | '>' | '>=' | '==' | '!='
@@ -404,7 +409,11 @@ expr returns [Expr value]
 	{
 		$value = new ExprPrefix(op.Text, a);
 	}
-	| text=(NUMBER | DOUBLE | IDENT | STRING)
+	| text_ident = ident
+	{
+		$value = new ExprConst(text_ident);
+	}
+	| text=(NUMBER | DOUBLE | STRING)
     {
         $value = new ExprConst(text.Text);
     }

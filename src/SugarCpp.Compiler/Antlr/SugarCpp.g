@@ -166,15 +166,15 @@ import_def
 	;
 
 enum_def
-	: 'enum' IDENT '=' IDENT ('|' IDENT)* -> ^(Enum IDENT+)
+	: 'enum' ident '=' ident ('|' ident)* -> ^(Enum ident+)
 	;
 
 namespace_def
-	: 'namespace' IDENT INDENT overall_block NEWLINE* DEDENT -> ^(Namespace IDENT overall_block)
+	: 'namespace' ident INDENT overall_block NEWLINE* DEDENT -> ^(Namespace ident overall_block)
 	;
 
 class_def
-	: 'class' IDENT INDENT class_block NEWLINE* DEDENT -> ^(Class IDENT class_block)
+	: 'class' ident INDENT class_block NEWLINE* DEDENT -> ^(Class ident class_block)
 	;
 
 class_block
@@ -182,7 +182,7 @@ class_block
 	;
 
 attribute
-	:'[' IDENT (',' IDENT)* ']' -> ^(Attribute IDENT+)
+	:'[' ident (',' ident)* ']' -> ^(Attribute ident+)
 	;
 
 class_node
@@ -191,11 +191,11 @@ class_node
 
 type_name_op: '*' | '[' ']' | '&' ;
 type_name
-	: IDENT ('<' (type_name (',' type_name)*)? '>')? type_name_op* -> ^(Type_IDENT IDENT ('<' type_name* '>')?  type_name_op*)
+	: ident ('<' (type_name (',' type_name)*)? '>')? type_name_op* -> ^(Type_IDENT ident ('<' type_name* '>')?  type_name_op*)
 	;
 
 generic_parameter
-	: '<' IDENT (','! IDENT)* '>'
+	: '<' ident (','! ident)* '>'
 	;
 
 func_args
@@ -203,7 +203,7 @@ func_args
 	;
 
 func_def
-	: type_name IDENT generic_parameter? '(' func_args? ')' ( stmt_block | '=' expr )
+	: type_name ident generic_parameter? '(' func_args? ')' ( stmt_block | '=' expr )
     ;
 
 stmt_block
@@ -227,10 +227,10 @@ stmt_expr
 	;
 
 stmt_typedef
-	: 'typedef' IDENT '=' type_name -> ^(Stmt_Typedef type_name IDENT)
+	: 'typedef' ident '=' type_name -> ^(Stmt_Typedef type_name ident)
 	;
 
-stmt_using_item: IDENT | 'namespace';
+stmt_using_item: ident | 'namespace';
 stmt_using
 	: 'using' stmt_using_item* -> ^(Stmt_Using stmt_using_item*)
 	;
@@ -262,7 +262,7 @@ stmt_try
 	;
 
 ident_list
-	: IDENT (',' IDENT)* -> ^(Ident_List IDENT+)
+	: ident (',' ident)* -> ^(Ident_List ident+)
 	;
 
 stmt_alloc
@@ -334,7 +334,7 @@ add_expr
 	;
 
 infix_expr
-	: (a=mul_expr -> $a) ( Infix_Func b=mul_expr  -> ^(Expr_Infix Infix_Func $infix_expr $b) )*
+	: (a=mul_expr -> $a) ( infix_func b=mul_expr  -> ^(Expr_Infix infix_func $infix_expr $b) )*
 	;
 
 mul_expr
@@ -345,8 +345,8 @@ mul_expr
 	;
 
 selector_expr
-	: (a=prefix_expr -> $a) ( '->*' b=IDENT -> ^(Expr_Access '->*' $selector_expr $b)
-						    | '.*'  b=IDENT -> ^(Expr_Access '.*'  $selector_expr $b)
+	: (a=prefix_expr -> $a) ( '->*' b=ident -> ^(Expr_Access '->*' $selector_expr $b)
+						    | '.*'  b=ident -> ^(Expr_Access '.*'  $selector_expr $b)
 						    )*
 	;
 
@@ -365,12 +365,12 @@ expr_list
 suffix_expr
 	: (a=atom_expr -> $a) ( '++' -> ^(Expr_Suffix '++' $suffix_expr)
 					      | '--' -> ^(Expr_Suffix '--' $suffix_expr)
-						  | '.' IDENT -> ^(Expr_Access '.' $suffix_expr IDENT)
-						  | '->' IDENT -> ^(Expr_Access '->' $suffix_expr IDENT)
-						  | '::' IDENT -> ^(Expr_Access '::' $suffix_expr IDENT)
+						  | '.' ident -> ^(Expr_Access '.' $suffix_expr ident)
+						  | '->' ident -> ^(Expr_Access '->' $suffix_expr ident)
+						  | '::' ident -> ^(Expr_Access '::' $suffix_expr ident)
 						  | generic_parameter? '(' expr_list? ')' -> ^(Expr_Call $suffix_expr generic_parameter? expr_list?)
 						  | '[' expr_list? ']' -> ^(Expr_Dict $suffix_expr expr_list?)
-						  | ':' IDENT '(' expr_list? ')' -> ^(Expr_Call_With $suffix_expr IDENT expr_list?)
+						  | ':' ident '(' expr_list? ')' -> ^(Expr_Call_With $suffix_expr ident expr_list?)
 					      )*
 	;
 
@@ -380,7 +380,7 @@ atom_expr
 	bool more_than_one = false;
 }
 	: NUMBER
-	| IDENT
+	| ident
 	| STRING
 	| '(' expr (',' expr { more_than_one = true; } )* ')'
 	 -> { more_than_one }? ^(Expr_Tuple expr+)
@@ -390,9 +390,9 @@ atom_expr
 lvalue
 	: (a=lvalue_atom -> $a) ( '++' -> ^(Expr_Suffix '++' $lvalue)
 					        | '--' -> ^(Expr_Suffix '--' $lvalue)
-						    | '.' IDENT -> ^(Expr_Access '.' $lvalue IDENT)
-						    | '->' IDENT -> ^(Expr_Access '->' $lvalue IDENT)
-						    | '::' IDENT -> ^(Expr_Access '::' $lvalue IDENT)
+						    | '.' ident -> ^(Expr_Access '.' $lvalue ident)
+						    | '->' ident -> ^(Expr_Access '->' $lvalue ident)
+						    | '::' ident -> ^(Expr_Access '::' $lvalue ident)
 						    | generic_parameter? '(' expr_list? ')' -> ^(Expr_Call $lvalue generic_parameter? expr_list?)
 						    | '[' expr ']' -> ^(Expr_Dict $lvalue expr)
 					        )*
@@ -400,16 +400,22 @@ lvalue
 
 lvalue_atom
 	: '(' (lvalue (',' lvalue)*)? ')' -> ^(Match_Tuple lvalue*)
-	| IDENT
+	| ident
+	;
+
+ident
+	: IDENT ('::' IDENT)*
+	;
+
+infix_func
+	: '`'! ident '`'!
 	;
 
 // Lexer Rules
 
-IDENT: ('a'..'z' | 'A'..'Z' | '_')+ ('0'..'9')* ('::' ('a'..'z' | 'A'..'Z' | '_')+ ('0'..'9')*)*;
+IDENT: ('a'..'z' | 'A'..'Z' | '_')+ ('0'..'9')*;
 
 NUMBER: '0'..'9'+ ('.' '0'..'9'+)? ('ll' | 'f')?;
-
-Infix_Func: '`' ('a'..'z' | 'A'..'Z' | '_')+ ('0'..'9')* ('::' ('a'..'z' | 'A'..'Z' | '_')+ ('0'..'9')*)* '`';
 
 STRING
 	: '"' (~'"')* '"'
