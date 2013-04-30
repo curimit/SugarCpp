@@ -182,7 +182,7 @@ class_block
 	;
 
 attribute
-	:'[' IDENT ']' -> ^(Attribute IDENT)
+	:'[' IDENT (',' IDENT)* ']' -> ^(Attribute IDENT+)
 	;
 
 class_node

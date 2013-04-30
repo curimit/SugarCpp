@@ -84,11 +84,12 @@ class_block returns [List<ClassMember> value]
 	: (NEWLINE* a=class_node { $value.Add(a); } )+
 	;
 
-attribute returns [string value]
-	: ^(Attribute a=IDENT)
-	{
-		$value = a.Text;
-	}
+attribute returns [List<string> value]
+@init
+{
+	value = new List<string>();
+}
+	: ^(Attribute (a=ident { $value.Add(a); })+)
 	;
 
 class_node returns [ClassMember value]
@@ -96,7 +97,7 @@ class_node returns [ClassMember value]
 {
 	HashSet<string> set = new HashSet<string>();
 }
-	: (a=attribute { set.Add(a); } NEWLINE+)* b=node
+	: (a=attribute { foreach (var x in a) set.Add(x); } NEWLINE+)* b=node
 	{
 		$value = new ClassMember(b, set);
 	}

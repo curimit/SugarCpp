@@ -95,7 +95,20 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(ClassMember class_member)
         {
-            Template template = new Template("<modifier>\n    <node>");
+            Template template = template = new Template("<modifier>\n   <node>");
+
+            string prefix = "";
+            if (class_member.Attribute.Contains("static"))
+            {
+                prefix += "static ";
+            }
+            if (class_member.Attribute.Contains("const"))
+            {
+                prefix += "const ";
+            }
+            
+            Template node = new Template(string.Format("{0}<node>", prefix));
+
             if (class_member.Attribute.Contains("public"))
             {
                 template.Add("modifier", "public:");
@@ -104,7 +117,9 @@ namespace SugarCpp.Compiler
             {
                 template.Add("modifier", "private:");
             }
-            template.Add("node", class_member.Node.Accept(this));
+
+            node.Add("node", class_member.Node.Accept(this));
+            template.Add("node", node);
             return template;
         }
 
