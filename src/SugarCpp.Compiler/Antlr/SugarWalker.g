@@ -141,7 +141,16 @@ func_def returns [FuncDef value]
 		$value.Type = a;
 		$value.Name = b.Text;
 		$value.Body = e;
-	})
+	}
+	| '=' f=expr
+	{
+		$value.Type = a;
+		$value.Name = b.Text;
+		StmtBlock block = new StmtBlock();
+		block.StmtList.Add(new ExprReturn(f));
+		$value.Body = block;
+	}
+	)
 	;
 
 stmt_block returns [StmtBlock value]

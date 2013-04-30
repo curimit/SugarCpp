@@ -203,7 +203,7 @@ func_args
 	;
 
 func_def
-	: type_name IDENT generic_parameter? '(' func_args? ')' stmt_block
+	: type_name IDENT generic_parameter? '(' func_args? ')' ( stmt_block | '=' expr )
     ;
 
 stmt_block
