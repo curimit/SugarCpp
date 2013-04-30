@@ -141,7 +141,7 @@ namespace SugarCpp.Compiler
                 List<Template> list = new List<Template>();
                 foreach (var node in namespace_def.List)
                 {
-                    Template member = new Template("<expr>;");
+                    Template member = new Template("<expr>");
                     member.Add("expr", node.Accept(this));
                     list.Add(member);
                 }
