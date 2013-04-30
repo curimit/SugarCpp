@@ -1,0 +1,6 @@
+*.exe
+*.suo
+*.sdf
+*.opensdf
+obj
+bin
