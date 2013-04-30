@@ -174,7 +174,6 @@ namespace SugarCpp.Compiler
                 template.Add("body2", stmt_if.Else.Accept(this));
                 return template;
             }
-
         }
 
         public override Template Visit(StmtWhile stmt_while)
@@ -182,6 +181,15 @@ namespace SugarCpp.Compiler
             Template template = new Template("while (<cond>) {\n    <body>\n}");
             template.Add("cond", stmt_while.Condition.Accept(this));
             template.Add("body", stmt_while.Body.Accept(this));
+            return template;
+        }
+
+        public override Template Visit(StmtTry stmt_try)
+        {
+            Template template = new Template("try {\n    <body>\n} catch (<expr>) {\n    <catch>\n}");
+            template.Add("body", stmt_try.Body.Accept(this));
+            template.Add("expr", stmt_try.Expr.Accept(this));
+            template.Add("catch", stmt_try.Catch.Accept(this));
             return template;
         }
 

@@ -88,6 +88,25 @@ namespace SugarCpp.Compiler
         }
     }
 
+    public class StmtTry : Stmt
+    {
+        public StmtBlock Body;
+        public Expr Expr;
+        public StmtBlock Catch;
+
+        public StmtTry(StmtBlock body_block, Expr expr, StmtBlock catch_block)
+        {
+            this.Body = body_block;
+            this.Expr = expr;
+            this.Catch = catch_block;
+        }
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
     public class StmtUsing : Stmt
     {
         public List<string> List = new List<string>();

@@ -32,6 +32,7 @@ tokens
    Stmt_While;
    Stmt_For;
    Stmt_ForEach;
+   Stmt_Try;
 
    Type_IDENT;
    Type_Ref;
@@ -207,6 +208,7 @@ stmt_expr
 	| stmt_if
 	| stmt_while
 	| stmt_for
+	| stmt_try
 	| stmt_modify
 	;
 
@@ -239,6 +241,10 @@ stmt_for
 	: 'for' '(' expr (';' expr ';' expr {type=0;} | 'in' expr {type=1;}) ')' stmt_block
 	  -> {type==0}? ^(Stmt_For expr expr expr stmt_block)
 	  -> ^(Stmt_ForEach expr expr stmt_block)
+	;
+
+stmt_try
+	:	'try' stmt_block 'catch' '(' expr ')' stmt_block -> ^(Stmt_Try stmt_block expr stmt_block)
 	;
 
 ident_list

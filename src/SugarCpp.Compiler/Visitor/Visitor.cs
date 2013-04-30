@@ -23,6 +23,7 @@ namespace SugarCpp.Compiler
         public abstract Template Visit(StmtWhile stmt_while);
         public abstract Template Visit(StmtFor stmt_for);
         public abstract Template Visit(StmtForEach stmt_for_each);
+        public abstract Template Visit(StmtTry stmt_try);
         public abstract Template Visit(StmtTypeDef stmt_typedef);
         public abstract Template Visit(StmtUsing stmt_using);
 

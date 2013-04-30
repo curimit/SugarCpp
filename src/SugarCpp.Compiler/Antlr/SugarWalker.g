@@ -137,6 +137,7 @@ stmt_expr returns [Stmt value]
 	| a=stmt_if { $value = a; }
 	| a=stmt_while { $value = a; }
 	| a=stmt_for { $value = a; }
+	| a=stmt_try { $value = a; }
 	| b=expr { $value = b; }
 	| c=stmt_using { $value = c; }
 	;
@@ -182,6 +183,13 @@ stmt_for returns [Stmt value]
 	| ^(Stmt_ForEach a=expr b=expr d=stmt_block)
 	{
 		$value = new StmtForEach(a, b, d);
+	}
+	;
+
+stmt_try returns [Stmt value]
+	: ^(Stmt_Try a=stmt_block b=expr c=stmt_block)
+	{
+		$value = new StmtTry(a, b, c);
 	}
 	;
 
