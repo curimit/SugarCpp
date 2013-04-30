@@ -95,34 +95,35 @@ typedef uint = unsigned int
 ```
 
 #### Garbage collection
-SugarCpp use `shared_ptr` for all pointers.
-Every array types are `shared_ptr<vector>`.
+SugarCpp use `shared_ptr` for default pointer types.
+SugarCpp use `vector` for default array types.
+You can still manually using `weak_ptr`, see example below.
 
 ###### Pointer definition
 
 ```c++
-// SugarCpp Code
+// SugarCpp Code:
 a := new int(10)
 
-// C++ Code
+// C++ Code:
 auto a = shared_ptr<int>(new int(10));
 ```
 
 ###### Array definition
 ```c++
-// SugarCpp Code
+// SugarCpp Code:
 a := new int[n, m]
 
-// C++ Code
+// C++ Code:
 auto a = shared_ptr<vector<vector<int>>>(new vector<vector<int>>(n, vector<int>(m)));
 ```
 
 ###### Array access
 ```c++
-// SugarCpp Code
+// SugarCpp Code:
 t := a[x, y, z]
 
-// C++ Code
+// C++ Code:
 auto t = a->at(x)[y][z];
 ```
 
@@ -141,4 +142,48 @@ int main()
     for (i := 2; i < n; i++)
         fib[i] = fib[i-1] + fib[i-2]
     printf("%d\n", fib[n-1])
+```
+
+###### Example: Weak pointer to avoid circular reference
+```c++
+// SugarCpp Code:
+import "cstdio"
+       "memory"
+       "vector"
+
+using namespace std
+
+struct Node
+    child : Node*
+    parent : weak_ptr<Node>
+
+int main()
+    last := new Node()
+    while true
+        node := new Node()
+        last->child = node
+        node->parent = last
+        last = node
+
+// Here is the generated C++ Code:
+#include "cstdio"
+#include "memory"
+#include "vector"
+
+using namespace std;
+
+struct Node {
+    shared_ptr<Node> child;
+    weak_ptr<Node> parent;
+};
+
+int main() {
+    auto last = shared_ptr<Node>(new Node());
+    while (true) {
+        auto node = shared_ptr<Node>(new Node());
+        last->child = node;
+        node->parent = last;
+        last = node;
+    };
+}
 ```
