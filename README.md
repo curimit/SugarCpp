@@ -81,6 +81,17 @@ int main()
     printf("%f\n", x)
 ```
 
+#### Attributes
+```C#
+class Point
+    [public]
+    x, y : double
+    
+    [private]
+    void sum()
+        return x + y
+```
+
 #### Namespace
 ```c++
 namespace SugarCpp::AstNode::Expr
@@ -154,7 +165,10 @@ import "cstdio"
 using namespace std
 
 class Node
+    [public]
     child : Node*
+    
+    [public]
     parent : weak_ptr<Node>
 
 int main()
@@ -165,6 +179,8 @@ int main()
         node->parent = last
         last = node
 
+
+
 // Here is the generated C++ Code:
 #include "cstdio"
 #include "memory"
@@ -173,6 +189,7 @@ int main()
 using namespace std;
 
 class Node {
+public:
     shared_ptr<Node> child;
     weak_ptr<Node> parent;
 };
