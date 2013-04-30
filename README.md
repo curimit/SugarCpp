@@ -84,7 +84,7 @@ int main()
 #### Namespace
 ```c++
 namespace SugarCpp::AstNode::Expr
-    struct ExprBin
+    class ExprBin
         Left, Right : Expr
         Op : string
 ```
@@ -153,7 +153,7 @@ import "cstdio"
 
 using namespace std
 
-struct Node
+class Node
     child : Node*
     parent : weak_ptr<Node>
 
@@ -172,7 +172,7 @@ int main()
 
 using namespace std;
 
-struct Node {
+class Node {
     shared_ptr<Node> child;
     weak_ptr<Node> parent;
 };
