@@ -14,6 +14,8 @@ namespace SugarCpp.Compiler
         public string Name;
         public StmtBlock Body;
 
+        public bool IsPublic = false;
+
         public override Template Accept(Visitor visitor)
         {
             return visitor.Visit(this);

@@ -13,6 +13,7 @@ namespace SugarCpp.Compiler
         public abstract Template Visit(Import import);
 
         public abstract Template Visit(Struct struct_def);
+        public abstract Template Visit(StructMember struct_member);
         public abstract Template Visit(Namespace namespace_def);
         public abstract Template Visit(Enum enum_def);
 

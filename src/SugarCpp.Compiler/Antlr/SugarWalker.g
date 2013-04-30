@@ -70,9 +70,35 @@ enum_def returns [Enum value]
 	;
 
 struct_def returns [Struct value]
-	: ^(Struct a=IDENT b=overall_block)
+	: ^(Struct a=IDENT b=struct_block)
 	{
 		$value = new Struct(a.Text, b);
+	}
+	;
+
+struct_block returns [List<StructMember> value]
+@init
+{
+	$value = new List<StructMember>();
+}
+	: (NEWLINE* a=struct_node { $value.Add(a); } )+
+	;
+
+attribute returns [string value]
+	: ^(Attribute a=IDENT)
+	{
+		$value = a.Text;
+	}
+	;
+
+struct_node returns [StructMember value]
+@init
+{
+	HashSet<string> set = new HashSet<string>();
+}
+	: (a=attribute { set.Add(a); } NEWLINE+)* b=node
+	{
+		$value = new StructMember(b, set);
 	}
 	;
 

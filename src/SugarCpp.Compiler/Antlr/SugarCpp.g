@@ -21,6 +21,8 @@ tokens
    Struct;
    Namespace;
 
+   Attribute;
+
    Func_Def;
    
    Stmt_Block;
@@ -172,7 +174,19 @@ namespace_def
 	;
 
 struct_def
-	: 'struct' IDENT INDENT overall_block NEWLINE* DEDENT -> ^(Struct IDENT overall_block)
+	: 'struct' IDENT INDENT struct_block NEWLINE* DEDENT -> ^(Struct IDENT struct_block)
+	;
+
+struct_block
+	: (NEWLINE* struct_node)+
+	;
+
+attribute
+	:'[' IDENT ']' -> ^(Attribute IDENT)
+	;
+
+struct_node
+	: (attribute NEWLINE+)*  node
 	;
 
 type_name_op: '*' | '[' ']' | '&' ;

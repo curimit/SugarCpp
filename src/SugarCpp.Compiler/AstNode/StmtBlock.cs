@@ -6,6 +6,7 @@ using System.Text;
 
 namespace SugarCpp.Compiler
 {
+
     public class StmtBlock : AstNode
     {
         public List<Stmt> StmtList = new List<Stmt>();
