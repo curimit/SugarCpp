@@ -6,12 +6,12 @@ using System.Text;
 
 namespace SugarCpp.Compiler
 {
-    public class Struct : AstNode
+    public class Class : AstNode
     {
-        public List<StructMember> List = new List<StructMember>();
+        public List<ClassMember> List = new List<ClassMember>();
         public string Name;
 
-        public Struct(string name, List<StructMember> list)
+        public Class(string name, List<ClassMember> list)
         {
             this.Name = name;
             if (list != null)
@@ -26,12 +26,12 @@ namespace SugarCpp.Compiler
         }
     }
 
-    public class StructMember : AstNode
+    public class ClassMember : AstNode
     {
         public HashSet<string> Attribute = new HashSet<string>();
         public AstNode Node;
 
-        public StructMember(AstNode node, HashSet<string> set)
+        public ClassMember(AstNode node, HashSet<string> set)
         {
             this.Node = node;
             if (set != null)

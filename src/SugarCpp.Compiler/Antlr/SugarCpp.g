@@ -18,7 +18,7 @@ tokens
    Block;
    Import;
    Enum;
-   Struct;
+   Class;
    Namespace;
 
    Attribute;
@@ -154,7 +154,7 @@ node
 	: func_def
 	| import_def
 	| enum_def
-	| struct_def
+	| class_def
 	| namespace_def
 	| stmt_alloc
 	| stmt_using
@@ -173,19 +173,19 @@ namespace_def
 	: 'namespace' IDENT INDENT overall_block NEWLINE* DEDENT -> ^(Namespace IDENT overall_block)
 	;
 
-struct_def
-	: 'struct' IDENT INDENT struct_block NEWLINE* DEDENT -> ^(Struct IDENT struct_block)
+class_def
+	: 'class' IDENT INDENT class_block NEWLINE* DEDENT -> ^(Class IDENT class_block)
 	;
 
-struct_block
-	: (NEWLINE* struct_node)+
+class_block
+	: (NEWLINE* class_node)+
 	;
 
 attribute
 	:'[' IDENT ']' -> ^(Attribute IDENT)
 	;
 
-struct_node
+class_node
 	: (attribute NEWLINE+)*  node
 	;
 

@@ -39,7 +39,7 @@ node returns [AstNode value]
 	: a = func_def { $value = a; }
 	| b = import_def { $value = b; }
 	| c = enum_def { $value = c; }
-	| d = struct_def { $value = d; }
+	| d = class_def { $value = d; }
 	| e = stmt_alloc { $value = e; }
 	| f = namespace_def { $value = f; }
 	| g = stmt_using { $value = g; }
@@ -69,19 +69,19 @@ enum_def returns [Enum value]
 	: ^(Enum a=IDENT { $value.Name=a.Text; } (a=IDENT { $value.Values.Add(a.Text); })*)
 	;
 
-struct_def returns [Struct value]
-	: ^(Struct a=IDENT b=struct_block)
+class_def returns [Class value]
+	: ^(Class a=IDENT b=class_block)
 	{
-		$value = new Struct(a.Text, b);
+		$value = new Class(a.Text, b);
 	}
 	;
 
-struct_block returns [List<StructMember> value]
+class_block returns [List<ClassMember> value]
 @init
 {
-	$value = new List<StructMember>();
+	$value = new List<ClassMember>();
 }
-	: (NEWLINE* a=struct_node { $value.Add(a); } )+
+	: (NEWLINE* a=class_node { $value.Add(a); } )+
 	;
 
 attribute returns [string value]
@@ -91,14 +91,14 @@ attribute returns [string value]
 	}
 	;
 
-struct_node returns [StructMember value]
+class_node returns [ClassMember value]
 @init
 {
 	HashSet<string> set = new HashSet<string>();
 }
 	: (a=attribute { set.Add(a); } NEWLINE+)* b=node
 	{
-		$value = new StructMember(b, set);
+		$value = new ClassMember(b, set);
 	}
 	;
 

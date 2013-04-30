@@ -78,12 +78,12 @@ namespace SugarCpp.Compiler
             return template;
         }
 
-        public override Template Visit(Struct struct_def)
+        public override Template Visit(Class class_def)
         {
-            Template template = new Template("struct <name> {\n    <list; separator=\"\n\">\n};");
-            template.Add("name", struct_def.Name);
+            Template template = new Template("class <name> {\n    <list; separator=\"\n\">\n};");
+            template.Add("name", class_def.Name);
             List<Template> list = new List<Template>();
-            foreach (var node in struct_def.List)
+            foreach (var node in class_def.List)
             {
                 Template member = new Template("<expr>;");
                 member.Add("expr", node.Accept(this));
@@ -93,10 +93,10 @@ namespace SugarCpp.Compiler
             return template;
         }
 
-        public override Template Visit(StructMember struct_member)
+        public override Template Visit(ClassMember class_member)
         {
             Template template = new Template("<modifier>\n<node>");
-            if (struct_member.Attribute.Contains("public"))
+            if (class_member.Attribute.Contains("public"))
             {
                 template.Add("modifier", "public:");
             }
@@ -104,7 +104,7 @@ namespace SugarCpp.Compiler
             {
                 template.Add("modifier", "private:");
             }
-            template.Add("node", struct_member.Node.Accept(this));
+            template.Add("node", class_member.Node.Accept(this));
             return template;
         }
 
