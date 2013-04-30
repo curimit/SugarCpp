@@ -83,13 +83,17 @@ int main()
 
 #### Attributes
 ```C#
-class Point
-    [public]
-    x, y : double
-    
-    [private]
-    void sum()
-        return x + y
+import "cstdio"
+
+class Node
+    [public, const, static]
+    int plus(a : int, b : int) = a + b
+
+int main()
+    a := 1
+    b := 2
+    ans := a `Node::plus` b
+    printf("%d\n", ans)
 ```
 
 #### Namespace
