@@ -82,7 +82,7 @@ int main()
 ```
 
 #### Attributes
-```C#
+```haskell
 import "cstdio"
 
 class Node
