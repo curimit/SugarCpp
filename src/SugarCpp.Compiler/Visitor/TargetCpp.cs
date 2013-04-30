@@ -80,7 +80,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(Class class_def)
         {
-            Template template = new Template("class <name> {\n    <list; separator=\"\n\">\n};");
+            Template template = new Template("class <name> {\n<list; separator=\"\n\n\">\n};");
             template.Add("name", class_def.Name);
             List<Template> list = new List<Template>();
             foreach (var node in class_def.List)
@@ -95,7 +95,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(ClassMember class_member)
         {
-            Template template = new Template("<modifier>\n<node>");
+            Template template = new Template("<modifier>\n    <node>");
             if (class_member.Attribute.Contains("public"))
             {
                 template.Add("modifier", "public:");
