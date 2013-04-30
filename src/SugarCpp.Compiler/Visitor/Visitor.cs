@@ -28,8 +28,11 @@ namespace SugarCpp.Compiler
         public abstract Template Visit(StmtTypeDef stmt_typedef);
         public abstract Template Visit(StmtUsing stmt_using);
 
+        public abstract Template Visit(StmtExpr stmt_expr);
+
         public abstract Template Visit(MatchTuple match);
 
+        public abstract Template Visit(ExprBracket expr);
         public abstract Template Visit(ExprAssign expr);
         public abstract Template Visit(ExprLambda expr);
         public abstract Template Visit(ExprTuple expr);

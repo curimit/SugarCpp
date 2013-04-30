@@ -10,6 +10,21 @@ namespace SugarCpp.Compiler
     {
     }
 
+    public class ExprBracket : Expr
+    {
+        public Expr Expr;
+
+        public ExprBracket(Expr expr)
+        {
+            this.Expr = expr;
+        }
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
     public class ExprAssign : Expr
     {
         public Expr Left, Right;

@@ -117,6 +117,21 @@ namespace SugarCpp.Compiler
         }
     }
 
+    public class StmtExpr : Stmt
+    {
+        public Stmt Stmt;
+
+        public StmtExpr(Stmt stmt)
+        {
+            this.Stmt = stmt;
+        }
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
     public class StmtTypeDef : Stmt
     {
         public string Type;

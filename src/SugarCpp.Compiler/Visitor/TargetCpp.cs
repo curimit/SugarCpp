@@ -65,14 +65,14 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(StmtUsing stmt_using)
         {
-            Template template = new Template("using <list; separator=\" \">;");
+            Template template = new Template("using <list; separator=\" \">");
             template.Add("list", stmt_using.List);
             return template;
         }
 
         public override Template Visit(StmtTypeDef stmt_typedef)
         {
-            Template template = new Template("typedef <type> <name>;");
+            Template template = new Template("typedef <type> <name>");
             template.Add("type", stmt_typedef.Type);
             template.Add("name", stmt_typedef.Name);
             return template;
@@ -85,7 +85,7 @@ namespace SugarCpp.Compiler
             List<Template> list = new List<Template>();
             foreach (var node in class_def.List)
             {
-                Template member = new Template("<expr>;");
+                Template member = new Template("<expr>");
                 member.Add("expr", node.Accept(this));
                 list.Add(member);
             }
@@ -106,7 +106,7 @@ namespace SugarCpp.Compiler
             {
                 prefix += "const ";
             }
-            
+
             Template node = new Template(string.Format("{0}<node>", prefix));
 
             if (class_member.Attribute.Contains("public"))
@@ -175,7 +175,7 @@ namespace SugarCpp.Compiler
             List<Template> list = new List<Template>();
             foreach (var node in block.StmtList)
             {
-                Template expr = new Template("<expr>;");
+                Template expr = new Template("<expr>");
                 expr.Add("expr", node.Accept(this));
                 list.Add(expr);
             }
@@ -187,7 +187,7 @@ namespace SugarCpp.Compiler
         {
             if (stmt_if.Else == null)
             {
-                Template template = new Template("if <cond> {\n    <body>\n}");
+                Template template = new Template("if (<cond>) {\n    <body>\n}");
                 template.Add("cond", stmt_if.Condition.Accept(this));
                 template.Add("body", stmt_if.Body.Accept(this));
                 return template;
@@ -212,7 +212,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(StmtTry stmt_try)
         {
-            Template template = new Template("try {\n    <body>\n} catch <expr> {\n    <catch>\n}");
+            Template template = new Template("try {\n    <body>\n} catch (<expr>) {\n    <catch>\n}");
             template.Add("body", stmt_try.Body.Accept(this));
             template.Add("expr", stmt_try.Expr.Accept(this));
             template.Add("catch", stmt_try.Catch.Accept(this));
@@ -235,6 +235,20 @@ namespace SugarCpp.Compiler
             template.Add("var", stmt_for_each.Var);
             template.Add("expr", stmt_for_each.Target.Accept(this));
             template.Add("body", stmt_for_each.Body.Accept(this));
+            return template;
+        }
+
+        public override Template Visit(StmtExpr stmt)
+        {
+            Template template = new Template("<stmt>;");
+            template.Add("stmt", stmt.Stmt.Accept(this));
+            return template;
+        }
+
+        public override Template Visit(ExprBracket expr)
+        {
+            Template template = new Template("(<expr>)");
+            template.Add("expr", expr.Expr.Accept(this));
             return template;
         }
 
@@ -266,7 +280,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(ExprAssign expr)
         {
-            Template template = new Template("(<left> = <right>)");
+            Template template = new Template("<left> = <right>");
             template.Add("left", expr.Left.Accept(this));
             template.Add("right", expr.Right.Accept(this));
             return template;
@@ -290,14 +304,14 @@ namespace SugarCpp.Compiler
         {
             if (expr.GenericParameter.Count() == 0)
             {
-                Template template = new Template("(<expr>(<args; separator=\", \">))");
+                Template template = new Template("<expr>(<args; separator=\", \">)");
                 template.Add("expr", expr.Expr.Accept(this));
                 template.Add("args", expr.Args.Select(x => x.Accept(this)));
                 return template;
             }
             else
             {
-                Template template = new Template("(<expr>\\<<generics; separator=\", \">>(<args; separator=\", \">))");
+                Template template = new Template("<expr>\\<<generics; separator=\", \">>(<args; separator=\", \">)");
                 template.Add("expr", expr.Expr.Accept(this));
                 template.Add("generics", expr.GenericParameter);
                 template.Add("args", expr.Args.Select(x => x.Accept(this)));
@@ -307,7 +321,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(ExprCond expr)
         {
-            Template template = new Template("(<cond> ? <expr1> : <expr2>)");
+            Template template = new Template("<cond> ? <expr1> : <expr2>");
             template.Add("cond", expr.Cond.Accept(this));
             template.Add("expr1", expr.Expr1.Accept(this));
             template.Add("expr2", expr.Expr2.Accept(this));
@@ -331,27 +345,16 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(ExprDict expr)
         {
-            Template template = new Template("<expr>");
+            Template template = new Template("(*<expr>)<list>");
             template.Add("expr", expr.Expr.Accept(this));
-            bool isFirst = true;
+            List<Template> list = new List<Template>();
             foreach (var index in expr.Index)
             {
-                if (isFirst)
-                {
-                    Template result = new Template("(<expr>->at(<index>))");
-                    result.Add("expr", template);
-                    result.Add("index", index.Accept(this));
-                    template = result;
-                }
-                else
-                {
-                    Template result = new Template("(<expr>[<index>])");
-                    result.Add("expr", template);
-                    result.Add("index", index.Accept(this));
-                    template = result;
-                }
-                isFirst = false;
+                Template item = new Template("[<index>]");
+                item.Add("index", index.Accept(this));
+                list.Add(item);
             }
+            template.Add("list", list);
             return template;
         }
 
@@ -403,7 +406,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(ExprAccess expr)
         {
-            Template template = new Template("(<expr><op><name>)");
+            Template template = new Template("<expr><op><name>");
             template.Add("expr", expr.Expr.Accept(this));
             template.Add("op", expr.Op);
             template.Add("name", expr.Name);
@@ -412,7 +415,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(ExprPrefix expr)
         {
-            Template template = new Template("(<op><expr>)");
+            Template template = new Template("<op><expr>");
             template.Add("op", expr.Op);
             template.Add("expr", expr.Expr.Accept(this));
             return template;
@@ -420,7 +423,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(ExprSuffix expr)
         {
-            Template template = new Template("(<expr><op>)");
+            Template template = new Template("<expr><op>");
             template.Add("op", expr.Op);
             template.Add("expr", expr.Expr.Accept(this));
             return template;
@@ -428,7 +431,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(ExprBin expr)
         {
-            Template template = new Template("(<left> <op> <right>)");
+            Template template = new Template("<left> <op> <right>");
             template.Add("left", expr.Left.Accept(this));
             template.Add("right", expr.Right.Accept(this));
             template.Add("op", expr.Op);

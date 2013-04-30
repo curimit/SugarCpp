@@ -40,10 +40,10 @@ node returns [AstNode value]
 	| b = import_def { $value = b; }
 	| c = enum_def { $value = c; }
 	| d = class_def { $value = d; }
-	| e = stmt_alloc { $value = e; }
+	| e = stmt_alloc { $value = new StmtExpr(e); }
 	| f = namespace_def { $value = f; }
-	| g = stmt_using { $value = g; }
-	| h = stmt_typedef { $value = h; }
+	| g = stmt_using { $value = new StmtExpr(g); }
+	| h = stmt_typedef { $value = new StmtExpr(h); }
 	;
 
 namespace_def returns [Namespace value]
@@ -128,7 +128,7 @@ func_args returns [List<Stmt> value]
 {
 	$value = new List<Stmt>();
 }
-	: ^(Func_Args (a=stmt { $value.Add(a); })*)
+	: ^(Func_Args (a=stmt_alloc { $value.Add(a); })*)
 	;
 
 func_def returns [FuncDef value]
@@ -148,7 +148,7 @@ func_def returns [FuncDef value]
 		$value.Type = a;
 		$value.Name = b;
 		StmtBlock block = new StmtBlock();
-		block.StmtList.Add(new ExprReturn(f));
+		block.StmtList.Add(new StmtExpr(new ExprReturn(f)));
 		$value.Body = block;
 	}
 	)
@@ -163,19 +163,19 @@ stmt_block returns [StmtBlock value]
     ; 
 
 stmt returns [Stmt value]
-	: a=stmt_expr { $value = a; }
+	: a=stmt_expr { $value = new StmtExpr(a); }
+	| a=stmt_if { $value = a; }
+	| a=stmt_while { $value = a; }
+	| a=stmt_for { $value = a; }
+	| a=stmt_try { $value = a; }
 	;
 
 stmt_expr returns [Stmt value]
 	: a=stmt_alloc { $value = a; }
 	| a=stmt_return { $value = a; }
 	| a=stmt_typedef { $value = a; }
-	| a=stmt_if { $value = a; }
-	| a=stmt_while { $value = a; }
-	| a=stmt_for { $value = a; }
-	| a=stmt_try { $value = a; }
-	| b=expr { $value = b; }
-	| c=stmt_using { $value = c; }
+	| b=stmt_using { $value = b; }
+	| c=expr { $value = c; }
 	;
 
 stmt_using returns [StmtUsing value]
@@ -400,6 +400,10 @@ expr returns [Expr value]
 	| ^(':=' a=expr b=expr)
 	{
 		$value = new ExprAlloc("auto", new List<Expr> { a }, b);
+	}
+	| ^(Expr_Bracket a=expr)
+	{
+		$value = new ExprBracket(a);
 	}
 	| ^(Expr_Suffix op=('++' | '--') a=expr)
 	{

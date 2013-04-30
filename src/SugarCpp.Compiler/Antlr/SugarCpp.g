@@ -26,7 +26,7 @@ tokens
    Func_Def;
    
    Stmt_Block;
-
+   
    Stmt_Using;
    Stmt_Typedef;
 
@@ -44,7 +44,8 @@ tokens
 
    Expr_Alloc;
 
-   Expr_Block;
+   Expr_Bracket;
+
    Expr_Cond;
    Expr_New_Type;
    Expr_New_Array;
@@ -212,6 +213,10 @@ stmt_block
 
 stmt
 	: stmt_expr
+	| stmt_if
+	| stmt_for
+	| stmt_while
+	| stmt_try
 	;
 
 stmt_expr
@@ -219,10 +224,6 @@ stmt_expr
 	| stmt_return
 	| stmt_using
 	| stmt_typedef
-	| stmt_if
-	| stmt_while
-	| stmt_for
-	| stmt_try
 	| stmt_modify
 	;
 
@@ -384,7 +385,7 @@ atom_expr
 	| STRING
 	| '(' expr (',' expr { more_than_one = true; } )* ')'
 	 -> { more_than_one }? ^(Expr_Tuple expr+)
-	 -> expr
+	 -> ^(Expr_Bracket expr)
 	;
 
 lvalue
