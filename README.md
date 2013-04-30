@@ -1,6 +1,8 @@
 # SugarCpp
 SugarCpp is a language which can compile to C++.
 
+Try SugarCpp in browser: http://curimit.com/project/SugarCpp/
+
 ## Examples
 
 #### Hello world
@@ -106,7 +108,7 @@ namespace SugarCpp::AstNode::Expr
 
 #### Typedef
 ```c++
-typedef uint = unsigned int
+typedef int_ptr = int*
 ```
 
 #### Garbage collection
