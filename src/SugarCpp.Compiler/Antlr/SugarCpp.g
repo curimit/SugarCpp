@@ -395,7 +395,7 @@ lvalue
 						    | '->' ident -> ^(Expr_Access '->' $lvalue ident)
 						    | '::' ident -> ^(Expr_Access '::' $lvalue ident)
 						    | generic_parameter? '(' expr_list? ')' -> ^(Expr_Call $lvalue generic_parameter? expr_list?)
-						    | '[' expr ']' -> ^(Expr_Dict $lvalue expr)
+						    | '[' expr_list? ']' -> ^(Expr_Dict $lvalue expr_list?)
 					        )*
 	;
 
