@@ -4,13 +4,29 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{65BAE256-8EB4-418B-BB17-FD9E3FA4D40A}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{0C93AF78-3F38-4711-B0D8-D638816A699C}</ProjectGuid>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SugarCpp.Compiler</RootNamespace>
-    <AssemblyName>SugarCpp.Compiler</AssemblyName>
+    <RootNamespace>SugarCpp.CommandLine</RootNamespace>
+    <AssemblyName>SugarCpp.CommandLine</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <PublishUrl>发布\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -31,15 +47,12 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Antlr3.Runtime, Version=3.4.1.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Antlr3.Runtime">
       <HintPath>..\..\dll\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Antlr4.StringTemplate">
+    <Reference Include="Antlr4.StringTemplate, Version=4.0.6.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\dll\Antlr4.StringTemplate.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -51,35 +64,39 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Antlr\SugarCppLexer.cs" />
-    <Compile Include="Antlr\SugarCppParser.cs" />
-    <Compile Include="Antlr\SugarWalker.cs" />
-    <Compile Include="AstNode\AstNode.cs" />
-    <Compile Include="AstNode\Enum.cs" />
-    <Compile Include="AstNode\Expr.cs" />
-    <Compile Include="AstNode\FuncDef.cs" />
-    <Compile Include="AstNode\Import.cs" />
-    <Compile Include="AstNode\Match.cs" />
-    <Compile Include="AstNode\Namespace.cs" />
-    <Compile Include="AstNode\Root.cs" />
-    <Compile Include="AstNode\Stmt.cs" />
-    <Compile Include="AstNode\StmtBlock.cs" />
-    <Compile Include="AstNode\Class.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Visitor\TargetCpp.cs" />
-    <Compile Include="Visitor\Visitor.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Antlr3 Include="Antlr\SugarCpp.g">
-      <Generator>MSBuild:Compile</Generator>
-      <CustomToolNamespace>SugarCpp.Compiler.Antlr</CustomToolNamespace>
-    </Antlr3>
+    <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Antlr3 Include="Antlr\SugarWalker.g">
-      <Generator>MSBuild:Compile</Generator>
-      <CustomToolNamespace>SugarCpp.Compiler.Antlr</CustomToolNamespace>
-    </Antlr3>
+    <ProjectReference Include="..\SugarCpp.Compiler\SugarCpp.Compiler.csproj">
+      <Project>{65bae256-8eb4-418b-bb17-fd9e3fa4d40a}</Project>
+      <Name>SugarCpp.Compiler</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 %28x86 和 x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 4.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
