@@ -21,7 +21,7 @@ int main()
 
 #### Generic Programming
 ```c++
-T max<T>(x : T, y : T) = x if x > y else y
+T max<T>(x: T, y: T) = x if x > y else y
 ```
 
 #### Enumerated type
@@ -43,7 +43,7 @@ import "stdio.h"
 
 using std::tuple
 
-tuple<T, T> sort<T>(a : T, b : T) = (a,b) if a < b else (b,a)
+tuple<T, T> sort<T>(a: T, b: T) = (a,b) if a < b else (b,a)
 
 int main()
 	a := 10
@@ -73,7 +73,7 @@ int main()
 import "stdio.h"
        "math.h"
 
-float sqr(x : float) = x * x
+float sqr(x: float) = x * x
 
 int main()
     a := 100
@@ -170,10 +170,10 @@ using namespace std
 
 class Node
     [public]
-    child : Node*
+    child: Node*
     
     [public]
-    parent : weak_ptr<Node>
+    parent: weak_ptr<Node>
 
 int main()
     last := new Node()
