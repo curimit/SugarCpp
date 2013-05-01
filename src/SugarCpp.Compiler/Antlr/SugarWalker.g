@@ -148,7 +148,14 @@ func_def returns [FuncDef value]
 		$value.Type = a;
 		$value.Name = b;
 		StmtBlock block = new StmtBlock();
-		block.StmtList.Add(new StmtExpr(new ExprReturn(f)));
+		if (a == "void")
+		{
+			block.StmtList.Add(new StmtExpr(f));
+		}
+		else
+		{
+			block.StmtList.Add(new StmtExpr(new ExprReturn(f)));
+		}
 		$value.Body = block;
 	}
 	)
