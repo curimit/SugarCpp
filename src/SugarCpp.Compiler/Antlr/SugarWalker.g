@@ -117,8 +117,8 @@ type_name returns [string value]
 			$value+=b;
 		})*
 		'>' { $value+=">"; })?
-	  ( '*' { $value="shared_ptr<"+$value+">"; }
-	  | '[' ']' { $value="vector<"+$value+">"; }
+	  ( '*' { $value+="*"; }
+	  | '[' ']' { $value+="[]"; }
 	  | '&' { $value+="&"; }
 	  )*)
 	;

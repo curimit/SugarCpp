@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// $ANTLR 3.4 SugarWalker.g 2013-05-01 10:05:59
+// $ANTLR 3.4 SugarWalker.g 2013-05-01 10:16:45
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219
@@ -1510,7 +1510,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 					DebugLocation(120, 6);
 					Match(input,61,Follow._61_in_type_name504); 
 					DebugLocation(120, 10);
-					 value ="shared_ptr<"+value+">"; 
+					 value+="*"; 
 
 					}
 					break;
@@ -1523,7 +1523,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 					DebugLocation(121, 10);
 					Match(input,92,Follow._92_in_type_name515); 
 					DebugLocation(121, 14);
-					 value ="vector<"+value+">"; 
+					 value+="[]"; 
 
 					}
 					break;

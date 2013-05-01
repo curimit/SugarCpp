@@ -360,7 +360,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(ExprNewType expr)
         {
-            Template template = new Template("shared_ptr\\<<elem>>(new <elem>(<args; separator=\", \">))");
+            Template template = new Template("new <elem>(<args; separator=\", \">)");
             template.Add("elem", expr.ElemType);
             template.Add("args", expr.Args.Select(x => x.Accept(this)));
             return template;
@@ -368,40 +368,10 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(ExprNewArray expr)
         {
-            StringBuilder sb = new StringBuilder("shared_ptr");
-            Expr[] exprs = expr.Args.ToArray();
-            string[] level = new string[exprs.Length];
-            for (int i = 0; i < exprs.Length; i++)
-            {
-                if (i == 0)
-                {
-                    level[0] = string.Format("vector\\<{0}>", expr.ElemType);
-                }
-                else
-                {
-                    level[i] = string.Format("vector\\<{0}>", level[i - 1]);
-                }
-            }
-            sb.Append("\\<");
-            sb.Append(level.Last());
-            sb.Append(">");
-            sb.Append(string.Format("(new {0}", level[exprs.Length - 1]));
-            for (int i = 0; i < level.Length; i++)
-            {
-                sb.Append("(");
-                sb.Append(exprs[i].Accept(this).Render());
-                if (i < level.Length - 1)
-                {
-                    sb.Append(", ");
-                    sb.Append(level[level.Length - i - 2]);
-                }
-            }
-            for (int i = 0; i < level.Length; i++)
-            {
-                sb.Append(")");
-            }
-            sb.Append(")");
-            return new Template(sb.ToString());
+            Template template = new Template("new <elem>[<list; separator=\", \">]");
+            template.Add("elem", expr.ElemType);
+            template.Add("list", expr.Args.Select(x => x.Accept(this)));
+            return template;
         }
 
         public override Template Visit(ExprAccess expr)
