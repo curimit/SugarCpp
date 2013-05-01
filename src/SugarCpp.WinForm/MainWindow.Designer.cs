@@ -28,31 +28,30 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer = new System.Windows.Forms.SplitContainer();
             this.Source = new System.Windows.Forms.TextBox();
             this.Result = new System.Windows.Forms.TextBox();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
-            this.splitContainer1.Panel1.SuspendLayout();
-            this.splitContainer1.Panel2.SuspendLayout();
-            this.splitContainer1.SuspendLayout();
+            this.splitContainer.Panel1.SuspendLayout();
+            this.splitContainer.Panel2.SuspendLayout();
+            this.splitContainer.SuspendLayout();
             this.SuspendLayout();
             // 
-            // splitContainer1
+            // splitContainer
             // 
-            this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer1.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer.Name = "splitContainer";
             // 
-            // splitContainer1.Panel1
+            // splitContainer.Panel1
             // 
-            this.splitContainer1.Panel1.Controls.Add(this.Source);
+            this.splitContainer.Panel1.Controls.Add(this.Source);
             // 
-            // splitContainer1.Panel2
+            // splitContainer.Panel2
             // 
-            this.splitContainer1.Panel2.Controls.Add(this.Result);
-            this.splitContainer1.Size = new System.Drawing.Size(877, 533);
-            this.splitContainer1.SplitterDistance = 373;
-            this.splitContainer1.TabIndex = 0;
+            this.splitContainer.Panel2.Controls.Add(this.Result);
+            this.splitContainer.Size = new System.Drawing.Size(877, 577);
+            this.splitContainer.SplitterDistance = 373;
+            this.splitContainer.TabIndex = 0;
             // 
             // Source
             // 
@@ -65,9 +64,9 @@
             this.Source.Location = new System.Drawing.Point(3, 3);
             this.Source.Multiline = true;
             this.Source.Name = "Source";
-            this.Source.Size = new System.Drawing.Size(367, 527);
+            this.Source.Size = new System.Drawing.Size(367, 571);
             this.Source.TabIndex = 0;
-            this.Source.TextChanged += new System.EventHandler(this.Source_TextChanged);
+            this.Source.TextChanged += new System.EventHandler(this.SourceTextChanged);
             // 
             // Result
             // 
@@ -80,30 +79,29 @@
             this.Result.Location = new System.Drawing.Point(3, 3);
             this.Result.Multiline = true;
             this.Result.Name = "Result";
-            this.Result.Size = new System.Drawing.Size(494, 527);
+            this.Result.Size = new System.Drawing.Size(494, 571);
             this.Result.TabIndex = 0;
             // 
             // MainWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(877, 533);
-            this.Controls.Add(this.splitContainer1);
+            this.ClientSize = new System.Drawing.Size(877, 577);
+            this.Controls.Add(this.splitContainer);
             this.Name = "MainWindow";
-            this.Text = "MainWindow";
-            this.splitContainer1.Panel1.ResumeLayout(false);
-            this.splitContainer1.Panel1.PerformLayout();
-            this.splitContainer1.Panel2.ResumeLayout(false);
-            this.splitContainer1.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
-            this.splitContainer1.ResumeLayout(false);
+            this.Text = "SugarCpp";
+            this.splitContainer.Panel1.ResumeLayout(false);
+            this.splitContainer.Panel1.PerformLayout();
+            this.splitContainer.Panel2.ResumeLayout(false);
+            this.splitContainer.Panel2.PerformLayout();
+            this.splitContainer.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.SplitContainer splitContainer1;
+        private System.Windows.Forms.SplitContainer splitContainer;
         private System.Windows.Forms.TextBox Source;
         private System.Windows.Forms.TextBox Result;
     }

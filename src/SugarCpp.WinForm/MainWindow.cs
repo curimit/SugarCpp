@@ -23,7 +23,7 @@ namespace SugarCpp.WinForm
             }
         }
 
-        private void Source_TextChanged(object sender, EventArgs e)
+        private void SourceTextChanged(object sender, EventArgs e)
         {
             string input = this.Source.Text.Replace("\t", "    ");
             File.WriteAllText("test.sc", input);
