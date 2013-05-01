@@ -7,6 +7,7 @@ Try SugarCpp in browser: http://curimit.com/project/SugarCpp/
 
 #### Hello world
 ```c++
+import "stdio.h"
 int main() = printf("Hello world!") 
 ``` 
 
@@ -28,7 +29,7 @@ T max<T>(x: T, y: T) = x if x > y else y
 
 #### Enumerated type
 ```c++
-enum Color = Red | Green | Blue
+enum Color = RED | GREEN | BLUE
 ```
 
 #### Define new variable
@@ -88,7 +89,7 @@ int main()
 import "cstdio"
 
 class Node
-    [public, const, static]
+    [public, static]
     int plus(a : int, b : int) = a + b
 
 int main()
@@ -109,104 +110,4 @@ namespace SugarCpp::AstNode::Expr
 #### Typedef
 ```c++
 typedef int_ptr = int*
-```
-
-#### Garbage collection
-SugarCpp use `shared_ptr` for default pointer types.
-SugarCpp use `vector` for default array types.
-You can still manually using `weak_ptr`, see example below.
-
-###### Pointer definition
-
-```c++
-// SugarCpp Code:
-a := new int(10)
-
-// C++ Code:
-auto a = shared_ptr<int>(new int(10));
-```
-
-###### Array definition
-```c++
-// SugarCpp Code:
-a := new int[n, m]
-
-// C++ Code:
-auto a = shared_ptr<vector<vector<int>>>(new vector<vector<int>>(n, vector<int>(m)));
-```
-
-###### Array access
-```c++
-// SugarCpp Code:
-t := a[x, y, z]
-
-// C++ Code:
-auto t = a->at(x)[y][z];
-```
-
-###### Example: Fibonacci numbers
-```c++
-import "cstdio"
-       "memory"
-       "vector"
-
-using namespace std
-
-int main()
-    n := 10
-    fib := new int[n]
-    (fib[0], fib[1]) = (1, 1)
-    for (i := 2; i < n; i++)
-        fib[i] = fib[i-1] + fib[i-2]
-    printf("%d\n", fib[n-1])
-```
-
-###### Example: Weak pointer to avoid circular reference
-```c++
-// SugarCpp Code:
-import "cstdio"
-       "memory"
-       "vector"
-
-using namespace std
-
-class Node
-    [public]
-    child: Node*
-    
-    [public]
-    parent: weak_ptr<Node>
-
-int main()
-    last := new Node()
-    while true
-        node := new Node()
-        last->child = node
-        node->parent = last
-        last = node
-
-
-
-// Here is the generated C++ Code:
-#include "cstdio"
-#include "memory"
-#include "vector"
-
-using namespace std;
-
-class Node {
-public:
-    shared_ptr<Node> child;
-    weak_ptr<Node> parent;
-};
-
-int main() {
-    auto last = shared_ptr<Node>(new Node());
-    while (true) {
-        auto node = shared_ptr<Node>(new Node());
-        last->child = node;
-        node->parent = last;
-        last = node;
-    };
-}
 ```
