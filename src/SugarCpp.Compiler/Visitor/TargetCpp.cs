@@ -83,11 +83,24 @@ namespace SugarCpp.Compiler
             Template template = new Template("class <name> {\n<list; separator=\"\n\n\">\n};");
             template.Add("name", class_def.Name);
             List<Template> list = new List<Template>();
+            string last = "private";
             foreach (var node in class_def.List)
             {
-                Template member = new Template("<expr>");
-                member.Add("expr", node.Accept(this));
-                list.Add(member);
+                string modifier = node.Attribute.Contains("public") ? "public" : "private";
+                if (modifier != last)
+                {
+                    Template member = new Template("<modifier>:\n    <expr>");
+                    member.Add("modifier", modifier);
+                    member.Add("expr", node.Accept(this));
+                    list.Add(member);
+                }
+                else
+                {
+                    Template member = new Template("    <expr>");
+                    member.Add("expr", node.Accept(this));
+                    list.Add(member);
+                }
+                last = modifier;
             }
             template.Add("list", list);
             return template;
@@ -95,8 +108,6 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(ClassMember class_member)
         {
-            Template template = template = new Template("<modifier>\n   <node>");
-
             string prefix = "";
             if (class_member.Attribute.Contains("static"))
             {
@@ -107,19 +118,9 @@ namespace SugarCpp.Compiler
                 prefix += "const ";
             }
 
-            Template node = new Template(string.Format("{0}<node>", prefix));
+            Template template = new Template(string.Format("{0}<node>", prefix));
 
-            if (class_member.Attribute.Contains("public"))
-            {
-                template.Add("modifier", "public:");
-            }
-            else
-            {
-                template.Add("modifier", "private:");
-            }
-
-            node.Add("node", class_member.Node.Accept(this));
-            template.Add("node", node);
+            template.Add("node", class_member.Node.Accept(this));
             return template;
         }
 
