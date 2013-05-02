@@ -175,7 +175,7 @@ func_def returns [FuncDef value]
 			$value.Name = "~" + $value.Name;
 		}
 		StmtBlock block = new StmtBlock();
-		if (a == "void")
+		if (a == "void" || a == null)
 		{
 			block.StmtList.Add(new StmtExpr(f));
 		}
