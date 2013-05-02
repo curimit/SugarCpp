@@ -252,32 +252,42 @@ namespace SugarCpp.Compiler
             {
                 prefix += "inline ";
             }
+            if (func_def.Attribute.Find(x => x.Name == "static") != null)
+            {
+                prefix += "static ";
+            }
+            string suffix = "";
+            if (func_def.Attribute.Find(x => x.Name == "const") != null)
+            {
+                suffix += " const";
+            }
 
             Template template = null;
             if (func_def.GenericParameter.Count() == 0)
             {
                 if (func_def.Type == null)
                 {
-                    template = new Template("<prefix><name>(<args; separator=\", \">) {\n    <list; separator=\"\n\">\n}");
+                    template = new Template("<prefix><name>(<args; separator=\", \">)<suffix> {\n    <list; separator=\"\n\">\n}");
                 }
                 else
                 {
-                    template = new Template("<prefix><type> <name>(<args; separator=\", \">) {\n    <list; separator=\"\n\">\n}");
+                    template = new Template("<prefix><type> <name>(<args; separator=\", \">)<suffix> {\n    <list; separator=\"\n\">\n}");
                 }
             }
             else
             {
                 if (func_def.Type == null)
                 {
-                    template = new Template("template \\<<generics; separator=\", \">>\n<prefix><name>(<args; separator=\", \">) {\n    <list; separator=\"\n\">\n}");
+                    template = new Template("template \\<<generics; separator=\", \">>\n<prefix><name>(<args; separator=\", \">)<suffix> {\n    <list; separator=\"\n\">\n}");
                 }
                 else
                 {
-                    template = new Template("template \\<<generics; separator=\", \">>\n<prefix><type> <name>(<args; separator=\", \">) {\n    <list; separator=\"\n\">\n}");
+                    template = new Template("template \\<<generics; separator=\", \">>\n<prefix><type> <name>(<args; separator=\", \">)<suffix> {\n    <list; separator=\"\n\">\n}");
                 }
                 template.Add("generics", func_def.GenericParameter.Select(x => string.Format("typename {0}", x)));
             }
             template.Add("prefix", prefix);
+            template.Add("suffix", suffix);
             template.Add("type", func_def.Type);
             template.Add("name", func_def.Name);
             template.Add("args", func_def.Args.Select(x => x.Accept(this)));
