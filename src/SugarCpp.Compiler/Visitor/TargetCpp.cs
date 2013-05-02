@@ -386,7 +386,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(ExprDict expr)
         {
-            Template template = new Template("(*<expr>)<list>");
+            Template template = new Template("<expr><list>");
             template.Add("expr", expr.Expr.Accept(this));
             List<Template> list = new List<Template>();
             foreach (var index in expr.Index)
