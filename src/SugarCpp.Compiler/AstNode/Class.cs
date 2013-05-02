@@ -9,14 +9,19 @@ namespace SugarCpp.Compiler
     public class Class : AstNode
     {
         public List<ClassMember> List = new List<ClassMember>();
+        public List<Attr> Attribute = new List<Attr>();
         public string Name;
 
-        public Class(string name, List<ClassMember> list)
+        public Class(string name, List<ClassMember> list, List<Attr> attr)
         {
             this.Name = name;
             if (list != null)
             {
                 this.List = list;
+            }
+            if (attr != null)
+            {
+                this.Attribute = attr;
             }
         }
 
@@ -31,12 +36,12 @@ namespace SugarCpp.Compiler
         public List<Attr> Attribute = new List<Attr>();
         public AstNode Node;
 
-        public ClassMember(AstNode node, List<Attr> set)
+        public ClassMember(AstNode node, List<Attr> list)
         {
             this.Node = node;
-            if (set != null)
+            if (list != null)
             {
-                this.Attribute = set;
+                this.Attribute = list;
             }
         }
 

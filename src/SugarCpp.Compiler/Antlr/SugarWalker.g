@@ -70,9 +70,9 @@ enum_def returns [Enum value]
 	;
 
 class_def returns [Class value]
-	: ^(Class a=ident b=class_block)
+	: ^(Class attr=attribute a=ident b=class_block)
 	{
-		$value = new Class(a, b);
+		$value = new Class(a, b, attr);
 	}
 	;
 
@@ -102,27 +102,23 @@ attribute_args returns [string value]
 attribute_item returns [Attr value]
 @init
 {
-	value = new Attr();
+	$value = new Attr();
 }
-	: a=ident { $value.Name = a; } ('(' (b=attribute_args { $value.Args.Add(b) ; } )* ')')?
+	: ^(Attribute a=ident { $value.Name = a; } (b=attribute_args { $value.Args.Add(b) ; })*)
 	;
 
 attribute returns [List<Attr> value]
 @init
 {
-	value = new List<Attr>();
+	$value = new List<Attr>();
 }
-	: ^(Attribute (a=attribute_item { $value.Add(a); })+)
+	: (a=attribute_item { $value.Add(a); } )*
 	;
 
 class_node returns [ClassMember value]
-@init
-{
-	List<Attr> set = new List<Attr>();
-}
-	: (a=attribute { foreach (var x in a) set.Add(x); } NEWLINE+)* b=node
+	: a=attribute b=node
 	{
-		$value = new ClassMember(b, set);
+		$value = new ClassMember(b, a);
 	}
 	;
 

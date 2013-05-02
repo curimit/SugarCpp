@@ -175,7 +175,7 @@ namespace_def
 	;
 
 class_def
-	: 'class' ident INDENT class_block NEWLINE* DEDENT -> ^(Class ident class_block)
+	: attribute 'class' ident INDENT class_block NEWLINE* DEDENT -> ^(Class ident class_block)
 	;
 
 class_block
@@ -189,15 +189,15 @@ attribute_args
 	;
 
 attribute_item
-	: ident ('(' attribute_args (','! attribute_args)* ')')?
+	: ident ('(' attribute_args (',' attribute_args)* ')')? -> ^(Attribute ident attribute_args*)
 	;
 
 attribute
-	:'[' attribute_item (',' attribute_item)* ']' -> ^(Attribute attribute_item+)
+	:('[' attribute_item (',' attribute_item)* ']' NEWLINE+)* -> attribute_item*
 	;
 
 class_node
-	: (attribute NEWLINE+)*  node
+	: attribute node
 	;
 
 type_name_op: '*' | '[' ']' | '&' ;
