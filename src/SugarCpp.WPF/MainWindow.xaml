@@ -13,11 +13,13 @@
                                FontFamily="Consolas"
                                SyntaxHighlighting="C++"
                                FontSize="12pt"
+                               ShowLineNumbers="True"
                                Grid.Column="0"/>
         <AvalonEdit:TextEditor Name="Result"
                                FontFamily="Consolas"
                                SyntaxHighlighting="C++"
                                FontSize="12pt"
+                               ShowLineNumbers="True"
                                Grid.Column="1"/>
     </Grid>
 </Window>
