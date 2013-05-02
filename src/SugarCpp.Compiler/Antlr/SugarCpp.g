@@ -214,7 +214,7 @@ func_args
 	;
 
 func_def
-	: type_name ident generic_parameter? '(' func_args? ')' ( stmt_block | '=' expr )
+	: type_name? '~'? ident generic_parameter? '(' func_args? ')' ( stmt_block | '=' expr )
     ;
 
 stmt_block

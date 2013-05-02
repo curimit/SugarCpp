@@ -155,17 +155,25 @@ func_def returns [FuncDef value]
 {
 	$value = new FuncDef();
 }
-	: a=type_name b=ident ('<' x=ident { $value.GenericParameter.Add(x); } '>')? '(' (args=func_args { $value.Args = args; })? ')'
+	: (a=type_name)? (deconstructor='~')? b=ident ('<' x=ident { $value.GenericParameter.Add(x); } '>')? '(' (args=func_args { $value.Args = args; })? ')'
 	( e=stmt_block
 	{
 		$value.Type = a;
 		$value.Name = b;
+		if (deconstructor != null) 
+		{
+			$value.Name = "~" + $value.Name;
+		}
 		$value.Body = e;
 	}
 	| '=' f=expr
 	{
 		$value.Type = a;
 		$value.Name = b;
+		if (deconstructor != null) 
+		{
+			$value.Name = "~" + $value.Name;
+		}
 		StmtBlock block = new StmtBlock();
 		if (a == "void")
 		{

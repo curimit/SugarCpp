@@ -169,11 +169,25 @@ namespace SugarCpp.Compiler
             Template template = null;
             if (func_def.GenericParameter.Count() == 0)
             {
-                template = new Template("<type> <name>(<args; separator=\", \">) {\n    <list; separator=\"\n\">\n}");
+                if (func_def.Type == null)
+                {
+                    template = new Template("<name>(<args; separator=\", \">) {\n    <list; separator=\"\n\">\n}");
+                }
+                else
+                {
+                    template = new Template("<type> <name>(<args; separator=\", \">) {\n    <list; separator=\"\n\">\n}");
+                }
             }
             else
             {
-                template = new Template("template \\<<generics; separator=\", \">>\n<type> <name>(<args; separator=\", \">) {\n    <list; separator=\"\n\">\n}");
+                if (func_def.Type == null)
+                {
+                    template = new Template("template \\<<generics; separator=\", \">>\n<name>(<args; separator=\", \">) {\n    <list; separator=\"\n\">\n}");
+                }
+                else
+                {
+                    template = new Template("template \\<<generics; separator=\", \">>\n<type> <name>(<args; separator=\", \">) {\n    <list; separator=\"\n\">\n}");
+                }
                 template.Add("generics", func_def.GenericParameter.Select(x => string.Format("typename {0}", x)));
             }
             template.Add("type", func_def.Type);
