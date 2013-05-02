@@ -196,7 +196,7 @@ namespace SugarCpp.CommandLine
             Console.WriteLine(indent + "--token /token           Print the tokens.");
             Console.WriteLine();
             Console.WriteLine("Example:");
-            Console.WriteLine(indent + "sugarcpp code.sug -o code.cpp");
+            Console.WriteLine(indent + "sugarcpp code.sc -o code.cpp");
             Environment.Exit(0);
         }
 
