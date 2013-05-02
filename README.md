@@ -8,14 +8,14 @@ Try SugarCpp in browser: http://curimit.com/project/SugarCpp/
 #### Hello world
 ```c++
 import "stdio.h"
-int main() = printf("Hello world!") 
+void main() = printf("Hello world!") 
 ``` 
 
 ```c++
 #include "stdio.h"
 
-int main() {
-    return printf("Hello world!");
+void main() {
+    printf("Hello world!");
 }
 ```
 
@@ -57,6 +57,14 @@ T max(T x, T y) {
 #### Enumerated type
 ```c++
 enum Color = RED | GREEN | BLUE
+```
+
+```c++
+enum Color {
+    RED,
+    GREEN,
+    BLUE
+};
 ```
 
 #### Define new variable
