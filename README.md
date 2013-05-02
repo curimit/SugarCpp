@@ -106,7 +106,7 @@ int main() {
 ```
 
 #### Haskell style infix function
-```haskell
+```C#
 import "stdio.h"
        "algorithm"
 
