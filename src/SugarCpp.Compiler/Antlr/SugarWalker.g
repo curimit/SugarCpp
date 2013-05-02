@@ -147,7 +147,15 @@ func_args returns [List<Stmt> value]
 {
 	$value = new List<Stmt>();
 }
-	: ^(Func_Args (a=stmt_alloc { $value.Add(a); })*)
+	: ^(Func_Args (a=stmt_alloc
+	{
+		var b = (ExprAlloc)a;
+		if (b.Type == "auto")
+		{
+			b.Type = "decltype";
+		}
+		$value.Add(b);
+	})*)
 	;
 
 func_def returns [FuncDef value]
@@ -205,8 +213,7 @@ stmt returns [Stmt value]
 	;
 
 stmt_expr returns [Stmt value]
-	: a=stmt_alloc { $value = a; }
-	| a=stmt_return { $value = a; }
+	: a=stmt_return { $value = a; }
 	| a=stmt_typedef { $value = a; }
 	| b=stmt_using { $value = b; }
 	| c=expr { $value = c; }
@@ -229,7 +236,7 @@ stmt_typedef returns [Stmt value]
 	;
 
 stmt_alloc returns [Stmt value]
-	: a=alloc_expr { $value = a; }
+	: a=expr { $value = a; }
 	;
 
 stmt_if returns [Stmt value]
@@ -292,6 +299,7 @@ alloc_expr returns [ExprAlloc value]
 	{
 		$value = new ExprAlloc(a, b, c);
 	}
+	| 
 	;
 
 block_expr returns [ExprBlock value]

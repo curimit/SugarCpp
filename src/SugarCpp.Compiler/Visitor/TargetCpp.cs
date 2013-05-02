@@ -80,7 +80,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(Class class_def)
         {
-            Template template = new Template("class <name> {\n<list; separator=\"\n\n\">\n};");
+            Template template = new Template("class <name> {\n<list; separator=\"\n\">\n};");
             template.Add("name", class_def.Name);
             List<Template> list = new List<Template>();
             
@@ -104,7 +104,7 @@ namespace SugarCpp.Compiler
                 string modifier = node.Attribute.Find(x => x.Name == "public") != null ? "public" : "private";
                 if (modifier != last)
                 {
-                    Template member = new Template("<modifier>:\n    <expr>");
+                    Template member = new Template("\n<modifier>:\n    <expr>");
                     member.Add("modifier", modifier);
                     member.Add("expr", node.Accept(this));
                     list.Add(member);
@@ -286,11 +286,22 @@ namespace SugarCpp.Compiler
         {
             if (expr.Expr != null)
             {
-                Template template = new Template("<type> <name; separator=\", \"> = <expr>");
-                template.Add("type", expr.Type);
-                template.Add("name", expr.Name.Select(x => x.Accept(this)));
-                template.Add("expr", expr.Expr.Accept(this));
-                return template;
+                if (expr.Type != "decltype")
+                {
+                    Template template = new Template("<type> <name; separator=\", \"> = <expr>");
+                    template.Add("type", expr.Type);
+                    template.Add("name", expr.Name.Select(x => x.Accept(this)));
+                    template.Add("expr", expr.Expr.Accept(this));
+                    return template;
+                }
+                else
+                {
+                    Template template = new Template("decltype(<expr>) <name; separator=\", \"> = <expr>");
+                    template.Add("type", expr.Type);
+                    template.Add("name", expr.Name.Select(x => x.Accept(this)));
+                    template.Add("expr", expr.Expr.Accept(this));
+                    return template;
+                }
             }
             else
             {

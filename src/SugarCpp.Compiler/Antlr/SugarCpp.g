@@ -278,6 +278,7 @@ ident_list
 
 stmt_alloc
 	: ident_list ':' type_name ('=' expr)? -> ^(Expr_Alloc type_name ident_list expr?)
+	| ident ':='^ modify_expr
 	;
 
 stmt_modify
@@ -289,7 +290,7 @@ expr
 	;
 
 lambda_expr
-	: '(' func_args ')' '=>' modify_expr -> ^(Expr_Lambda func_args modify_expr)
+	: '(' func_args? ')' '=>' modify_expr -> ^(Expr_Lambda func_args? modify_expr)
 	| modify_expr
 	;
 
@@ -426,7 +427,7 @@ infix_func
 
 IDENT: ('a'..'z' | 'A'..'Z' | '_')+ ('0'..'9')*;
 
-NUMBER: ( '0'..'9'+ ('.' '0'..'9'+)? ('ll' | 'f')?
+NUMBER: ( '0'..'9'+ ('.' '0'..'9'+)? ('e' '-'? '0'..'9'+)? ('ll' | 'f')?
         | '0' 'x' ('0'..'9' | 'a'..'f' | 'A' .. 'F')+
 		)
 		;
