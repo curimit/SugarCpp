@@ -43,7 +43,13 @@ namespace SugarCpp.Test
         }
 
         [Test]
-        public void AttributeFriend()
+        public void FriendAttribute()
+        {
+            Test();
+        }
+
+        [Test]
+        public void FlagAttribute()
         {
             Test();
         }

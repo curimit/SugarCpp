@@ -48,7 +48,7 @@
     <Compile Include="TestCase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Input\AttributeFriend.sc">
+    <None Include="Input\FriendAttribute.sc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Input\DefVar.sc">
@@ -58,6 +58,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Input\ExtensionMethod.sc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Input\FlagAttribute.sc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="Input\InfixFunction.sc">
@@ -90,7 +93,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Result\AttributeFriend.cpp">
+    <Content Include="Result\FlagAttribute.cpp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Result\FriendAttribute.cpp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Result\CaculateSum.cpp">
