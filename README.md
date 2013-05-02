@@ -47,16 +47,16 @@ int main() {
 T max<T>(x: T, y: T) = x if x > y else y
 ```
 
-#### Enumerated type
-```c++
-enum Color = RED | GREEN | BLUE
-```
-
 ```c++
 template <typename T>
 T max(T x, T y) {
     return x > y ? x : y;
 }
+```
+
+#### Enumerated type
+```c++
+enum Color = RED | GREEN | BLUE
 ```
 
 #### Define new variable
@@ -163,34 +163,51 @@ int main() {
 
 #### Attributes
 ```haskell
-import "cstdio"
+import "stdio.h"
 
-class Node
+[friend(Print)]
+class Test
+    [public]
+    void setX(x: int) = this->x = x
+    
+    x: int
+
+class Print
     [public, static]
-    int plus(a : int, b : int) = a + b
+    void print(a :Test&) = printf("%d", a.x)
 
 int main()
-    a := 1
-    b := 2
-    ans := a `Node::plus` b
-    printf("%d\n", ans)
+    a: Test
+    a.setX(123)
+    Print::print(a)
 ```
 
 ```c++
-#include "cstdio"
+#include "stdio.h"
 
-class Node {
+class Test {
+    friend class Print;
+
 public:
-    static int plus(int a, int b) {
-        return a + b;
+    void setX(int x) {
+        this->x = x;
+    }
+
+private:
+    int x;
+};
+
+class Print {
+public:
+    static void print(Test& a) {
+        printf("%d", a.x);
     }
 };
 
 int main() {
-    auto a = 1;
-    auto b = 2;
-    auto ans = Node::plus(a, b);
-    printf("%d\n", ans);
+    Test a;
+    a.setX(123);
+    Print::print(a);
 }
 ```
 
