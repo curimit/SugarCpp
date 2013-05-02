@@ -70,7 +70,7 @@ enum_def returns [Enum value]
 	;
 
 class_def returns [Class value]
-	: ^(Class attr=attribute a=ident b=class_block)
+	: ^(Class (attr=attribute)? a=ident b=class_block)
 	{
 		$value = new Class(a, b, attr);
 	}
@@ -112,11 +112,11 @@ attribute returns [List<Attr> value]
 {
 	$value = new List<Attr>();
 }
-	: (a=attribute_item { $value.Add(a); } )*
+	: (a=attribute_item { $value.Add(a); } )+
 	;
 
 class_node returns [ClassMember value]
-	: a=attribute b=node
+	: (a=attribute)? b=node
 	{
 		$value = new ClassMember(b, a);
 	}

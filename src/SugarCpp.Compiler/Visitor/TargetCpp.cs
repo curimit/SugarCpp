@@ -83,6 +83,19 @@ namespace SugarCpp.Compiler
             Template template = new Template("class <name> {\n<list; separator=\"\n\n\">\n};");
             template.Add("name", class_def.Name);
             List<Template> list = new List<Template>();
+            
+            // friend class
+            foreach (var attr in class_def.Attribute)
+            {
+                if (attr.Name == "friend")
+                {
+                    string class_name = attr.Args.First();
+                    Template friend = new Template("    friend class <name>;");
+                    friend.Add("name", class_name);
+                    list.Add(friend);
+                }
+            }
+
             string last = "private";
             foreach (var node in class_def.List)
             {
