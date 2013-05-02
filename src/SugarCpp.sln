@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SugarCpp.WinForm", "SugarCp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SugarCpp.CommandLine", "SugarCpp.CommandLine\SugarCpp.CommandLine.csproj", "{0C93AF78-3F38-4711-B0D8-D638816A699C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SugarCpp.Test", "SugarCpp.Test\SugarCpp.Test.csproj", "{F9E3ACED-D480-49D4-943C-D8308EB7BFFD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{0C93AF78-3F38-4711-B0D8-D638816A699C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0C93AF78-3F38-4711-B0D8-D638816A699C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C93AF78-3F38-4711-B0D8-D638816A699C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9E3ACED-D480-49D4-943C-D8308EB7BFFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9E3ACED-D480-49D4-943C-D8308EB7BFFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9E3ACED-D480-49D4-943C-D8308EB7BFFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9E3ACED-D480-49D4-943C-D8308EB7BFFD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
