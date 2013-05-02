@@ -21,67 +21,54 @@ options
 @namespace { SugarCpp.Compiler }
 
 public root returns [Root value]
-	: a=overall_block NEWLINE*
+	: ^(Root a=global_block)
 	{
 		$value = new Root(a);
 	}
 	;
 
-overall_block returns [List<AstNode> value]
+global_block returns [GlobalBlock value]
 @init
 {
-	$value = new List<AstNode>();
+	$value = new GlobalBlock();
 }
-	: (NEWLINE* a=node { $value.Add(a); } )+
+	: ^(Global_Block (a=node { $value.List.Add(a); })*)
 	;
 
-node returns [AstNode value]
+node returns [AttrAstNode value]
 	: a = func_def { $value = a; }
 	| b = import_def { $value = b; }
 	| c = enum_def { $value = c; }
 	| d = class_def { $value = d; }
-	| e = stmt_alloc { $value = new StmtExpr(e); }
-	| f = namespace_def { $value = f; }
-	| g = stmt_using { $value = new StmtExpr(g); }
-	| h = stmt_typedef { $value = new StmtExpr(h); }
+	| e = global_alloc { $value = e; }
+	| f = global_using { $value = f; }
+	| g = global_typedef { $value = g; }
+	| h = namespace_def { $value = h; }
 	;
 
-namespace_def returns [Namespace value]
-	: ^(Namespace a=ident b=overall_block)
+global_using returns[GlobalUsing value]
+	: a=stmt_using
 	{
-		$value = new Namespace(a, b);
+		$value = new GlobalUsing(a.List);
 	}
 	;
 
-import_def returns [Import value]
-@init
-{
-	$value = new Import();
-}
-	: ^(Import (a=STRING { $value.NameList.Add(a.Text); })*)
-	;
-
-enum_def returns [Enum value]
-@init
-{
-	$value = new Enum();
-}
-	: ^(Enum a=ident { $value.Name=a; } (a=ident { $value.Values.Add(a); })*)
-	;
-
-class_def returns [Class value]
-	: ^(Class (attr=attribute)? a=ident b=class_block)
+global_alloc returns [GlobalAlloc value]
+	: ^(Expr_Alloc (attr=attribute)? a=type_name b=ident_list (c=expr)?)
 	{
-		$value = new Class(a, b, attr);
+		$value = new GlobalAlloc(a, b, c, attr);
+	}
+	| ^(':=' (attr=attribute)? a=ident c=expr)
+	{
+		$value = new GlobalAlloc("auto", new List<string> { a }, c, attr);
 	}
 	;
 
-class_block returns [List<ClassMember> value]
-@init
-{
-	$value = new List<ClassMember>();
-}
-	: (NEWLINE* a=class_node { $value.Add(a); } )+
+global_typedef returns [GlobalTypeDef value]
+	: a=stmt_typedef
+	{
+		$value = new GlobalTypeDef(a.Type, a.Name);
+	}
 	;
 
 attribute_args returns [string value]
@@ -115,10 +102,32 @@ attribute returns [List<Attr> value]
 	: (a=attribute_item { $value.Add(a); } )+
 	;
 
-class_node returns [ClassMember value]
-	: (a=attribute)? b=node
+namespace_def returns [Namespace value]
+	: ^(Namespace a=ident b=global_block)
 	{
-		$value = new ClassMember(b, a);
+		$value = new Namespace(a, b);
+	}
+	;
+
+import_def returns [Import value]
+@init
+{
+	$value = new Import();
+}
+	: ^(Import (a=STRING { $value.NameList.Add(a.Text); })*)
+	;
+
+enum_def returns [Enum value]
+	: ^(Enum (attr=attribute)? a=ident b=ident_list)
+	{
+		$value = new Enum(a, b, attr);
+	}
+	;
+
+class_def returns [Class value]
+	: ^(Class (attr=attribute)? a=ident b=global_block)
+	{
+		$value = new Class(a, b, attr);
 	}
 	;
 
@@ -158,24 +167,38 @@ func_args returns [List<Stmt> value]
 	})*)
 	;
 
+generic_parameter returns [List<string> value]
+@init
+{
+	$value = new List<string>();
+}
+	: ^(Generic_Patameters (a=ident { $value.Add(a); })*)
+	;
+
 func_def returns [FuncDef value]
 @init
 {
 	$value = new FuncDef();
 }
-	: (a=type_name)? (deconstructor='~')? b=ident ('<' x=ident { $value.GenericParameter.Add(x); } '>')? '(' (args=func_args { $value.Args = args; })? ')'
+	: ^(Func_Def (attr=attribute)? (a=type_name)? (deconstructor='~')? b=ident (x=generic_parameter )? (args=func_args { $value.Args = args; })?
 	( e=stmt_block
 	{
+		if (attr != null) $value.Attribute = attr;
 		$value.Type = a;
 		$value.Name = b;
 		if (deconstructor != null) 
 		{
 			$value.Name = "~" + $value.Name;
 		}
+		if (x != null)
+		{
+			$value.GenericParameter = x;
+		}
 		$value.Body = e;
 	}
-	| '=' f=expr
+	| f=expr
 	{
+		if (attr != null) $value.Attribute = attr;
 		$value.Type = a;
 		$value.Name = b;
 		if (deconstructor != null) 
@@ -191,9 +214,13 @@ func_def returns [FuncDef value]
 		{
 			block.StmtList.Add(new StmtExpr(new ExprReturn(f)));
 		}
+		if (x != null)
+		{
+			$value.GenericParameter = x;
+		}
 		$value.Body = block;
 	}
-	)
+	))
 	;
 
 stmt_block returns [StmtBlock value]
@@ -214,9 +241,9 @@ stmt returns [Stmt value]
 
 stmt_expr returns [Stmt value]
 	: a=stmt_return { $value = a; }
-	| a=stmt_typedef { $value = a; }
 	| b=stmt_using { $value = b; }
 	| c=expr { $value = c; }
+	| d=stmt_typedef { $value = d; }
 	;
 
 stmt_using returns [StmtUsing value]
@@ -228,7 +255,7 @@ stmt_using returns [StmtUsing value]
 				   | b='namespace' { $value.List.Add("namespace"); })*)
 	;
 
-stmt_typedef returns [Stmt value]
+stmt_typedef returns [StmtTypeDef value]
 	: ^(Stmt_Typedef a=type_name b=ident)
 	{
 		$value = new StmtTypeDef(a, b);
@@ -256,6 +283,7 @@ stmt_while returns [Stmt value]
 stmt_for returns [Stmt value]
 	: ^(Stmt_For a=expr b=expr c=expr d=stmt_block)
 	{
+		
 		$value = new StmtFor(a, b, c, d);
 	}
 	| ^(Stmt_ForEach a=expr b=expr d=stmt_block)
@@ -286,12 +314,12 @@ ident returns [string value]
 	: a=IDENT { $value = a.Text; } ('::' a=IDENT { $value += "::" + a.Text; })*
 	;
 
-ident_list returns [List<Expr> value]
+ident_list returns [List<string> value]
 @init
 {
-	$value = new List<Expr>();
+	$value = new List<string>();
 }
-	: ^(Ident_List (a=ident { $value.Add(new ExprConst(a)); })+)
+	: ^(Ident_List (a=ident { $value.Add(a); })+)
 	;
 	
 alloc_expr returns [ExprAlloc value]
@@ -299,16 +327,7 @@ alloc_expr returns [ExprAlloc value]
 	{
 		$value = new ExprAlloc(a, b, c);
 	}
-	| 
 	;
-
-block_expr returns [ExprBlock value]
-@init
-{
-	$value = new ExprBlock();
-}
-	: INDENT (NEWLINE+ a=stmt { $value.StmtList.Add(a); })* NEWLINE* DEDENT
-    ; 
 
 expr_tuple returns [ExprTuple value]
 @init
@@ -350,7 +369,7 @@ dict_expr returns [Expr value]
 	;
 
 lambda_expr returns [ExprLambda value]
-	: ^(Expr_Lambda b=func_args a=expr)
+	: ^(Expr_Lambda (b=func_args)? a=expr)
 	{
 		$value = new ExprLambda(a, b);
 	}
@@ -389,6 +408,10 @@ expr returns [Expr value]
     : tuple=expr_tuple
 	{
 		$value = tuple;
+	}
+	| alloc=alloc_expr
+	{
+		$value = alloc;
 	}
 	| match=match_tuple
 	{
@@ -441,7 +464,8 @@ expr returns [Expr value]
 	}
 	| ^(':=' a=expr b=expr)
 	{
-		$value = new ExprAlloc("auto", new List<Expr> { a }, b);
+		System.Diagnostics.Debug.Assert(a is ExprConst);
+		$value = new ExprAlloc("auto", new List<string> { ((ExprConst)a).Text }, b);
 	}
 	| ^(Expr_Bracket a=expr)
 	{

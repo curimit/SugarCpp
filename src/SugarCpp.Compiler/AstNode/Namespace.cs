@@ -6,18 +6,15 @@ using System.Text;
 
 namespace SugarCpp.Compiler
 {
-    public class Namespace : AstNode
+    public class Namespace : AttrAstNode
     {
         public string Name;
-        public List<AstNode> List = new List<AstNode>();
+        public GlobalBlock Block;
 
-        public Namespace(string name, List<AstNode> list)
+        public Namespace(string name, GlobalBlock block)
         {
             this.Name = name;
-            if (list != null)
-            {
-                this.List = list;
-            }
+            this.Block = block;
         }
 
         public override Template Accept(Visitor visitor)

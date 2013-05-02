@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SugarCpp.Compiler
 {
-    public class FuncDef : AstNode
+    public class FuncDef : AttrAstNode
     {
         public string Type;
         public List<Stmt> Args = new List<Stmt>();

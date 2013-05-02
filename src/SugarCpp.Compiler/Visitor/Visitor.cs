@@ -10,14 +10,18 @@ namespace SugarCpp.Compiler
     {
         public abstract Template Visit(Root root);
 
+        public abstract Template Visit(GlobalBlock block);
+        public abstract Template Visit(GlobalAlloc global_alloc);
+        public abstract Template Visit(GlobalTypeDef global_typedef);
+        public abstract Template Visit(GlobalUsing global_using);
+
         public abstract Template Visit(Import import);
 
         public abstract Template Visit(Class class_def);
-        public abstract Template Visit(ClassMember class_member);
         public abstract Template Visit(Namespace namespace_def);
         public abstract Template Visit(Enum enum_def);
-
         public abstract Template Visit(FuncDef func_def);
+
         public abstract Template Visit(StmtBlock block);
 
         public abstract Template Visit(StmtIf stmt_if);

@@ -22,8 +22,11 @@ tokens
    Namespace;
 
    Attribute;
+   Generic_Patameters;
 
    Func_Def;
+
+   Global_Block;
    
    Stmt_Block;
    
@@ -110,13 +113,19 @@ tokens
         base.NextToken();
         if (tokens.Count == 0)
 		{
-			if (Indents.Count > 0)
+			if (Indents != null && Indents.Count > 0)
 			{
+				Emit(new CommonToken(NEWLINE, "NEWLINE"));
 				Emit(new CommonToken(DEDENT, "DEDENT"));
 				Indents.Pop();
 				CurrentIndent = Indents.Count == 0 ? 0 : Indents.First().Level;
 				base.NextToken();
 				return tokens.Dequeue();
+			}
+			if (Indents != null)
+			{
+				Indents = null;
+				return new CommonToken(NEWLINE, "NEWLINE");
 			}
             return new CommonToken(EOF, "EOF");
 		}
@@ -144,42 +153,22 @@ tokens
 @parser :: namespace { SugarCpp.Compiler }
 
 public root
-	: overall_block  NEWLINE* EOF
+	: NEWLINE* global_block EOF -> ^(Root global_block)
 	;
 
-overall_block
-	: (NEWLINE* node)+
+global_block
+	: (node NEWLINE+)* -> ^(Global_Block node*)
 	;
 
 node
 	: func_def
-	| import_def
-	| enum_def
 	| class_def
+	| enum_def
+	| global_alloc
+	| global_using
+	| global_typedef
+	| import_def
 	| namespace_def
-	| stmt_alloc
-	| stmt_using
-	| stmt_typedef
-	;
-
-import_def
-	: 'import' STRING? (INDENT (NEWLINE+ STRING)* NEWLINE* DEDENT)? -> ^(Import STRING*)
-	;
-
-enum_def
-	: 'enum' ident '=' ident ('|' ident)* -> ^(Enum ident+)
-	;
-
-namespace_def
-	: 'namespace' ident INDENT overall_block NEWLINE* DEDENT -> ^(Namespace ident overall_block)
-	;
-
-class_def
-	: attribute? 'class' ident INDENT class_block NEWLINE* DEDENT -> ^(Class attribute? ident class_block)
-	;
-
-class_block
-	: (NEWLINE* class_node)+
 	;
 	
 attribute_args
@@ -196,8 +185,33 @@ attribute
 	: ('[' attribute_item (',' attribute_item)* ']' NEWLINE+)+ -> attribute_item+
 	;
 
-class_node
-	: attribute? node
+global_alloc
+	: attribute? ident_list ':' type_name ('=' expr)? -> ^(Expr_Alloc attribute? type_name ident_list expr?)
+	| attribute? ident ':=' modify_expr -> ^(':=' attribute? ident modify_expr)
+	;
+
+global_using
+	: stmt_using
+	;
+
+global_typedef
+	: stmt_typedef
+	;
+
+import_def
+	: 'import' STRING? (NEWLINE+ INDENT NEWLINE*  (STRING NEWLINE+)* DEDENT)? -> ^(Import STRING*)
+	;
+
+enum_def
+	: attribute? 'enum' ident '=' (ident ('|' ident)*)? -> ^(Enum attribute? ident ^(Ident_List ident*))
+	;
+
+namespace_def
+	: 'namespace' ident NEWLINE+ INDENT NEWLINE* global_block DEDENT -> ^(Namespace ident global_block)
+	;
+
+class_def
+	:  attribute? 'class' ident NEWLINE+ INDENT NEWLINE* global_block DEDENT -> ^(Class attribute? ident global_block)
 	;
 
 type_name_op: '*' | '[' ']' | '&' ;
@@ -206,7 +220,7 @@ type_name
 	;
 
 generic_parameter
-	: '<' ident (','! ident)* '>'
+	: '<' ident (',' ident)* '>' -> ^(Generic_Patameters ident*)
 	;
 
 func_args
@@ -214,11 +228,12 @@ func_args
 	;
 
 func_def
-	: type_name? '~'? ident generic_parameter? '(' func_args? ')' ( stmt_block | '=' expr )
+	: attribute? type_name? '~'? ident generic_parameter? '(' func_args? ')' (NEWLINE+ stmt_block -> ^(Func_Def attribute? type_name? '~'? ident generic_parameter? func_args? stmt_block)
+																			 | '=' expr  -> ^(Func_Def attribute? type_name? '~'? ident generic_parameter? func_args? expr))
     ;
 
 stmt_block
-	: INDENT (NEWLINE+ stmt)* NEWLINE* DEDENT -> ^(Stmt_Block stmt*)
+	: INDENT NEWLINE*  (stmt NEWLINE+)* DEDENT -> ^(Stmt_Block stmt*)
 	;
 
 stmt
@@ -290,13 +305,13 @@ expr
 	;
 
 lambda_expr
-	: '(' func_args? ')' '=>' modify_expr -> ^(Expr_Lambda func_args? modify_expr)
+	: '\\' '(' func_args? ')' '=>' lambda_expr -> ^(Expr_Lambda func_args? lambda_expr)
 	| modify_expr
 	;
 
-modify_expr_op: ':=' | '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=' ;
+modify_expr_op: '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=' ;
 modify_expr
-	: cond_expr (modify_expr_op^ modify_expr)?
+	: cond_expr ((':=' | '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=')^ modify_expr)?
 	;
 
 cond_expr_item: cond_expr ;
@@ -379,7 +394,6 @@ suffix_expr
 					      | '--' -> ^(Expr_Suffix '--' $suffix_expr)
 						  | '.' ident -> ^(Expr_Access '.' $suffix_expr ident)
 						  | '->' ident -> ^(Expr_Access '->' $suffix_expr ident)
-						  | '::' ident -> ^(Expr_Access '::' $suffix_expr ident)
 						  | generic_parameter? '(' expr_list? ')' -> ^(Expr_Call $suffix_expr generic_parameter? expr_list?)
 						  | '[' expr_list? ']' -> ^(Expr_Dict $suffix_expr expr_list?)
 						  | ':' ident '(' expr_list? ')' -> ^(Expr_Call_With $suffix_expr ident expr_list?)
@@ -404,7 +418,6 @@ lvalue
 					        | '--' -> ^(Expr_Suffix '--' $lvalue)
 						    | '.' ident -> ^(Expr_Access '.' $lvalue ident)
 						    | '->' ident -> ^(Expr_Access '->' $lvalue ident)
-						    | '::' ident -> ^(Expr_Access '::' $lvalue ident)
 						    | generic_parameter? '(' expr_list? ')' -> ^(Expr_Call $lvalue generic_parameter? expr_list?)
 						    | '[' expr_list? ']' -> ^(Expr_Dict $lvalue expr_list?)
 					        )*
@@ -479,6 +492,7 @@ NEWLINE
 		int indent = $SP.text == null ? 0 : $SP.text.Length;
 		if (indent > CurrentIndent)
 		{
+			Emit(new CommonToken(NEWLINE, "NEWLINE"));
 			Emit(new CommonToken(INDENT, "INDENT"));
 			Emit(new CommonToken(NEWLINE, "NEWLINE"));
 			Indents.Push(new Indentation(indent, CharIndex));
@@ -488,6 +502,7 @@ NEWLINE
 		{
 			while (Indents.Count > 0 && indent < CurrentIndent)
 			{
+				Emit(new CommonToken(NEWLINE, "NEWLINE"));
 				Emit(new CommonToken(DEDENT, "DEDENT"));
 				Indents.Pop();
 				CurrentIndent = Indents.Count == 0 ? 0 : Indents.First().Level;

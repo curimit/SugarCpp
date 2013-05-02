@@ -61,6 +61,7 @@
     <Compile Include="AstNode\Enum.cs" />
     <Compile Include="AstNode\Expr.cs" />
     <Compile Include="AstNode\FuncDef.cs" />
+    <Compile Include="AstNode\GlobalBlock.cs" />
     <Compile Include="AstNode\Import.cs" />
     <Compile Include="AstNode\Match.cs" />
     <Compile Include="AstNode\Namespace.cs" />

@@ -8,14 +8,11 @@ namespace SugarCpp.Compiler
 {
     public class Root : AstNode
     {
-        public List<AstNode> List = new List<AstNode>();
+        public GlobalBlock Block;
 
-        public Root(List<AstNode> list)
+        public Root(GlobalBlock block)
         {
-            if (list != null)
-            {
-                this.List = list;
-            }
+            this.Block = block;
         }
 
         public override Template Accept(Visitor visitor)

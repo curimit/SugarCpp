@@ -6,7 +6,7 @@ using System.Text;
 
 namespace SugarCpp.Compiler
 {
-    public class Import : AstNode
+    public class Import : AttrAstNode
     {
         public List<string> NameList = new List<string>();
 

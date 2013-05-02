@@ -31,21 +31,104 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(Root root)
         {
-            Template template = new Template("<list; separator=\"\n\n\">");
+            return root.Block.Accept(this);
+        }
+
+        public override Template Visit(GlobalBlock block)
+        {
+            Template template = new Template("<list; separator=\"\n\">");
             List<Template> list = new List<Template>();
-            foreach (var node in root.List)
+            bool last = false;
+            AstNode last_node = null;
+            foreach (var node in block.List)
             {
-                list.Add(node.Accept(this));
+                bool current = node is FuncDef || node is Class || node is Enum || node is Import || node is GlobalUsing || node is Namespace;
+                if ((last || current) && !(last_node is Import && node is Import))
+                {
+                    Template tp = new Template("\n<node>");
+                    tp.Add("node", node.Accept(this));
+                    list.Add(tp);
+                }
+                else
+                {
+                    list.Add(node.Accept(this));
+                }
+                last = current;
+                last_node = node;
             }
             template.Add("list", list);
             return template;
+        }
+
+        public override Template Visit(GlobalUsing global_using)
+        {
+            Template template = new Template("using <list; separator=\" \">;");
+            template.Add("list", global_using.List);
+            return template;
+        }
+
+        public override Template Visit(GlobalTypeDef global_typedef)
+        {
+            Template template = new Template("typedef <type> <name>;");
+            template.Add("type", global_typedef.Type);
+            template.Add("name", global_typedef.Name);
+            return template;
+        }
+
+        public override Template Visit(GlobalAlloc global_alloc)
+        {
+            string prefix = "";
+            if (global_alloc.Attribute.Find(x => x.Name == "static") != null)
+            {
+                prefix += "static ";
+            }
+
+            if (global_alloc.Attribute.Find(x => x.Name == "const") != null)
+            {
+                prefix += "const ";
+            }
+
+            if (global_alloc.Expr != null)
+            {
+                Template template = new Template("<prefix><type> <name; separator=\", \"> = <expr>;");
+                template.Add("prefix", prefix);
+                template.Add("type", global_alloc.Type);
+                template.Add("name", global_alloc.Name);
+                template.Add("expr", global_alloc.Expr.Accept(this));
+                return template;
+            }
+            else
+            {
+                Template template = new Template("<prefix><type> <name; separator=\", \">;");
+                template.Add("prefix", prefix);
+                template.Add("type", global_alloc.Type);
+                template.Add("name", global_alloc.Name);
+                return template;
+            }
         }
 
         public override Template Visit(Enum enum_def)
         {
             Template template = new Template("enum <name> {\n    <list; separator=\",\n\">\n};");
             template.Add("name", enum_def.Name);
-            template.Add("list", enum_def.Values);
+            List<Template> list = new List<Template>();
+            int i = 0;
+            foreach (var item in enum_def.Values)
+            {
+                Template tp = new Template("<node><suffix>");
+                tp.Add("node", item);
+                if (i == 0)
+                {
+                    tp.Add("suffix", string.Format(" = 0"));
+                }
+                else
+                {
+                    tp.Add("suffix", "");
+                }
+                list.Add(tp);
+                i++;
+            }
+            template.Add("list", list);
             return template;
         }
 
@@ -83,7 +166,7 @@ namespace SugarCpp.Compiler
             Template template = new Template("class <name> {\n<list; separator=\"\n\">\n};");
             template.Add("name", class_def.Name);
             List<Template> list = new List<Template>();
-            
+
             // friend class
             foreach (var attr in class_def.Attribute)
             {
@@ -98,10 +181,17 @@ namespace SugarCpp.Compiler
                 }
             }
 
+            bool last_flag = false;
+            AstNode last_node = null;
+
             string last = "private";
-            foreach (var node in class_def.List)
+            foreach (var node in class_def.Block.List)
             {
+                bool current = node is FuncDef || node is Class || node is Enum || node is Import || node is GlobalUsing || node is Namespace;
                 string modifier = node.Attribute.Find(x => x.Name == "public") != null ? "public" : "private";
+
+                
+
                 if (modifier != last)
                 {
                     Template member = new Template("\n<modifier>:\n    <expr>");
@@ -111,37 +201,32 @@ namespace SugarCpp.Compiler
                 }
                 else
                 {
-                    Template member = new Template("    <expr>");
-                    member.Add("expr", node.Accept(this));
-                    list.Add(member);
+                    if ((last_flag || current) && !(last_node is Import && node is Import))
+                    {
+                        Template member = new Template("\n    <expr>");
+                        member.Add("expr", node.Accept(this));
+                        list.Add(member);
+                    }
+                    else
+                    {
+                        Template member = new Template("    <expr>");
+                        member.Add("expr", node.Accept(this));
+                        list.Add(member);
+                    }
+                    
                 }
+
                 last = modifier;
+                last_flag = current;
+                last_node = node;
             }
             template.Add("list", list);
             return template;
         }
 
-        public override Template Visit(ClassMember class_member)
-        {
-            string prefix = "";
-            if (class_member.Attribute.Find(x => x.Name == "static") != null)
-            {
-                prefix += "static ";
-            }
-            if (class_member.Attribute.Find(x => x.Name == "const") != null)
-            {
-                prefix += "const ";
-            }
-
-            Template template = new Template(string.Format("{0}<node>", prefix));
-
-            template.Add("node", class_member.Node.Accept(this));
-            return template;
-        }
-
         public override Template Visit(Namespace namespace_def)
         {
-            Template template = new Template("namespace <name> {\n    <list; separator=\"\n\">\n}");
+            Template template = new Template("namespace <name> {\n    <block>\n}");
             string name = namespace_def.Name;
             if (name.IndexOf("::") != -1)
             {
@@ -149,49 +234,50 @@ namespace SugarCpp.Compiler
                 string prefix = name.Substring(0, k);
                 string suffix = name.Substring(k + 2, name.Length - k - 2);
                 template.Add("name", prefix);
-                template.Add("list", Visit(new Namespace(suffix, namespace_def.List)));
+                template.Add("block", Visit(new Namespace(suffix, namespace_def.Block)));
             }
             else
             {
                 template.Add("name", namespace_def.Name);
                 List<Template> list = new List<Template>();
-                foreach (var node in namespace_def.List)
-                {
-                    Template member = new Template("<expr>");
-                    member.Add("expr", node.Accept(this));
-                    list.Add(member);
-                }
-                template.Add("list", list);
+                template.Add("block", namespace_def.Block.Accept(this));
             }
             return template;
         }
 
         public override Template Visit(FuncDef func_def)
         {
+            string prefix = "";
+            if (func_def.Attribute.Find(x => x.Name == "inline") != null)
+            {
+                prefix += "inline ";
+            }
+
             Template template = null;
             if (func_def.GenericParameter.Count() == 0)
             {
                 if (func_def.Type == null)
                 {
-                    template = new Template("<name>(<args; separator=\", \">) {\n    <list; separator=\"\n\">\n}");
+                    template = new Template("<prefix><name>(<args; separator=\", \">) {\n    <list; separator=\"\n\">\n}");
                 }
                 else
                 {
-                    template = new Template("<type> <name>(<args; separator=\", \">) {\n    <list; separator=\"\n\">\n}");
+                    template = new Template("<prefix><type> <name>(<args; separator=\", \">) {\n    <list; separator=\"\n\">\n}");
                 }
             }
             else
             {
                 if (func_def.Type == null)
                 {
-                    template = new Template("template \\<<generics; separator=\", \">>\n<name>(<args; separator=\", \">) {\n    <list; separator=\"\n\">\n}");
+                    template = new Template("template \\<<generics; separator=\", \">>\n<prefix><name>(<args; separator=\", \">) {\n    <list; separator=\"\n\">\n}");
                 }
                 else
                 {
-                    template = new Template("template \\<<generics; separator=\", \">>\n<type> <name>(<args; separator=\", \">) {\n    <list; separator=\"\n\">\n}");
+                    template = new Template("template \\<<generics; separator=\", \">>\n<prefix><type> <name>(<args; separator=\", \">) {\n    <list; separator=\"\n\">\n}");
                 }
                 template.Add("generics", func_def.GenericParameter.Select(x => string.Format("typename {0}", x)));
             }
+            template.Add("prefix", prefix);
             template.Add("type", func_def.Type);
             template.Add("name", func_def.Name);
             template.Add("args", func_def.Args.Select(x => x.Accept(this)));
@@ -290,7 +376,7 @@ namespace SugarCpp.Compiler
                 {
                     Template template = new Template("<type> <name; separator=\", \"> = <expr>");
                     template.Add("type", expr.Type);
-                    template.Add("name", expr.Name.Select(x => x.Accept(this)));
+                    template.Add("name", expr.Name);
                     template.Add("expr", expr.Expr.Accept(this));
                     return template;
                 }
@@ -298,7 +384,7 @@ namespace SugarCpp.Compiler
                 {
                     Template template = new Template("decltype(<expr>) <name; separator=\", \"> = <expr>");
                     template.Add("type", expr.Type);
-                    template.Add("name", expr.Name.Select(x => x.Accept(this)));
+                    template.Add("name", expr.Name);
                     template.Add("expr", expr.Expr.Accept(this));
                     return template;
                 }
@@ -307,7 +393,7 @@ namespace SugarCpp.Compiler
             {
                 Template template = new Template("<type> <name; separator=\", \">");
                 template.Add("type", expr.Type);
-                template.Add("name", expr.Name.Select(x => x.Accept(this)));
+                template.Add("name", expr.Name);
                 return template;
             }
         }

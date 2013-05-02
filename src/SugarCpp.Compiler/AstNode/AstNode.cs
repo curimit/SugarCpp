@@ -10,4 +10,9 @@ namespace SugarCpp.Compiler
     {
         public abstract Template Accept(Visitor visitor);
     }
+
+    public abstract class AttrAstNode : AstNode
+    {
+        public List<Attr> Attribute = new List<Attr>(); 
+    }
 }
