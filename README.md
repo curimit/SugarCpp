@@ -1,6 +1,8 @@
 # SugarCpp
 SugarCpp is a language which can compile to C++.
 
+SugarCpp is still under development.If you have any idea, you can open an issue.
+
 Try SugarCpp in browser: http://curimit.com/project/SugarCpp/
 
 ## Examples
@@ -176,17 +178,17 @@ import "stdio.h"
 [friend(Print)]
 class Test
     [public]
-    void setX(x: int) = this->x = x
+    Test(x: int) = this->x = x
     
+    [private]
     x: int
-
+    
 class Print
     [public, static]
     void print(a :Test&) = printf("%d", a.x)
 
 int main()
-    a: Test
-    a.setX(123)
+    a := Test(123)
     Print::print(a)
 ```
 
@@ -197,7 +199,7 @@ class Test {
     friend class Print;
 
 public:
-    void setX(int x) {
+    Test(int x) {
         this->x = x;
     }
 
@@ -213,8 +215,7 @@ public:
 };
 
 int main() {
-    Test a;
-    a.setX(123);
+    auto a = Test(123);
     Print::print(a);
 }
 ```
