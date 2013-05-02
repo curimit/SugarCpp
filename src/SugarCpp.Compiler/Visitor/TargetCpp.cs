@@ -112,21 +112,29 @@ namespace SugarCpp.Compiler
             Template template = new Template("enum <name> {\n    <list; separator=\",\n\">\n};");
             template.Add("name", enum_def.Name);
             List<Template> list = new List<Template>();
+            bool hasFlagAttribute = enum_def.Attribute.Find(x => x.Name == "FlagAttribute") != null;
             int i = 0;
             foreach (var item in enum_def.Values)
             {
                 Template tp = new Template("<node><suffix>");
                 tp.Add("node", item);
-                if (i == 0)
+                if (i == 0 || hasFlagAttribute)
                 {
-                    tp.Add("suffix", string.Format(" = 0"));
+                    tp.Add("suffix", string.Format(" = {0}", i));
                 }
                 else
                 {
                     tp.Add("suffix", "");
                 }
                 list.Add(tp);
-                i++;
+                if (hasFlagAttribute)
+                {
+                    i = i == 0 ? 1 : i * 2;
+                }
+                else
+                {
+                    i = i + 1;
+                }
             }
             template.Add("list", list);
             return template;
