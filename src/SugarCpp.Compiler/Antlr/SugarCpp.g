@@ -181,9 +181,19 @@ class_def
 class_block
 	: (NEWLINE* class_node)+
 	;
+	
+attribute_args
+	: NUMBER
+	| STRING
+	| ident
+	;
+
+attribute_item
+	: ident ('(' attribute_args (','! attribute_args)* ')')?
+	;
 
 attribute
-	:'[' ident (',' ident)* ']' -> ^(Attribute ident+)
+	:'[' attribute_item (',' attribute_item)* ']' -> ^(Attribute attribute_item+)
 	;
 
 class_node

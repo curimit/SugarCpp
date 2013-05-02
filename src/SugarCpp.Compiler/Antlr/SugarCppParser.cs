@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// $ANTLR 3.4 SugarCpp.g 2013-05-02 09:50:23
+// $ANTLR 3.4 SugarCpp.g 2013-05-02 11:26:50
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219
@@ -165,7 +165,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	public SugarCppParser(ITokenStream input, RecognizerSharedState state)
 		: base(input, state)
 	{
-		this.state.ruleMemo = new System.Collections.Generic.Dictionary<int, int>[189+1];
+		this.state.ruleMemo = new System.Collections.Generic.Dictionary<int, int>[195+1];
 
 
 		ITreeAdaptor treeAdaptor = default(ITreeAdaptor);
@@ -1686,111 +1686,412 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	}
 	// $ANTLR end "class_block"
 
+	partial void EnterRule_attribute_args();
+	partial void LeaveRule_attribute_args();
+
+	// $ANTLR start "attribute_args"
+	// SugarCpp.g:185:1: attribute_args : ( NUMBER | STRING | ident );
+	[GrammarRule("attribute_args")]
+	private AstParserRuleReturnScope<CommonTree, IToken> attribute_args()
+	{
+		EnterRule_attribute_args();
+		EnterRule("attribute_args", 9);
+		TraceIn("attribute_args", 9);
+		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
+		retval.Start = (IToken)input.LT(1);
+		int attribute_args_StartIndex = input.Index;
+
+		CommonTree root_0 = default(CommonTree);
+
+		IToken NUMBER41 = default(IToken);
+		IToken STRING42 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> ident43 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+
+		CommonTree NUMBER41_tree = default(CommonTree);
+		CommonTree STRING42_tree = default(CommonTree);
+		try { DebugEnterRule(GrammarFileName, "attribute_args");
+		DebugLocation(185, 1);
+		try
+		{
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 9)) { return retval; }
+
+			// SugarCpp.g:186:2: ( NUMBER | STRING | ident )
+			int alt15=3;
+			try { DebugEnterDecision(15, false);
+			switch (input.LA(1))
+			{
+			case NUMBER:
+				{
+				alt15 = 1;
+				}
+				break;
+			case STRING:
+				{
+				alt15 = 2;
+				}
+				break;
+			case IDENT:
+				{
+				alt15 = 3;
+				}
+				break;
+			default:
+				{
+					if (state.backtracking>0) {state.failed=true; return retval;}
+					NoViableAltException nvae = new NoViableAltException("", 15, 0, input);
+					DebugRecognitionException(nvae);
+					throw nvae;
+				}
+			}
+
+			} finally { DebugExitDecision(15); }
+			switch (alt15)
+			{
+			case 1:
+				DebugEnterAlt(1);
+				// SugarCpp.g:186:4: NUMBER
+				{
+				root_0 = (CommonTree)adaptor.Nil();
+
+				DebugLocation(186, 4);
+				NUMBER41=(IToken)Match(input,NUMBER,Follow._NUMBER_in_attribute_args636); if (state.failed) return retval;
+				if (state.backtracking == 0) {
+				NUMBER41_tree = (CommonTree)adaptor.Create(NUMBER41);
+				adaptor.AddChild(root_0, NUMBER41_tree);
+				}
+
+				}
+				break;
+			case 2:
+				DebugEnterAlt(2);
+				// SugarCpp.g:187:4: STRING
+				{
+				root_0 = (CommonTree)adaptor.Nil();
+
+				DebugLocation(187, 4);
+				STRING42=(IToken)Match(input,STRING,Follow._STRING_in_attribute_args641); if (state.failed) return retval;
+				if (state.backtracking == 0) {
+				STRING42_tree = (CommonTree)adaptor.Create(STRING42);
+				adaptor.AddChild(root_0, STRING42_tree);
+				}
+
+				}
+				break;
+			case 3:
+				DebugEnterAlt(3);
+				// SugarCpp.g:188:4: ident
+				{
+				root_0 = (CommonTree)adaptor.Nil();
+
+				DebugLocation(188, 4);
+				PushFollow(Follow._ident_in_attribute_args646);
+				ident43=ident();
+				PopFollow();
+				if (state.failed) return retval;
+				if (state.backtracking == 0) adaptor.AddChild(root_0, ident43.Tree);
+
+				}
+				break;
+
+			}
+			retval.Stop = (IToken)input.LT(-1);
+
+			if (state.backtracking == 0) {
+			retval.Tree = (CommonTree)adaptor.RulePostProcessing(root_0);
+			adaptor.SetTokenBoundaries(retval.Tree, retval.Start, retval.Stop);
+			}
+		}
+		catch (RecognitionException re)
+		{
+			ReportError(re);
+			Recover(input,re);
+		retval.Tree = (CommonTree)adaptor.ErrorNode(input, retval.Start, input.LT(-1), re);
+
+		}
+		finally
+		{
+			TraceOut("attribute_args", 9);
+			LeaveRule("attribute_args", 9);
+			LeaveRule_attribute_args();
+			if (state.backtracking > 0) { Memoize(input, 9, attribute_args_StartIndex); }
+
+		}
+		DebugLocation(189, 1);
+		} finally { DebugExitRule(GrammarFileName, "attribute_args"); }
+		return retval;
+
+	}
+	// $ANTLR end "attribute_args"
+
+	partial void EnterRule_attribute_item();
+	partial void LeaveRule_attribute_item();
+
+	// $ANTLR start "attribute_item"
+	// SugarCpp.g:191:1: attribute_item : ident ( '(' attribute_args ( ',' ! attribute_args )* ')' )? ;
+	[GrammarRule("attribute_item")]
+	private AstParserRuleReturnScope<CommonTree, IToken> attribute_item()
+	{
+		EnterRule_attribute_item();
+		EnterRule("attribute_item", 10);
+		TraceIn("attribute_item", 10);
+		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
+		retval.Start = (IToken)input.LT(1);
+		int attribute_item_StartIndex = input.Index;
+
+		CommonTree root_0 = default(CommonTree);
+
+		IToken char_literal45 = default(IToken);
+		IToken char_literal47 = default(IToken);
+		IToken char_literal49 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> ident44 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> attribute_args46 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> attribute_args48 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+
+		CommonTree char_literal45_tree = default(CommonTree);
+		CommonTree char_literal47_tree = default(CommonTree);
+		CommonTree char_literal49_tree = default(CommonTree);
+		try { DebugEnterRule(GrammarFileName, "attribute_item");
+		DebugLocation(191, 1);
+		try
+		{
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 10)) { return retval; }
+
+			// SugarCpp.g:192:2: ( ident ( '(' attribute_args ( ',' ! attribute_args )* ')' )? )
+			DebugEnterAlt(1);
+			// SugarCpp.g:192:4: ident ( '(' attribute_args ( ',' ! attribute_args )* ')' )?
+			{
+			root_0 = (CommonTree)adaptor.Nil();
+
+			DebugLocation(192, 4);
+			PushFollow(Follow._ident_in_attribute_item657);
+			ident44=ident();
+			PopFollow();
+			if (state.failed) return retval;
+			if (state.backtracking == 0) adaptor.AddChild(root_0, ident44.Tree);
+			DebugLocation(192, 10);
+			// SugarCpp.g:192:10: ( '(' attribute_args ( ',' ! attribute_args )* ')' )?
+			int alt17=2;
+			try { DebugEnterSubRule(17);
+			try { DebugEnterDecision(17, false);
+			int LA17_0 = input.LA(1);
+
+			if ((LA17_0==61))
+			{
+				alt17 = 1;
+			}
+			} finally { DebugExitDecision(17); }
+			switch (alt17)
+			{
+			case 1:
+				DebugEnterAlt(1);
+				// SugarCpp.g:192:11: '(' attribute_args ( ',' ! attribute_args )* ')'
+				{
+				DebugLocation(192, 11);
+				char_literal45=(IToken)Match(input,61,Follow._61_in_attribute_item660); if (state.failed) return retval;
+				if (state.backtracking == 0) {
+				char_literal45_tree = (CommonTree)adaptor.Create(char_literal45);
+				adaptor.AddChild(root_0, char_literal45_tree);
+				}
+				DebugLocation(192, 15);
+				PushFollow(Follow._attribute_args_in_attribute_item662);
+				attribute_args46=attribute_args();
+				PopFollow();
+				if (state.failed) return retval;
+				if (state.backtracking == 0) adaptor.AddChild(root_0, attribute_args46.Tree);
+				DebugLocation(192, 30);
+				// SugarCpp.g:192:30: ( ',' ! attribute_args )*
+				try { DebugEnterSubRule(16);
+				while (true)
+				{
+					int alt16=2;
+					try { DebugEnterDecision(16, false);
+					int LA16_0 = input.LA(1);
+
+					if ((LA16_0==68))
+					{
+						alt16 = 1;
+					}
+
+
+					} finally { DebugExitDecision(16); }
+					switch ( alt16 )
+					{
+					case 1:
+						DebugEnterAlt(1);
+						// SugarCpp.g:192:31: ',' ! attribute_args
+						{
+						DebugLocation(192, 34);
+						char_literal47=(IToken)Match(input,68,Follow._68_in_attribute_item665); if (state.failed) return retval;
+						DebugLocation(192, 36);
+						PushFollow(Follow._attribute_args_in_attribute_item668);
+						attribute_args48=attribute_args();
+						PopFollow();
+						if (state.failed) return retval;
+						if (state.backtracking == 0) adaptor.AddChild(root_0, attribute_args48.Tree);
+
+						}
+						break;
+
+					default:
+						goto loop16;
+					}
+				}
+
+				loop16:
+					;
+
+				} finally { DebugExitSubRule(16); }
+
+				DebugLocation(192, 53);
+				char_literal49=(IToken)Match(input,62,Follow._62_in_attribute_item672); if (state.failed) return retval;
+				if (state.backtracking == 0) {
+				char_literal49_tree = (CommonTree)adaptor.Create(char_literal49);
+				adaptor.AddChild(root_0, char_literal49_tree);
+				}
+
+				}
+				break;
+
+			}
+			} finally { DebugExitSubRule(17); }
+
+
+			}
+
+			retval.Stop = (IToken)input.LT(-1);
+
+			if (state.backtracking == 0) {
+			retval.Tree = (CommonTree)adaptor.RulePostProcessing(root_0);
+			adaptor.SetTokenBoundaries(retval.Tree, retval.Start, retval.Stop);
+			}
+		}
+		catch (RecognitionException re)
+		{
+			ReportError(re);
+			Recover(input,re);
+		retval.Tree = (CommonTree)adaptor.ErrorNode(input, retval.Start, input.LT(-1), re);
+
+		}
+		finally
+		{
+			TraceOut("attribute_item", 10);
+			LeaveRule("attribute_item", 10);
+			LeaveRule_attribute_item();
+			if (state.backtracking > 0) { Memoize(input, 10, attribute_item_StartIndex); }
+
+		}
+		DebugLocation(193, 1);
+		} finally { DebugExitRule(GrammarFileName, "attribute_item"); }
+		return retval;
+
+	}
+	// $ANTLR end "attribute_item"
+
 	partial void EnterRule_attribute();
 	partial void LeaveRule_attribute();
 
 	// $ANTLR start "attribute"
-	// SugarCpp.g:185:1: attribute : '[' ident ( ',' ident )* ']' -> ^( Attribute ( ident )+ ) ;
+	// SugarCpp.g:195:1: attribute : '[' attribute_item ( ',' attribute_item )* ']' -> ^( Attribute ( attribute_item )+ ) ;
 	[GrammarRule("attribute")]
 	private AstParserRuleReturnScope<CommonTree, IToken> attribute()
 	{
 		EnterRule_attribute();
-		EnterRule("attribute", 9);
-		TraceIn("attribute", 9);
+		EnterRule("attribute", 11);
+		TraceIn("attribute", 11);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int attribute_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken char_literal41 = default(IToken);
-		IToken char_literal43 = default(IToken);
-		IToken char_literal45 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> ident42 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> ident44 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		IToken char_literal50 = default(IToken);
+		IToken char_literal52 = default(IToken);
+		IToken char_literal54 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> attribute_item51 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> attribute_item53 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree char_literal41_tree = default(CommonTree);
-		CommonTree char_literal43_tree = default(CommonTree);
-		CommonTree char_literal45_tree = default(CommonTree);
+		CommonTree char_literal50_tree = default(CommonTree);
+		CommonTree char_literal52_tree = default(CommonTree);
+		CommonTree char_literal54_tree = default(CommonTree);
 		RewriteRuleITokenStream stream_68=new RewriteRuleITokenStream(adaptor,"token 68");
 		RewriteRuleITokenStream stream_94=new RewriteRuleITokenStream(adaptor,"token 94");
 		RewriteRuleITokenStream stream_93=new RewriteRuleITokenStream(adaptor,"token 93");
-		RewriteRuleSubtreeStream stream_ident=new RewriteRuleSubtreeStream(adaptor,"rule ident");
+		RewriteRuleSubtreeStream stream_attribute_item=new RewriteRuleSubtreeStream(adaptor,"rule attribute_item");
 		try { DebugEnterRule(GrammarFileName, "attribute");
-		DebugLocation(185, 1);
+		DebugLocation(195, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 9)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 11)) { return retval; }
 
-			// SugarCpp.g:186:2: ( '[' ident ( ',' ident )* ']' -> ^( Attribute ( ident )+ ) )
+			// SugarCpp.g:196:2: ( '[' attribute_item ( ',' attribute_item )* ']' -> ^( Attribute ( attribute_item )+ ) )
 			DebugEnterAlt(1);
-			// SugarCpp.g:186:3: '[' ident ( ',' ident )* ']'
+			// SugarCpp.g:196:3: '[' attribute_item ( ',' attribute_item )* ']'
 			{
-			DebugLocation(186, 3);
-			char_literal41=(IToken)Match(input,93,Follow._93_in_attribute634); if (state.failed) return retval; 
-			if (state.backtracking == 0) stream_93.Add(char_literal41);
+			DebugLocation(196, 3);
+			char_literal50=(IToken)Match(input,93,Follow._93_in_attribute684); if (state.failed) return retval; 
+			if (state.backtracking == 0) stream_93.Add(char_literal50);
 
-			DebugLocation(186, 7);
-			PushFollow(Follow._ident_in_attribute636);
-			ident42=ident();
+			DebugLocation(196, 7);
+			PushFollow(Follow._attribute_item_in_attribute686);
+			attribute_item51=attribute_item();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_ident.Add(ident42.Tree);
-			DebugLocation(186, 13);
-			// SugarCpp.g:186:13: ( ',' ident )*
-			try { DebugEnterSubRule(15);
+			if (state.backtracking == 0) stream_attribute_item.Add(attribute_item51.Tree);
+			DebugLocation(196, 22);
+			// SugarCpp.g:196:22: ( ',' attribute_item )*
+			try { DebugEnterSubRule(18);
 			while (true)
 			{
-				int alt15=2;
-				try { DebugEnterDecision(15, false);
-				int LA15_0 = input.LA(1);
+				int alt18=2;
+				try { DebugEnterDecision(18, false);
+				int LA18_0 = input.LA(1);
 
-				if ((LA15_0==68))
+				if ((LA18_0==68))
 				{
-					alt15 = 1;
+					alt18 = 1;
 				}
 
 
-				} finally { DebugExitDecision(15); }
-				switch ( alt15 )
+				} finally { DebugExitDecision(18); }
+				switch ( alt18 )
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:186:14: ',' ident
+					// SugarCpp.g:196:23: ',' attribute_item
 					{
-					DebugLocation(186, 14);
-					char_literal43=(IToken)Match(input,68,Follow._68_in_attribute639); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_68.Add(char_literal43);
+					DebugLocation(196, 23);
+					char_literal52=(IToken)Match(input,68,Follow._68_in_attribute689); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_68.Add(char_literal52);
 
-					DebugLocation(186, 18);
-					PushFollow(Follow._ident_in_attribute641);
-					ident44=ident();
+					DebugLocation(196, 27);
+					PushFollow(Follow._attribute_item_in_attribute691);
+					attribute_item53=attribute_item();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_ident.Add(ident44.Tree);
+					if (state.backtracking == 0) stream_attribute_item.Add(attribute_item53.Tree);
 
 					}
 					break;
 
 				default:
-					goto loop15;
+					goto loop18;
 				}
 			}
 
-			loop15:
+			loop18:
 				;
 
-			} finally { DebugExitSubRule(15); }
+			} finally { DebugExitSubRule(18); }
 
-			DebugLocation(186, 26);
-			char_literal45=(IToken)Match(input,94,Follow._94_in_attribute645); if (state.failed) return retval; 
-			if (state.backtracking == 0) stream_94.Add(char_literal45);
+			DebugLocation(196, 44);
+			char_literal54=(IToken)Match(input,94,Follow._94_in_attribute695); if (state.failed) return retval; 
+			if (state.backtracking == 0) stream_94.Add(char_literal54);
 
 
 
 			{
 			// AST REWRITE
-			// elements: ident
+			// elements: attribute_item
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -1801,27 +2102,27 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 			root_0 = (CommonTree)adaptor.Nil();
-			// 186:30: -> ^( Attribute ( ident )+ )
+			// 196:48: -> ^( Attribute ( attribute_item )+ )
 			{
-				DebugLocation(186, 33);
-				// SugarCpp.g:186:33: ^( Attribute ( ident )+ )
+				DebugLocation(196, 51);
+				// SugarCpp.g:196:51: ^( Attribute ( attribute_item )+ )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.Nil();
-				DebugLocation(186, 35);
+				DebugLocation(196, 53);
 				root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Attribute, "Attribute"), root_1);
 
-				DebugLocation(186, 45);
-				if (!(stream_ident.HasNext))
+				DebugLocation(196, 63);
+				if (!(stream_attribute_item.HasNext))
 				{
 					throw new RewriteEarlyExitException();
 				}
-				while ( stream_ident.HasNext )
+				while ( stream_attribute_item.HasNext )
 				{
-					DebugLocation(186, 45);
-					adaptor.AddChild(root_1, stream_ident.NextTree());
+					DebugLocation(196, 63);
+					adaptor.AddChild(root_1, stream_attribute_item.NextTree());
 
 				}
-				stream_ident.Reset();
+				stream_attribute_item.Reset();
 
 				adaptor.AddChild(root_0, root_1);
 				}
@@ -1850,13 +2151,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("attribute", 9);
-			LeaveRule("attribute", 9);
+			TraceOut("attribute", 11);
+			LeaveRule("attribute", 11);
 			LeaveRule_attribute();
-			if (state.backtracking > 0) { Memoize(input, 9, attribute_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 11, attribute_StartIndex); }
 
 		}
-		DebugLocation(187, 1);
+		DebugLocation(197, 1);
 		} finally { DebugExitRule(GrammarFileName, "attribute"); }
 		return retval;
 
@@ -1867,133 +2168,133 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_class_node();
 
 	// $ANTLR start "class_node"
-	// SugarCpp.g:189:1: class_node : ( attribute ( NEWLINE )+ )* node ;
+	// SugarCpp.g:199:1: class_node : ( attribute ( NEWLINE )+ )* node ;
 	[GrammarRule("class_node")]
 	private AstParserRuleReturnScope<CommonTree, IToken> class_node()
 	{
 		EnterRule_class_node();
-		EnterRule("class_node", 10);
-		TraceIn("class_node", 10);
+		EnterRule("class_node", 12);
+		TraceIn("class_node", 12);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int class_node_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken NEWLINE47 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> attribute46 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> node48 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		IToken NEWLINE56 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> attribute55 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> node57 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree NEWLINE47_tree = default(CommonTree);
+		CommonTree NEWLINE56_tree = default(CommonTree);
 		try { DebugEnterRule(GrammarFileName, "class_node");
-		DebugLocation(189, 1);
+		DebugLocation(199, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 10)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 12)) { return retval; }
 
-			// SugarCpp.g:190:2: ( ( attribute ( NEWLINE )+ )* node )
+			// SugarCpp.g:200:2: ( ( attribute ( NEWLINE )+ )* node )
 			DebugEnterAlt(1);
-			// SugarCpp.g:190:4: ( attribute ( NEWLINE )+ )* node
+			// SugarCpp.g:200:4: ( attribute ( NEWLINE )+ )* node
 			{
 			root_0 = (CommonTree)adaptor.Nil();
 
-			DebugLocation(190, 4);
-			// SugarCpp.g:190:4: ( attribute ( NEWLINE )+ )*
-			try { DebugEnterSubRule(17);
+			DebugLocation(200, 4);
+			// SugarCpp.g:200:4: ( attribute ( NEWLINE )+ )*
+			try { DebugEnterSubRule(20);
 			while (true)
 			{
-				int alt17=2;
-				try { DebugEnterDecision(17, false);
-				int LA17_0 = input.LA(1);
+				int alt20=2;
+				try { DebugEnterDecision(20, false);
+				int LA20_0 = input.LA(1);
 
-				if ((LA17_0==93))
+				if ((LA20_0==93))
 				{
-					alt17 = 1;
+					alt20 = 1;
 				}
 
 
-				} finally { DebugExitDecision(17); }
-				switch ( alt17 )
+				} finally { DebugExitDecision(20); }
+				switch ( alt20 )
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:190:5: attribute ( NEWLINE )+
+					// SugarCpp.g:200:5: attribute ( NEWLINE )+
 					{
-					DebugLocation(190, 5);
-					PushFollow(Follow._attribute_in_class_node666);
-					attribute46=attribute();
+					DebugLocation(200, 5);
+					PushFollow(Follow._attribute_in_class_node716);
+					attribute55=attribute();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) adaptor.AddChild(root_0, attribute46.Tree);
-					DebugLocation(190, 15);
-					// SugarCpp.g:190:15: ( NEWLINE )+
-					int cnt16=0;
-					try { DebugEnterSubRule(16);
+					if (state.backtracking == 0) adaptor.AddChild(root_0, attribute55.Tree);
+					DebugLocation(200, 15);
+					// SugarCpp.g:200:15: ( NEWLINE )+
+					int cnt19=0;
+					try { DebugEnterSubRule(19);
 					while (true)
 					{
-						int alt16=2;
-						try { DebugEnterDecision(16, false);
-						int LA16_0 = input.LA(1);
+						int alt19=2;
+						try { DebugEnterDecision(19, false);
+						int LA19_0 = input.LA(1);
 
-						if ((LA16_0==NEWLINE))
+						if ((LA19_0==NEWLINE))
 						{
-							alt16 = 1;
+							alt19 = 1;
 						}
 
 
-						} finally { DebugExitDecision(16); }
-						switch (alt16)
+						} finally { DebugExitDecision(19); }
+						switch (alt19)
 						{
 						case 1:
 							DebugEnterAlt(1);
-							// SugarCpp.g:190:15: NEWLINE
+							// SugarCpp.g:200:15: NEWLINE
 							{
-							DebugLocation(190, 15);
-							NEWLINE47=(IToken)Match(input,NEWLINE,Follow._NEWLINE_in_class_node668); if (state.failed) return retval;
+							DebugLocation(200, 15);
+							NEWLINE56=(IToken)Match(input,NEWLINE,Follow._NEWLINE_in_class_node718); if (state.failed) return retval;
 							if (state.backtracking == 0) {
-							NEWLINE47_tree = (CommonTree)adaptor.Create(NEWLINE47);
-							adaptor.AddChild(root_0, NEWLINE47_tree);
+							NEWLINE56_tree = (CommonTree)adaptor.Create(NEWLINE56);
+							adaptor.AddChild(root_0, NEWLINE56_tree);
 							}
 
 							}
 							break;
 
 						default:
-							if (cnt16 >= 1)
-								goto loop16;
+							if (cnt19 >= 1)
+								goto loop19;
 
 							if (state.backtracking>0) {state.failed=true; return retval;}
-							EarlyExitException eee16 = new EarlyExitException( 16, input );
-							DebugRecognitionException(eee16);
-							throw eee16;
+							EarlyExitException eee19 = new EarlyExitException( 19, input );
+							DebugRecognitionException(eee19);
+							throw eee19;
 						}
-						cnt16++;
+						cnt19++;
 					}
-					loop16:
+					loop19:
 						;
 
-					} finally { DebugExitSubRule(16); }
+					} finally { DebugExitSubRule(19); }
 
 
 					}
 					break;
 
 				default:
-					goto loop17;
+					goto loop20;
 				}
 			}
 
-			loop17:
+			loop20:
 				;
 
-			} finally { DebugExitSubRule(17); }
+			} finally { DebugExitSubRule(20); }
 
-			DebugLocation(190, 27);
-			PushFollow(Follow._node_in_class_node674);
-			node48=node();
+			DebugLocation(200, 27);
+			PushFollow(Follow._node_in_class_node724);
+			node57=node();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) adaptor.AddChild(root_0, node48.Tree);
+			if (state.backtracking == 0) adaptor.AddChild(root_0, node57.Tree);
 
 			}
 
@@ -2013,13 +2314,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("class_node", 10);
-			LeaveRule("class_node", 10);
+			TraceOut("class_node", 12);
+			LeaveRule("class_node", 12);
 			LeaveRule_class_node();
-			if (state.backtracking > 0) { Memoize(input, 10, class_node_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 12, class_node_StartIndex); }
 
 		}
-		DebugLocation(191, 1);
+		DebugLocation(201, 1);
 		} finally { DebugExitRule(GrammarFileName, "class_node"); }
 		return retval;
 
@@ -2030,113 +2331,113 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_type_name_op();
 
 	// $ANTLR start "type_name_op"
-	// SugarCpp.g:193:1: type_name_op : ( '*' | '[' ']' | '&' );
+	// SugarCpp.g:203:1: type_name_op : ( '*' | '[' ']' | '&' );
 	[GrammarRule("type_name_op")]
 	private AstParserRuleReturnScope<CommonTree, IToken> type_name_op()
 	{
 		EnterRule_type_name_op();
-		EnterRule("type_name_op", 11);
-		TraceIn("type_name_op", 11);
+		EnterRule("type_name_op", 13);
+		TraceIn("type_name_op", 13);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int type_name_op_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken char_literal49 = default(IToken);
-		IToken char_literal50 = default(IToken);
-		IToken char_literal51 = default(IToken);
-		IToken char_literal52 = default(IToken);
+		IToken char_literal58 = default(IToken);
+		IToken char_literal59 = default(IToken);
+		IToken char_literal60 = default(IToken);
+		IToken char_literal61 = default(IToken);
 
-		CommonTree char_literal49_tree = default(CommonTree);
-		CommonTree char_literal50_tree = default(CommonTree);
-		CommonTree char_literal51_tree = default(CommonTree);
-		CommonTree char_literal52_tree = default(CommonTree);
+		CommonTree char_literal58_tree = default(CommonTree);
+		CommonTree char_literal59_tree = default(CommonTree);
+		CommonTree char_literal60_tree = default(CommonTree);
+		CommonTree char_literal61_tree = default(CommonTree);
 		try { DebugEnterRule(GrammarFileName, "type_name_op");
-		DebugLocation(193, 34);
+		DebugLocation(203, 34);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 11)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 13)) { return retval; }
 
-			// SugarCpp.g:193:13: ( '*' | '[' ']' | '&' )
-			int alt18=3;
-			try { DebugEnterDecision(18, false);
+			// SugarCpp.g:203:13: ( '*' | '[' ']' | '&' )
+			int alt21=3;
+			try { DebugEnterDecision(21, false);
 			switch (input.LA(1))
 			{
 			case 63:
 				{
-				alt18 = 1;
+				alt21 = 1;
 				}
 				break;
 			case 93:
 				{
-				alt18 = 2;
+				alt21 = 2;
 				}
 				break;
 			case 59:
 				{
-				alt18 = 3;
+				alt21 = 3;
 				}
 				break;
 			default:
 				{
 					if (state.backtracking>0) {state.failed=true; return retval;}
-					NoViableAltException nvae = new NoViableAltException("", 18, 0, input);
+					NoViableAltException nvae = new NoViableAltException("", 21, 0, input);
 					DebugRecognitionException(nvae);
 					throw nvae;
 				}
 			}
 
-			} finally { DebugExitDecision(18); }
-			switch (alt18)
+			} finally { DebugExitDecision(21); }
+			switch (alt21)
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:193:15: '*'
+				// SugarCpp.g:203:15: '*'
 				{
 				root_0 = (CommonTree)adaptor.Nil();
 
-				DebugLocation(193, 15);
-				char_literal49=(IToken)Match(input,63,Follow._63_in_type_name_op683); if (state.failed) return retval;
+				DebugLocation(203, 15);
+				char_literal58=(IToken)Match(input,63,Follow._63_in_type_name_op733); if (state.failed) return retval;
 				if (state.backtracking == 0) {
-				char_literal49_tree = (CommonTree)adaptor.Create(char_literal49);
-				adaptor.AddChild(root_0, char_literal49_tree);
+				char_literal58_tree = (CommonTree)adaptor.Create(char_literal58);
+				adaptor.AddChild(root_0, char_literal58_tree);
 				}
 
 				}
 				break;
 			case 2:
 				DebugEnterAlt(2);
-				// SugarCpp.g:193:21: '[' ']'
+				// SugarCpp.g:203:21: '[' ']'
 				{
 				root_0 = (CommonTree)adaptor.Nil();
 
-				DebugLocation(193, 21);
-				char_literal50=(IToken)Match(input,93,Follow._93_in_type_name_op687); if (state.failed) return retval;
+				DebugLocation(203, 21);
+				char_literal59=(IToken)Match(input,93,Follow._93_in_type_name_op737); if (state.failed) return retval;
 				if (state.backtracking == 0) {
-				char_literal50_tree = (CommonTree)adaptor.Create(char_literal50);
-				adaptor.AddChild(root_0, char_literal50_tree);
+				char_literal59_tree = (CommonTree)adaptor.Create(char_literal59);
+				adaptor.AddChild(root_0, char_literal59_tree);
 				}
-				DebugLocation(193, 25);
-				char_literal51=(IToken)Match(input,94,Follow._94_in_type_name_op689); if (state.failed) return retval;
+				DebugLocation(203, 25);
+				char_literal60=(IToken)Match(input,94,Follow._94_in_type_name_op739); if (state.failed) return retval;
 				if (state.backtracking == 0) {
-				char_literal51_tree = (CommonTree)adaptor.Create(char_literal51);
-				adaptor.AddChild(root_0, char_literal51_tree);
+				char_literal60_tree = (CommonTree)adaptor.Create(char_literal60);
+				adaptor.AddChild(root_0, char_literal60_tree);
 				}
 
 				}
 				break;
 			case 3:
 				DebugEnterAlt(3);
-				// SugarCpp.g:193:31: '&'
+				// SugarCpp.g:203:31: '&'
 				{
 				root_0 = (CommonTree)adaptor.Nil();
 
-				DebugLocation(193, 31);
-				char_literal52=(IToken)Match(input,59,Follow._59_in_type_name_op693); if (state.failed) return retval;
+				DebugLocation(203, 31);
+				char_literal61=(IToken)Match(input,59,Follow._59_in_type_name_op743); if (state.failed) return retval;
 				if (state.backtracking == 0) {
-				char_literal52_tree = (CommonTree)adaptor.Create(char_literal52);
-				adaptor.AddChild(root_0, char_literal52_tree);
+				char_literal61_tree = (CommonTree)adaptor.Create(char_literal61);
+				adaptor.AddChild(root_0, char_literal61_tree);
 				}
 
 				}
@@ -2159,13 +2460,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("type_name_op", 11);
-			LeaveRule("type_name_op", 11);
+			TraceOut("type_name_op", 13);
+			LeaveRule("type_name_op", 13);
 			LeaveRule_type_name_op();
-			if (state.backtracking > 0) { Memoize(input, 11, type_name_op_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 13, type_name_op_StartIndex); }
 
 		}
-		DebugLocation(193, 34);
+		DebugLocation(203, 34);
 		} finally { DebugExitRule(GrammarFileName, "type_name_op"); }
 		return retval;
 
@@ -2176,30 +2477,30 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_type_name();
 
 	// $ANTLR start "type_name"
-	// SugarCpp.g:194:1: type_name : ident ( '<' ( type_name ( ',' type_name )* )? '>' )? ( type_name_op )* -> ^( Type_IDENT ident ( '<' ( type_name )* '>' )? ( type_name_op )* ) ;
+	// SugarCpp.g:204:1: type_name : ident ( '<' ( type_name ( ',' type_name )* )? '>' )? ( type_name_op )* -> ^( Type_IDENT ident ( '<' ( type_name )* '>' )? ( type_name_op )* ) ;
 	[GrammarRule("type_name")]
 	private AstParserRuleReturnScope<CommonTree, IToken> type_name()
 	{
 		EnterRule_type_name();
-		EnterRule("type_name", 12);
-		TraceIn("type_name", 12);
+		EnterRule("type_name", 14);
+		TraceIn("type_name", 14);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int type_name_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken char_literal54 = default(IToken);
-		IToken char_literal56 = default(IToken);
-		IToken char_literal58 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> ident53 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> type_name55 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> type_name57 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> type_name_op59 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		IToken char_literal63 = default(IToken);
+		IToken char_literal65 = default(IToken);
+		IToken char_literal67 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> ident62 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> type_name64 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> type_name66 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> type_name_op68 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree char_literal54_tree = default(CommonTree);
-		CommonTree char_literal56_tree = default(CommonTree);
-		CommonTree char_literal58_tree = default(CommonTree);
+		CommonTree char_literal63_tree = default(CommonTree);
+		CommonTree char_literal65_tree = default(CommonTree);
+		CommonTree char_literal67_tree = default(CommonTree);
 		RewriteRuleITokenStream stream_68=new RewriteRuleITokenStream(adaptor,"token 68");
 		RewriteRuleITokenStream stream_82=new RewriteRuleITokenStream(adaptor,"token 82");
 		RewriteRuleITokenStream stream_89=new RewriteRuleITokenStream(adaptor,"token 89");
@@ -2207,189 +2508,189 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		RewriteRuleSubtreeStream stream_type_name=new RewriteRuleSubtreeStream(adaptor,"rule type_name");
 		RewriteRuleSubtreeStream stream_type_name_op=new RewriteRuleSubtreeStream(adaptor,"rule type_name_op");
 		try { DebugEnterRule(GrammarFileName, "type_name");
-		DebugLocation(194, 1);
+		DebugLocation(204, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 12)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 14)) { return retval; }
 
-			// SugarCpp.g:195:2: ( ident ( '<' ( type_name ( ',' type_name )* )? '>' )? ( type_name_op )* -> ^( Type_IDENT ident ( '<' ( type_name )* '>' )? ( type_name_op )* ) )
+			// SugarCpp.g:205:2: ( ident ( '<' ( type_name ( ',' type_name )* )? '>' )? ( type_name_op )* -> ^( Type_IDENT ident ( '<' ( type_name )* '>' )? ( type_name_op )* ) )
 			DebugEnterAlt(1);
-			// SugarCpp.g:195:4: ident ( '<' ( type_name ( ',' type_name )* )? '>' )? ( type_name_op )*
+			// SugarCpp.g:205:4: ident ( '<' ( type_name ( ',' type_name )* )? '>' )? ( type_name_op )*
 			{
-			DebugLocation(195, 4);
-			PushFollow(Follow._ident_in_type_name702);
-			ident53=ident();
+			DebugLocation(205, 4);
+			PushFollow(Follow._ident_in_type_name752);
+			ident62=ident();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_ident.Add(ident53.Tree);
-			DebugLocation(195, 10);
-			// SugarCpp.g:195:10: ( '<' ( type_name ( ',' type_name )* )? '>' )?
-			int alt21=2;
-			try { DebugEnterSubRule(21);
-			try { DebugEnterDecision(21, false);
-			int LA21_0 = input.LA(1);
+			if (state.backtracking == 0) stream_ident.Add(ident62.Tree);
+			DebugLocation(205, 10);
+			// SugarCpp.g:205:10: ( '<' ( type_name ( ',' type_name )* )? '>' )?
+			int alt24=2;
+			try { DebugEnterSubRule(24);
+			try { DebugEnterDecision(24, false);
+			int LA24_0 = input.LA(1);
 
-			if ((LA21_0==82))
+			if ((LA24_0==82))
 			{
-				alt21 = 1;
+				alt24 = 1;
 			}
-			} finally { DebugExitDecision(21); }
-			switch (alt21)
+			} finally { DebugExitDecision(24); }
+			switch (alt24)
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:195:11: '<' ( type_name ( ',' type_name )* )? '>'
+				// SugarCpp.g:205:11: '<' ( type_name ( ',' type_name )* )? '>'
 				{
-				DebugLocation(195, 11);
-				char_literal54=(IToken)Match(input,82,Follow._82_in_type_name705); if (state.failed) return retval; 
-				if (state.backtracking == 0) stream_82.Add(char_literal54);
+				DebugLocation(205, 11);
+				char_literal63=(IToken)Match(input,82,Follow._82_in_type_name755); if (state.failed) return retval; 
+				if (state.backtracking == 0) stream_82.Add(char_literal63);
 
-				DebugLocation(195, 15);
-				// SugarCpp.g:195:15: ( type_name ( ',' type_name )* )?
-				int alt20=2;
-				try { DebugEnterSubRule(20);
-				try { DebugEnterDecision(20, false);
-				int LA20_0 = input.LA(1);
+				DebugLocation(205, 15);
+				// SugarCpp.g:205:15: ( type_name ( ',' type_name )* )?
+				int alt23=2;
+				try { DebugEnterSubRule(23);
+				try { DebugEnterDecision(23, false);
+				int LA23_0 = input.LA(1);
 
-				if ((LA20_0==IDENT))
+				if ((LA23_0==IDENT))
 				{
-					alt20 = 1;
+					alt23 = 1;
 				}
-				} finally { DebugExitDecision(20); }
-				switch (alt20)
+				} finally { DebugExitDecision(23); }
+				switch (alt23)
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:195:16: type_name ( ',' type_name )*
+					// SugarCpp.g:205:16: type_name ( ',' type_name )*
 					{
-					DebugLocation(195, 16);
-					PushFollow(Follow._type_name_in_type_name708);
-					type_name55=type_name();
+					DebugLocation(205, 16);
+					PushFollow(Follow._type_name_in_type_name758);
+					type_name64=type_name();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_type_name.Add(type_name55.Tree);
-					DebugLocation(195, 26);
-					// SugarCpp.g:195:26: ( ',' type_name )*
-					try { DebugEnterSubRule(19);
+					if (state.backtracking == 0) stream_type_name.Add(type_name64.Tree);
+					DebugLocation(205, 26);
+					// SugarCpp.g:205:26: ( ',' type_name )*
+					try { DebugEnterSubRule(22);
 					while (true)
 					{
-						int alt19=2;
-						try { DebugEnterDecision(19, false);
-						int LA19_0 = input.LA(1);
+						int alt22=2;
+						try { DebugEnterDecision(22, false);
+						int LA22_0 = input.LA(1);
 
-						if ((LA19_0==68))
+						if ((LA22_0==68))
 						{
-							alt19 = 1;
+							alt22 = 1;
 						}
 
 
-						} finally { DebugExitDecision(19); }
-						switch ( alt19 )
+						} finally { DebugExitDecision(22); }
+						switch ( alt22 )
 						{
 						case 1:
 							DebugEnterAlt(1);
-							// SugarCpp.g:195:27: ',' type_name
+							// SugarCpp.g:205:27: ',' type_name
 							{
-							DebugLocation(195, 27);
-							char_literal56=(IToken)Match(input,68,Follow._68_in_type_name711); if (state.failed) return retval; 
-							if (state.backtracking == 0) stream_68.Add(char_literal56);
+							DebugLocation(205, 27);
+							char_literal65=(IToken)Match(input,68,Follow._68_in_type_name761); if (state.failed) return retval; 
+							if (state.backtracking == 0) stream_68.Add(char_literal65);
 
-							DebugLocation(195, 31);
-							PushFollow(Follow._type_name_in_type_name713);
-							type_name57=type_name();
+							DebugLocation(205, 31);
+							PushFollow(Follow._type_name_in_type_name763);
+							type_name66=type_name();
 							PopFollow();
 							if (state.failed) return retval;
-							if (state.backtracking == 0) stream_type_name.Add(type_name57.Tree);
+							if (state.backtracking == 0) stream_type_name.Add(type_name66.Tree);
 
 							}
 							break;
 
 						default:
-							goto loop19;
+							goto loop22;
 						}
 					}
 
-					loop19:
+					loop22:
 						;
 
-					} finally { DebugExitSubRule(19); }
+					} finally { DebugExitSubRule(22); }
 
 
 					}
 					break;
 
 				}
-				} finally { DebugExitSubRule(20); }
+				} finally { DebugExitSubRule(23); }
 
-				DebugLocation(195, 45);
-				char_literal58=(IToken)Match(input,89,Follow._89_in_type_name719); if (state.failed) return retval; 
-				if (state.backtracking == 0) stream_89.Add(char_literal58);
+				DebugLocation(205, 45);
+				char_literal67=(IToken)Match(input,89,Follow._89_in_type_name769); if (state.failed) return retval; 
+				if (state.backtracking == 0) stream_89.Add(char_literal67);
 
 
 				}
 				break;
 
 			}
-			} finally { DebugExitSubRule(21); }
+			} finally { DebugExitSubRule(24); }
 
-			DebugLocation(195, 51);
-			// SugarCpp.g:195:51: ( type_name_op )*
-			try { DebugEnterSubRule(22);
+			DebugLocation(205, 51);
+			// SugarCpp.g:205:51: ( type_name_op )*
+			try { DebugEnterSubRule(25);
 			while (true)
 			{
-				int alt22=2;
-				try { DebugEnterDecision(22, false);
-				int LA22_0 = input.LA(1);
+				int alt25=2;
+				try { DebugEnterDecision(25, false);
+				int LA25_0 = input.LA(1);
 
-				if ((LA22_0==93))
+				if ((LA25_0==93))
 				{
-					int LA22_2 = input.LA(2);
+					int LA25_2 = input.LA(2);
 
-					if ((LA22_2==94))
+					if ((LA25_2==94))
 					{
-						alt22 = 1;
+						alt25 = 1;
 					}
 
 
 				}
-				else if ((LA22_0==59||LA22_0==63))
+				else if ((LA25_0==59||LA25_0==63))
 				{
-					alt22 = 1;
+					alt25 = 1;
 				}
 
 
-				} finally { DebugExitDecision(22); }
-				switch ( alt22 )
+				} finally { DebugExitDecision(25); }
+				switch ( alt25 )
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:195:51: type_name_op
+					// SugarCpp.g:205:51: type_name_op
 					{
-					DebugLocation(195, 51);
-					PushFollow(Follow._type_name_op_in_type_name723);
-					type_name_op59=type_name_op();
+					DebugLocation(205, 51);
+					PushFollow(Follow._type_name_op_in_type_name773);
+					type_name_op68=type_name_op();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_type_name_op.Add(type_name_op59.Tree);
+					if (state.backtracking == 0) stream_type_name_op.Add(type_name_op68.Tree);
 
 					}
 					break;
 
 				default:
-					goto loop22;
+					goto loop25;
 				}
 			}
 
-			loop22:
+			loop25:
 				;
 
-			} finally { DebugExitSubRule(22); }
+			} finally { DebugExitSubRule(25); }
 
 
 
 			{
 			// AST REWRITE
-			// elements: type_name_op, ident, type_name, 82, 89
+			// elements: type_name_op, type_name, ident, 82, 89
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -2400,44 +2701,44 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 			root_0 = (CommonTree)adaptor.Nil();
-			// 195:65: -> ^( Type_IDENT ident ( '<' ( type_name )* '>' )? ( type_name_op )* )
+			// 205:65: -> ^( Type_IDENT ident ( '<' ( type_name )* '>' )? ( type_name_op )* )
 			{
-				DebugLocation(195, 68);
-				// SugarCpp.g:195:68: ^( Type_IDENT ident ( '<' ( type_name )* '>' )? ( type_name_op )* )
+				DebugLocation(205, 68);
+				// SugarCpp.g:205:68: ^( Type_IDENT ident ( '<' ( type_name )* '>' )? ( type_name_op )* )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.Nil();
-				DebugLocation(195, 70);
+				DebugLocation(205, 70);
 				root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Type_IDENT, "Type_IDENT"), root_1);
 
-				DebugLocation(195, 81);
+				DebugLocation(205, 81);
 				adaptor.AddChild(root_1, stream_ident.NextTree());
-				DebugLocation(195, 87);
-				// SugarCpp.g:195:87: ( '<' ( type_name )* '>' )?
+				DebugLocation(205, 87);
+				// SugarCpp.g:205:87: ( '<' ( type_name )* '>' )?
 				if (stream_type_name.HasNext||stream_82.HasNext||stream_89.HasNext)
 				{
-					DebugLocation(195, 88);
+					DebugLocation(205, 88);
 					adaptor.AddChild(root_1, stream_82.NextNode());
-					DebugLocation(195, 92);
-					// SugarCpp.g:195:92: ( type_name )*
+					DebugLocation(205, 92);
+					// SugarCpp.g:205:92: ( type_name )*
 					while ( stream_type_name.HasNext )
 					{
-						DebugLocation(195, 92);
+						DebugLocation(205, 92);
 						adaptor.AddChild(root_1, stream_type_name.NextTree());
 
 					}
 					stream_type_name.Reset();
-					DebugLocation(195, 103);
+					DebugLocation(205, 103);
 					adaptor.AddChild(root_1, stream_89.NextNode());
 
 				}
 				stream_type_name.Reset();
 				stream_82.Reset();
 				stream_89.Reset();
-				DebugLocation(195, 110);
-				// SugarCpp.g:195:110: ( type_name_op )*
+				DebugLocation(205, 110);
+				// SugarCpp.g:205:110: ( type_name_op )*
 				while ( stream_type_name_op.HasNext )
 				{
-					DebugLocation(195, 110);
+					DebugLocation(205, 110);
 					adaptor.AddChild(root_1, stream_type_name_op.NextTree());
 
 				}
@@ -2470,13 +2771,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("type_name", 12);
-			LeaveRule("type_name", 12);
+			TraceOut("type_name", 14);
+			LeaveRule("type_name", 14);
 			LeaveRule_type_name();
-			if (state.backtracking > 0) { Memoize(input, 12, type_name_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 14, type_name_StartIndex); }
 
 		}
-		DebugLocation(196, 1);
+		DebugLocation(206, 1);
 		} finally { DebugExitRule(GrammarFileName, "type_name"); }
 		return retval;
 
@@ -2487,101 +2788,101 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_generic_parameter();
 
 	// $ANTLR start "generic_parameter"
-	// SugarCpp.g:198:1: generic_parameter : '<' ident ( ',' ! ident )* '>' ;
+	// SugarCpp.g:208:1: generic_parameter : '<' ident ( ',' ! ident )* '>' ;
 	[GrammarRule("generic_parameter")]
 	private AstParserRuleReturnScope<CommonTree, IToken> generic_parameter()
 	{
 		EnterRule_generic_parameter();
-		EnterRule("generic_parameter", 13);
-		TraceIn("generic_parameter", 13);
+		EnterRule("generic_parameter", 15);
+		TraceIn("generic_parameter", 15);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int generic_parameter_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken char_literal60 = default(IToken);
-		IToken char_literal62 = default(IToken);
-		IToken char_literal64 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> ident61 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> ident63 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		IToken char_literal69 = default(IToken);
+		IToken char_literal71 = default(IToken);
+		IToken char_literal73 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> ident70 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> ident72 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree char_literal60_tree = default(CommonTree);
-		CommonTree char_literal62_tree = default(CommonTree);
-		CommonTree char_literal64_tree = default(CommonTree);
+		CommonTree char_literal69_tree = default(CommonTree);
+		CommonTree char_literal71_tree = default(CommonTree);
+		CommonTree char_literal73_tree = default(CommonTree);
 		try { DebugEnterRule(GrammarFileName, "generic_parameter");
-		DebugLocation(198, 1);
+		DebugLocation(208, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 13)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 15)) { return retval; }
 
-			// SugarCpp.g:199:2: ( '<' ident ( ',' ! ident )* '>' )
+			// SugarCpp.g:209:2: ( '<' ident ( ',' ! ident )* '>' )
 			DebugEnterAlt(1);
-			// SugarCpp.g:199:4: '<' ident ( ',' ! ident )* '>'
+			// SugarCpp.g:209:4: '<' ident ( ',' ! ident )* '>'
 			{
 			root_0 = (CommonTree)adaptor.Nil();
 
-			DebugLocation(199, 4);
-			char_literal60=(IToken)Match(input,82,Follow._82_in_generic_parameter757); if (state.failed) return retval;
+			DebugLocation(209, 4);
+			char_literal69=(IToken)Match(input,82,Follow._82_in_generic_parameter807); if (state.failed) return retval;
 			if (state.backtracking == 0) {
-			char_literal60_tree = (CommonTree)adaptor.Create(char_literal60);
-			adaptor.AddChild(root_0, char_literal60_tree);
+			char_literal69_tree = (CommonTree)adaptor.Create(char_literal69);
+			adaptor.AddChild(root_0, char_literal69_tree);
 			}
-			DebugLocation(199, 8);
-			PushFollow(Follow._ident_in_generic_parameter759);
-			ident61=ident();
+			DebugLocation(209, 8);
+			PushFollow(Follow._ident_in_generic_parameter809);
+			ident70=ident();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) adaptor.AddChild(root_0, ident61.Tree);
-			DebugLocation(199, 14);
-			// SugarCpp.g:199:14: ( ',' ! ident )*
-			try { DebugEnterSubRule(23);
+			if (state.backtracking == 0) adaptor.AddChild(root_0, ident70.Tree);
+			DebugLocation(209, 14);
+			// SugarCpp.g:209:14: ( ',' ! ident )*
+			try { DebugEnterSubRule(26);
 			while (true)
 			{
-				int alt23=2;
-				try { DebugEnterDecision(23, false);
-				int LA23_0 = input.LA(1);
+				int alt26=2;
+				try { DebugEnterDecision(26, false);
+				int LA26_0 = input.LA(1);
 
-				if ((LA23_0==68))
+				if ((LA26_0==68))
 				{
-					alt23 = 1;
+					alt26 = 1;
 				}
 
 
-				} finally { DebugExitDecision(23); }
-				switch ( alt23 )
+				} finally { DebugExitDecision(26); }
+				switch ( alt26 )
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:199:15: ',' ! ident
+					// SugarCpp.g:209:15: ',' ! ident
 					{
-					DebugLocation(199, 18);
-					char_literal62=(IToken)Match(input,68,Follow._68_in_generic_parameter762); if (state.failed) return retval;
-					DebugLocation(199, 20);
-					PushFollow(Follow._ident_in_generic_parameter765);
-					ident63=ident();
+					DebugLocation(209, 18);
+					char_literal71=(IToken)Match(input,68,Follow._68_in_generic_parameter812); if (state.failed) return retval;
+					DebugLocation(209, 20);
+					PushFollow(Follow._ident_in_generic_parameter815);
+					ident72=ident();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) adaptor.AddChild(root_0, ident63.Tree);
+					if (state.backtracking == 0) adaptor.AddChild(root_0, ident72.Tree);
 
 					}
 					break;
 
 				default:
-					goto loop23;
+					goto loop26;
 				}
 			}
 
-			loop23:
+			loop26:
 				;
 
-			} finally { DebugExitSubRule(23); }
+			} finally { DebugExitSubRule(26); }
 
-			DebugLocation(199, 28);
-			char_literal64=(IToken)Match(input,89,Follow._89_in_generic_parameter769); if (state.failed) return retval;
+			DebugLocation(209, 28);
+			char_literal73=(IToken)Match(input,89,Follow._89_in_generic_parameter819); if (state.failed) return retval;
 			if (state.backtracking == 0) {
-			char_literal64_tree = (CommonTree)adaptor.Create(char_literal64);
-			adaptor.AddChild(root_0, char_literal64_tree);
+			char_literal73_tree = (CommonTree)adaptor.Create(char_literal73);
+			adaptor.AddChild(root_0, char_literal73_tree);
 			}
 
 			}
@@ -2602,13 +2903,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("generic_parameter", 13);
-			LeaveRule("generic_parameter", 13);
+			TraceOut("generic_parameter", 15);
+			LeaveRule("generic_parameter", 15);
 			LeaveRule_generic_parameter();
-			if (state.backtracking > 0) { Memoize(input, 13, generic_parameter_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 15, generic_parameter_StartIndex); }
 
 		}
-		DebugLocation(200, 1);
+		DebugLocation(210, 1);
 		} finally { DebugExitRule(GrammarFileName, "generic_parameter"); }
 		return retval;
 
@@ -2619,87 +2920,87 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_func_args();
 
 	// $ANTLR start "func_args"
-	// SugarCpp.g:202:1: func_args : stmt_alloc ( ',' stmt_alloc )* -> ^( Func_Args ( stmt_alloc )* ) ;
+	// SugarCpp.g:212:1: func_args : stmt_alloc ( ',' stmt_alloc )* -> ^( Func_Args ( stmt_alloc )* ) ;
 	[GrammarRule("func_args")]
 	private AstParserRuleReturnScope<CommonTree, IToken> func_args()
 	{
 		EnterRule_func_args();
-		EnterRule("func_args", 14);
-		TraceIn("func_args", 14);
+		EnterRule("func_args", 16);
+		TraceIn("func_args", 16);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int func_args_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken char_literal66 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> stmt_alloc65 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> stmt_alloc67 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		IToken char_literal75 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> stmt_alloc74 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> stmt_alloc76 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree char_literal66_tree = default(CommonTree);
+		CommonTree char_literal75_tree = default(CommonTree);
 		RewriteRuleITokenStream stream_68=new RewriteRuleITokenStream(adaptor,"token 68");
 		RewriteRuleSubtreeStream stream_stmt_alloc=new RewriteRuleSubtreeStream(adaptor,"rule stmt_alloc");
 		try { DebugEnterRule(GrammarFileName, "func_args");
-		DebugLocation(202, 1);
+		DebugLocation(212, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 14)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 16)) { return retval; }
 
-			// SugarCpp.g:203:2: ( stmt_alloc ( ',' stmt_alloc )* -> ^( Func_Args ( stmt_alloc )* ) )
+			// SugarCpp.g:213:2: ( stmt_alloc ( ',' stmt_alloc )* -> ^( Func_Args ( stmt_alloc )* ) )
 			DebugEnterAlt(1);
-			// SugarCpp.g:203:4: stmt_alloc ( ',' stmt_alloc )*
+			// SugarCpp.g:213:4: stmt_alloc ( ',' stmt_alloc )*
 			{
-			DebugLocation(203, 4);
-			PushFollow(Follow._stmt_alloc_in_func_args780);
-			stmt_alloc65=stmt_alloc();
+			DebugLocation(213, 4);
+			PushFollow(Follow._stmt_alloc_in_func_args830);
+			stmt_alloc74=stmt_alloc();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_stmt_alloc.Add(stmt_alloc65.Tree);
-			DebugLocation(203, 15);
-			// SugarCpp.g:203:15: ( ',' stmt_alloc )*
-			try { DebugEnterSubRule(24);
+			if (state.backtracking == 0) stream_stmt_alloc.Add(stmt_alloc74.Tree);
+			DebugLocation(213, 15);
+			// SugarCpp.g:213:15: ( ',' stmt_alloc )*
+			try { DebugEnterSubRule(27);
 			while (true)
 			{
-				int alt24=2;
-				try { DebugEnterDecision(24, false);
-				int LA24_0 = input.LA(1);
+				int alt27=2;
+				try { DebugEnterDecision(27, false);
+				int LA27_0 = input.LA(1);
 
-				if ((LA24_0==68))
+				if ((LA27_0==68))
 				{
-					alt24 = 1;
+					alt27 = 1;
 				}
 
 
-				} finally { DebugExitDecision(24); }
-				switch ( alt24 )
+				} finally { DebugExitDecision(27); }
+				switch ( alt27 )
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:203:16: ',' stmt_alloc
+					// SugarCpp.g:213:16: ',' stmt_alloc
 					{
-					DebugLocation(203, 16);
-					char_literal66=(IToken)Match(input,68,Follow._68_in_func_args783); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_68.Add(char_literal66);
+					DebugLocation(213, 16);
+					char_literal75=(IToken)Match(input,68,Follow._68_in_func_args833); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_68.Add(char_literal75);
 
-					DebugLocation(203, 20);
-					PushFollow(Follow._stmt_alloc_in_func_args785);
-					stmt_alloc67=stmt_alloc();
+					DebugLocation(213, 20);
+					PushFollow(Follow._stmt_alloc_in_func_args835);
+					stmt_alloc76=stmt_alloc();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_stmt_alloc.Add(stmt_alloc67.Tree);
+					if (state.backtracking == 0) stream_stmt_alloc.Add(stmt_alloc76.Tree);
 
 					}
 					break;
 
 				default:
-					goto loop24;
+					goto loop27;
 				}
 			}
 
-			loop24:
+			loop27:
 				;
 
-			} finally { DebugExitSubRule(24); }
+			} finally { DebugExitSubRule(27); }
 
 
 
@@ -2716,20 +3017,20 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 			root_0 = (CommonTree)adaptor.Nil();
-			// 203:33: -> ^( Func_Args ( stmt_alloc )* )
+			// 213:33: -> ^( Func_Args ( stmt_alloc )* )
 			{
-				DebugLocation(203, 36);
-				// SugarCpp.g:203:36: ^( Func_Args ( stmt_alloc )* )
+				DebugLocation(213, 36);
+				// SugarCpp.g:213:36: ^( Func_Args ( stmt_alloc )* )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.Nil();
-				DebugLocation(203, 38);
+				DebugLocation(213, 38);
 				root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Func_Args, "Func_Args"), root_1);
 
-				DebugLocation(203, 48);
-				// SugarCpp.g:203:48: ( stmt_alloc )*
+				DebugLocation(213, 48);
+				// SugarCpp.g:213:48: ( stmt_alloc )*
 				while ( stream_stmt_alloc.HasNext )
 				{
-					DebugLocation(203, 48);
+					DebugLocation(213, 48);
 					adaptor.AddChild(root_1, stream_stmt_alloc.NextTree());
 
 				}
@@ -2762,13 +3063,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("func_args", 14);
-			LeaveRule("func_args", 14);
+			TraceOut("func_args", 16);
+			LeaveRule("func_args", 16);
 			LeaveRule_func_args();
-			if (state.backtracking > 0) { Memoize(input, 14, func_args_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 16, func_args_StartIndex); }
 
 		}
-		DebugLocation(204, 1);
+		DebugLocation(214, 1);
 		} finally { DebugExitRule(GrammarFileName, "func_args"); }
 		return retval;
 
@@ -2779,190 +3080,190 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_func_def();
 
 	// $ANTLR start "func_def"
-	// SugarCpp.g:206:1: func_def : type_name ident ( generic_parameter )? '(' ( func_args )? ')' ( stmt_block | '=' expr ) ;
+	// SugarCpp.g:216:1: func_def : type_name ident ( generic_parameter )? '(' ( func_args )? ')' ( stmt_block | '=' expr ) ;
 	[GrammarRule("func_def")]
 	private AstParserRuleReturnScope<CommonTree, IToken> func_def()
 	{
 		EnterRule_func_def();
-		EnterRule("func_def", 15);
-		TraceIn("func_def", 15);
+		EnterRule("func_def", 17);
+		TraceIn("func_def", 17);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int func_def_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken char_literal71 = default(IToken);
-		IToken char_literal73 = default(IToken);
-		IToken char_literal75 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> type_name68 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> ident69 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> generic_parameter70 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> func_args72 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> stmt_block74 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> expr76 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		IToken char_literal80 = default(IToken);
+		IToken char_literal82 = default(IToken);
+		IToken char_literal84 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> type_name77 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> ident78 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> generic_parameter79 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> func_args81 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> stmt_block83 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> expr85 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree char_literal71_tree = default(CommonTree);
-		CommonTree char_literal73_tree = default(CommonTree);
-		CommonTree char_literal75_tree = default(CommonTree);
+		CommonTree char_literal80_tree = default(CommonTree);
+		CommonTree char_literal82_tree = default(CommonTree);
+		CommonTree char_literal84_tree = default(CommonTree);
 		try { DebugEnterRule(GrammarFileName, "func_def");
-		DebugLocation(206, 4);
+		DebugLocation(216, 4);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 15)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 17)) { return retval; }
 
-			// SugarCpp.g:207:2: ( type_name ident ( generic_parameter )? '(' ( func_args )? ')' ( stmt_block | '=' expr ) )
+			// SugarCpp.g:217:2: ( type_name ident ( generic_parameter )? '(' ( func_args )? ')' ( stmt_block | '=' expr ) )
 			DebugEnterAlt(1);
-			// SugarCpp.g:207:4: type_name ident ( generic_parameter )? '(' ( func_args )? ')' ( stmt_block | '=' expr )
+			// SugarCpp.g:217:4: type_name ident ( generic_parameter )? '(' ( func_args )? ')' ( stmt_block | '=' expr )
 			{
 			root_0 = (CommonTree)adaptor.Nil();
 
-			DebugLocation(207, 4);
-			PushFollow(Follow._type_name_in_func_def807);
-			type_name68=type_name();
+			DebugLocation(217, 4);
+			PushFollow(Follow._type_name_in_func_def857);
+			type_name77=type_name();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) adaptor.AddChild(root_0, type_name68.Tree);
-			DebugLocation(207, 14);
-			PushFollow(Follow._ident_in_func_def809);
-			ident69=ident();
+			if (state.backtracking == 0) adaptor.AddChild(root_0, type_name77.Tree);
+			DebugLocation(217, 14);
+			PushFollow(Follow._ident_in_func_def859);
+			ident78=ident();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) adaptor.AddChild(root_0, ident69.Tree);
-			DebugLocation(207, 20);
-			// SugarCpp.g:207:20: ( generic_parameter )?
-			int alt25=2;
-			try { DebugEnterSubRule(25);
-			try { DebugEnterDecision(25, false);
-			int LA25_0 = input.LA(1);
+			if (state.backtracking == 0) adaptor.AddChild(root_0, ident78.Tree);
+			DebugLocation(217, 20);
+			// SugarCpp.g:217:20: ( generic_parameter )?
+			int alt28=2;
+			try { DebugEnterSubRule(28);
+			try { DebugEnterDecision(28, false);
+			int LA28_0 = input.LA(1);
 
-			if ((LA25_0==82))
+			if ((LA28_0==82))
 			{
-				alt25 = 1;
+				alt28 = 1;
 			}
-			} finally { DebugExitDecision(25); }
-			switch (alt25)
+			} finally { DebugExitDecision(28); }
+			switch (alt28)
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:207:20: generic_parameter
+				// SugarCpp.g:217:20: generic_parameter
 				{
-				DebugLocation(207, 20);
-				PushFollow(Follow._generic_parameter_in_func_def811);
-				generic_parameter70=generic_parameter();
+				DebugLocation(217, 20);
+				PushFollow(Follow._generic_parameter_in_func_def861);
+				generic_parameter79=generic_parameter();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) adaptor.AddChild(root_0, generic_parameter70.Tree);
+				if (state.backtracking == 0) adaptor.AddChild(root_0, generic_parameter79.Tree);
 
 				}
 				break;
 
 			}
-			} finally { DebugExitSubRule(25); }
+			} finally { DebugExitSubRule(28); }
 
-			DebugLocation(207, 39);
-			char_literal71=(IToken)Match(input,61,Follow._61_in_func_def814); if (state.failed) return retval;
+			DebugLocation(217, 39);
+			char_literal80=(IToken)Match(input,61,Follow._61_in_func_def864); if (state.failed) return retval;
 			if (state.backtracking == 0) {
-			char_literal71_tree = (CommonTree)adaptor.Create(char_literal71);
-			adaptor.AddChild(root_0, char_literal71_tree);
+			char_literal80_tree = (CommonTree)adaptor.Create(char_literal80);
+			adaptor.AddChild(root_0, char_literal80_tree);
 			}
-			DebugLocation(207, 43);
-			// SugarCpp.g:207:43: ( func_args )?
-			int alt26=2;
-			try { DebugEnterSubRule(26);
-			try { DebugEnterDecision(26, false);
-			int LA26_0 = input.LA(1);
+			DebugLocation(217, 43);
+			// SugarCpp.g:217:43: ( func_args )?
+			int alt29=2;
+			try { DebugEnterSubRule(29);
+			try { DebugEnterDecision(29, false);
+			int LA29_0 = input.LA(1);
 
-			if ((LA26_0==IDENT))
+			if ((LA29_0==IDENT))
 			{
-				alt26 = 1;
+				alt29 = 1;
 			}
-			} finally { DebugExitDecision(26); }
-			switch (alt26)
+			} finally { DebugExitDecision(29); }
+			switch (alt29)
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:207:43: func_args
+				// SugarCpp.g:217:43: func_args
 				{
-				DebugLocation(207, 43);
-				PushFollow(Follow._func_args_in_func_def816);
-				func_args72=func_args();
+				DebugLocation(217, 43);
+				PushFollow(Follow._func_args_in_func_def866);
+				func_args81=func_args();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) adaptor.AddChild(root_0, func_args72.Tree);
+				if (state.backtracking == 0) adaptor.AddChild(root_0, func_args81.Tree);
 
 				}
 				break;
 
 			}
-			} finally { DebugExitSubRule(26); }
+			} finally { DebugExitSubRule(29); }
 
-			DebugLocation(207, 54);
-			char_literal73=(IToken)Match(input,62,Follow._62_in_func_def819); if (state.failed) return retval;
+			DebugLocation(217, 54);
+			char_literal82=(IToken)Match(input,62,Follow._62_in_func_def869); if (state.failed) return retval;
 			if (state.backtracking == 0) {
-			char_literal73_tree = (CommonTree)adaptor.Create(char_literal73);
-			adaptor.AddChild(root_0, char_literal73_tree);
+			char_literal82_tree = (CommonTree)adaptor.Create(char_literal82);
+			adaptor.AddChild(root_0, char_literal82_tree);
 			}
-			DebugLocation(207, 58);
-			// SugarCpp.g:207:58: ( stmt_block | '=' expr )
-			int alt27=2;
-			try { DebugEnterSubRule(27);
-			try { DebugEnterDecision(27, false);
-			int LA27_0 = input.LA(1);
+			DebugLocation(217, 58);
+			// SugarCpp.g:217:58: ( stmt_block | '=' expr )
+			int alt30=2;
+			try { DebugEnterSubRule(30);
+			try { DebugEnterDecision(30, false);
+			int LA30_0 = input.LA(1);
 
-			if ((LA27_0==INDENT))
+			if ((LA30_0==INDENT))
 			{
-				alt27 = 1;
+				alt30 = 1;
 			}
-			else if ((LA27_0==86))
+			else if ((LA30_0==86))
 			{
-				alt27 = 2;
+				alt30 = 2;
 			}
 			else
 			{
 				if (state.backtracking>0) {state.failed=true; return retval;}
-				NoViableAltException nvae = new NoViableAltException("", 27, 0, input);
+				NoViableAltException nvae = new NoViableAltException("", 30, 0, input);
 				DebugRecognitionException(nvae);
 				throw nvae;
 			}
-			} finally { DebugExitDecision(27); }
-			switch (alt27)
+			} finally { DebugExitDecision(30); }
+			switch (alt30)
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:207:60: stmt_block
+				// SugarCpp.g:217:60: stmt_block
 				{
-				DebugLocation(207, 60);
-				PushFollow(Follow._stmt_block_in_func_def823);
-				stmt_block74=stmt_block();
+				DebugLocation(217, 60);
+				PushFollow(Follow._stmt_block_in_func_def873);
+				stmt_block83=stmt_block();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) adaptor.AddChild(root_0, stmt_block74.Tree);
+				if (state.backtracking == 0) adaptor.AddChild(root_0, stmt_block83.Tree);
 
 				}
 				break;
 			case 2:
 				DebugEnterAlt(2);
-				// SugarCpp.g:207:73: '=' expr
+				// SugarCpp.g:217:73: '=' expr
 				{
-				DebugLocation(207, 73);
-				char_literal75=(IToken)Match(input,86,Follow._86_in_func_def827); if (state.failed) return retval;
+				DebugLocation(217, 73);
+				char_literal84=(IToken)Match(input,86,Follow._86_in_func_def877); if (state.failed) return retval;
 				if (state.backtracking == 0) {
-				char_literal75_tree = (CommonTree)adaptor.Create(char_literal75);
-				adaptor.AddChild(root_0, char_literal75_tree);
+				char_literal84_tree = (CommonTree)adaptor.Create(char_literal84);
+				adaptor.AddChild(root_0, char_literal84_tree);
 				}
-				DebugLocation(207, 77);
-				PushFollow(Follow._expr_in_func_def829);
-				expr76=expr();
+				DebugLocation(217, 77);
+				PushFollow(Follow._expr_in_func_def879);
+				expr85=expr();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) adaptor.AddChild(root_0, expr76.Tree);
+				if (state.backtracking == 0) adaptor.AddChild(root_0, expr85.Tree);
 
 				}
 				break;
 
 			}
-			} finally { DebugExitSubRule(27); }
+			} finally { DebugExitSubRule(30); }
 
 
 			}
@@ -2983,13 +3284,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("func_def", 15);
-			LeaveRule("func_def", 15);
+			TraceOut("func_def", 17);
+			LeaveRule("func_def", 17);
 			LeaveRule_func_def();
-			if (state.backtracking > 0) { Memoize(input, 15, func_def_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 17, func_def_StartIndex); }
 
 		}
-		DebugLocation(208, 4);
+		DebugLocation(218, 4);
 		} finally { DebugExitRule(GrammarFileName, "func_def"); }
 		return retval;
 
@@ -3000,180 +3301,180 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_stmt_block();
 
 	// $ANTLR start "stmt_block"
-	// SugarCpp.g:210:1: stmt_block : INDENT ( ( NEWLINE )+ stmt )* ( NEWLINE )* DEDENT -> ^( Stmt_Block ( stmt )* ) ;
+	// SugarCpp.g:220:1: stmt_block : INDENT ( ( NEWLINE )+ stmt )* ( NEWLINE )* DEDENT -> ^( Stmt_Block ( stmt )* ) ;
 	[GrammarRule("stmt_block")]
 	private AstParserRuleReturnScope<CommonTree, IToken> stmt_block()
 	{
 		EnterRule_stmt_block();
-		EnterRule("stmt_block", 16);
-		TraceIn("stmt_block", 16);
+		EnterRule("stmt_block", 18);
+		TraceIn("stmt_block", 18);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int stmt_block_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken INDENT77 = default(IToken);
-		IToken NEWLINE78 = default(IToken);
-		IToken NEWLINE80 = default(IToken);
-		IToken DEDENT81 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> stmt79 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		IToken INDENT86 = default(IToken);
+		IToken NEWLINE87 = default(IToken);
+		IToken NEWLINE89 = default(IToken);
+		IToken DEDENT90 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> stmt88 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree INDENT77_tree = default(CommonTree);
-		CommonTree NEWLINE78_tree = default(CommonTree);
-		CommonTree NEWLINE80_tree = default(CommonTree);
-		CommonTree DEDENT81_tree = default(CommonTree);
+		CommonTree INDENT86_tree = default(CommonTree);
+		CommonTree NEWLINE87_tree = default(CommonTree);
+		CommonTree NEWLINE89_tree = default(CommonTree);
+		CommonTree DEDENT90_tree = default(CommonTree);
 		RewriteRuleITokenStream stream_DEDENT=new RewriteRuleITokenStream(adaptor,"token DEDENT");
 		RewriteRuleITokenStream stream_NEWLINE=new RewriteRuleITokenStream(adaptor,"token NEWLINE");
 		RewriteRuleITokenStream stream_INDENT=new RewriteRuleITokenStream(adaptor,"token INDENT");
 		RewriteRuleSubtreeStream stream_stmt=new RewriteRuleSubtreeStream(adaptor,"rule stmt");
 		try { DebugEnterRule(GrammarFileName, "stmt_block");
-		DebugLocation(210, 1);
+		DebugLocation(220, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 16)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 18)) { return retval; }
 
-			// SugarCpp.g:211:2: ( INDENT ( ( NEWLINE )+ stmt )* ( NEWLINE )* DEDENT -> ^( Stmt_Block ( stmt )* ) )
+			// SugarCpp.g:221:2: ( INDENT ( ( NEWLINE )+ stmt )* ( NEWLINE )* DEDENT -> ^( Stmt_Block ( stmt )* ) )
 			DebugEnterAlt(1);
-			// SugarCpp.g:211:4: INDENT ( ( NEWLINE )+ stmt )* ( NEWLINE )* DEDENT
+			// SugarCpp.g:221:4: INDENT ( ( NEWLINE )+ stmt )* ( NEWLINE )* DEDENT
 			{
-			DebugLocation(211, 4);
-			INDENT77=(IToken)Match(input,INDENT,Follow._INDENT_in_stmt_block845); if (state.failed) return retval; 
-			if (state.backtracking == 0) stream_INDENT.Add(INDENT77);
+			DebugLocation(221, 4);
+			INDENT86=(IToken)Match(input,INDENT,Follow._INDENT_in_stmt_block895); if (state.failed) return retval; 
+			if (state.backtracking == 0) stream_INDENT.Add(INDENT86);
 
-			DebugLocation(211, 11);
-			// SugarCpp.g:211:11: ( ( NEWLINE )+ stmt )*
-			try { DebugEnterSubRule(29);
+			DebugLocation(221, 11);
+			// SugarCpp.g:221:11: ( ( NEWLINE )+ stmt )*
+			try { DebugEnterSubRule(32);
 			while (true)
 			{
-				int alt29=2;
-				try { DebugEnterDecision(29, false);
+				int alt32=2;
+				try { DebugEnterDecision(32, false);
 				try
 				{
-					alt29 = dfa29.Predict(input);
+					alt32 = dfa32.Predict(input);
 				}
 				catch (NoViableAltException nvae)
 				{
 					DebugRecognitionException(nvae);
 					throw;
 				}
-				} finally { DebugExitDecision(29); }
-				switch ( alt29 )
+				} finally { DebugExitDecision(32); }
+				switch ( alt32 )
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:211:12: ( NEWLINE )+ stmt
+					// SugarCpp.g:221:12: ( NEWLINE )+ stmt
 					{
-					DebugLocation(211, 12);
-					// SugarCpp.g:211:12: ( NEWLINE )+
-					int cnt28=0;
-					try { DebugEnterSubRule(28);
+					DebugLocation(221, 12);
+					// SugarCpp.g:221:12: ( NEWLINE )+
+					int cnt31=0;
+					try { DebugEnterSubRule(31);
 					while (true)
 					{
-						int alt28=2;
-						try { DebugEnterDecision(28, false);
-						int LA28_0 = input.LA(1);
+						int alt31=2;
+						try { DebugEnterDecision(31, false);
+						int LA31_0 = input.LA(1);
 
-						if ((LA28_0==NEWLINE))
+						if ((LA31_0==NEWLINE))
 						{
-							alt28 = 1;
+							alt31 = 1;
 						}
 
 
-						} finally { DebugExitDecision(28); }
-						switch (alt28)
+						} finally { DebugExitDecision(31); }
+						switch (alt31)
 						{
 						case 1:
 							DebugEnterAlt(1);
-							// SugarCpp.g:211:12: NEWLINE
+							// SugarCpp.g:221:12: NEWLINE
 							{
-							DebugLocation(211, 12);
-							NEWLINE78=(IToken)Match(input,NEWLINE,Follow._NEWLINE_in_stmt_block848); if (state.failed) return retval; 
-							if (state.backtracking == 0) stream_NEWLINE.Add(NEWLINE78);
+							DebugLocation(221, 12);
+							NEWLINE87=(IToken)Match(input,NEWLINE,Follow._NEWLINE_in_stmt_block898); if (state.failed) return retval; 
+							if (state.backtracking == 0) stream_NEWLINE.Add(NEWLINE87);
 
 
 							}
 							break;
 
 						default:
-							if (cnt28 >= 1)
-								goto loop28;
+							if (cnt31 >= 1)
+								goto loop31;
 
 							if (state.backtracking>0) {state.failed=true; return retval;}
-							EarlyExitException eee28 = new EarlyExitException( 28, input );
-							DebugRecognitionException(eee28);
-							throw eee28;
+							EarlyExitException eee31 = new EarlyExitException( 31, input );
+							DebugRecognitionException(eee31);
+							throw eee31;
 						}
-						cnt28++;
+						cnt31++;
 					}
-					loop28:
+					loop31:
 						;
 
-					} finally { DebugExitSubRule(28); }
+					} finally { DebugExitSubRule(31); }
 
-					DebugLocation(211, 21);
-					PushFollow(Follow._stmt_in_stmt_block851);
-					stmt79=stmt();
+					DebugLocation(221, 21);
+					PushFollow(Follow._stmt_in_stmt_block901);
+					stmt88=stmt();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_stmt.Add(stmt79.Tree);
+					if (state.backtracking == 0) stream_stmt.Add(stmt88.Tree);
 
 					}
 					break;
 
 				default:
-					goto loop29;
+					goto loop32;
 				}
 			}
 
-			loop29:
+			loop32:
 				;
 
-			} finally { DebugExitSubRule(29); }
+			} finally { DebugExitSubRule(32); }
 
-			DebugLocation(211, 28);
-			// SugarCpp.g:211:28: ( NEWLINE )*
-			try { DebugEnterSubRule(30);
+			DebugLocation(221, 28);
+			// SugarCpp.g:221:28: ( NEWLINE )*
+			try { DebugEnterSubRule(33);
 			while (true)
 			{
-				int alt30=2;
-				try { DebugEnterDecision(30, false);
-				int LA30_0 = input.LA(1);
+				int alt33=2;
+				try { DebugEnterDecision(33, false);
+				int LA33_0 = input.LA(1);
 
-				if ((LA30_0==NEWLINE))
+				if ((LA33_0==NEWLINE))
 				{
-					alt30 = 1;
+					alt33 = 1;
 				}
 
 
-				} finally { DebugExitDecision(30); }
-				switch ( alt30 )
+				} finally { DebugExitDecision(33); }
+				switch ( alt33 )
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:211:28: NEWLINE
+					// SugarCpp.g:221:28: NEWLINE
 					{
-					DebugLocation(211, 28);
-					NEWLINE80=(IToken)Match(input,NEWLINE,Follow._NEWLINE_in_stmt_block855); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_NEWLINE.Add(NEWLINE80);
+					DebugLocation(221, 28);
+					NEWLINE89=(IToken)Match(input,NEWLINE,Follow._NEWLINE_in_stmt_block905); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_NEWLINE.Add(NEWLINE89);
 
 
 					}
 					break;
 
 				default:
-					goto loop30;
+					goto loop33;
 				}
 			}
 
-			loop30:
+			loop33:
 				;
 
-			} finally { DebugExitSubRule(30); }
+			} finally { DebugExitSubRule(33); }
 
-			DebugLocation(211, 37);
-			DEDENT81=(IToken)Match(input,DEDENT,Follow._DEDENT_in_stmt_block858); if (state.failed) return retval; 
-			if (state.backtracking == 0) stream_DEDENT.Add(DEDENT81);
+			DebugLocation(221, 37);
+			DEDENT90=(IToken)Match(input,DEDENT,Follow._DEDENT_in_stmt_block908); if (state.failed) return retval; 
+			if (state.backtracking == 0) stream_DEDENT.Add(DEDENT90);
 
 
 
@@ -3190,20 +3491,20 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 			root_0 = (CommonTree)adaptor.Nil();
-			// 211:44: -> ^( Stmt_Block ( stmt )* )
+			// 221:44: -> ^( Stmt_Block ( stmt )* )
 			{
-				DebugLocation(211, 47);
-				// SugarCpp.g:211:47: ^( Stmt_Block ( stmt )* )
+				DebugLocation(221, 47);
+				// SugarCpp.g:221:47: ^( Stmt_Block ( stmt )* )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.Nil();
-				DebugLocation(211, 49);
+				DebugLocation(221, 49);
 				root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Stmt_Block, "Stmt_Block"), root_1);
 
-				DebugLocation(211, 60);
-				// SugarCpp.g:211:60: ( stmt )*
+				DebugLocation(221, 60);
+				// SugarCpp.g:221:60: ( stmt )*
 				while ( stream_stmt.HasNext )
 				{
-					DebugLocation(211, 60);
+					DebugLocation(221, 60);
 					adaptor.AddChild(root_1, stream_stmt.NextTree());
 
 				}
@@ -3236,13 +3537,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("stmt_block", 16);
-			LeaveRule("stmt_block", 16);
+			TraceOut("stmt_block", 18);
+			LeaveRule("stmt_block", 18);
 			LeaveRule_stmt_block();
-			if (state.backtracking > 0) { Memoize(input, 16, stmt_block_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 18, stmt_block_StartIndex); }
 
 		}
-		DebugLocation(212, 1);
+		DebugLocation(222, 1);
 		} finally { DebugExitRule(GrammarFileName, "stmt_block"); }
 		return retval;
 
@@ -3253,34 +3554,34 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_stmt();
 
 	// $ANTLR start "stmt"
-	// SugarCpp.g:214:1: stmt : ( stmt_expr | stmt_if | stmt_for | stmt_while | stmt_try );
+	// SugarCpp.g:224:1: stmt : ( stmt_expr | stmt_if | stmt_for | stmt_while | stmt_try );
 	[GrammarRule("stmt")]
 	private AstParserRuleReturnScope<CommonTree, IToken> stmt()
 	{
 		EnterRule_stmt();
-		EnterRule("stmt", 17);
-		TraceIn("stmt", 17);
+		EnterRule("stmt", 19);
+		TraceIn("stmt", 19);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int stmt_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		AstParserRuleReturnScope<CommonTree, IToken> stmt_expr82 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> stmt_if83 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> stmt_for84 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> stmt_while85 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> stmt_try86 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> stmt_expr91 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> stmt_if92 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> stmt_for93 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> stmt_while94 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> stmt_try95 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
 		try { DebugEnterRule(GrammarFileName, "stmt");
-		DebugLocation(214, 1);
+		DebugLocation(224, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 17)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 19)) { return retval; }
 
-			// SugarCpp.g:215:2: ( stmt_expr | stmt_if | stmt_for | stmt_while | stmt_try )
-			int alt31=5;
-			try { DebugEnterDecision(31, false);
+			// SugarCpp.g:225:2: ( stmt_expr | stmt_if | stmt_for | stmt_while | stmt_try )
+			int alt34=5;
+			try { DebugEnterDecision(34, false);
 			switch (input.LA(1))
 			{
 			case IDENT:
@@ -3289,113 +3590,113 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			case 110:
 			case 111:
 				{
-				alt31 = 1;
+				alt34 = 1;
 				}
 				break;
 			case 103:
 				{
-				alt31 = 2;
+				alt34 = 2;
 				}
 				break;
 			case 102:
 				{
-				alt31 = 3;
+				alt34 = 3;
 				}
 				break;
 			case 112:
 				{
-				alt31 = 4;
+				alt34 = 4;
 				}
 				break;
 			case 109:
 				{
-				alt31 = 5;
+				alt34 = 5;
 				}
 				break;
 			default:
 				{
 					if (state.backtracking>0) {state.failed=true; return retval;}
-					NoViableAltException nvae = new NoViableAltException("", 31, 0, input);
+					NoViableAltException nvae = new NoViableAltException("", 34, 0, input);
 					DebugRecognitionException(nvae);
 					throw nvae;
 				}
 			}
 
-			} finally { DebugExitDecision(31); }
-			switch (alt31)
+			} finally { DebugExitDecision(34); }
+			switch (alt34)
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:215:4: stmt_expr
+				// SugarCpp.g:225:4: stmt_expr
 				{
 				root_0 = (CommonTree)adaptor.Nil();
 
-				DebugLocation(215, 4);
-				PushFollow(Follow._stmt_expr_in_stmt878);
-				stmt_expr82=stmt_expr();
+				DebugLocation(225, 4);
+				PushFollow(Follow._stmt_expr_in_stmt928);
+				stmt_expr91=stmt_expr();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) adaptor.AddChild(root_0, stmt_expr82.Tree);
+				if (state.backtracking == 0) adaptor.AddChild(root_0, stmt_expr91.Tree);
 
 				}
 				break;
 			case 2:
 				DebugEnterAlt(2);
-				// SugarCpp.g:216:4: stmt_if
+				// SugarCpp.g:226:4: stmt_if
 				{
 				root_0 = (CommonTree)adaptor.Nil();
 
-				DebugLocation(216, 4);
-				PushFollow(Follow._stmt_if_in_stmt883);
-				stmt_if83=stmt_if();
+				DebugLocation(226, 4);
+				PushFollow(Follow._stmt_if_in_stmt933);
+				stmt_if92=stmt_if();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) adaptor.AddChild(root_0, stmt_if83.Tree);
+				if (state.backtracking == 0) adaptor.AddChild(root_0, stmt_if92.Tree);
 
 				}
 				break;
 			case 3:
 				DebugEnterAlt(3);
-				// SugarCpp.g:217:4: stmt_for
+				// SugarCpp.g:227:4: stmt_for
 				{
 				root_0 = (CommonTree)adaptor.Nil();
 
-				DebugLocation(217, 4);
-				PushFollow(Follow._stmt_for_in_stmt888);
-				stmt_for84=stmt_for();
+				DebugLocation(227, 4);
+				PushFollow(Follow._stmt_for_in_stmt938);
+				stmt_for93=stmt_for();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) adaptor.AddChild(root_0, stmt_for84.Tree);
+				if (state.backtracking == 0) adaptor.AddChild(root_0, stmt_for93.Tree);
 
 				}
 				break;
 			case 4:
 				DebugEnterAlt(4);
-				// SugarCpp.g:218:4: stmt_while
+				// SugarCpp.g:228:4: stmt_while
 				{
 				root_0 = (CommonTree)adaptor.Nil();
 
-				DebugLocation(218, 4);
-				PushFollow(Follow._stmt_while_in_stmt893);
-				stmt_while85=stmt_while();
+				DebugLocation(228, 4);
+				PushFollow(Follow._stmt_while_in_stmt943);
+				stmt_while94=stmt_while();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) adaptor.AddChild(root_0, stmt_while85.Tree);
+				if (state.backtracking == 0) adaptor.AddChild(root_0, stmt_while94.Tree);
 
 				}
 				break;
 			case 5:
 				DebugEnterAlt(5);
-				// SugarCpp.g:219:4: stmt_try
+				// SugarCpp.g:229:4: stmt_try
 				{
 				root_0 = (CommonTree)adaptor.Nil();
 
-				DebugLocation(219, 4);
-				PushFollow(Follow._stmt_try_in_stmt898);
-				stmt_try86=stmt_try();
+				DebugLocation(229, 4);
+				PushFollow(Follow._stmt_try_in_stmt948);
+				stmt_try95=stmt_try();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) adaptor.AddChild(root_0, stmt_try86.Tree);
+				if (state.backtracking == 0) adaptor.AddChild(root_0, stmt_try95.Tree);
 
 				}
 				break;
@@ -3417,13 +3718,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("stmt", 17);
-			LeaveRule("stmt", 17);
+			TraceOut("stmt", 19);
+			LeaveRule("stmt", 19);
 			LeaveRule_stmt();
-			if (state.backtracking > 0) { Memoize(input, 17, stmt_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 19, stmt_StartIndex); }
 
 		}
-		DebugLocation(220, 1);
+		DebugLocation(230, 1);
 		} finally { DebugExitRule(GrammarFileName, "stmt"); }
 		return retval;
 
@@ -3434,118 +3735,118 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_stmt_expr();
 
 	// $ANTLR start "stmt_expr"
-	// SugarCpp.g:222:1: stmt_expr : ( stmt_alloc | stmt_return | stmt_using | stmt_typedef | stmt_modify );
+	// SugarCpp.g:232:1: stmt_expr : ( stmt_alloc | stmt_return | stmt_using | stmt_typedef | stmt_modify );
 	[GrammarRule("stmt_expr")]
 	private AstParserRuleReturnScope<CommonTree, IToken> stmt_expr()
 	{
 		EnterRule_stmt_expr();
-		EnterRule("stmt_expr", 18);
-		TraceIn("stmt_expr", 18);
+		EnterRule("stmt_expr", 20);
+		TraceIn("stmt_expr", 20);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int stmt_expr_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		AstParserRuleReturnScope<CommonTree, IToken> stmt_alloc87 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> stmt_return88 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> stmt_using89 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> stmt_typedef90 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> stmt_modify91 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> stmt_alloc96 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> stmt_return97 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> stmt_using98 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> stmt_typedef99 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> stmt_modify100 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
 		try { DebugEnterRule(GrammarFileName, "stmt_expr");
-		DebugLocation(222, 1);
+		DebugLocation(232, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 18)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 20)) { return retval; }
 
-			// SugarCpp.g:223:2: ( stmt_alloc | stmt_return | stmt_using | stmt_typedef | stmt_modify )
-			int alt32=5;
-			try { DebugEnterDecision(32, false);
+			// SugarCpp.g:233:2: ( stmt_alloc | stmt_return | stmt_using | stmt_typedef | stmt_modify )
+			int alt35=5;
+			try { DebugEnterDecision(35, false);
 			try
 			{
-				alt32 = dfa32.Predict(input);
+				alt35 = dfa35.Predict(input);
 			}
 			catch (NoViableAltException nvae)
 			{
 				DebugRecognitionException(nvae);
 				throw;
 			}
-			} finally { DebugExitDecision(32); }
-			switch (alt32)
+			} finally { DebugExitDecision(35); }
+			switch (alt35)
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:223:4: stmt_alloc
+				// SugarCpp.g:233:4: stmt_alloc
 				{
 				root_0 = (CommonTree)adaptor.Nil();
 
-				DebugLocation(223, 4);
-				PushFollow(Follow._stmt_alloc_in_stmt_expr909);
-				stmt_alloc87=stmt_alloc();
+				DebugLocation(233, 4);
+				PushFollow(Follow._stmt_alloc_in_stmt_expr959);
+				stmt_alloc96=stmt_alloc();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) adaptor.AddChild(root_0, stmt_alloc87.Tree);
+				if (state.backtracking == 0) adaptor.AddChild(root_0, stmt_alloc96.Tree);
 
 				}
 				break;
 			case 2:
 				DebugEnterAlt(2);
-				// SugarCpp.g:224:4: stmt_return
+				// SugarCpp.g:234:4: stmt_return
 				{
 				root_0 = (CommonTree)adaptor.Nil();
 
-				DebugLocation(224, 4);
-				PushFollow(Follow._stmt_return_in_stmt_expr914);
-				stmt_return88=stmt_return();
+				DebugLocation(234, 4);
+				PushFollow(Follow._stmt_return_in_stmt_expr964);
+				stmt_return97=stmt_return();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) adaptor.AddChild(root_0, stmt_return88.Tree);
+				if (state.backtracking == 0) adaptor.AddChild(root_0, stmt_return97.Tree);
 
 				}
 				break;
 			case 3:
 				DebugEnterAlt(3);
-				// SugarCpp.g:225:4: stmt_using
+				// SugarCpp.g:235:4: stmt_using
 				{
 				root_0 = (CommonTree)adaptor.Nil();
 
-				DebugLocation(225, 4);
-				PushFollow(Follow._stmt_using_in_stmt_expr919);
-				stmt_using89=stmt_using();
+				DebugLocation(235, 4);
+				PushFollow(Follow._stmt_using_in_stmt_expr969);
+				stmt_using98=stmt_using();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) adaptor.AddChild(root_0, stmt_using89.Tree);
+				if (state.backtracking == 0) adaptor.AddChild(root_0, stmt_using98.Tree);
 
 				}
 				break;
 			case 4:
 				DebugEnterAlt(4);
-				// SugarCpp.g:226:4: stmt_typedef
+				// SugarCpp.g:236:4: stmt_typedef
 				{
 				root_0 = (CommonTree)adaptor.Nil();
 
-				DebugLocation(226, 4);
-				PushFollow(Follow._stmt_typedef_in_stmt_expr924);
-				stmt_typedef90=stmt_typedef();
+				DebugLocation(236, 4);
+				PushFollow(Follow._stmt_typedef_in_stmt_expr974);
+				stmt_typedef99=stmt_typedef();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) adaptor.AddChild(root_0, stmt_typedef90.Tree);
+				if (state.backtracking == 0) adaptor.AddChild(root_0, stmt_typedef99.Tree);
 
 				}
 				break;
 			case 5:
 				DebugEnterAlt(5);
-				// SugarCpp.g:227:4: stmt_modify
+				// SugarCpp.g:237:4: stmt_modify
 				{
 				root_0 = (CommonTree)adaptor.Nil();
 
-				DebugLocation(227, 4);
-				PushFollow(Follow._stmt_modify_in_stmt_expr929);
-				stmt_modify91=stmt_modify();
+				DebugLocation(237, 4);
+				PushFollow(Follow._stmt_modify_in_stmt_expr979);
+				stmt_modify100=stmt_modify();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) adaptor.AddChild(root_0, stmt_modify91.Tree);
+				if (state.backtracking == 0) adaptor.AddChild(root_0, stmt_modify100.Tree);
 
 				}
 				break;
@@ -3567,13 +3868,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("stmt_expr", 18);
-			LeaveRule("stmt_expr", 18);
+			TraceOut("stmt_expr", 20);
+			LeaveRule("stmt_expr", 20);
 			LeaveRule_stmt_expr();
-			if (state.backtracking > 0) { Memoize(input, 18, stmt_expr_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 20, stmt_expr_StartIndex); }
 
 		}
-		DebugLocation(228, 1);
+		DebugLocation(238, 1);
 		} finally { DebugExitRule(GrammarFileName, "stmt_expr"); }
 		return retval;
 
@@ -3584,60 +3885,60 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_stmt_typedef();
 
 	// $ANTLR start "stmt_typedef"
-	// SugarCpp.g:230:1: stmt_typedef : 'typedef' ident '=' type_name -> ^( Stmt_Typedef type_name ident ) ;
+	// SugarCpp.g:240:1: stmt_typedef : 'typedef' ident '=' type_name -> ^( Stmt_Typedef type_name ident ) ;
 	[GrammarRule("stmt_typedef")]
 	private AstParserRuleReturnScope<CommonTree, IToken> stmt_typedef()
 	{
 		EnterRule_stmt_typedef();
-		EnterRule("stmt_typedef", 19);
-		TraceIn("stmt_typedef", 19);
+		EnterRule("stmt_typedef", 21);
+		TraceIn("stmt_typedef", 21);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int stmt_typedef_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken string_literal92 = default(IToken);
-		IToken char_literal94 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> ident93 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> type_name95 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		IToken string_literal101 = default(IToken);
+		IToken char_literal103 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> ident102 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> type_name104 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree string_literal92_tree = default(CommonTree);
-		CommonTree char_literal94_tree = default(CommonTree);
+		CommonTree string_literal101_tree = default(CommonTree);
+		CommonTree char_literal103_tree = default(CommonTree);
 		RewriteRuleITokenStream stream_110=new RewriteRuleITokenStream(adaptor,"token 110");
 		RewriteRuleITokenStream stream_86=new RewriteRuleITokenStream(adaptor,"token 86");
 		RewriteRuleSubtreeStream stream_ident=new RewriteRuleSubtreeStream(adaptor,"rule ident");
 		RewriteRuleSubtreeStream stream_type_name=new RewriteRuleSubtreeStream(adaptor,"rule type_name");
 		try { DebugEnterRule(GrammarFileName, "stmt_typedef");
-		DebugLocation(230, 1);
+		DebugLocation(240, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 19)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 21)) { return retval; }
 
-			// SugarCpp.g:231:2: ( 'typedef' ident '=' type_name -> ^( Stmt_Typedef type_name ident ) )
+			// SugarCpp.g:241:2: ( 'typedef' ident '=' type_name -> ^( Stmt_Typedef type_name ident ) )
 			DebugEnterAlt(1);
-			// SugarCpp.g:231:4: 'typedef' ident '=' type_name
+			// SugarCpp.g:241:4: 'typedef' ident '=' type_name
 			{
-			DebugLocation(231, 4);
-			string_literal92=(IToken)Match(input,110,Follow._110_in_stmt_typedef940); if (state.failed) return retval; 
-			if (state.backtracking == 0) stream_110.Add(string_literal92);
+			DebugLocation(241, 4);
+			string_literal101=(IToken)Match(input,110,Follow._110_in_stmt_typedef990); if (state.failed) return retval; 
+			if (state.backtracking == 0) stream_110.Add(string_literal101);
 
-			DebugLocation(231, 14);
-			PushFollow(Follow._ident_in_stmt_typedef942);
-			ident93=ident();
+			DebugLocation(241, 14);
+			PushFollow(Follow._ident_in_stmt_typedef992);
+			ident102=ident();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_ident.Add(ident93.Tree);
-			DebugLocation(231, 20);
-			char_literal94=(IToken)Match(input,86,Follow._86_in_stmt_typedef944); if (state.failed) return retval; 
-			if (state.backtracking == 0) stream_86.Add(char_literal94);
+			if (state.backtracking == 0) stream_ident.Add(ident102.Tree);
+			DebugLocation(241, 20);
+			char_literal103=(IToken)Match(input,86,Follow._86_in_stmt_typedef994); if (state.failed) return retval; 
+			if (state.backtracking == 0) stream_86.Add(char_literal103);
 
-			DebugLocation(231, 24);
-			PushFollow(Follow._type_name_in_stmt_typedef946);
-			type_name95=type_name();
+			DebugLocation(241, 24);
+			PushFollow(Follow._type_name_in_stmt_typedef996);
+			type_name104=type_name();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_type_name.Add(type_name95.Tree);
+			if (state.backtracking == 0) stream_type_name.Add(type_name104.Tree);
 
 
 			{
@@ -3653,18 +3954,18 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 			root_0 = (CommonTree)adaptor.Nil();
-			// 231:34: -> ^( Stmt_Typedef type_name ident )
+			// 241:34: -> ^( Stmt_Typedef type_name ident )
 			{
-				DebugLocation(231, 37);
-				// SugarCpp.g:231:37: ^( Stmt_Typedef type_name ident )
+				DebugLocation(241, 37);
+				// SugarCpp.g:241:37: ^( Stmt_Typedef type_name ident )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.Nil();
-				DebugLocation(231, 39);
+				DebugLocation(241, 39);
 				root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Stmt_Typedef, "Stmt_Typedef"), root_1);
 
-				DebugLocation(231, 52);
+				DebugLocation(241, 52);
 				adaptor.AddChild(root_1, stream_type_name.NextTree());
-				DebugLocation(231, 62);
+				DebugLocation(241, 62);
 				adaptor.AddChild(root_1, stream_ident.NextTree());
 
 				adaptor.AddChild(root_0, root_1);
@@ -3694,13 +3995,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("stmt_typedef", 19);
-			LeaveRule("stmt_typedef", 19);
+			TraceOut("stmt_typedef", 21);
+			LeaveRule("stmt_typedef", 21);
 			LeaveRule_stmt_typedef();
-			if (state.backtracking > 0) { Memoize(input, 19, stmt_typedef_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 21, stmt_typedef_StartIndex); }
 
 		}
-		DebugLocation(232, 1);
+		DebugLocation(242, 1);
 		} finally { DebugExitRule(GrammarFileName, "stmt_typedef"); }
 		return retval;
 
@@ -3711,78 +4012,78 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_stmt_using_item();
 
 	// $ANTLR start "stmt_using_item"
-	// SugarCpp.g:234:1: stmt_using_item : ( ident | 'namespace' );
+	// SugarCpp.g:244:1: stmt_using_item : ( ident | 'namespace' );
 	[GrammarRule("stmt_using_item")]
 	private AstParserRuleReturnScope<CommonTree, IToken> stmt_using_item()
 	{
 		EnterRule_stmt_using_item();
-		EnterRule("stmt_using_item", 20);
-		TraceIn("stmt_using_item", 20);
+		EnterRule("stmt_using_item", 22);
+		TraceIn("stmt_using_item", 22);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int stmt_using_item_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken string_literal97 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> ident96 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		IToken string_literal106 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> ident105 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree string_literal97_tree = default(CommonTree);
+		CommonTree string_literal106_tree = default(CommonTree);
 		try { DebugEnterRule(GrammarFileName, "stmt_using_item");
-		DebugLocation(234, 36);
+		DebugLocation(244, 36);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 20)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 22)) { return retval; }
 
-			// SugarCpp.g:234:16: ( ident | 'namespace' )
-			int alt33=2;
-			try { DebugEnterDecision(33, false);
-			int LA33_0 = input.LA(1);
+			// SugarCpp.g:244:16: ( ident | 'namespace' )
+			int alt36=2;
+			try { DebugEnterDecision(36, false);
+			int LA36_0 = input.LA(1);
 
-			if ((LA33_0==IDENT))
+			if ((LA36_0==IDENT))
 			{
-				alt33 = 1;
+				alt36 = 1;
 			}
-			else if ((LA33_0==106))
+			else if ((LA36_0==106))
 			{
-				alt33 = 2;
+				alt36 = 2;
 			}
 			else
 			{
 				if (state.backtracking>0) {state.failed=true; return retval;}
-				NoViableAltException nvae = new NoViableAltException("", 33, 0, input);
+				NoViableAltException nvae = new NoViableAltException("", 36, 0, input);
 				DebugRecognitionException(nvae);
 				throw nvae;
 			}
-			} finally { DebugExitDecision(33); }
-			switch (alt33)
+			} finally { DebugExitDecision(36); }
+			switch (alt36)
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:234:18: ident
+				// SugarCpp.g:244:18: ident
 				{
 				root_0 = (CommonTree)adaptor.Nil();
 
-				DebugLocation(234, 18);
-				PushFollow(Follow._ident_in_stmt_using_item965);
-				ident96=ident();
+				DebugLocation(244, 18);
+				PushFollow(Follow._ident_in_stmt_using_item1015);
+				ident105=ident();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) adaptor.AddChild(root_0, ident96.Tree);
+				if (state.backtracking == 0) adaptor.AddChild(root_0, ident105.Tree);
 
 				}
 				break;
 			case 2:
 				DebugEnterAlt(2);
-				// SugarCpp.g:234:26: 'namespace'
+				// SugarCpp.g:244:26: 'namespace'
 				{
 				root_0 = (CommonTree)adaptor.Nil();
 
-				DebugLocation(234, 26);
-				string_literal97=(IToken)Match(input,106,Follow._106_in_stmt_using_item969); if (state.failed) return retval;
+				DebugLocation(244, 26);
+				string_literal106=(IToken)Match(input,106,Follow._106_in_stmt_using_item1019); if (state.failed) return retval;
 				if (state.backtracking == 0) {
-				string_literal97_tree = (CommonTree)adaptor.Create(string_literal97);
-				adaptor.AddChild(root_0, string_literal97_tree);
+				string_literal106_tree = (CommonTree)adaptor.Create(string_literal106);
+				adaptor.AddChild(root_0, string_literal106_tree);
 				}
 
 				}
@@ -3805,13 +4106,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("stmt_using_item", 20);
-			LeaveRule("stmt_using_item", 20);
+			TraceOut("stmt_using_item", 22);
+			LeaveRule("stmt_using_item", 22);
 			LeaveRule_stmt_using_item();
-			if (state.backtracking > 0) { Memoize(input, 20, stmt_using_item_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 22, stmt_using_item_StartIndex); }
 
 		}
-		DebugLocation(234, 36);
+		DebugLocation(244, 36);
 		} finally { DebugExitRule(GrammarFileName, "stmt_using_item"); }
 		return retval;
 
@@ -3822,81 +4123,81 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_stmt_using();
 
 	// $ANTLR start "stmt_using"
-	// SugarCpp.g:235:1: stmt_using : 'using' ( stmt_using_item )* -> ^( Stmt_Using ( stmt_using_item )* ) ;
+	// SugarCpp.g:245:1: stmt_using : 'using' ( stmt_using_item )* -> ^( Stmt_Using ( stmt_using_item )* ) ;
 	[GrammarRule("stmt_using")]
 	private AstParserRuleReturnScope<CommonTree, IToken> stmt_using()
 	{
 		EnterRule_stmt_using();
-		EnterRule("stmt_using", 21);
-		TraceIn("stmt_using", 21);
+		EnterRule("stmt_using", 23);
+		TraceIn("stmt_using", 23);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int stmt_using_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken string_literal98 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> stmt_using_item99 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		IToken string_literal107 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> stmt_using_item108 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree string_literal98_tree = default(CommonTree);
+		CommonTree string_literal107_tree = default(CommonTree);
 		RewriteRuleITokenStream stream_111=new RewriteRuleITokenStream(adaptor,"token 111");
 		RewriteRuleSubtreeStream stream_stmt_using_item=new RewriteRuleSubtreeStream(adaptor,"rule stmt_using_item");
 		try { DebugEnterRule(GrammarFileName, "stmt_using");
-		DebugLocation(235, 1);
+		DebugLocation(245, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 21)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 23)) { return retval; }
 
-			// SugarCpp.g:236:2: ( 'using' ( stmt_using_item )* -> ^( Stmt_Using ( stmt_using_item )* ) )
+			// SugarCpp.g:246:2: ( 'using' ( stmt_using_item )* -> ^( Stmt_Using ( stmt_using_item )* ) )
 			DebugEnterAlt(1);
-			// SugarCpp.g:236:4: 'using' ( stmt_using_item )*
+			// SugarCpp.g:246:4: 'using' ( stmt_using_item )*
 			{
-			DebugLocation(236, 4);
-			string_literal98=(IToken)Match(input,111,Follow._111_in_stmt_using977); if (state.failed) return retval; 
-			if (state.backtracking == 0) stream_111.Add(string_literal98);
+			DebugLocation(246, 4);
+			string_literal107=(IToken)Match(input,111,Follow._111_in_stmt_using1027); if (state.failed) return retval; 
+			if (state.backtracking == 0) stream_111.Add(string_literal107);
 
-			DebugLocation(236, 12);
-			// SugarCpp.g:236:12: ( stmt_using_item )*
-			try { DebugEnterSubRule(34);
+			DebugLocation(246, 12);
+			// SugarCpp.g:246:12: ( stmt_using_item )*
+			try { DebugEnterSubRule(37);
 			while (true)
 			{
-				int alt34=2;
-				try { DebugEnterDecision(34, false);
+				int alt37=2;
+				try { DebugEnterDecision(37, false);
 				try
 				{
-					alt34 = dfa34.Predict(input);
+					alt37 = dfa37.Predict(input);
 				}
 				catch (NoViableAltException nvae)
 				{
 					DebugRecognitionException(nvae);
 					throw;
 				}
-				} finally { DebugExitDecision(34); }
-				switch ( alt34 )
+				} finally { DebugExitDecision(37); }
+				switch ( alt37 )
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:236:12: stmt_using_item
+					// SugarCpp.g:246:12: stmt_using_item
 					{
-					DebugLocation(236, 12);
-					PushFollow(Follow._stmt_using_item_in_stmt_using979);
-					stmt_using_item99=stmt_using_item();
+					DebugLocation(246, 12);
+					PushFollow(Follow._stmt_using_item_in_stmt_using1029);
+					stmt_using_item108=stmt_using_item();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_stmt_using_item.Add(stmt_using_item99.Tree);
+					if (state.backtracking == 0) stream_stmt_using_item.Add(stmt_using_item108.Tree);
 
 					}
 					break;
 
 				default:
-					goto loop34;
+					goto loop37;
 				}
 			}
 
-			loop34:
+			loop37:
 				;
 
-			} finally { DebugExitSubRule(34); }
+			} finally { DebugExitSubRule(37); }
 
 
 
@@ -3913,20 +4214,20 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 			root_0 = (CommonTree)adaptor.Nil();
-			// 236:29: -> ^( Stmt_Using ( stmt_using_item )* )
+			// 246:29: -> ^( Stmt_Using ( stmt_using_item )* )
 			{
-				DebugLocation(236, 32);
-				// SugarCpp.g:236:32: ^( Stmt_Using ( stmt_using_item )* )
+				DebugLocation(246, 32);
+				// SugarCpp.g:246:32: ^( Stmt_Using ( stmt_using_item )* )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.Nil();
-				DebugLocation(236, 34);
+				DebugLocation(246, 34);
 				root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Stmt_Using, "Stmt_Using"), root_1);
 
-				DebugLocation(236, 45);
-				// SugarCpp.g:236:45: ( stmt_using_item )*
+				DebugLocation(246, 45);
+				// SugarCpp.g:246:45: ( stmt_using_item )*
 				while ( stream_stmt_using_item.HasNext )
 				{
-					DebugLocation(236, 45);
+					DebugLocation(246, 45);
 					adaptor.AddChild(root_1, stream_stmt_using_item.NextTree());
 
 				}
@@ -3959,13 +4260,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("stmt_using", 21);
-			LeaveRule("stmt_using", 21);
+			TraceOut("stmt_using", 23);
+			LeaveRule("stmt_using", 23);
 			LeaveRule_stmt_using();
-			if (state.backtracking > 0) { Memoize(input, 21, stmt_using_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 23, stmt_using_StartIndex); }
 
 		}
-		DebugLocation(237, 1);
+		DebugLocation(247, 1);
 		} finally { DebugExitRule(GrammarFileName, "stmt_using"); }
 		return retval;
 
@@ -3976,69 +4277,69 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_stmt_return();
 
 	// $ANTLR start "stmt_return"
-	// SugarCpp.g:239:1: stmt_return : 'return' ( expr )? -> ^( Expr_Return ( expr )? ) ;
+	// SugarCpp.g:249:1: stmt_return : 'return' ( expr )? -> ^( Expr_Return ( expr )? ) ;
 	[GrammarRule("stmt_return")]
 	private AstParserRuleReturnScope<CommonTree, IToken> stmt_return()
 	{
 		EnterRule_stmt_return();
-		EnterRule("stmt_return", 22);
-		TraceIn("stmt_return", 22);
+		EnterRule("stmt_return", 24);
+		TraceIn("stmt_return", 24);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int stmt_return_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken string_literal100 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> expr101 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		IToken string_literal109 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> expr110 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree string_literal100_tree = default(CommonTree);
+		CommonTree string_literal109_tree = default(CommonTree);
 		RewriteRuleITokenStream stream_108=new RewriteRuleITokenStream(adaptor,"token 108");
 		RewriteRuleSubtreeStream stream_expr=new RewriteRuleSubtreeStream(adaptor,"rule expr");
 		try { DebugEnterRule(GrammarFileName, "stmt_return");
-		DebugLocation(239, 1);
+		DebugLocation(249, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 22)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 24)) { return retval; }
 
-			// SugarCpp.g:240:2: ( 'return' ( expr )? -> ^( Expr_Return ( expr )? ) )
+			// SugarCpp.g:250:2: ( 'return' ( expr )? -> ^( Expr_Return ( expr )? ) )
 			DebugEnterAlt(1);
-			// SugarCpp.g:240:4: 'return' ( expr )?
+			// SugarCpp.g:250:4: 'return' ( expr )?
 			{
-			DebugLocation(240, 4);
-			string_literal100=(IToken)Match(input,108,Follow._108_in_stmt_return1000); if (state.failed) return retval; 
-			if (state.backtracking == 0) stream_108.Add(string_literal100);
+			DebugLocation(250, 4);
+			string_literal109=(IToken)Match(input,108,Follow._108_in_stmt_return1050); if (state.failed) return retval; 
+			if (state.backtracking == 0) stream_108.Add(string_literal109);
 
-			DebugLocation(240, 13);
-			// SugarCpp.g:240:13: ( expr )?
-			int alt35=2;
-			try { DebugEnterSubRule(35);
-			try { DebugEnterDecision(35, false);
-			int LA35_0 = input.LA(1);
+			DebugLocation(250, 13);
+			// SugarCpp.g:250:13: ( expr )?
+			int alt38=2;
+			try { DebugEnterSubRule(38);
+			try { DebugEnterDecision(38, false);
+			int LA38_0 = input.LA(1);
 
-			if ((LA35_0==IDENT||LA35_0==NUMBER||LA35_0==STRING||LA35_0==54||LA35_0==59||LA35_0==61||LA35_0==63||(LA35_0>=65 && LA35_0<=66)||(LA35_0>=69 && LA35_0<=70)||LA35_0==107||LA35_0==116))
+			if ((LA38_0==IDENT||LA38_0==NUMBER||LA38_0==STRING||LA38_0==54||LA38_0==59||LA38_0==61||LA38_0==63||(LA38_0>=65 && LA38_0<=66)||(LA38_0>=69 && LA38_0<=70)||LA38_0==107||LA38_0==116))
 			{
-				alt35 = 1;
+				alt38 = 1;
 			}
-			} finally { DebugExitDecision(35); }
-			switch (alt35)
+			} finally { DebugExitDecision(38); }
+			switch (alt38)
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:240:13: expr
+				// SugarCpp.g:250:13: expr
 				{
-				DebugLocation(240, 13);
-				PushFollow(Follow._expr_in_stmt_return1002);
-				expr101=expr();
+				DebugLocation(250, 13);
+				PushFollow(Follow._expr_in_stmt_return1052);
+				expr110=expr();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) stream_expr.Add(expr101.Tree);
+				if (state.backtracking == 0) stream_expr.Add(expr110.Tree);
 
 				}
 				break;
 
 			}
-			} finally { DebugExitSubRule(35); }
+			} finally { DebugExitSubRule(38); }
 
 
 
@@ -4055,20 +4356,20 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 			root_0 = (CommonTree)adaptor.Nil();
-			// 240:19: -> ^( Expr_Return ( expr )? )
+			// 250:19: -> ^( Expr_Return ( expr )? )
 			{
-				DebugLocation(240, 22);
-				// SugarCpp.g:240:22: ^( Expr_Return ( expr )? )
+				DebugLocation(250, 22);
+				// SugarCpp.g:250:22: ^( Expr_Return ( expr )? )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.Nil();
-				DebugLocation(240, 24);
+				DebugLocation(250, 24);
 				root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Return, "Expr_Return"), root_1);
 
-				DebugLocation(240, 36);
-				// SugarCpp.g:240:36: ( expr )?
+				DebugLocation(250, 36);
+				// SugarCpp.g:250:36: ( expr )?
 				if (stream_expr.HasNext)
 				{
-					DebugLocation(240, 36);
+					DebugLocation(250, 36);
 					adaptor.AddChild(root_1, stream_expr.NextTree());
 
 				}
@@ -4101,13 +4402,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("stmt_return", 22);
-			LeaveRule("stmt_return", 22);
+			TraceOut("stmt_return", 24);
+			LeaveRule("stmt_return", 24);
 			LeaveRule_stmt_return();
-			if (state.backtracking > 0) { Memoize(input, 22, stmt_return_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 24, stmt_return_StartIndex); }
 
 		}
-		DebugLocation(241, 1);
+		DebugLocation(251, 1);
 		} finally { DebugExitRule(GrammarFileName, "stmt_return"); }
 		return retval;
 
@@ -4118,31 +4419,31 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_stmt_if();
 
 	// $ANTLR start "stmt_if"
-	// SugarCpp.g:243:1: stmt_if : 'if' '(' expr ')' stmt_block ( 'else' stmt_block )? -> ^( Stmt_If expr stmt_block ( stmt_block )? ) ;
+	// SugarCpp.g:253:1: stmt_if : 'if' '(' expr ')' stmt_block ( 'else' stmt_block )? -> ^( Stmt_If expr stmt_block ( stmt_block )? ) ;
 	[GrammarRule("stmt_if")]
 	private AstParserRuleReturnScope<CommonTree, IToken> stmt_if()
 	{
 		EnterRule_stmt_if();
-		EnterRule("stmt_if", 23);
-		TraceIn("stmt_if", 23);
+		EnterRule("stmt_if", 25);
+		TraceIn("stmt_if", 25);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int stmt_if_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken string_literal102 = default(IToken);
-		IToken char_literal103 = default(IToken);
-		IToken char_literal105 = default(IToken);
-		IToken string_literal107 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> expr104 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> stmt_block106 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> stmt_block108 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		IToken string_literal111 = default(IToken);
+		IToken char_literal112 = default(IToken);
+		IToken char_literal114 = default(IToken);
+		IToken string_literal116 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> expr113 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> stmt_block115 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> stmt_block117 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree string_literal102_tree = default(CommonTree);
-		CommonTree char_literal103_tree = default(CommonTree);
-		CommonTree char_literal105_tree = default(CommonTree);
-		CommonTree string_literal107_tree = default(CommonTree);
+		CommonTree string_literal111_tree = default(CommonTree);
+		CommonTree char_literal112_tree = default(CommonTree);
+		CommonTree char_literal114_tree = default(CommonTree);
+		CommonTree string_literal116_tree = default(CommonTree);
 		RewriteRuleITokenStream stream_62=new RewriteRuleITokenStream(adaptor,"token 62");
 		RewriteRuleITokenStream stream_103=new RewriteRuleITokenStream(adaptor,"token 103");
 		RewriteRuleITokenStream stream_61=new RewriteRuleITokenStream(adaptor,"token 61");
@@ -4150,73 +4451,73 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		RewriteRuleSubtreeStream stream_stmt_block=new RewriteRuleSubtreeStream(adaptor,"rule stmt_block");
 		RewriteRuleSubtreeStream stream_expr=new RewriteRuleSubtreeStream(adaptor,"rule expr");
 		try { DebugEnterRule(GrammarFileName, "stmt_if");
-		DebugLocation(243, 1);
+		DebugLocation(253, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 23)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 25)) { return retval; }
 
-			// SugarCpp.g:244:2: ( 'if' '(' expr ')' stmt_block ( 'else' stmt_block )? -> ^( Stmt_If expr stmt_block ( stmt_block )? ) )
+			// SugarCpp.g:254:2: ( 'if' '(' expr ')' stmt_block ( 'else' stmt_block )? -> ^( Stmt_If expr stmt_block ( stmt_block )? ) )
 			DebugEnterAlt(1);
-			// SugarCpp.g:244:4: 'if' '(' expr ')' stmt_block ( 'else' stmt_block )?
+			// SugarCpp.g:254:4: 'if' '(' expr ')' stmt_block ( 'else' stmt_block )?
 			{
-			DebugLocation(244, 4);
-			string_literal102=(IToken)Match(input,103,Follow._103_in_stmt_if1023); if (state.failed) return retval; 
-			if (state.backtracking == 0) stream_103.Add(string_literal102);
+			DebugLocation(254, 4);
+			string_literal111=(IToken)Match(input,103,Follow._103_in_stmt_if1073); if (state.failed) return retval; 
+			if (state.backtracking == 0) stream_103.Add(string_literal111);
 
-			DebugLocation(244, 9);
-			char_literal103=(IToken)Match(input,61,Follow._61_in_stmt_if1025); if (state.failed) return retval; 
-			if (state.backtracking == 0) stream_61.Add(char_literal103);
+			DebugLocation(254, 9);
+			char_literal112=(IToken)Match(input,61,Follow._61_in_stmt_if1075); if (state.failed) return retval; 
+			if (state.backtracking == 0) stream_61.Add(char_literal112);
 
-			DebugLocation(244, 13);
-			PushFollow(Follow._expr_in_stmt_if1027);
-			expr104=expr();
+			DebugLocation(254, 13);
+			PushFollow(Follow._expr_in_stmt_if1077);
+			expr113=expr();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_expr.Add(expr104.Tree);
-			DebugLocation(244, 18);
-			char_literal105=(IToken)Match(input,62,Follow._62_in_stmt_if1029); if (state.failed) return retval; 
-			if (state.backtracking == 0) stream_62.Add(char_literal105);
+			if (state.backtracking == 0) stream_expr.Add(expr113.Tree);
+			DebugLocation(254, 18);
+			char_literal114=(IToken)Match(input,62,Follow._62_in_stmt_if1079); if (state.failed) return retval; 
+			if (state.backtracking == 0) stream_62.Add(char_literal114);
 
-			DebugLocation(244, 22);
-			PushFollow(Follow._stmt_block_in_stmt_if1031);
-			stmt_block106=stmt_block();
+			DebugLocation(254, 22);
+			PushFollow(Follow._stmt_block_in_stmt_if1081);
+			stmt_block115=stmt_block();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_stmt_block.Add(stmt_block106.Tree);
-			DebugLocation(244, 33);
-			// SugarCpp.g:244:33: ( 'else' stmt_block )?
-			int alt36=2;
-			try { DebugEnterSubRule(36);
-			try { DebugEnterDecision(36, false);
-			int LA36_0 = input.LA(1);
+			if (state.backtracking == 0) stream_stmt_block.Add(stmt_block115.Tree);
+			DebugLocation(254, 33);
+			// SugarCpp.g:254:33: ( 'else' stmt_block )?
+			int alt39=2;
+			try { DebugEnterSubRule(39);
+			try { DebugEnterDecision(39, false);
+			int LA39_0 = input.LA(1);
 
-			if ((LA36_0==100))
+			if ((LA39_0==100))
 			{
-				alt36 = 1;
+				alt39 = 1;
 			}
-			} finally { DebugExitDecision(36); }
-			switch (alt36)
+			} finally { DebugExitDecision(39); }
+			switch (alt39)
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:244:34: 'else' stmt_block
+				// SugarCpp.g:254:34: 'else' stmt_block
 				{
-				DebugLocation(244, 34);
-				string_literal107=(IToken)Match(input,100,Follow._100_in_stmt_if1034); if (state.failed) return retval; 
-				if (state.backtracking == 0) stream_100.Add(string_literal107);
+				DebugLocation(254, 34);
+				string_literal116=(IToken)Match(input,100,Follow._100_in_stmt_if1084); if (state.failed) return retval; 
+				if (state.backtracking == 0) stream_100.Add(string_literal116);
 
-				DebugLocation(244, 41);
-				PushFollow(Follow._stmt_block_in_stmt_if1036);
-				stmt_block108=stmt_block();
+				DebugLocation(254, 41);
+				PushFollow(Follow._stmt_block_in_stmt_if1086);
+				stmt_block117=stmt_block();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) stream_stmt_block.Add(stmt_block108.Tree);
+				if (state.backtracking == 0) stream_stmt_block.Add(stmt_block117.Tree);
 
 				}
 				break;
 
 			}
-			} finally { DebugExitSubRule(36); }
+			} finally { DebugExitSubRule(39); }
 
 
 
@@ -4233,24 +4534,24 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 			root_0 = (CommonTree)adaptor.Nil();
-			// 244:54: -> ^( Stmt_If expr stmt_block ( stmt_block )? )
+			// 254:54: -> ^( Stmt_If expr stmt_block ( stmt_block )? )
 			{
-				DebugLocation(244, 57);
-				// SugarCpp.g:244:57: ^( Stmt_If expr stmt_block ( stmt_block )? )
+				DebugLocation(254, 57);
+				// SugarCpp.g:254:57: ^( Stmt_If expr stmt_block ( stmt_block )? )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.Nil();
-				DebugLocation(244, 59);
+				DebugLocation(254, 59);
 				root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Stmt_If, "Stmt_If"), root_1);
 
-				DebugLocation(244, 67);
+				DebugLocation(254, 67);
 				adaptor.AddChild(root_1, stream_expr.NextTree());
-				DebugLocation(244, 72);
+				DebugLocation(254, 72);
 				adaptor.AddChild(root_1, stream_stmt_block.NextTree());
-				DebugLocation(244, 83);
-				// SugarCpp.g:244:83: ( stmt_block )?
+				DebugLocation(254, 83);
+				// SugarCpp.g:254:83: ( stmt_block )?
 				if (stream_stmt_block.HasNext)
 				{
-					DebugLocation(244, 83);
+					DebugLocation(254, 83);
 					adaptor.AddChild(root_1, stream_stmt_block.NextTree());
 
 				}
@@ -4283,13 +4584,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("stmt_if", 23);
-			LeaveRule("stmt_if", 23);
+			TraceOut("stmt_if", 25);
+			LeaveRule("stmt_if", 25);
 			LeaveRule_stmt_if();
-			if (state.backtracking > 0) { Memoize(input, 23, stmt_if_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 25, stmt_if_StartIndex); }
 
 		}
-		DebugLocation(245, 1);
+		DebugLocation(255, 1);
 		} finally { DebugExitRule(GrammarFileName, "stmt_if"); }
 		return retval;
 
@@ -4300,72 +4601,72 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_stmt_while();
 
 	// $ANTLR start "stmt_while"
-	// SugarCpp.g:247:1: stmt_while : 'while' '(' expr ')' stmt_block -> ^( Stmt_While expr stmt_block ) ;
+	// SugarCpp.g:257:1: stmt_while : 'while' '(' expr ')' stmt_block -> ^( Stmt_While expr stmt_block ) ;
 	[GrammarRule("stmt_while")]
 	private AstParserRuleReturnScope<CommonTree, IToken> stmt_while()
 	{
 		EnterRule_stmt_while();
-		EnterRule("stmt_while", 24);
-		TraceIn("stmt_while", 24);
+		EnterRule("stmt_while", 26);
+		TraceIn("stmt_while", 26);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int stmt_while_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken string_literal109 = default(IToken);
-		IToken char_literal110 = default(IToken);
-		IToken char_literal112 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> expr111 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> stmt_block113 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		IToken string_literal118 = default(IToken);
+		IToken char_literal119 = default(IToken);
+		IToken char_literal121 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> expr120 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> stmt_block122 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree string_literal109_tree = default(CommonTree);
-		CommonTree char_literal110_tree = default(CommonTree);
-		CommonTree char_literal112_tree = default(CommonTree);
+		CommonTree string_literal118_tree = default(CommonTree);
+		CommonTree char_literal119_tree = default(CommonTree);
+		CommonTree char_literal121_tree = default(CommonTree);
 		RewriteRuleITokenStream stream_112=new RewriteRuleITokenStream(adaptor,"token 112");
 		RewriteRuleITokenStream stream_62=new RewriteRuleITokenStream(adaptor,"token 62");
 		RewriteRuleITokenStream stream_61=new RewriteRuleITokenStream(adaptor,"token 61");
 		RewriteRuleSubtreeStream stream_stmt_block=new RewriteRuleSubtreeStream(adaptor,"rule stmt_block");
 		RewriteRuleSubtreeStream stream_expr=new RewriteRuleSubtreeStream(adaptor,"rule expr");
 		try { DebugEnterRule(GrammarFileName, "stmt_while");
-		DebugLocation(247, 1);
+		DebugLocation(257, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 24)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 26)) { return retval; }
 
-			// SugarCpp.g:248:2: ( 'while' '(' expr ')' stmt_block -> ^( Stmt_While expr stmt_block ) )
+			// SugarCpp.g:258:2: ( 'while' '(' expr ')' stmt_block -> ^( Stmt_While expr stmt_block ) )
 			DebugEnterAlt(1);
-			// SugarCpp.g:248:4: 'while' '(' expr ')' stmt_block
+			// SugarCpp.g:258:4: 'while' '(' expr ')' stmt_block
 			{
-			DebugLocation(248, 4);
-			string_literal109=(IToken)Match(input,112,Follow._112_in_stmt_while1062); if (state.failed) return retval; 
-			if (state.backtracking == 0) stream_112.Add(string_literal109);
+			DebugLocation(258, 4);
+			string_literal118=(IToken)Match(input,112,Follow._112_in_stmt_while1112); if (state.failed) return retval; 
+			if (state.backtracking == 0) stream_112.Add(string_literal118);
 
-			DebugLocation(248, 12);
-			char_literal110=(IToken)Match(input,61,Follow._61_in_stmt_while1064); if (state.failed) return retval; 
-			if (state.backtracking == 0) stream_61.Add(char_literal110);
+			DebugLocation(258, 12);
+			char_literal119=(IToken)Match(input,61,Follow._61_in_stmt_while1114); if (state.failed) return retval; 
+			if (state.backtracking == 0) stream_61.Add(char_literal119);
 
-			DebugLocation(248, 16);
-			PushFollow(Follow._expr_in_stmt_while1066);
-			expr111=expr();
+			DebugLocation(258, 16);
+			PushFollow(Follow._expr_in_stmt_while1116);
+			expr120=expr();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_expr.Add(expr111.Tree);
-			DebugLocation(248, 21);
-			char_literal112=(IToken)Match(input,62,Follow._62_in_stmt_while1068); if (state.failed) return retval; 
-			if (state.backtracking == 0) stream_62.Add(char_literal112);
+			if (state.backtracking == 0) stream_expr.Add(expr120.Tree);
+			DebugLocation(258, 21);
+			char_literal121=(IToken)Match(input,62,Follow._62_in_stmt_while1118); if (state.failed) return retval; 
+			if (state.backtracking == 0) stream_62.Add(char_literal121);
 
-			DebugLocation(248, 25);
-			PushFollow(Follow._stmt_block_in_stmt_while1070);
-			stmt_block113=stmt_block();
+			DebugLocation(258, 25);
+			PushFollow(Follow._stmt_block_in_stmt_while1120);
+			stmt_block122=stmt_block();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_stmt_block.Add(stmt_block113.Tree);
+			if (state.backtracking == 0) stream_stmt_block.Add(stmt_block122.Tree);
 
 
 			{
 			// AST REWRITE
-			// elements: expr, stmt_block
+			// elements: stmt_block, expr
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -4376,18 +4677,18 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 			root_0 = (CommonTree)adaptor.Nil();
-			// 248:36: -> ^( Stmt_While expr stmt_block )
+			// 258:36: -> ^( Stmt_While expr stmt_block )
 			{
-				DebugLocation(248, 39);
-				// SugarCpp.g:248:39: ^( Stmt_While expr stmt_block )
+				DebugLocation(258, 39);
+				// SugarCpp.g:258:39: ^( Stmt_While expr stmt_block )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.Nil();
-				DebugLocation(248, 41);
+				DebugLocation(258, 41);
 				root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Stmt_While, "Stmt_While"), root_1);
 
-				DebugLocation(248, 52);
+				DebugLocation(258, 52);
 				adaptor.AddChild(root_1, stream_expr.NextTree());
-				DebugLocation(248, 57);
+				DebugLocation(258, 57);
 				adaptor.AddChild(root_1, stream_stmt_block.NextTree());
 
 				adaptor.AddChild(root_0, root_1);
@@ -4417,13 +4718,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("stmt_while", 24);
-			LeaveRule("stmt_while", 24);
+			TraceOut("stmt_while", 26);
+			LeaveRule("stmt_while", 26);
 			LeaveRule_stmt_while();
-			if (state.backtracking > 0) { Memoize(input, 24, stmt_while_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 26, stmt_while_StartIndex); }
 
 		}
-		DebugLocation(249, 1);
+		DebugLocation(259, 1);
 		} finally { DebugExitRule(GrammarFileName, "stmt_while"); }
 		return retval;
 
@@ -4434,37 +4735,37 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_stmt_for();
 
 	// $ANTLR start "stmt_for"
-	// SugarCpp.g:251:1: stmt_for : 'for' '(' expr ( ';' expr ';' expr | 'in' expr ) ')' stmt_block -> {type==0}? ^( Stmt_For expr expr expr stmt_block ) -> ^( Stmt_ForEach expr expr stmt_block ) ;
+	// SugarCpp.g:261:1: stmt_for : 'for' '(' expr ( ';' expr ';' expr | 'in' expr ) ')' stmt_block -> {type==0}? ^( Stmt_For expr expr expr stmt_block ) -> ^( Stmt_ForEach expr expr stmt_block ) ;
 	[GrammarRule("stmt_for")]
 	private AstParserRuleReturnScope<CommonTree, IToken> stmt_for()
 	{
 		EnterRule_stmt_for();
-		EnterRule("stmt_for", 25);
-		TraceIn("stmt_for", 25);
+		EnterRule("stmt_for", 27);
+		TraceIn("stmt_for", 27);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int stmt_for_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken string_literal114 = default(IToken);
-		IToken char_literal115 = default(IToken);
-		IToken char_literal117 = default(IToken);
-		IToken char_literal119 = default(IToken);
-		IToken string_literal121 = default(IToken);
-		IToken char_literal123 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> expr116 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> expr118 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> expr120 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> expr122 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> stmt_block124 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		IToken string_literal123 = default(IToken);
+		IToken char_literal124 = default(IToken);
+		IToken char_literal126 = default(IToken);
+		IToken char_literal128 = default(IToken);
+		IToken string_literal130 = default(IToken);
+		IToken char_literal132 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> expr125 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> expr127 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> expr129 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> expr131 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> stmt_block133 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree string_literal114_tree = default(CommonTree);
-		CommonTree char_literal115_tree = default(CommonTree);
-		CommonTree char_literal117_tree = default(CommonTree);
-		CommonTree char_literal119_tree = default(CommonTree);
-		CommonTree string_literal121_tree = default(CommonTree);
-		CommonTree char_literal123_tree = default(CommonTree);
+		CommonTree string_literal123_tree = default(CommonTree);
+		CommonTree char_literal124_tree = default(CommonTree);
+		CommonTree char_literal126_tree = default(CommonTree);
+		CommonTree char_literal128_tree = default(CommonTree);
+		CommonTree string_literal130_tree = default(CommonTree);
+		CommonTree char_literal132_tree = default(CommonTree);
 		RewriteRuleITokenStream stream_105=new RewriteRuleITokenStream(adaptor,"token 105");
 		RewriteRuleITokenStream stream_62=new RewriteRuleITokenStream(adaptor,"token 62");
 		RewriteRuleITokenStream stream_81=new RewriteRuleITokenStream(adaptor,"token 81");
@@ -4476,79 +4777,79 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			int type = 0;
 
 		try { DebugEnterRule(GrammarFileName, "stmt_for");
-		DebugLocation(251, 1);
+		DebugLocation(261, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 25)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 27)) { return retval; }
 
-			// SugarCpp.g:256:2: ( 'for' '(' expr ( ';' expr ';' expr | 'in' expr ) ')' stmt_block -> {type==0}? ^( Stmt_For expr expr expr stmt_block ) -> ^( Stmt_ForEach expr expr stmt_block ) )
+			// SugarCpp.g:266:2: ( 'for' '(' expr ( ';' expr ';' expr | 'in' expr ) ')' stmt_block -> {type==0}? ^( Stmt_For expr expr expr stmt_block ) -> ^( Stmt_ForEach expr expr stmt_block ) )
 			DebugEnterAlt(1);
-			// SugarCpp.g:256:4: 'for' '(' expr ( ';' expr ';' expr | 'in' expr ) ')' stmt_block
+			// SugarCpp.g:266:4: 'for' '(' expr ( ';' expr ';' expr | 'in' expr ) ')' stmt_block
 			{
-			DebugLocation(256, 4);
-			string_literal114=(IToken)Match(input,102,Follow._102_in_stmt_for1096); if (state.failed) return retval; 
-			if (state.backtracking == 0) stream_102.Add(string_literal114);
+			DebugLocation(266, 4);
+			string_literal123=(IToken)Match(input,102,Follow._102_in_stmt_for1146); if (state.failed) return retval; 
+			if (state.backtracking == 0) stream_102.Add(string_literal123);
 
-			DebugLocation(256, 10);
-			char_literal115=(IToken)Match(input,61,Follow._61_in_stmt_for1098); if (state.failed) return retval; 
-			if (state.backtracking == 0) stream_61.Add(char_literal115);
+			DebugLocation(266, 10);
+			char_literal124=(IToken)Match(input,61,Follow._61_in_stmt_for1148); if (state.failed) return retval; 
+			if (state.backtracking == 0) stream_61.Add(char_literal124);
 
-			DebugLocation(256, 14);
-			PushFollow(Follow._expr_in_stmt_for1100);
-			expr116=expr();
+			DebugLocation(266, 14);
+			PushFollow(Follow._expr_in_stmt_for1150);
+			expr125=expr();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_expr.Add(expr116.Tree);
-			DebugLocation(256, 19);
-			// SugarCpp.g:256:19: ( ';' expr ';' expr | 'in' expr )
-			int alt37=2;
-			try { DebugEnterSubRule(37);
-			try { DebugEnterDecision(37, false);
-			int LA37_0 = input.LA(1);
+			if (state.backtracking == 0) stream_expr.Add(expr125.Tree);
+			DebugLocation(266, 19);
+			// SugarCpp.g:266:19: ( ';' expr ';' expr | 'in' expr )
+			int alt40=2;
+			try { DebugEnterSubRule(40);
+			try { DebugEnterDecision(40, false);
+			int LA40_0 = input.LA(1);
 
-			if ((LA37_0==81))
+			if ((LA40_0==81))
 			{
-				alt37 = 1;
+				alt40 = 1;
 			}
-			else if ((LA37_0==105))
+			else if ((LA40_0==105))
 			{
-				alt37 = 2;
+				alt40 = 2;
 			}
 			else
 			{
 				if (state.backtracking>0) {state.failed=true; return retval;}
-				NoViableAltException nvae = new NoViableAltException("", 37, 0, input);
+				NoViableAltException nvae = new NoViableAltException("", 40, 0, input);
 				DebugRecognitionException(nvae);
 				throw nvae;
 			}
-			} finally { DebugExitDecision(37); }
-			switch (alt37)
+			} finally { DebugExitDecision(40); }
+			switch (alt40)
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:256:20: ';' expr ';' expr
+				// SugarCpp.g:266:20: ';' expr ';' expr
 				{
-				DebugLocation(256, 20);
-				char_literal117=(IToken)Match(input,81,Follow._81_in_stmt_for1103); if (state.failed) return retval; 
-				if (state.backtracking == 0) stream_81.Add(char_literal117);
+				DebugLocation(266, 20);
+				char_literal126=(IToken)Match(input,81,Follow._81_in_stmt_for1153); if (state.failed) return retval; 
+				if (state.backtracking == 0) stream_81.Add(char_literal126);
 
-				DebugLocation(256, 24);
-				PushFollow(Follow._expr_in_stmt_for1105);
-				expr118=expr();
+				DebugLocation(266, 24);
+				PushFollow(Follow._expr_in_stmt_for1155);
+				expr127=expr();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) stream_expr.Add(expr118.Tree);
-				DebugLocation(256, 29);
-				char_literal119=(IToken)Match(input,81,Follow._81_in_stmt_for1107); if (state.failed) return retval; 
-				if (state.backtracking == 0) stream_81.Add(char_literal119);
+				if (state.backtracking == 0) stream_expr.Add(expr127.Tree);
+				DebugLocation(266, 29);
+				char_literal128=(IToken)Match(input,81,Follow._81_in_stmt_for1157); if (state.failed) return retval; 
+				if (state.backtracking == 0) stream_81.Add(char_literal128);
 
-				DebugLocation(256, 33);
-				PushFollow(Follow._expr_in_stmt_for1109);
-				expr120=expr();
+				DebugLocation(266, 33);
+				PushFollow(Follow._expr_in_stmt_for1159);
+				expr129=expr();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) stream_expr.Add(expr120.Tree);
-				DebugLocation(256, 38);
+				if (state.backtracking == 0) stream_expr.Add(expr129.Tree);
+				DebugLocation(266, 38);
 				if (state.backtracking == 0)
 				{
 					type=0;
@@ -4558,19 +4859,19 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				break;
 			case 2:
 				DebugEnterAlt(2);
-				// SugarCpp.g:256:50: 'in' expr
+				// SugarCpp.g:266:50: 'in' expr
 				{
-				DebugLocation(256, 50);
-				string_literal121=(IToken)Match(input,105,Follow._105_in_stmt_for1115); if (state.failed) return retval; 
-				if (state.backtracking == 0) stream_105.Add(string_literal121);
+				DebugLocation(266, 50);
+				string_literal130=(IToken)Match(input,105,Follow._105_in_stmt_for1165); if (state.failed) return retval; 
+				if (state.backtracking == 0) stream_105.Add(string_literal130);
 
-				DebugLocation(256, 55);
-				PushFollow(Follow._expr_in_stmt_for1117);
-				expr122=expr();
+				DebugLocation(266, 55);
+				PushFollow(Follow._expr_in_stmt_for1167);
+				expr131=expr();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) stream_expr.Add(expr122.Tree);
-				DebugLocation(256, 60);
+				if (state.backtracking == 0) stream_expr.Add(expr131.Tree);
+				DebugLocation(266, 60);
 				if (state.backtracking == 0)
 				{
 					type=1;
@@ -4580,23 +4881,23 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				break;
 
 			}
-			} finally { DebugExitSubRule(37); }
+			} finally { DebugExitSubRule(40); }
 
-			DebugLocation(256, 71);
-			char_literal123=(IToken)Match(input,62,Follow._62_in_stmt_for1122); if (state.failed) return retval; 
-			if (state.backtracking == 0) stream_62.Add(char_literal123);
+			DebugLocation(266, 71);
+			char_literal132=(IToken)Match(input,62,Follow._62_in_stmt_for1172); if (state.failed) return retval; 
+			if (state.backtracking == 0) stream_62.Add(char_literal132);
 
-			DebugLocation(256, 75);
-			PushFollow(Follow._stmt_block_in_stmt_for1124);
-			stmt_block124=stmt_block();
+			DebugLocation(266, 75);
+			PushFollow(Follow._stmt_block_in_stmt_for1174);
+			stmt_block133=stmt_block();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_stmt_block.Add(stmt_block124.Tree);
+			if (state.backtracking == 0) stream_stmt_block.Add(stmt_block133.Tree);
 
 
 			{
 			// AST REWRITE
-			// elements: stmt_block, expr, expr, expr, stmt_block, expr, expr
+			// elements: expr, expr, expr, expr, stmt_block, expr, stmt_block
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -4607,43 +4908,43 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 			root_0 = (CommonTree)adaptor.Nil();
-			// 257:4: -> {type==0}? ^( Stmt_For expr expr expr stmt_block )
+			// 267:4: -> {type==0}? ^( Stmt_For expr expr expr stmt_block )
 			if (type==0)
 			{
-				DebugLocation(257, 18);
-				// SugarCpp.g:257:18: ^( Stmt_For expr expr expr stmt_block )
+				DebugLocation(267, 18);
+				// SugarCpp.g:267:18: ^( Stmt_For expr expr expr stmt_block )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.Nil();
-				DebugLocation(257, 20);
+				DebugLocation(267, 20);
 				root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Stmt_For, "Stmt_For"), root_1);
 
-				DebugLocation(257, 29);
+				DebugLocation(267, 29);
 				adaptor.AddChild(root_1, stream_expr.NextTree());
-				DebugLocation(257, 34);
+				DebugLocation(267, 34);
 				adaptor.AddChild(root_1, stream_expr.NextTree());
-				DebugLocation(257, 39);
+				DebugLocation(267, 39);
 				adaptor.AddChild(root_1, stream_expr.NextTree());
-				DebugLocation(257, 44);
+				DebugLocation(267, 44);
 				adaptor.AddChild(root_1, stream_stmt_block.NextTree());
 
 				adaptor.AddChild(root_0, root_1);
 				}
 
 			}
-			else // 258:4: -> ^( Stmt_ForEach expr expr stmt_block )
+			else // 268:4: -> ^( Stmt_ForEach expr expr stmt_block )
 			{
-				DebugLocation(258, 7);
-				// SugarCpp.g:258:7: ^( Stmt_ForEach expr expr stmt_block )
+				DebugLocation(268, 7);
+				// SugarCpp.g:268:7: ^( Stmt_ForEach expr expr stmt_block )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.Nil();
-				DebugLocation(258, 9);
+				DebugLocation(268, 9);
 				root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Stmt_ForEach, "Stmt_ForEach"), root_1);
 
-				DebugLocation(258, 22);
+				DebugLocation(268, 22);
 				adaptor.AddChild(root_1, stream_expr.NextTree());
-				DebugLocation(258, 27);
+				DebugLocation(268, 27);
 				adaptor.AddChild(root_1, stream_expr.NextTree());
-				DebugLocation(258, 32);
+				DebugLocation(268, 32);
 				adaptor.AddChild(root_1, stream_stmt_block.NextTree());
 
 				adaptor.AddChild(root_0, root_1);
@@ -4673,13 +4974,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("stmt_for", 25);
-			LeaveRule("stmt_for", 25);
+			TraceOut("stmt_for", 27);
+			LeaveRule("stmt_for", 27);
 			LeaveRule_stmt_for();
-			if (state.backtracking > 0) { Memoize(input, 25, stmt_for_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 27, stmt_for_StartIndex); }
 
 		}
-		DebugLocation(259, 1);
+		DebugLocation(269, 1);
 		} finally { DebugExitRule(GrammarFileName, "stmt_for"); }
 		return retval;
 
@@ -4690,31 +4991,31 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_stmt_try();
 
 	// $ANTLR start "stmt_try"
-	// SugarCpp.g:261:1: stmt_try : 'try' stmt_block 'catch' '(' expr ')' stmt_block -> ^( Stmt_Try stmt_block expr stmt_block ) ;
+	// SugarCpp.g:271:1: stmt_try : 'try' stmt_block 'catch' '(' expr ')' stmt_block -> ^( Stmt_Try stmt_block expr stmt_block ) ;
 	[GrammarRule("stmt_try")]
 	private AstParserRuleReturnScope<CommonTree, IToken> stmt_try()
 	{
 		EnterRule_stmt_try();
-		EnterRule("stmt_try", 26);
-		TraceIn("stmt_try", 26);
+		EnterRule("stmt_try", 28);
+		TraceIn("stmt_try", 28);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int stmt_try_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken string_literal125 = default(IToken);
-		IToken string_literal127 = default(IToken);
-		IToken char_literal128 = default(IToken);
-		IToken char_literal130 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> stmt_block126 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> expr129 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> stmt_block131 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		IToken string_literal134 = default(IToken);
+		IToken string_literal136 = default(IToken);
+		IToken char_literal137 = default(IToken);
+		IToken char_literal139 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> stmt_block135 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> expr138 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> stmt_block140 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree string_literal125_tree = default(CommonTree);
-		CommonTree string_literal127_tree = default(CommonTree);
-		CommonTree char_literal128_tree = default(CommonTree);
-		CommonTree char_literal130_tree = default(CommonTree);
+		CommonTree string_literal134_tree = default(CommonTree);
+		CommonTree string_literal136_tree = default(CommonTree);
+		CommonTree char_literal137_tree = default(CommonTree);
+		CommonTree char_literal139_tree = default(CommonTree);
 		RewriteRuleITokenStream stream_98=new RewriteRuleITokenStream(adaptor,"token 98");
 		RewriteRuleITokenStream stream_109=new RewriteRuleITokenStream(adaptor,"token 109");
 		RewriteRuleITokenStream stream_62=new RewriteRuleITokenStream(adaptor,"token 62");
@@ -4722,54 +5023,54 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		RewriteRuleSubtreeStream stream_stmt_block=new RewriteRuleSubtreeStream(adaptor,"rule stmt_block");
 		RewriteRuleSubtreeStream stream_expr=new RewriteRuleSubtreeStream(adaptor,"rule expr");
 		try { DebugEnterRule(GrammarFileName, "stmt_try");
-		DebugLocation(261, 1);
+		DebugLocation(271, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 26)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 28)) { return retval; }
 
-			// SugarCpp.g:262:2: ( 'try' stmt_block 'catch' '(' expr ')' stmt_block -> ^( Stmt_Try stmt_block expr stmt_block ) )
+			// SugarCpp.g:272:2: ( 'try' stmt_block 'catch' '(' expr ')' stmt_block -> ^( Stmt_Try stmt_block expr stmt_block ) )
 			DebugEnterAlt(1);
-			// SugarCpp.g:262:4: 'try' stmt_block 'catch' '(' expr ')' stmt_block
+			// SugarCpp.g:272:4: 'try' stmt_block 'catch' '(' expr ')' stmt_block
 			{
-			DebugLocation(262, 4);
-			string_literal125=(IToken)Match(input,109,Follow._109_in_stmt_try1169); if (state.failed) return retval; 
-			if (state.backtracking == 0) stream_109.Add(string_literal125);
+			DebugLocation(272, 4);
+			string_literal134=(IToken)Match(input,109,Follow._109_in_stmt_try1219); if (state.failed) return retval; 
+			if (state.backtracking == 0) stream_109.Add(string_literal134);
 
-			DebugLocation(262, 10);
-			PushFollow(Follow._stmt_block_in_stmt_try1171);
-			stmt_block126=stmt_block();
+			DebugLocation(272, 10);
+			PushFollow(Follow._stmt_block_in_stmt_try1221);
+			stmt_block135=stmt_block();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_stmt_block.Add(stmt_block126.Tree);
-			DebugLocation(262, 21);
-			string_literal127=(IToken)Match(input,98,Follow._98_in_stmt_try1173); if (state.failed) return retval; 
-			if (state.backtracking == 0) stream_98.Add(string_literal127);
+			if (state.backtracking == 0) stream_stmt_block.Add(stmt_block135.Tree);
+			DebugLocation(272, 21);
+			string_literal136=(IToken)Match(input,98,Follow._98_in_stmt_try1223); if (state.failed) return retval; 
+			if (state.backtracking == 0) stream_98.Add(string_literal136);
 
-			DebugLocation(262, 29);
-			char_literal128=(IToken)Match(input,61,Follow._61_in_stmt_try1175); if (state.failed) return retval; 
-			if (state.backtracking == 0) stream_61.Add(char_literal128);
+			DebugLocation(272, 29);
+			char_literal137=(IToken)Match(input,61,Follow._61_in_stmt_try1225); if (state.failed) return retval; 
+			if (state.backtracking == 0) stream_61.Add(char_literal137);
 
-			DebugLocation(262, 33);
-			PushFollow(Follow._expr_in_stmt_try1177);
-			expr129=expr();
+			DebugLocation(272, 33);
+			PushFollow(Follow._expr_in_stmt_try1227);
+			expr138=expr();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_expr.Add(expr129.Tree);
-			DebugLocation(262, 38);
-			char_literal130=(IToken)Match(input,62,Follow._62_in_stmt_try1179); if (state.failed) return retval; 
-			if (state.backtracking == 0) stream_62.Add(char_literal130);
+			if (state.backtracking == 0) stream_expr.Add(expr138.Tree);
+			DebugLocation(272, 38);
+			char_literal139=(IToken)Match(input,62,Follow._62_in_stmt_try1229); if (state.failed) return retval; 
+			if (state.backtracking == 0) stream_62.Add(char_literal139);
 
-			DebugLocation(262, 42);
-			PushFollow(Follow._stmt_block_in_stmt_try1181);
-			stmt_block131=stmt_block();
+			DebugLocation(272, 42);
+			PushFollow(Follow._stmt_block_in_stmt_try1231);
+			stmt_block140=stmt_block();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_stmt_block.Add(stmt_block131.Tree);
+			if (state.backtracking == 0) stream_stmt_block.Add(stmt_block140.Tree);
 
 
 			{
 			// AST REWRITE
-			// elements: expr, stmt_block, stmt_block
+			// elements: stmt_block, expr, stmt_block
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -4780,20 +5081,20 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 			root_0 = (CommonTree)adaptor.Nil();
-			// 262:53: -> ^( Stmt_Try stmt_block expr stmt_block )
+			// 272:53: -> ^( Stmt_Try stmt_block expr stmt_block )
 			{
-				DebugLocation(262, 56);
-				// SugarCpp.g:262:56: ^( Stmt_Try stmt_block expr stmt_block )
+				DebugLocation(272, 56);
+				// SugarCpp.g:272:56: ^( Stmt_Try stmt_block expr stmt_block )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.Nil();
-				DebugLocation(262, 58);
+				DebugLocation(272, 58);
 				root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Stmt_Try, "Stmt_Try"), root_1);
 
-				DebugLocation(262, 67);
+				DebugLocation(272, 67);
 				adaptor.AddChild(root_1, stream_stmt_block.NextTree());
-				DebugLocation(262, 78);
+				DebugLocation(272, 78);
 				adaptor.AddChild(root_1, stream_expr.NextTree());
-				DebugLocation(262, 83);
+				DebugLocation(272, 83);
 				adaptor.AddChild(root_1, stream_stmt_block.NextTree());
 
 				adaptor.AddChild(root_0, root_1);
@@ -4823,13 +5124,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("stmt_try", 26);
-			LeaveRule("stmt_try", 26);
+			TraceOut("stmt_try", 28);
+			LeaveRule("stmt_try", 28);
 			LeaveRule_stmt_try();
-			if (state.backtracking > 0) { Memoize(input, 26, stmt_try_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 28, stmt_try_StartIndex); }
 
 		}
-		DebugLocation(263, 1);
+		DebugLocation(273, 1);
 		} finally { DebugExitRule(GrammarFileName, "stmt_try"); }
 		return retval;
 
@@ -4840,87 +5141,87 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_ident_list();
 
 	// $ANTLR start "ident_list"
-	// SugarCpp.g:265:1: ident_list : ident ( ',' ident )* -> ^( Ident_List ( ident )+ ) ;
+	// SugarCpp.g:275:1: ident_list : ident ( ',' ident )* -> ^( Ident_List ( ident )+ ) ;
 	[GrammarRule("ident_list")]
 	private AstParserRuleReturnScope<CommonTree, IToken> ident_list()
 	{
 		EnterRule_ident_list();
-		EnterRule("ident_list", 27);
-		TraceIn("ident_list", 27);
+		EnterRule("ident_list", 29);
+		TraceIn("ident_list", 29);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int ident_list_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken char_literal133 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> ident132 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> ident134 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		IToken char_literal142 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> ident141 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> ident143 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree char_literal133_tree = default(CommonTree);
+		CommonTree char_literal142_tree = default(CommonTree);
 		RewriteRuleITokenStream stream_68=new RewriteRuleITokenStream(adaptor,"token 68");
 		RewriteRuleSubtreeStream stream_ident=new RewriteRuleSubtreeStream(adaptor,"rule ident");
 		try { DebugEnterRule(GrammarFileName, "ident_list");
-		DebugLocation(265, 1);
+		DebugLocation(275, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 27)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 29)) { return retval; }
 
-			// SugarCpp.g:266:2: ( ident ( ',' ident )* -> ^( Ident_List ( ident )+ ) )
+			// SugarCpp.g:276:2: ( ident ( ',' ident )* -> ^( Ident_List ( ident )+ ) )
 			DebugEnterAlt(1);
-			// SugarCpp.g:266:4: ident ( ',' ident )*
+			// SugarCpp.g:276:4: ident ( ',' ident )*
 			{
-			DebugLocation(266, 4);
-			PushFollow(Follow._ident_in_ident_list1204);
-			ident132=ident();
+			DebugLocation(276, 4);
+			PushFollow(Follow._ident_in_ident_list1254);
+			ident141=ident();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_ident.Add(ident132.Tree);
-			DebugLocation(266, 10);
-			// SugarCpp.g:266:10: ( ',' ident )*
-			try { DebugEnterSubRule(38);
+			if (state.backtracking == 0) stream_ident.Add(ident141.Tree);
+			DebugLocation(276, 10);
+			// SugarCpp.g:276:10: ( ',' ident )*
+			try { DebugEnterSubRule(41);
 			while (true)
 			{
-				int alt38=2;
-				try { DebugEnterDecision(38, false);
-				int LA38_0 = input.LA(1);
+				int alt41=2;
+				try { DebugEnterDecision(41, false);
+				int LA41_0 = input.LA(1);
 
-				if ((LA38_0==68))
+				if ((LA41_0==68))
 				{
-					alt38 = 1;
+					alt41 = 1;
 				}
 
 
-				} finally { DebugExitDecision(38); }
-				switch ( alt38 )
+				} finally { DebugExitDecision(41); }
+				switch ( alt41 )
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:266:11: ',' ident
+					// SugarCpp.g:276:11: ',' ident
 					{
-					DebugLocation(266, 11);
-					char_literal133=(IToken)Match(input,68,Follow._68_in_ident_list1207); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_68.Add(char_literal133);
+					DebugLocation(276, 11);
+					char_literal142=(IToken)Match(input,68,Follow._68_in_ident_list1257); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_68.Add(char_literal142);
 
-					DebugLocation(266, 15);
-					PushFollow(Follow._ident_in_ident_list1209);
-					ident134=ident();
+					DebugLocation(276, 15);
+					PushFollow(Follow._ident_in_ident_list1259);
+					ident143=ident();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_ident.Add(ident134.Tree);
+					if (state.backtracking == 0) stream_ident.Add(ident143.Tree);
 
 					}
 					break;
 
 				default:
-					goto loop38;
+					goto loop41;
 				}
 			}
 
-			loop38:
+			loop41:
 				;
 
-			} finally { DebugExitSubRule(38); }
+			} finally { DebugExitSubRule(41); }
 
 
 
@@ -4937,23 +5238,23 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 			root_0 = (CommonTree)adaptor.Nil();
-			// 266:23: -> ^( Ident_List ( ident )+ )
+			// 276:23: -> ^( Ident_List ( ident )+ )
 			{
-				DebugLocation(266, 26);
-				// SugarCpp.g:266:26: ^( Ident_List ( ident )+ )
+				DebugLocation(276, 26);
+				// SugarCpp.g:276:26: ^( Ident_List ( ident )+ )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.Nil();
-				DebugLocation(266, 28);
+				DebugLocation(276, 28);
 				root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Ident_List, "Ident_List"), root_1);
 
-				DebugLocation(266, 39);
+				DebugLocation(276, 39);
 				if (!(stream_ident.HasNext))
 				{
 					throw new RewriteEarlyExitException();
 				}
 				while ( stream_ident.HasNext )
 				{
-					DebugLocation(266, 39);
+					DebugLocation(276, 39);
 					adaptor.AddChild(root_1, stream_ident.NextTree());
 
 				}
@@ -4986,13 +5287,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("ident_list", 27);
-			LeaveRule("ident_list", 27);
+			TraceOut("ident_list", 29);
+			LeaveRule("ident_list", 29);
 			LeaveRule_ident_list();
-			if (state.backtracking > 0) { Memoize(input, 27, ident_list_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 29, ident_list_StartIndex); }
 
 		}
-		DebugLocation(267, 1);
+		DebugLocation(277, 1);
 		} finally { DebugExitRule(GrammarFileName, "ident_list"); }
 		return retval;
 
@@ -5003,98 +5304,98 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_stmt_alloc();
 
 	// $ANTLR start "stmt_alloc"
-	// SugarCpp.g:269:1: stmt_alloc : ident_list ':' type_name ( '=' expr )? -> ^( Expr_Alloc type_name ident_list ( expr )? ) ;
+	// SugarCpp.g:279:1: stmt_alloc : ident_list ':' type_name ( '=' expr )? -> ^( Expr_Alloc type_name ident_list ( expr )? ) ;
 	[GrammarRule("stmt_alloc")]
 	private AstParserRuleReturnScope<CommonTree, IToken> stmt_alloc()
 	{
 		EnterRule_stmt_alloc();
-		EnterRule("stmt_alloc", 28);
-		TraceIn("stmt_alloc", 28);
+		EnterRule("stmt_alloc", 30);
+		TraceIn("stmt_alloc", 30);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int stmt_alloc_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken char_literal136 = default(IToken);
-		IToken char_literal138 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> ident_list135 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> type_name137 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> expr139 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		IToken char_literal145 = default(IToken);
+		IToken char_literal147 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> ident_list144 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> type_name146 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> expr148 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree char_literal136_tree = default(CommonTree);
-		CommonTree char_literal138_tree = default(CommonTree);
+		CommonTree char_literal145_tree = default(CommonTree);
+		CommonTree char_literal147_tree = default(CommonTree);
 		RewriteRuleITokenStream stream_78=new RewriteRuleITokenStream(adaptor,"token 78");
 		RewriteRuleITokenStream stream_86=new RewriteRuleITokenStream(adaptor,"token 86");
 		RewriteRuleSubtreeStream stream_type_name=new RewriteRuleSubtreeStream(adaptor,"rule type_name");
 		RewriteRuleSubtreeStream stream_ident_list=new RewriteRuleSubtreeStream(adaptor,"rule ident_list");
 		RewriteRuleSubtreeStream stream_expr=new RewriteRuleSubtreeStream(adaptor,"rule expr");
 		try { DebugEnterRule(GrammarFileName, "stmt_alloc");
-		DebugLocation(269, 1);
+		DebugLocation(279, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 28)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 30)) { return retval; }
 
-			// SugarCpp.g:270:2: ( ident_list ':' type_name ( '=' expr )? -> ^( Expr_Alloc type_name ident_list ( expr )? ) )
+			// SugarCpp.g:280:2: ( ident_list ':' type_name ( '=' expr )? -> ^( Expr_Alloc type_name ident_list ( expr )? ) )
 			DebugEnterAlt(1);
-			// SugarCpp.g:270:4: ident_list ':' type_name ( '=' expr )?
+			// SugarCpp.g:280:4: ident_list ':' type_name ( '=' expr )?
 			{
-			DebugLocation(270, 4);
-			PushFollow(Follow._ident_list_in_stmt_alloc1231);
-			ident_list135=ident_list();
+			DebugLocation(280, 4);
+			PushFollow(Follow._ident_list_in_stmt_alloc1281);
+			ident_list144=ident_list();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_ident_list.Add(ident_list135.Tree);
-			DebugLocation(270, 15);
-			char_literal136=(IToken)Match(input,78,Follow._78_in_stmt_alloc1233); if (state.failed) return retval; 
-			if (state.backtracking == 0) stream_78.Add(char_literal136);
+			if (state.backtracking == 0) stream_ident_list.Add(ident_list144.Tree);
+			DebugLocation(280, 15);
+			char_literal145=(IToken)Match(input,78,Follow._78_in_stmt_alloc1283); if (state.failed) return retval; 
+			if (state.backtracking == 0) stream_78.Add(char_literal145);
 
-			DebugLocation(270, 19);
-			PushFollow(Follow._type_name_in_stmt_alloc1235);
-			type_name137=type_name();
+			DebugLocation(280, 19);
+			PushFollow(Follow._type_name_in_stmt_alloc1285);
+			type_name146=type_name();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_type_name.Add(type_name137.Tree);
-			DebugLocation(270, 29);
-			// SugarCpp.g:270:29: ( '=' expr )?
-			int alt39=2;
-			try { DebugEnterSubRule(39);
-			try { DebugEnterDecision(39, false);
-			int LA39_0 = input.LA(1);
+			if (state.backtracking == 0) stream_type_name.Add(type_name146.Tree);
+			DebugLocation(280, 29);
+			// SugarCpp.g:280:29: ( '=' expr )?
+			int alt42=2;
+			try { DebugEnterSubRule(42);
+			try { DebugEnterDecision(42, false);
+			int LA42_0 = input.LA(1);
 
-			if ((LA39_0==86))
+			if ((LA42_0==86))
 			{
-				alt39 = 1;
+				alt42 = 1;
 			}
-			} finally { DebugExitDecision(39); }
-			switch (alt39)
+			} finally { DebugExitDecision(42); }
+			switch (alt42)
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:270:30: '=' expr
+				// SugarCpp.g:280:30: '=' expr
 				{
-				DebugLocation(270, 30);
-				char_literal138=(IToken)Match(input,86,Follow._86_in_stmt_alloc1238); if (state.failed) return retval; 
-				if (state.backtracking == 0) stream_86.Add(char_literal138);
+				DebugLocation(280, 30);
+				char_literal147=(IToken)Match(input,86,Follow._86_in_stmt_alloc1288); if (state.failed) return retval; 
+				if (state.backtracking == 0) stream_86.Add(char_literal147);
 
-				DebugLocation(270, 34);
-				PushFollow(Follow._expr_in_stmt_alloc1240);
-				expr139=expr();
+				DebugLocation(280, 34);
+				PushFollow(Follow._expr_in_stmt_alloc1290);
+				expr148=expr();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) stream_expr.Add(expr139.Tree);
+				if (state.backtracking == 0) stream_expr.Add(expr148.Tree);
 
 				}
 				break;
 
 			}
-			} finally { DebugExitSubRule(39); }
+			} finally { DebugExitSubRule(42); }
 
 
 
 			{
 			// AST REWRITE
-			// elements: ident_list, expr, type_name
+			// elements: expr, type_name, ident_list
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -5105,24 +5406,24 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 			root_0 = (CommonTree)adaptor.Nil();
-			// 270:41: -> ^( Expr_Alloc type_name ident_list ( expr )? )
+			// 280:41: -> ^( Expr_Alloc type_name ident_list ( expr )? )
 			{
-				DebugLocation(270, 44);
-				// SugarCpp.g:270:44: ^( Expr_Alloc type_name ident_list ( expr )? )
+				DebugLocation(280, 44);
+				// SugarCpp.g:280:44: ^( Expr_Alloc type_name ident_list ( expr )? )
 				{
 				CommonTree root_1 = (CommonTree)adaptor.Nil();
-				DebugLocation(270, 46);
+				DebugLocation(280, 46);
 				root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Alloc, "Expr_Alloc"), root_1);
 
-				DebugLocation(270, 57);
+				DebugLocation(280, 57);
 				adaptor.AddChild(root_1, stream_type_name.NextTree());
-				DebugLocation(270, 67);
+				DebugLocation(280, 67);
 				adaptor.AddChild(root_1, stream_ident_list.NextTree());
-				DebugLocation(270, 78);
-				// SugarCpp.g:270:78: ( expr )?
+				DebugLocation(280, 78);
+				// SugarCpp.g:280:78: ( expr )?
 				if (stream_expr.HasNext)
 				{
-					DebugLocation(270, 78);
+					DebugLocation(280, 78);
 					adaptor.AddChild(root_1, stream_expr.NextTree());
 
 				}
@@ -5155,13 +5456,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("stmt_alloc", 28);
-			LeaveRule("stmt_alloc", 28);
+			TraceOut("stmt_alloc", 30);
+			LeaveRule("stmt_alloc", 30);
 			LeaveRule_stmt_alloc();
-			if (state.backtracking > 0) { Memoize(input, 28, stmt_alloc_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 30, stmt_alloc_StartIndex); }
 
 		}
-		DebugLocation(271, 1);
+		DebugLocation(281, 1);
 		} finally { DebugExitRule(GrammarFileName, "stmt_alloc"); }
 		return retval;
 
@@ -5172,77 +5473,77 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_stmt_modify();
 
 	// $ANTLR start "stmt_modify"
-	// SugarCpp.g:273:1: stmt_modify : lvalue ( modify_expr_op ^ cond_expr )? ;
+	// SugarCpp.g:283:1: stmt_modify : lvalue ( modify_expr_op ^ cond_expr )? ;
 	[GrammarRule("stmt_modify")]
 	private AstParserRuleReturnScope<CommonTree, IToken> stmt_modify()
 	{
 		EnterRule_stmt_modify();
-		EnterRule("stmt_modify", 29);
-		TraceIn("stmt_modify", 29);
+		EnterRule("stmt_modify", 31);
+		TraceIn("stmt_modify", 31);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int stmt_modify_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		AstParserRuleReturnScope<CommonTree, IToken> lvalue140 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> modify_expr_op141 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> cond_expr142 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> lvalue149 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> modify_expr_op150 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> cond_expr151 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
 		try { DebugEnterRule(GrammarFileName, "stmt_modify");
-		DebugLocation(273, 1);
+		DebugLocation(283, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 29)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 31)) { return retval; }
 
-			// SugarCpp.g:274:2: ( lvalue ( modify_expr_op ^ cond_expr )? )
+			// SugarCpp.g:284:2: ( lvalue ( modify_expr_op ^ cond_expr )? )
 			DebugEnterAlt(1);
-			// SugarCpp.g:274:4: lvalue ( modify_expr_op ^ cond_expr )?
+			// SugarCpp.g:284:4: lvalue ( modify_expr_op ^ cond_expr )?
 			{
 			root_0 = (CommonTree)adaptor.Nil();
 
-			DebugLocation(274, 4);
-			PushFollow(Follow._lvalue_in_stmt_modify1266);
-			lvalue140=lvalue();
+			DebugLocation(284, 4);
+			PushFollow(Follow._lvalue_in_stmt_modify1316);
+			lvalue149=lvalue();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) adaptor.AddChild(root_0, lvalue140.Tree);
-			DebugLocation(274, 11);
-			// SugarCpp.g:274:11: ( modify_expr_op ^ cond_expr )?
-			int alt40=2;
-			try { DebugEnterSubRule(40);
-			try { DebugEnterDecision(40, false);
-			int LA40_0 = input.LA(1);
+			if (state.backtracking == 0) adaptor.AddChild(root_0, lvalue149.Tree);
+			DebugLocation(284, 11);
+			// SugarCpp.g:284:11: ( modify_expr_op ^ cond_expr )?
+			int alt43=2;
+			try { DebugEnterSubRule(43);
+			try { DebugEnterDecision(43, false);
+			int LA43_0 = input.LA(1);
 
-			if ((LA40_0==57||LA40_0==60||LA40_0==64||LA40_0==67||LA40_0==71||LA40_0==77||LA40_0==80||LA40_0==84||LA40_0==86||LA40_0==92||LA40_0==96||LA40_0==114))
+			if ((LA43_0==57||LA43_0==60||LA43_0==64||LA43_0==67||LA43_0==71||LA43_0==77||LA43_0==80||LA43_0==84||LA43_0==86||LA43_0==92||LA43_0==96||LA43_0==114))
 			{
-				alt40 = 1;
+				alt43 = 1;
 			}
-			} finally { DebugExitDecision(40); }
-			switch (alt40)
+			} finally { DebugExitDecision(43); }
+			switch (alt43)
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:274:12: modify_expr_op ^ cond_expr
+				// SugarCpp.g:284:12: modify_expr_op ^ cond_expr
 				{
-				DebugLocation(274, 26);
-				PushFollow(Follow._modify_expr_op_in_stmt_modify1269);
-				modify_expr_op141=modify_expr_op();
+				DebugLocation(284, 26);
+				PushFollow(Follow._modify_expr_op_in_stmt_modify1319);
+				modify_expr_op150=modify_expr_op();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) root_0 = (CommonTree)adaptor.BecomeRoot(modify_expr_op141.Tree, root_0);
-				DebugLocation(274, 28);
-				PushFollow(Follow._cond_expr_in_stmt_modify1272);
-				cond_expr142=cond_expr();
+				if (state.backtracking == 0) root_0 = (CommonTree)adaptor.BecomeRoot(modify_expr_op150.Tree, root_0);
+				DebugLocation(284, 28);
+				PushFollow(Follow._cond_expr_in_stmt_modify1322);
+				cond_expr151=cond_expr();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) adaptor.AddChild(root_0, cond_expr142.Tree);
+				if (state.backtracking == 0) adaptor.AddChild(root_0, cond_expr151.Tree);
 
 				}
 				break;
 
 			}
-			} finally { DebugExitSubRule(40); }
+			} finally { DebugExitSubRule(43); }
 
 
 			}
@@ -5263,13 +5564,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("stmt_modify", 29);
-			LeaveRule("stmt_modify", 29);
+			TraceOut("stmt_modify", 31);
+			LeaveRule("stmt_modify", 31);
 			LeaveRule_stmt_modify();
-			if (state.backtracking > 0) { Memoize(input, 29, stmt_modify_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 31, stmt_modify_StartIndex); }
 
 		}
-		DebugLocation(275, 1);
+		DebugLocation(285, 1);
 		} finally { DebugExitRule(GrammarFileName, "stmt_modify"); }
 		return retval;
 
@@ -5280,39 +5581,39 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_expr();
 
 	// $ANTLR start "expr"
-	// SugarCpp.g:277:1: expr : lambda_expr ;
+	// SugarCpp.g:287:1: expr : lambda_expr ;
 	[GrammarRule("expr")]
 	private AstParserRuleReturnScope<CommonTree, IToken> expr()
 	{
 		EnterRule_expr();
-		EnterRule("expr", 30);
-		TraceIn("expr", 30);
+		EnterRule("expr", 32);
+		TraceIn("expr", 32);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int expr_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		AstParserRuleReturnScope<CommonTree, IToken> lambda_expr143 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> lambda_expr152 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
 		try { DebugEnterRule(GrammarFileName, "expr");
-		DebugLocation(277, 1);
+		DebugLocation(287, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 30)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 32)) { return retval; }
 
-			// SugarCpp.g:278:2: ( lambda_expr )
+			// SugarCpp.g:288:2: ( lambda_expr )
 			DebugEnterAlt(1);
-			// SugarCpp.g:278:4: lambda_expr
+			// SugarCpp.g:288:4: lambda_expr
 			{
 			root_0 = (CommonTree)adaptor.Nil();
 
-			DebugLocation(278, 4);
-			PushFollow(Follow._lambda_expr_in_expr1285);
-			lambda_expr143=lambda_expr();
+			DebugLocation(288, 4);
+			PushFollow(Follow._lambda_expr_in_expr1335);
+			lambda_expr152=lambda_expr();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) adaptor.AddChild(root_0, lambda_expr143.Tree);
+			if (state.backtracking == 0) adaptor.AddChild(root_0, lambda_expr152.Tree);
 
 			}
 
@@ -5332,13 +5633,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("expr", 30);
-			LeaveRule("expr", 30);
+			TraceOut("expr", 32);
+			LeaveRule("expr", 32);
 			LeaveRule_expr();
-			if (state.backtracking > 0) { Memoize(input, 30, expr_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 32, expr_StartIndex); }
 
 		}
-		DebugLocation(279, 1);
+		DebugLocation(289, 1);
 		} finally { DebugExitRule(GrammarFileName, "expr"); }
 		return retval;
 
@@ -5349,88 +5650,88 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_lambda_expr();
 
 	// $ANTLR start "lambda_expr"
-	// SugarCpp.g:281:1: lambda_expr : ( '(' func_args ')' '=>' modify_expr -> ^( Expr_Lambda func_args modify_expr ) | modify_expr );
+	// SugarCpp.g:291:1: lambda_expr : ( '(' func_args ')' '=>' modify_expr -> ^( Expr_Lambda func_args modify_expr ) | modify_expr );
 	[GrammarRule("lambda_expr")]
 	private AstParserRuleReturnScope<CommonTree, IToken> lambda_expr()
 	{
 		EnterRule_lambda_expr();
-		EnterRule("lambda_expr", 31);
-		TraceIn("lambda_expr", 31);
+		EnterRule("lambda_expr", 33);
+		TraceIn("lambda_expr", 33);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int lambda_expr_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken char_literal144 = default(IToken);
-		IToken char_literal146 = default(IToken);
-		IToken string_literal147 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> func_args145 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> modify_expr148 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> modify_expr149 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		IToken char_literal153 = default(IToken);
+		IToken char_literal155 = default(IToken);
+		IToken string_literal156 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> func_args154 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> modify_expr157 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> modify_expr158 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree char_literal144_tree = default(CommonTree);
-		CommonTree char_literal146_tree = default(CommonTree);
-		CommonTree string_literal147_tree = default(CommonTree);
+		CommonTree char_literal153_tree = default(CommonTree);
+		CommonTree char_literal155_tree = default(CommonTree);
+		CommonTree string_literal156_tree = default(CommonTree);
 		RewriteRuleITokenStream stream_62=new RewriteRuleITokenStream(adaptor,"token 62");
 		RewriteRuleITokenStream stream_61=new RewriteRuleITokenStream(adaptor,"token 61");
 		RewriteRuleITokenStream stream_88=new RewriteRuleITokenStream(adaptor,"token 88");
 		RewriteRuleSubtreeStream stream_modify_expr=new RewriteRuleSubtreeStream(adaptor,"rule modify_expr");
 		RewriteRuleSubtreeStream stream_func_args=new RewriteRuleSubtreeStream(adaptor,"rule func_args");
 		try { DebugEnterRule(GrammarFileName, "lambda_expr");
-		DebugLocation(281, 1);
+		DebugLocation(291, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 31)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 33)) { return retval; }
 
-			// SugarCpp.g:282:2: ( '(' func_args ')' '=>' modify_expr -> ^( Expr_Lambda func_args modify_expr ) | modify_expr )
-			int alt41=2;
-			try { DebugEnterDecision(41, false);
+			// SugarCpp.g:292:2: ( '(' func_args ')' '=>' modify_expr -> ^( Expr_Lambda func_args modify_expr ) | modify_expr )
+			int alt44=2;
+			try { DebugEnterDecision(44, false);
 			try
 			{
-				alt41 = dfa41.Predict(input);
+				alt44 = dfa44.Predict(input);
 			}
 			catch (NoViableAltException nvae)
 			{
 				DebugRecognitionException(nvae);
 				throw;
 			}
-			} finally { DebugExitDecision(41); }
-			switch (alt41)
+			} finally { DebugExitDecision(44); }
+			switch (alt44)
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:282:4: '(' func_args ')' '=>' modify_expr
+				// SugarCpp.g:292:4: '(' func_args ')' '=>' modify_expr
 				{
-				DebugLocation(282, 4);
-				char_literal144=(IToken)Match(input,61,Follow._61_in_lambda_expr1296); if (state.failed) return retval; 
-				if (state.backtracking == 0) stream_61.Add(char_literal144);
+				DebugLocation(292, 4);
+				char_literal153=(IToken)Match(input,61,Follow._61_in_lambda_expr1346); if (state.failed) return retval; 
+				if (state.backtracking == 0) stream_61.Add(char_literal153);
 
-				DebugLocation(282, 8);
-				PushFollow(Follow._func_args_in_lambda_expr1298);
-				func_args145=func_args();
+				DebugLocation(292, 8);
+				PushFollow(Follow._func_args_in_lambda_expr1348);
+				func_args154=func_args();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) stream_func_args.Add(func_args145.Tree);
-				DebugLocation(282, 18);
-				char_literal146=(IToken)Match(input,62,Follow._62_in_lambda_expr1300); if (state.failed) return retval; 
-				if (state.backtracking == 0) stream_62.Add(char_literal146);
+				if (state.backtracking == 0) stream_func_args.Add(func_args154.Tree);
+				DebugLocation(292, 18);
+				char_literal155=(IToken)Match(input,62,Follow._62_in_lambda_expr1350); if (state.failed) return retval; 
+				if (state.backtracking == 0) stream_62.Add(char_literal155);
 
-				DebugLocation(282, 22);
-				string_literal147=(IToken)Match(input,88,Follow._88_in_lambda_expr1302); if (state.failed) return retval; 
-				if (state.backtracking == 0) stream_88.Add(string_literal147);
+				DebugLocation(292, 22);
+				string_literal156=(IToken)Match(input,88,Follow._88_in_lambda_expr1352); if (state.failed) return retval; 
+				if (state.backtracking == 0) stream_88.Add(string_literal156);
 
-				DebugLocation(282, 27);
-				PushFollow(Follow._modify_expr_in_lambda_expr1304);
-				modify_expr148=modify_expr();
+				DebugLocation(292, 27);
+				PushFollow(Follow._modify_expr_in_lambda_expr1354);
+				modify_expr157=modify_expr();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) stream_modify_expr.Add(modify_expr148.Tree);
+				if (state.backtracking == 0) stream_modify_expr.Add(modify_expr157.Tree);
 
 
 				{
 				// AST REWRITE
-				// elements: modify_expr, func_args
+				// elements: func_args, modify_expr
 				// token labels: 
 				// rule labels: retval
 				// token list labels: 
@@ -5441,18 +5742,18 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 				root_0 = (CommonTree)adaptor.Nil();
-				// 282:39: -> ^( Expr_Lambda func_args modify_expr )
+				// 292:39: -> ^( Expr_Lambda func_args modify_expr )
 				{
-					DebugLocation(282, 42);
-					// SugarCpp.g:282:42: ^( Expr_Lambda func_args modify_expr )
+					DebugLocation(292, 42);
+					// SugarCpp.g:292:42: ^( Expr_Lambda func_args modify_expr )
 					{
 					CommonTree root_1 = (CommonTree)adaptor.Nil();
-					DebugLocation(282, 44);
+					DebugLocation(292, 44);
 					root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Lambda, "Expr_Lambda"), root_1);
 
-					DebugLocation(282, 56);
+					DebugLocation(292, 56);
 					adaptor.AddChild(root_1, stream_func_args.NextTree());
-					DebugLocation(282, 66);
+					DebugLocation(292, 66);
 					adaptor.AddChild(root_1, stream_modify_expr.NextTree());
 
 					adaptor.AddChild(root_0, root_1);
@@ -5468,16 +5769,16 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				break;
 			case 2:
 				DebugEnterAlt(2);
-				// SugarCpp.g:283:4: modify_expr
+				// SugarCpp.g:293:4: modify_expr
 				{
 				root_0 = (CommonTree)adaptor.Nil();
 
-				DebugLocation(283, 4);
-				PushFollow(Follow._modify_expr_in_lambda_expr1319);
-				modify_expr149=modify_expr();
+				DebugLocation(293, 4);
+				PushFollow(Follow._modify_expr_in_lambda_expr1369);
+				modify_expr158=modify_expr();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) adaptor.AddChild(root_0, modify_expr149.Tree);
+				if (state.backtracking == 0) adaptor.AddChild(root_0, modify_expr158.Tree);
 
 				}
 				break;
@@ -5499,13 +5800,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("lambda_expr", 31);
-			LeaveRule("lambda_expr", 31);
+			TraceOut("lambda_expr", 33);
+			LeaveRule("lambda_expr", 33);
 			LeaveRule_lambda_expr();
-			if (state.backtracking > 0) { Memoize(input, 31, lambda_expr_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 33, lambda_expr_StartIndex); }
 
 		}
-		DebugLocation(284, 1);
+		DebugLocation(294, 1);
 		} finally { DebugExitRule(GrammarFileName, "lambda_expr"); }
 		return retval;
 
@@ -5516,41 +5817,41 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_modify_expr_op();
 
 	// $ANTLR start "modify_expr_op"
-	// SugarCpp.g:286:1: modify_expr_op : ( ':=' | '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=' );
+	// SugarCpp.g:296:1: modify_expr_op : ( ':=' | '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=' );
 	[GrammarRule("modify_expr_op")]
 	private AstParserRuleReturnScope<CommonTree, IToken> modify_expr_op()
 	{
 		EnterRule_modify_expr_op();
-		EnterRule("modify_expr_op", 32);
-		TraceIn("modify_expr_op", 32);
+		EnterRule("modify_expr_op", 34);
+		TraceIn("modify_expr_op", 34);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int modify_expr_op_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken set150 = default(IToken);
+		IToken set159 = default(IToken);
 
-		CommonTree set150_tree = default(CommonTree);
+		CommonTree set159_tree = default(CommonTree);
 		try { DebugEnterRule(GrammarFileName, "modify_expr_op");
-		DebugLocation(286, 99);
+		DebugLocation(296, 99);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 32)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 34)) { return retval; }
 
-			// SugarCpp.g:286:15: ( ':=' | '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=' )
+			// SugarCpp.g:296:15: ( ':=' | '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=' )
 			DebugEnterAlt(1);
 			// SugarCpp.g:
 			{
 			root_0 = (CommonTree)adaptor.Nil();
 
-			DebugLocation(286, 15);
+			DebugLocation(296, 15);
 
-			set150=(IToken)input.LT(1);
+			set159=(IToken)input.LT(1);
 			if (input.LA(1)==57||input.LA(1)==60||input.LA(1)==64||input.LA(1)==67||input.LA(1)==71||input.LA(1)==77||input.LA(1)==80||input.LA(1)==84||input.LA(1)==86||input.LA(1)==92||input.LA(1)==96||input.LA(1)==114)
 			{
 				input.Consume();
-				if (state.backtracking == 0) adaptor.AddChild(root_0, (CommonTree)adaptor.Create(set150));
+				if (state.backtracking == 0) adaptor.AddChild(root_0, (CommonTree)adaptor.Create(set159));
 				state.errorRecovery=false;state.failed=false;
 			}
 			else
@@ -5580,13 +5881,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("modify_expr_op", 32);
-			LeaveRule("modify_expr_op", 32);
+			TraceOut("modify_expr_op", 34);
+			LeaveRule("modify_expr_op", 34);
 			LeaveRule_modify_expr_op();
-			if (state.backtracking > 0) { Memoize(input, 32, modify_expr_op_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 34, modify_expr_op_StartIndex); }
 
 		}
-		DebugLocation(286, 99);
+		DebugLocation(296, 99);
 		} finally { DebugExitRule(GrammarFileName, "modify_expr_op"); }
 		return retval;
 
@@ -5597,725 +5898,76 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_modify_expr();
 
 	// $ANTLR start "modify_expr"
-	// SugarCpp.g:287:1: modify_expr : cond_expr ( modify_expr_op ^ modify_expr )? ;
+	// SugarCpp.g:297:1: modify_expr : cond_expr ( modify_expr_op ^ modify_expr )? ;
 	[GrammarRule("modify_expr")]
 	private AstParserRuleReturnScope<CommonTree, IToken> modify_expr()
 	{
 		EnterRule_modify_expr();
-		EnterRule("modify_expr", 33);
-		TraceIn("modify_expr", 33);
+		EnterRule("modify_expr", 35);
+		TraceIn("modify_expr", 35);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int modify_expr_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		AstParserRuleReturnScope<CommonTree, IToken> cond_expr151 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> modify_expr_op152 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> modify_expr153 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> cond_expr160 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> modify_expr_op161 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> modify_expr162 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
 		try { DebugEnterRule(GrammarFileName, "modify_expr");
-		DebugLocation(287, 1);
-		try
-		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 33)) { return retval; }
-
-			// SugarCpp.g:288:2: ( cond_expr ( modify_expr_op ^ modify_expr )? )
-			DebugEnterAlt(1);
-			// SugarCpp.g:288:4: cond_expr ( modify_expr_op ^ modify_expr )?
-			{
-			root_0 = (CommonTree)adaptor.Nil();
-
-			DebugLocation(288, 4);
-			PushFollow(Follow._cond_expr_in_modify_expr1381);
-			cond_expr151=cond_expr();
-			PopFollow();
-			if (state.failed) return retval;
-			if (state.backtracking == 0) adaptor.AddChild(root_0, cond_expr151.Tree);
-			DebugLocation(288, 14);
-			// SugarCpp.g:288:14: ( modify_expr_op ^ modify_expr )?
-			int alt42=2;
-			try { DebugEnterSubRule(42);
-			try { DebugEnterDecision(42, false);
-			int LA42_0 = input.LA(1);
-
-			if ((LA42_0==57||LA42_0==60||LA42_0==64||LA42_0==67||LA42_0==71||LA42_0==77||LA42_0==80||LA42_0==84||LA42_0==86||LA42_0==92||LA42_0==96||LA42_0==114))
-			{
-				alt42 = 1;
-			}
-			} finally { DebugExitDecision(42); }
-			switch (alt42)
-			{
-			case 1:
-				DebugEnterAlt(1);
-				// SugarCpp.g:288:15: modify_expr_op ^ modify_expr
-				{
-				DebugLocation(288, 29);
-				PushFollow(Follow._modify_expr_op_in_modify_expr1384);
-				modify_expr_op152=modify_expr_op();
-				PopFollow();
-				if (state.failed) return retval;
-				if (state.backtracking == 0) root_0 = (CommonTree)adaptor.BecomeRoot(modify_expr_op152.Tree, root_0);
-				DebugLocation(288, 31);
-				PushFollow(Follow._modify_expr_in_modify_expr1387);
-				modify_expr153=modify_expr();
-				PopFollow();
-				if (state.failed) return retval;
-				if (state.backtracking == 0) adaptor.AddChild(root_0, modify_expr153.Tree);
-
-				}
-				break;
-
-			}
-			} finally { DebugExitSubRule(42); }
-
-
-			}
-
-			retval.Stop = (IToken)input.LT(-1);
-
-			if (state.backtracking == 0) {
-			retval.Tree = (CommonTree)adaptor.RulePostProcessing(root_0);
-			adaptor.SetTokenBoundaries(retval.Tree, retval.Start, retval.Stop);
-			}
-		}
-		catch (RecognitionException re)
-		{
-			ReportError(re);
-			Recover(input,re);
-		retval.Tree = (CommonTree)adaptor.ErrorNode(input, retval.Start, input.LT(-1), re);
-
-		}
-		finally
-		{
-			TraceOut("modify_expr", 33);
-			LeaveRule("modify_expr", 33);
-			LeaveRule_modify_expr();
-			if (state.backtracking > 0) { Memoize(input, 33, modify_expr_StartIndex); }
-
-		}
-		DebugLocation(289, 1);
-		} finally { DebugExitRule(GrammarFileName, "modify_expr"); }
-		return retval;
-
-	}
-	// $ANTLR end "modify_expr"
-
-	partial void EnterRule_cond_expr_item();
-	partial void LeaveRule_cond_expr_item();
-
-	// $ANTLR start "cond_expr_item"
-	// SugarCpp.g:291:1: cond_expr_item : cond_expr ;
-	[GrammarRule("cond_expr_item")]
-	private AstParserRuleReturnScope<CommonTree, IToken> cond_expr_item()
-	{
-		EnterRule_cond_expr_item();
-		EnterRule("cond_expr_item", 34);
-		TraceIn("cond_expr_item", 34);
-		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
-		retval.Start = (IToken)input.LT(1);
-		int cond_expr_item_StartIndex = input.Index;
-
-		CommonTree root_0 = default(CommonTree);
-
-		AstParserRuleReturnScope<CommonTree, IToken> cond_expr154 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-
-		try { DebugEnterRule(GrammarFileName, "cond_expr_item");
-		DebugLocation(291, 26);
-		try
-		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 34)) { return retval; }
-
-			// SugarCpp.g:291:15: ( cond_expr )
-			DebugEnterAlt(1);
-			// SugarCpp.g:291:17: cond_expr
-			{
-			root_0 = (CommonTree)adaptor.Nil();
-
-			DebugLocation(291, 17);
-			PushFollow(Follow._cond_expr_in_cond_expr_item1398);
-			cond_expr154=cond_expr();
-			PopFollow();
-			if (state.failed) return retval;
-			if (state.backtracking == 0) adaptor.AddChild(root_0, cond_expr154.Tree);
-
-			}
-
-			retval.Stop = (IToken)input.LT(-1);
-
-			if (state.backtracking == 0) {
-			retval.Tree = (CommonTree)adaptor.RulePostProcessing(root_0);
-			adaptor.SetTokenBoundaries(retval.Tree, retval.Start, retval.Stop);
-			}
-		}
-		catch (RecognitionException re)
-		{
-			ReportError(re);
-			Recover(input,re);
-		retval.Tree = (CommonTree)adaptor.ErrorNode(input, retval.Start, input.LT(-1), re);
-
-		}
-		finally
-		{
-			TraceOut("cond_expr_item", 34);
-			LeaveRule("cond_expr_item", 34);
-			LeaveRule_cond_expr_item();
-			if (state.backtracking > 0) { Memoize(input, 34, cond_expr_item_StartIndex); }
-
-		}
-		DebugLocation(291, 26);
-		} finally { DebugExitRule(GrammarFileName, "cond_expr_item"); }
-		return retval;
-
-	}
-	// $ANTLR end "cond_expr_item"
-
-	partial void EnterRule_cond_expr();
-	partial void LeaveRule_cond_expr();
-
-	// $ANTLR start "cond_expr"
-	// SugarCpp.g:292:1: cond_expr : (a= or_expr -> $a) ( 'if' a= cond_expr_item 'else' b= cond_expr_item -> ^( Expr_Cond $a $cond_expr $b) )? ;
-	[GrammarRule("cond_expr")]
-	private AstParserRuleReturnScope<CommonTree, IToken> cond_expr()
-	{
-		EnterRule_cond_expr();
-		EnterRule("cond_expr", 35);
-		TraceIn("cond_expr", 35);
-		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
-		retval.Start = (IToken)input.LT(1);
-		int cond_expr_StartIndex = input.Index;
-
-		CommonTree root_0 = default(CommonTree);
-
-		IToken string_literal155 = default(IToken);
-		IToken string_literal156 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> a = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> b = default(AstParserRuleReturnScope<CommonTree, IToken>);
-
-		CommonTree string_literal155_tree = default(CommonTree);
-		CommonTree string_literal156_tree = default(CommonTree);
-		RewriteRuleITokenStream stream_103=new RewriteRuleITokenStream(adaptor,"token 103");
-		RewriteRuleITokenStream stream_100=new RewriteRuleITokenStream(adaptor,"token 100");
-		RewriteRuleSubtreeStream stream_cond_expr_item=new RewriteRuleSubtreeStream(adaptor,"rule cond_expr_item");
-		RewriteRuleSubtreeStream stream_or_expr=new RewriteRuleSubtreeStream(adaptor,"rule or_expr");
-		try { DebugEnterRule(GrammarFileName, "cond_expr");
-		DebugLocation(292, 1);
+		DebugLocation(297, 1);
 		try
 		{
 			if (state.backtracking > 0 && AlreadyParsedRule(input, 35)) { return retval; }
 
-			// SugarCpp.g:293:2: ( (a= or_expr -> $a) ( 'if' a= cond_expr_item 'else' b= cond_expr_item -> ^( Expr_Cond $a $cond_expr $b) )? )
+			// SugarCpp.g:298:2: ( cond_expr ( modify_expr_op ^ modify_expr )? )
 			DebugEnterAlt(1);
-			// SugarCpp.g:293:4: (a= or_expr -> $a) ( 'if' a= cond_expr_item 'else' b= cond_expr_item -> ^( Expr_Cond $a $cond_expr $b) )?
+			// SugarCpp.g:298:4: cond_expr ( modify_expr_op ^ modify_expr )?
 			{
-			DebugLocation(293, 4);
-			// SugarCpp.g:293:4: (a= or_expr -> $a)
-			DebugEnterAlt(1);
-			// SugarCpp.g:293:5: a= or_expr
-			{
-			DebugLocation(293, 6);
-			PushFollow(Follow._or_expr_in_cond_expr1410);
-			a=or_expr();
+			root_0 = (CommonTree)adaptor.Nil();
+
+			DebugLocation(298, 4);
+			PushFollow(Follow._cond_expr_in_modify_expr1431);
+			cond_expr160=cond_expr();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_or_expr.Add(a.Tree);
+			if (state.backtracking == 0) adaptor.AddChild(root_0, cond_expr160.Tree);
+			DebugLocation(298, 14);
+			// SugarCpp.g:298:14: ( modify_expr_op ^ modify_expr )?
+			int alt45=2;
+			try { DebugEnterSubRule(45);
+			try { DebugEnterDecision(45, false);
+			int LA45_0 = input.LA(1);
 
-
+			if ((LA45_0==57||LA45_0==60||LA45_0==64||LA45_0==67||LA45_0==71||LA45_0==77||LA45_0==80||LA45_0==84||LA45_0==86||LA45_0==92||LA45_0==96||LA45_0==114))
 			{
-			// AST REWRITE
-			// elements: a
-			// token labels: 
-			// rule labels: retval, a
-			// token list labels: 
-			// rule list labels: 
-			// wildcard labels: 
-			if (state.backtracking == 0) {
-			retval.Tree = root_0;
-			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
-			RewriteRuleSubtreeStream stream_a=new RewriteRuleSubtreeStream(adaptor,"rule a",a!=null?a.Tree:null);
-
-			root_0 = (CommonTree)adaptor.Nil();
-			// 293:15: -> $a
-			{
-				DebugLocation(293, 19);
-				adaptor.AddChild(root_0, stream_a.NextTree());
-
+				alt45 = 1;
 			}
-
-			retval.Tree = root_0;
-			}
-			}
-
-			}
-
-			DebugLocation(293, 22);
-			// SugarCpp.g:293:22: ( 'if' a= cond_expr_item 'else' b= cond_expr_item -> ^( Expr_Cond $a $cond_expr $b) )?
-			int alt43=2;
-			try { DebugEnterSubRule(43);
-			try { DebugEnterDecision(43, false);
-			int LA43_0 = input.LA(1);
-
-			if ((LA43_0==103))
-			{
-				alt43 = 1;
-			}
-			} finally { DebugExitDecision(43); }
-			switch (alt43)
+			} finally { DebugExitDecision(45); }
+			switch (alt45)
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:293:23: 'if' a= cond_expr_item 'else' b= cond_expr_item
+				// SugarCpp.g:298:15: modify_expr_op ^ modify_expr
 				{
-				DebugLocation(293, 23);
-				string_literal155=(IToken)Match(input,103,Follow._103_in_cond_expr1419); if (state.failed) return retval; 
-				if (state.backtracking == 0) stream_103.Add(string_literal155);
-
-				DebugLocation(293, 29);
-				PushFollow(Follow._cond_expr_item_in_cond_expr1423);
-				a=cond_expr_item();
+				DebugLocation(298, 29);
+				PushFollow(Follow._modify_expr_op_in_modify_expr1434);
+				modify_expr_op161=modify_expr_op();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) stream_cond_expr_item.Add(a.Tree);
-				DebugLocation(293, 45);
-				string_literal156=(IToken)Match(input,100,Follow._100_in_cond_expr1425); if (state.failed) return retval; 
-				if (state.backtracking == 0) stream_100.Add(string_literal156);
-
-				DebugLocation(293, 53);
-				PushFollow(Follow._cond_expr_item_in_cond_expr1429);
-				b=cond_expr_item();
+				if (state.backtracking == 0) root_0 = (CommonTree)adaptor.BecomeRoot(modify_expr_op161.Tree, root_0);
+				DebugLocation(298, 31);
+				PushFollow(Follow._modify_expr_in_modify_expr1437);
+				modify_expr162=modify_expr();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) stream_cond_expr_item.Add(b.Tree);
-
-
-				{
-				// AST REWRITE
-				// elements: a, cond_expr, b
-				// token labels: 
-				// rule labels: retval, b, a
-				// token list labels: 
-				// rule list labels: 
-				// wildcard labels: 
-				if (state.backtracking == 0) {
-				retval.Tree = root_0;
-				RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
-				RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
-				RewriteRuleSubtreeStream stream_a=new RewriteRuleSubtreeStream(adaptor,"rule a",a!=null?a.Tree:null);
-
-				root_0 = (CommonTree)adaptor.Nil();
-				// 293:69: -> ^( Expr_Cond $a $cond_expr $b)
-				{
-					DebugLocation(293, 72);
-					// SugarCpp.g:293:72: ^( Expr_Cond $a $cond_expr $b)
-					{
-					CommonTree root_1 = (CommonTree)adaptor.Nil();
-					DebugLocation(293, 74);
-					root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Cond, "Expr_Cond"), root_1);
-
-					DebugLocation(293, 85);
-					adaptor.AddChild(root_1, stream_a.NextTree());
-					DebugLocation(293, 88);
-					adaptor.AddChild(root_1, stream_retval.NextTree());
-					DebugLocation(293, 99);
-					adaptor.AddChild(root_1, stream_b.NextTree());
-
-					adaptor.AddChild(root_0, root_1);
-					}
-
-				}
-
-				retval.Tree = root_0;
-				}
-				}
+				if (state.backtracking == 0) adaptor.AddChild(root_0, modify_expr162.Tree);
 
 				}
 				break;
 
 			}
-			} finally { DebugExitSubRule(43); }
-
-
-			}
-
-			retval.Stop = (IToken)input.LT(-1);
-
-			if (state.backtracking == 0) {
-			retval.Tree = (CommonTree)adaptor.RulePostProcessing(root_0);
-			adaptor.SetTokenBoundaries(retval.Tree, retval.Start, retval.Stop);
-			}
-		}
-		catch (RecognitionException re)
-		{
-			ReportError(re);
-			Recover(input,re);
-		retval.Tree = (CommonTree)adaptor.ErrorNode(input, retval.Start, input.LT(-1), re);
-
-		}
-		finally
-		{
-			TraceOut("cond_expr", 35);
-			LeaveRule("cond_expr", 35);
-			LeaveRule_cond_expr();
-			if (state.backtracking > 0) { Memoize(input, 35, cond_expr_StartIndex); }
-
-		}
-		DebugLocation(294, 1);
-		} finally { DebugExitRule(GrammarFileName, "cond_expr"); }
-		return retval;
-
-	}
-	// $ANTLR end "cond_expr"
-
-	partial void EnterRule_or_expr();
-	partial void LeaveRule_or_expr();
-
-	// $ANTLR start "or_expr"
-	// SugarCpp.g:296:1: or_expr : (a= and_expr -> $a) ( '||' b= and_expr -> ^( Expr_Bin '||' $or_expr $b) )* ;
-	[GrammarRule("or_expr")]
-	private AstParserRuleReturnScope<CommonTree, IToken> or_expr()
-	{
-		EnterRule_or_expr();
-		EnterRule("or_expr", 36);
-		TraceIn("or_expr", 36);
-		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
-		retval.Start = (IToken)input.LT(1);
-		int or_expr_StartIndex = input.Index;
-
-		CommonTree root_0 = default(CommonTree);
-
-		IToken string_literal157 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> a = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> b = default(AstParserRuleReturnScope<CommonTree, IToken>);
-
-		CommonTree string_literal157_tree = default(CommonTree);
-		RewriteRuleITokenStream stream_115=new RewriteRuleITokenStream(adaptor,"token 115");
-		RewriteRuleSubtreeStream stream_and_expr=new RewriteRuleSubtreeStream(adaptor,"rule and_expr");
-		try { DebugEnterRule(GrammarFileName, "or_expr");
-		DebugLocation(296, 1);
-		try
-		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 36)) { return retval; }
-
-			// SugarCpp.g:297:2: ( (a= and_expr -> $a) ( '||' b= and_expr -> ^( Expr_Bin '||' $or_expr $b) )* )
-			DebugEnterAlt(1);
-			// SugarCpp.g:297:4: (a= and_expr -> $a) ( '||' b= and_expr -> ^( Expr_Bin '||' $or_expr $b) )*
-			{
-			DebugLocation(297, 4);
-			// SugarCpp.g:297:4: (a= and_expr -> $a)
-			DebugEnterAlt(1);
-			// SugarCpp.g:297:5: a= and_expr
-			{
-			DebugLocation(297, 6);
-			PushFollow(Follow._and_expr_in_or_expr1460);
-			a=and_expr();
-			PopFollow();
-			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_and_expr.Add(a.Tree);
-
-
-			{
-			// AST REWRITE
-			// elements: a
-			// token labels: 
-			// rule labels: retval, a
-			// token list labels: 
-			// rule list labels: 
-			// wildcard labels: 
-			if (state.backtracking == 0) {
-			retval.Tree = root_0;
-			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
-			RewriteRuleSubtreeStream stream_a=new RewriteRuleSubtreeStream(adaptor,"rule a",a!=null?a.Tree:null);
-
-			root_0 = (CommonTree)adaptor.Nil();
-			// 297:16: -> $a
-			{
-				DebugLocation(297, 20);
-				adaptor.AddChild(root_0, stream_a.NextTree());
-
-			}
-
-			retval.Tree = root_0;
-			}
-			}
-
-			}
-
-			DebugLocation(297, 23);
-			// SugarCpp.g:297:23: ( '||' b= and_expr -> ^( Expr_Bin '||' $or_expr $b) )*
-			try { DebugEnterSubRule(44);
-			while (true)
-			{
-				int alt44=2;
-				try { DebugEnterDecision(44, false);
-				int LA44_0 = input.LA(1);
-
-				if ((LA44_0==115))
-				{
-					alt44 = 1;
-				}
-
-
-				} finally { DebugExitDecision(44); }
-				switch ( alt44 )
-				{
-				case 1:
-					DebugEnterAlt(1);
-					// SugarCpp.g:297:24: '||' b= and_expr
-					{
-					DebugLocation(297, 24);
-					string_literal157=(IToken)Match(input,115,Follow._115_in_or_expr1469); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_115.Add(string_literal157);
-
-					DebugLocation(297, 30);
-					PushFollow(Follow._and_expr_in_or_expr1473);
-					b=and_expr();
-					PopFollow();
-					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_and_expr.Add(b.Tree);
-
-
-					{
-					// AST REWRITE
-					// elements: b, or_expr, 115
-					// token labels: 
-					// rule labels: retval, b
-					// token list labels: 
-					// rule list labels: 
-					// wildcard labels: 
-					if (state.backtracking == 0) {
-					retval.Tree = root_0;
-					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
-					RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
-
-					root_0 = (CommonTree)adaptor.Nil();
-					// 297:40: -> ^( Expr_Bin '||' $or_expr $b)
-					{
-						DebugLocation(297, 43);
-						// SugarCpp.g:297:43: ^( Expr_Bin '||' $or_expr $b)
-						{
-						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(297, 45);
-						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Bin, "Expr_Bin"), root_1);
-
-						DebugLocation(297, 54);
-						adaptor.AddChild(root_1, stream_115.NextNode());
-						DebugLocation(297, 60);
-						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(297, 69);
-						adaptor.AddChild(root_1, stream_b.NextTree());
-
-						adaptor.AddChild(root_0, root_1);
-						}
-
-					}
-
-					retval.Tree = root_0;
-					}
-					}
-
-					}
-					break;
-
-				default:
-					goto loop44;
-				}
-			}
-
-			loop44:
-				;
-
-			} finally { DebugExitSubRule(44); }
-
-
-			}
-
-			retval.Stop = (IToken)input.LT(-1);
-
-			if (state.backtracking == 0) {
-			retval.Tree = (CommonTree)adaptor.RulePostProcessing(root_0);
-			adaptor.SetTokenBoundaries(retval.Tree, retval.Start, retval.Stop);
-			}
-		}
-		catch (RecognitionException re)
-		{
-			ReportError(re);
-			Recover(input,re);
-		retval.Tree = (CommonTree)adaptor.ErrorNode(input, retval.Start, input.LT(-1), re);
-
-		}
-		finally
-		{
-			TraceOut("or_expr", 36);
-			LeaveRule("or_expr", 36);
-			LeaveRule_or_expr();
-			if (state.backtracking > 0) { Memoize(input, 36, or_expr_StartIndex); }
-
-		}
-		DebugLocation(298, 1);
-		} finally { DebugExitRule(GrammarFileName, "or_expr"); }
-		return retval;
-
-	}
-	// $ANTLR end "or_expr"
-
-	partial void EnterRule_and_expr();
-	partial void LeaveRule_and_expr();
-
-	// $ANTLR start "and_expr"
-	// SugarCpp.g:300:1: and_expr : (a= bit_or -> $a) ( '&&' b= bit_or -> ^( Expr_Bin '&&' $and_expr $b) )* ;
-	[GrammarRule("and_expr")]
-	private AstParserRuleReturnScope<CommonTree, IToken> and_expr()
-	{
-		EnterRule_and_expr();
-		EnterRule("and_expr", 37);
-		TraceIn("and_expr", 37);
-		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
-		retval.Start = (IToken)input.LT(1);
-		int and_expr_StartIndex = input.Index;
-
-		CommonTree root_0 = default(CommonTree);
-
-		IToken string_literal158 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> a = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> b = default(AstParserRuleReturnScope<CommonTree, IToken>);
-
-		CommonTree string_literal158_tree = default(CommonTree);
-		RewriteRuleITokenStream stream_58=new RewriteRuleITokenStream(adaptor,"token 58");
-		RewriteRuleSubtreeStream stream_bit_or=new RewriteRuleSubtreeStream(adaptor,"rule bit_or");
-		try { DebugEnterRule(GrammarFileName, "and_expr");
-		DebugLocation(300, 1);
-		try
-		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 37)) { return retval; }
-
-			// SugarCpp.g:301:2: ( (a= bit_or -> $a) ( '&&' b= bit_or -> ^( Expr_Bin '&&' $and_expr $b) )* )
-			DebugEnterAlt(1);
-			// SugarCpp.g:301:4: (a= bit_or -> $a) ( '&&' b= bit_or -> ^( Expr_Bin '&&' $and_expr $b) )*
-			{
-			DebugLocation(301, 4);
-			// SugarCpp.g:301:4: (a= bit_or -> $a)
-			DebugEnterAlt(1);
-			// SugarCpp.g:301:5: a= bit_or
-			{
-			DebugLocation(301, 6);
-			PushFollow(Follow._bit_or_in_and_expr1503);
-			a=bit_or();
-			PopFollow();
-			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_bit_or.Add(a.Tree);
-
-
-			{
-			// AST REWRITE
-			// elements: a
-			// token labels: 
-			// rule labels: retval, a
-			// token list labels: 
-			// rule list labels: 
-			// wildcard labels: 
-			if (state.backtracking == 0) {
-			retval.Tree = root_0;
-			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
-			RewriteRuleSubtreeStream stream_a=new RewriteRuleSubtreeStream(adaptor,"rule a",a!=null?a.Tree:null);
-
-			root_0 = (CommonTree)adaptor.Nil();
-			// 301:14: -> $a
-			{
-				DebugLocation(301, 18);
-				adaptor.AddChild(root_0, stream_a.NextTree());
-
-			}
-
-			retval.Tree = root_0;
-			}
-			}
-
-			}
-
-			DebugLocation(301, 21);
-			// SugarCpp.g:301:21: ( '&&' b= bit_or -> ^( Expr_Bin '&&' $and_expr $b) )*
-			try { DebugEnterSubRule(45);
-			while (true)
-			{
-				int alt45=2;
-				try { DebugEnterDecision(45, false);
-				int LA45_0 = input.LA(1);
-
-				if ((LA45_0==58))
-				{
-					alt45 = 1;
-				}
-
-
-				} finally { DebugExitDecision(45); }
-				switch ( alt45 )
-				{
-				case 1:
-					DebugEnterAlt(1);
-					// SugarCpp.g:301:22: '&&' b= bit_or
-					{
-					DebugLocation(301, 22);
-					string_literal158=(IToken)Match(input,58,Follow._58_in_and_expr1512); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_58.Add(string_literal158);
-
-					DebugLocation(301, 28);
-					PushFollow(Follow._bit_or_in_and_expr1516);
-					b=bit_or();
-					PopFollow();
-					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_bit_or.Add(b.Tree);
-
-
-					{
-					// AST REWRITE
-					// elements: 58, b, and_expr
-					// token labels: 
-					// rule labels: retval, b
-					// token list labels: 
-					// rule list labels: 
-					// wildcard labels: 
-					if (state.backtracking == 0) {
-					retval.Tree = root_0;
-					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
-					RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
-
-					root_0 = (CommonTree)adaptor.Nil();
-					// 301:36: -> ^( Expr_Bin '&&' $and_expr $b)
-					{
-						DebugLocation(301, 39);
-						// SugarCpp.g:301:39: ^( Expr_Bin '&&' $and_expr $b)
-						{
-						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(301, 41);
-						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Bin, "Expr_Bin"), root_1);
-
-						DebugLocation(301, 50);
-						adaptor.AddChild(root_1, stream_58.NextNode());
-						DebugLocation(301, 56);
-						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(301, 66);
-						adaptor.AddChild(root_1, stream_b.NextTree());
-
-						adaptor.AddChild(root_0, root_1);
-						}
-
-					}
-
-					retval.Tree = root_0;
-					}
-					}
-
-					}
-					break;
-
-				default:
-					goto loop45;
-				}
-			}
-
-			loop45:
-				;
-
 			} finally { DebugExitSubRule(45); }
 
 
@@ -6337,64 +5989,137 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("and_expr", 37);
-			LeaveRule("and_expr", 37);
-			LeaveRule_and_expr();
-			if (state.backtracking > 0) { Memoize(input, 37, and_expr_StartIndex); }
+			TraceOut("modify_expr", 35);
+			LeaveRule("modify_expr", 35);
+			LeaveRule_modify_expr();
+			if (state.backtracking > 0) { Memoize(input, 35, modify_expr_StartIndex); }
 
 		}
-		DebugLocation(302, 1);
-		} finally { DebugExitRule(GrammarFileName, "and_expr"); }
+		DebugLocation(299, 1);
+		} finally { DebugExitRule(GrammarFileName, "modify_expr"); }
 		return retval;
 
 	}
-	// $ANTLR end "and_expr"
+	// $ANTLR end "modify_expr"
 
-	partial void EnterRule_bit_or();
-	partial void LeaveRule_bit_or();
+	partial void EnterRule_cond_expr_item();
+	partial void LeaveRule_cond_expr_item();
 
-	// $ANTLR start "bit_or"
-	// SugarCpp.g:304:1: bit_or : (a= bit_xor -> $a) ( '|' b= bit_xor -> ^( Expr_Bin '|' $bit_or $b) )* ;
-	[GrammarRule("bit_or")]
-	private AstParserRuleReturnScope<CommonTree, IToken> bit_or()
+	// $ANTLR start "cond_expr_item"
+	// SugarCpp.g:301:1: cond_expr_item : cond_expr ;
+	[GrammarRule("cond_expr_item")]
+	private AstParserRuleReturnScope<CommonTree, IToken> cond_expr_item()
 	{
-		EnterRule_bit_or();
-		EnterRule("bit_or", 38);
-		TraceIn("bit_or", 38);
+		EnterRule_cond_expr_item();
+		EnterRule("cond_expr_item", 36);
+		TraceIn("cond_expr_item", 36);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
-		int bit_or_StartIndex = input.Index;
+		int cond_expr_item_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken char_literal159 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> cond_expr163 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+
+		try { DebugEnterRule(GrammarFileName, "cond_expr_item");
+		DebugLocation(301, 26);
+		try
+		{
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 36)) { return retval; }
+
+			// SugarCpp.g:301:15: ( cond_expr )
+			DebugEnterAlt(1);
+			// SugarCpp.g:301:17: cond_expr
+			{
+			root_0 = (CommonTree)adaptor.Nil();
+
+			DebugLocation(301, 17);
+			PushFollow(Follow._cond_expr_in_cond_expr_item1448);
+			cond_expr163=cond_expr();
+			PopFollow();
+			if (state.failed) return retval;
+			if (state.backtracking == 0) adaptor.AddChild(root_0, cond_expr163.Tree);
+
+			}
+
+			retval.Stop = (IToken)input.LT(-1);
+
+			if (state.backtracking == 0) {
+			retval.Tree = (CommonTree)adaptor.RulePostProcessing(root_0);
+			adaptor.SetTokenBoundaries(retval.Tree, retval.Start, retval.Stop);
+			}
+		}
+		catch (RecognitionException re)
+		{
+			ReportError(re);
+			Recover(input,re);
+		retval.Tree = (CommonTree)adaptor.ErrorNode(input, retval.Start, input.LT(-1), re);
+
+		}
+		finally
+		{
+			TraceOut("cond_expr_item", 36);
+			LeaveRule("cond_expr_item", 36);
+			LeaveRule_cond_expr_item();
+			if (state.backtracking > 0) { Memoize(input, 36, cond_expr_item_StartIndex); }
+
+		}
+		DebugLocation(301, 26);
+		} finally { DebugExitRule(GrammarFileName, "cond_expr_item"); }
+		return retval;
+
+	}
+	// $ANTLR end "cond_expr_item"
+
+	partial void EnterRule_cond_expr();
+	partial void LeaveRule_cond_expr();
+
+	// $ANTLR start "cond_expr"
+	// SugarCpp.g:302:1: cond_expr : (a= or_expr -> $a) ( 'if' a= cond_expr_item 'else' b= cond_expr_item -> ^( Expr_Cond $a $cond_expr $b) )? ;
+	[GrammarRule("cond_expr")]
+	private AstParserRuleReturnScope<CommonTree, IToken> cond_expr()
+	{
+		EnterRule_cond_expr();
+		EnterRule("cond_expr", 37);
+		TraceIn("cond_expr", 37);
+		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
+		retval.Start = (IToken)input.LT(1);
+		int cond_expr_StartIndex = input.Index;
+
+		CommonTree root_0 = default(CommonTree);
+
+		IToken string_literal164 = default(IToken);
+		IToken string_literal165 = default(IToken);
 		AstParserRuleReturnScope<CommonTree, IToken> a = default(AstParserRuleReturnScope<CommonTree, IToken>);
 		AstParserRuleReturnScope<CommonTree, IToken> b = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree char_literal159_tree = default(CommonTree);
-		RewriteRuleITokenStream stream_113=new RewriteRuleITokenStream(adaptor,"token 113");
-		RewriteRuleSubtreeStream stream_bit_xor=new RewriteRuleSubtreeStream(adaptor,"rule bit_xor");
-		try { DebugEnterRule(GrammarFileName, "bit_or");
-		DebugLocation(304, 1);
+		CommonTree string_literal164_tree = default(CommonTree);
+		CommonTree string_literal165_tree = default(CommonTree);
+		RewriteRuleITokenStream stream_103=new RewriteRuleITokenStream(adaptor,"token 103");
+		RewriteRuleITokenStream stream_100=new RewriteRuleITokenStream(adaptor,"token 100");
+		RewriteRuleSubtreeStream stream_cond_expr_item=new RewriteRuleSubtreeStream(adaptor,"rule cond_expr_item");
+		RewriteRuleSubtreeStream stream_or_expr=new RewriteRuleSubtreeStream(adaptor,"rule or_expr");
+		try { DebugEnterRule(GrammarFileName, "cond_expr");
+		DebugLocation(302, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 38)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 37)) { return retval; }
 
-			// SugarCpp.g:305:2: ( (a= bit_xor -> $a) ( '|' b= bit_xor -> ^( Expr_Bin '|' $bit_or $b) )* )
+			// SugarCpp.g:303:2: ( (a= or_expr -> $a) ( 'if' a= cond_expr_item 'else' b= cond_expr_item -> ^( Expr_Cond $a $cond_expr $b) )? )
 			DebugEnterAlt(1);
-			// SugarCpp.g:305:4: (a= bit_xor -> $a) ( '|' b= bit_xor -> ^( Expr_Bin '|' $bit_or $b) )*
+			// SugarCpp.g:303:4: (a= or_expr -> $a) ( 'if' a= cond_expr_item 'else' b= cond_expr_item -> ^( Expr_Cond $a $cond_expr $b) )?
 			{
-			DebugLocation(305, 4);
-			// SugarCpp.g:305:4: (a= bit_xor -> $a)
+			DebugLocation(303, 4);
+			// SugarCpp.g:303:4: (a= or_expr -> $a)
 			DebugEnterAlt(1);
-			// SugarCpp.g:305:5: a= bit_xor
+			// SugarCpp.g:303:5: a= or_expr
 			{
-			DebugLocation(305, 6);
-			PushFollow(Follow._bit_xor_in_bit_or1546);
-			a=bit_xor();
+			DebugLocation(303, 6);
+			PushFollow(Follow._or_expr_in_cond_expr1460);
+			a=or_expr();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_bit_xor.Add(a.Tree);
+			if (state.backtracking == 0) stream_or_expr.Add(a.Tree);
 
 
 			{
@@ -6411,9 +6136,9 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			RewriteRuleSubtreeStream stream_a=new RewriteRuleSubtreeStream(adaptor,"rule a",a!=null?a.Tree:null);
 
 			root_0 = (CommonTree)adaptor.Nil();
-			// 305:15: -> $a
+			// 303:15: -> $a
 			{
-				DebugLocation(305, 19);
+				DebugLocation(303, 19);
 				adaptor.AddChild(root_0, stream_a.NextTree());
 
 			}
@@ -6424,90 +6149,90 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			}
 
-			DebugLocation(305, 22);
-			// SugarCpp.g:305:22: ( '|' b= bit_xor -> ^( Expr_Bin '|' $bit_or $b) )*
+			DebugLocation(303, 22);
+			// SugarCpp.g:303:22: ( 'if' a= cond_expr_item 'else' b= cond_expr_item -> ^( Expr_Cond $a $cond_expr $b) )?
+			int alt46=2;
 			try { DebugEnterSubRule(46);
-			while (true)
+			try { DebugEnterDecision(46, false);
+			int LA46_0 = input.LA(1);
+
+			if ((LA46_0==103))
 			{
-				int alt46=2;
-				try { DebugEnterDecision(46, false);
-				int LA46_0 = input.LA(1);
-
-				if ((LA46_0==113))
-				{
-					alt46 = 1;
-				}
-
-
-				} finally { DebugExitDecision(46); }
-				switch ( alt46 )
-				{
-				case 1:
-					DebugEnterAlt(1);
-					// SugarCpp.g:305:23: '|' b= bit_xor
-					{
-					DebugLocation(305, 23);
-					char_literal159=(IToken)Match(input,113,Follow._113_in_bit_or1555); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_113.Add(char_literal159);
-
-					DebugLocation(305, 28);
-					PushFollow(Follow._bit_xor_in_bit_or1559);
-					b=bit_xor();
-					PopFollow();
-					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_bit_xor.Add(b.Tree);
-
-
-					{
-					// AST REWRITE
-					// elements: b, 113, bit_or
-					// token labels: 
-					// rule labels: retval, b
-					// token list labels: 
-					// rule list labels: 
-					// wildcard labels: 
-					if (state.backtracking == 0) {
-					retval.Tree = root_0;
-					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
-					RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
-
-					root_0 = (CommonTree)adaptor.Nil();
-					// 305:37: -> ^( Expr_Bin '|' $bit_or $b)
-					{
-						DebugLocation(305, 40);
-						// SugarCpp.g:305:40: ^( Expr_Bin '|' $bit_or $b)
-						{
-						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(305, 42);
-						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Bin, "Expr_Bin"), root_1);
-
-						DebugLocation(305, 51);
-						adaptor.AddChild(root_1, stream_113.NextNode());
-						DebugLocation(305, 56);
-						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(305, 64);
-						adaptor.AddChild(root_1, stream_b.NextTree());
-
-						adaptor.AddChild(root_0, root_1);
-						}
-
-					}
-
-					retval.Tree = root_0;
-					}
-					}
-
-					}
-					break;
-
-				default:
-					goto loop46;
-				}
+				alt46 = 1;
 			}
+			} finally { DebugExitDecision(46); }
+			switch (alt46)
+			{
+			case 1:
+				DebugEnterAlt(1);
+				// SugarCpp.g:303:23: 'if' a= cond_expr_item 'else' b= cond_expr_item
+				{
+				DebugLocation(303, 23);
+				string_literal164=(IToken)Match(input,103,Follow._103_in_cond_expr1469); if (state.failed) return retval; 
+				if (state.backtracking == 0) stream_103.Add(string_literal164);
 
-			loop46:
-				;
+				DebugLocation(303, 29);
+				PushFollow(Follow._cond_expr_item_in_cond_expr1473);
+				a=cond_expr_item();
+				PopFollow();
+				if (state.failed) return retval;
+				if (state.backtracking == 0) stream_cond_expr_item.Add(a.Tree);
+				DebugLocation(303, 45);
+				string_literal165=(IToken)Match(input,100,Follow._100_in_cond_expr1475); if (state.failed) return retval; 
+				if (state.backtracking == 0) stream_100.Add(string_literal165);
 
+				DebugLocation(303, 53);
+				PushFollow(Follow._cond_expr_item_in_cond_expr1479);
+				b=cond_expr_item();
+				PopFollow();
+				if (state.failed) return retval;
+				if (state.backtracking == 0) stream_cond_expr_item.Add(b.Tree);
+
+
+				{
+				// AST REWRITE
+				// elements: b, cond_expr, a
+				// token labels: 
+				// rule labels: retval, b, a
+				// token list labels: 
+				// rule list labels: 
+				// wildcard labels: 
+				if (state.backtracking == 0) {
+				retval.Tree = root_0;
+				RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
+				RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
+				RewriteRuleSubtreeStream stream_a=new RewriteRuleSubtreeStream(adaptor,"rule a",a!=null?a.Tree:null);
+
+				root_0 = (CommonTree)adaptor.Nil();
+				// 303:69: -> ^( Expr_Cond $a $cond_expr $b)
+				{
+					DebugLocation(303, 72);
+					// SugarCpp.g:303:72: ^( Expr_Cond $a $cond_expr $b)
+					{
+					CommonTree root_1 = (CommonTree)adaptor.Nil();
+					DebugLocation(303, 74);
+					root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Cond, "Expr_Cond"), root_1);
+
+					DebugLocation(303, 85);
+					adaptor.AddChild(root_1, stream_a.NextTree());
+					DebugLocation(303, 88);
+					adaptor.AddChild(root_1, stream_retval.NextTree());
+					DebugLocation(303, 99);
+					adaptor.AddChild(root_1, stream_b.NextTree());
+
+					adaptor.AddChild(root_0, root_1);
+					}
+
+				}
+
+				retval.Tree = root_0;
+				}
+				}
+
+				}
+				break;
+
+			}
 			} finally { DebugExitSubRule(46); }
 
 
@@ -6529,64 +6254,64 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("bit_or", 38);
-			LeaveRule("bit_or", 38);
-			LeaveRule_bit_or();
-			if (state.backtracking > 0) { Memoize(input, 38, bit_or_StartIndex); }
+			TraceOut("cond_expr", 37);
+			LeaveRule("cond_expr", 37);
+			LeaveRule_cond_expr();
+			if (state.backtracking > 0) { Memoize(input, 37, cond_expr_StartIndex); }
 
 		}
-		DebugLocation(306, 1);
-		} finally { DebugExitRule(GrammarFileName, "bit_or"); }
+		DebugLocation(304, 1);
+		} finally { DebugExitRule(GrammarFileName, "cond_expr"); }
 		return retval;
 
 	}
-	// $ANTLR end "bit_or"
+	// $ANTLR end "cond_expr"
 
-	partial void EnterRule_bit_xor();
-	partial void LeaveRule_bit_xor();
+	partial void EnterRule_or_expr();
+	partial void LeaveRule_or_expr();
 
-	// $ANTLR start "bit_xor"
-	// SugarCpp.g:308:1: bit_xor : (a= bit_and -> $a) ( '^' b= bit_and -> ^( Expr_Bin '^' $bit_xor $b) )* ;
-	[GrammarRule("bit_xor")]
-	private AstParserRuleReturnScope<CommonTree, IToken> bit_xor()
+	// $ANTLR start "or_expr"
+	// SugarCpp.g:306:1: or_expr : (a= and_expr -> $a) ( '||' b= and_expr -> ^( Expr_Bin '||' $or_expr $b) )* ;
+	[GrammarRule("or_expr")]
+	private AstParserRuleReturnScope<CommonTree, IToken> or_expr()
 	{
-		EnterRule_bit_xor();
-		EnterRule("bit_xor", 39);
-		TraceIn("bit_xor", 39);
+		EnterRule_or_expr();
+		EnterRule("or_expr", 38);
+		TraceIn("or_expr", 38);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
-		int bit_xor_StartIndex = input.Index;
+		int or_expr_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken char_literal160 = default(IToken);
+		IToken string_literal166 = default(IToken);
 		AstParserRuleReturnScope<CommonTree, IToken> a = default(AstParserRuleReturnScope<CommonTree, IToken>);
 		AstParserRuleReturnScope<CommonTree, IToken> b = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree char_literal160_tree = default(CommonTree);
-		RewriteRuleITokenStream stream_95=new RewriteRuleITokenStream(adaptor,"token 95");
-		RewriteRuleSubtreeStream stream_bit_and=new RewriteRuleSubtreeStream(adaptor,"rule bit_and");
-		try { DebugEnterRule(GrammarFileName, "bit_xor");
-		DebugLocation(308, 1);
+		CommonTree string_literal166_tree = default(CommonTree);
+		RewriteRuleITokenStream stream_115=new RewriteRuleITokenStream(adaptor,"token 115");
+		RewriteRuleSubtreeStream stream_and_expr=new RewriteRuleSubtreeStream(adaptor,"rule and_expr");
+		try { DebugEnterRule(GrammarFileName, "or_expr");
+		DebugLocation(306, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 39)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 38)) { return retval; }
 
-			// SugarCpp.g:309:2: ( (a= bit_and -> $a) ( '^' b= bit_and -> ^( Expr_Bin '^' $bit_xor $b) )* )
+			// SugarCpp.g:307:2: ( (a= and_expr -> $a) ( '||' b= and_expr -> ^( Expr_Bin '||' $or_expr $b) )* )
 			DebugEnterAlt(1);
-			// SugarCpp.g:309:4: (a= bit_and -> $a) ( '^' b= bit_and -> ^( Expr_Bin '^' $bit_xor $b) )*
+			// SugarCpp.g:307:4: (a= and_expr -> $a) ( '||' b= and_expr -> ^( Expr_Bin '||' $or_expr $b) )*
 			{
-			DebugLocation(309, 4);
-			// SugarCpp.g:309:4: (a= bit_and -> $a)
+			DebugLocation(307, 4);
+			// SugarCpp.g:307:4: (a= and_expr -> $a)
 			DebugEnterAlt(1);
-			// SugarCpp.g:309:5: a= bit_and
+			// SugarCpp.g:307:5: a= and_expr
 			{
-			DebugLocation(309, 6);
-			PushFollow(Follow._bit_and_in_bit_xor1589);
-			a=bit_and();
+			DebugLocation(307, 6);
+			PushFollow(Follow._and_expr_in_or_expr1510);
+			a=and_expr();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_bit_and.Add(a.Tree);
+			if (state.backtracking == 0) stream_and_expr.Add(a.Tree);
 
 
 			{
@@ -6603,9 +6328,9 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			RewriteRuleSubtreeStream stream_a=new RewriteRuleSubtreeStream(adaptor,"rule a",a!=null?a.Tree:null);
 
 			root_0 = (CommonTree)adaptor.Nil();
-			// 309:15: -> $a
+			// 307:16: -> $a
 			{
-				DebugLocation(309, 19);
+				DebugLocation(307, 20);
 				adaptor.AddChild(root_0, stream_a.NextTree());
 
 			}
@@ -6616,8 +6341,8 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			}
 
-			DebugLocation(309, 22);
-			// SugarCpp.g:309:22: ( '^' b= bit_and -> ^( Expr_Bin '^' $bit_xor $b) )*
+			DebugLocation(307, 23);
+			// SugarCpp.g:307:23: ( '||' b= and_expr -> ^( Expr_Bin '||' $or_expr $b) )*
 			try { DebugEnterSubRule(47);
 			while (true)
 			{
@@ -6625,7 +6350,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				try { DebugEnterDecision(47, false);
 				int LA47_0 = input.LA(1);
 
-				if ((LA47_0==95))
+				if ((LA47_0==115))
 				{
 					alt47 = 1;
 				}
@@ -6636,23 +6361,23 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:309:23: '^' b= bit_and
+					// SugarCpp.g:307:24: '||' b= and_expr
 					{
-					DebugLocation(309, 23);
-					char_literal160=(IToken)Match(input,95,Follow._95_in_bit_xor1598); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_95.Add(char_literal160);
+					DebugLocation(307, 24);
+					string_literal166=(IToken)Match(input,115,Follow._115_in_or_expr1519); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_115.Add(string_literal166);
 
-					DebugLocation(309, 28);
-					PushFollow(Follow._bit_and_in_bit_xor1602);
-					b=bit_and();
+					DebugLocation(307, 30);
+					PushFollow(Follow._and_expr_in_or_expr1523);
+					b=and_expr();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_bit_and.Add(b.Tree);
+					if (state.backtracking == 0) stream_and_expr.Add(b.Tree);
 
 
 					{
 					// AST REWRITE
-					// elements: b, bit_xor, 95
+					// elements: 115, b, or_expr
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -6664,20 +6389,20 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
 
 					root_0 = (CommonTree)adaptor.Nil();
-					// 309:37: -> ^( Expr_Bin '^' $bit_xor $b)
+					// 307:40: -> ^( Expr_Bin '||' $or_expr $b)
 					{
-						DebugLocation(309, 40);
-						// SugarCpp.g:309:40: ^( Expr_Bin '^' $bit_xor $b)
+						DebugLocation(307, 43);
+						// SugarCpp.g:307:43: ^( Expr_Bin '||' $or_expr $b)
 						{
 						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(309, 42);
+						DebugLocation(307, 45);
 						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Bin, "Expr_Bin"), root_1);
 
-						DebugLocation(309, 51);
-						adaptor.AddChild(root_1, stream_95.NextNode());
-						DebugLocation(309, 56);
+						DebugLocation(307, 54);
+						adaptor.AddChild(root_1, stream_115.NextNode());
+						DebugLocation(307, 60);
 						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(309, 65);
+						DebugLocation(307, 69);
 						adaptor.AddChild(root_1, stream_b.NextTree());
 
 						adaptor.AddChild(root_0, root_1);
@@ -6721,64 +6446,64 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("bit_xor", 39);
-			LeaveRule("bit_xor", 39);
-			LeaveRule_bit_xor();
-			if (state.backtracking > 0) { Memoize(input, 39, bit_xor_StartIndex); }
+			TraceOut("or_expr", 38);
+			LeaveRule("or_expr", 38);
+			LeaveRule_or_expr();
+			if (state.backtracking > 0) { Memoize(input, 38, or_expr_StartIndex); }
 
 		}
-		DebugLocation(310, 1);
-		} finally { DebugExitRule(GrammarFileName, "bit_xor"); }
+		DebugLocation(308, 1);
+		} finally { DebugExitRule(GrammarFileName, "or_expr"); }
 		return retval;
 
 	}
-	// $ANTLR end "bit_xor"
+	// $ANTLR end "or_expr"
 
-	partial void EnterRule_bit_and();
-	partial void LeaveRule_bit_and();
+	partial void EnterRule_and_expr();
+	partial void LeaveRule_and_expr();
 
-	// $ANTLR start "bit_and"
-	// SugarCpp.g:312:1: bit_and : (a= cmp_equ_expr -> $a) ( '&' b= cmp_equ_expr -> ^( Expr_Bin '&' $bit_and $b) )* ;
-	[GrammarRule("bit_and")]
-	private AstParserRuleReturnScope<CommonTree, IToken> bit_and()
+	// $ANTLR start "and_expr"
+	// SugarCpp.g:310:1: and_expr : (a= bit_or -> $a) ( '&&' b= bit_or -> ^( Expr_Bin '&&' $and_expr $b) )* ;
+	[GrammarRule("and_expr")]
+	private AstParserRuleReturnScope<CommonTree, IToken> and_expr()
 	{
-		EnterRule_bit_and();
-		EnterRule("bit_and", 40);
-		TraceIn("bit_and", 40);
+		EnterRule_and_expr();
+		EnterRule("and_expr", 39);
+		TraceIn("and_expr", 39);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
-		int bit_and_StartIndex = input.Index;
+		int and_expr_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken char_literal161 = default(IToken);
+		IToken string_literal167 = default(IToken);
 		AstParserRuleReturnScope<CommonTree, IToken> a = default(AstParserRuleReturnScope<CommonTree, IToken>);
 		AstParserRuleReturnScope<CommonTree, IToken> b = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree char_literal161_tree = default(CommonTree);
-		RewriteRuleITokenStream stream_59=new RewriteRuleITokenStream(adaptor,"token 59");
-		RewriteRuleSubtreeStream stream_cmp_equ_expr=new RewriteRuleSubtreeStream(adaptor,"rule cmp_equ_expr");
-		try { DebugEnterRule(GrammarFileName, "bit_and");
-		DebugLocation(312, 1);
+		CommonTree string_literal167_tree = default(CommonTree);
+		RewriteRuleITokenStream stream_58=new RewriteRuleITokenStream(adaptor,"token 58");
+		RewriteRuleSubtreeStream stream_bit_or=new RewriteRuleSubtreeStream(adaptor,"rule bit_or");
+		try { DebugEnterRule(GrammarFileName, "and_expr");
+		DebugLocation(310, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 40)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 39)) { return retval; }
 
-			// SugarCpp.g:313:2: ( (a= cmp_equ_expr -> $a) ( '&' b= cmp_equ_expr -> ^( Expr_Bin '&' $bit_and $b) )* )
+			// SugarCpp.g:311:2: ( (a= bit_or -> $a) ( '&&' b= bit_or -> ^( Expr_Bin '&&' $and_expr $b) )* )
 			DebugEnterAlt(1);
-			// SugarCpp.g:313:4: (a= cmp_equ_expr -> $a) ( '&' b= cmp_equ_expr -> ^( Expr_Bin '&' $bit_and $b) )*
+			// SugarCpp.g:311:4: (a= bit_or -> $a) ( '&&' b= bit_or -> ^( Expr_Bin '&&' $and_expr $b) )*
 			{
-			DebugLocation(313, 4);
-			// SugarCpp.g:313:4: (a= cmp_equ_expr -> $a)
+			DebugLocation(311, 4);
+			// SugarCpp.g:311:4: (a= bit_or -> $a)
 			DebugEnterAlt(1);
-			// SugarCpp.g:313:5: a= cmp_equ_expr
+			// SugarCpp.g:311:5: a= bit_or
 			{
-			DebugLocation(313, 6);
-			PushFollow(Follow._cmp_equ_expr_in_bit_and1632);
-			a=cmp_equ_expr();
+			DebugLocation(311, 6);
+			PushFollow(Follow._bit_or_in_and_expr1553);
+			a=bit_or();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_cmp_equ_expr.Add(a.Tree);
+			if (state.backtracking == 0) stream_bit_or.Add(a.Tree);
 
 
 			{
@@ -6795,9 +6520,9 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			RewriteRuleSubtreeStream stream_a=new RewriteRuleSubtreeStream(adaptor,"rule a",a!=null?a.Tree:null);
 
 			root_0 = (CommonTree)adaptor.Nil();
-			// 313:20: -> $a
+			// 311:14: -> $a
 			{
-				DebugLocation(313, 24);
+				DebugLocation(311, 18);
 				adaptor.AddChild(root_0, stream_a.NextTree());
 
 			}
@@ -6808,8 +6533,8 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			}
 
-			DebugLocation(313, 27);
-			// SugarCpp.g:313:27: ( '&' b= cmp_equ_expr -> ^( Expr_Bin '&' $bit_and $b) )*
+			DebugLocation(311, 21);
+			// SugarCpp.g:311:21: ( '&&' b= bit_or -> ^( Expr_Bin '&&' $and_expr $b) )*
 			try { DebugEnterSubRule(48);
 			while (true)
 			{
@@ -6817,7 +6542,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				try { DebugEnterDecision(48, false);
 				int LA48_0 = input.LA(1);
 
-				if ((LA48_0==59))
+				if ((LA48_0==58))
 				{
 					alt48 = 1;
 				}
@@ -6828,23 +6553,23 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:313:28: '&' b= cmp_equ_expr
+					// SugarCpp.g:311:22: '&&' b= bit_or
 					{
-					DebugLocation(313, 28);
-					char_literal161=(IToken)Match(input,59,Follow._59_in_bit_and1641); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_59.Add(char_literal161);
+					DebugLocation(311, 22);
+					string_literal167=(IToken)Match(input,58,Follow._58_in_and_expr1562); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_58.Add(string_literal167);
 
-					DebugLocation(313, 33);
-					PushFollow(Follow._cmp_equ_expr_in_bit_and1645);
-					b=cmp_equ_expr();
+					DebugLocation(311, 28);
+					PushFollow(Follow._bit_or_in_and_expr1566);
+					b=bit_or();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_cmp_equ_expr.Add(b.Tree);
+					if (state.backtracking == 0) stream_bit_or.Add(b.Tree);
 
 
 					{
 					// AST REWRITE
-					// elements: 59, bit_and, b
+					// elements: b, 58, and_expr
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -6856,20 +6581,20 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
 
 					root_0 = (CommonTree)adaptor.Nil();
-					// 313:47: -> ^( Expr_Bin '&' $bit_and $b)
+					// 311:36: -> ^( Expr_Bin '&&' $and_expr $b)
 					{
-						DebugLocation(313, 50);
-						// SugarCpp.g:313:50: ^( Expr_Bin '&' $bit_and $b)
+						DebugLocation(311, 39);
+						// SugarCpp.g:311:39: ^( Expr_Bin '&&' $and_expr $b)
 						{
 						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(313, 52);
+						DebugLocation(311, 41);
 						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Bin, "Expr_Bin"), root_1);
 
-						DebugLocation(313, 61);
-						adaptor.AddChild(root_1, stream_59.NextNode());
-						DebugLocation(313, 66);
+						DebugLocation(311, 50);
+						adaptor.AddChild(root_1, stream_58.NextNode());
+						DebugLocation(311, 56);
 						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(313, 75);
+						DebugLocation(311, 66);
 						adaptor.AddChild(root_1, stream_b.NextTree());
 
 						adaptor.AddChild(root_0, root_1);
@@ -6913,144 +6638,64 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("bit_and", 40);
-			LeaveRule("bit_and", 40);
-			LeaveRule_bit_and();
-			if (state.backtracking > 0) { Memoize(input, 40, bit_and_StartIndex); }
+			TraceOut("and_expr", 39);
+			LeaveRule("and_expr", 39);
+			LeaveRule_and_expr();
+			if (state.backtracking > 0) { Memoize(input, 39, and_expr_StartIndex); }
 
 		}
-		DebugLocation(314, 1);
-		} finally { DebugExitRule(GrammarFileName, "bit_and"); }
+		DebugLocation(312, 1);
+		} finally { DebugExitRule(GrammarFileName, "and_expr"); }
 		return retval;
 
 	}
-	// $ANTLR end "bit_and"
+	// $ANTLR end "and_expr"
 
-	partial void EnterRule_cmp_equ_expr_op();
-	partial void LeaveRule_cmp_equ_expr_op();
+	partial void EnterRule_bit_or();
+	partial void LeaveRule_bit_or();
 
-	// $ANTLR start "cmp_equ_expr_op"
-	// SugarCpp.g:316:1: cmp_equ_expr_op : ( '==' | '!=' );
-	[GrammarRule("cmp_equ_expr_op")]
-	private AstParserRuleReturnScope<CommonTree, IToken> cmp_equ_expr_op()
+	// $ANTLR start "bit_or"
+	// SugarCpp.g:314:1: bit_or : (a= bit_xor -> $a) ( '|' b= bit_xor -> ^( Expr_Bin '|' $bit_or $b) )* ;
+	[GrammarRule("bit_or")]
+	private AstParserRuleReturnScope<CommonTree, IToken> bit_or()
 	{
-		EnterRule_cmp_equ_expr_op();
-		EnterRule("cmp_equ_expr_op", 41);
-		TraceIn("cmp_equ_expr_op", 41);
+		EnterRule_bit_or();
+		EnterRule("bit_or", 40);
+		TraceIn("bit_or", 40);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
-		int cmp_equ_expr_op_StartIndex = input.Index;
+		int bit_or_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken set162 = default(IToken);
-
-		CommonTree set162_tree = default(CommonTree);
-		try { DebugEnterRule(GrammarFileName, "cmp_equ_expr_op");
-		DebugLocation(316, 29);
-		try
-		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 41)) { return retval; }
-
-			// SugarCpp.g:316:16: ( '==' | '!=' )
-			DebugEnterAlt(1);
-			// SugarCpp.g:
-			{
-			root_0 = (CommonTree)adaptor.Nil();
-
-			DebugLocation(316, 16);
-
-			set162=(IToken)input.LT(1);
-			if (input.LA(1)==55||input.LA(1)==87)
-			{
-				input.Consume();
-				if (state.backtracking == 0) adaptor.AddChild(root_0, (CommonTree)adaptor.Create(set162));
-				state.errorRecovery=false;state.failed=false;
-			}
-			else
-			{
-				if (state.backtracking>0) {state.failed=true; return retval;}
-				MismatchedSetException mse = new MismatchedSetException(null,input);
-				DebugRecognitionException(mse);
-				throw mse;
-			}
-
-
-			}
-
-			retval.Stop = (IToken)input.LT(-1);
-
-			if (state.backtracking == 0) {
-			retval.Tree = (CommonTree)adaptor.RulePostProcessing(root_0);
-			adaptor.SetTokenBoundaries(retval.Tree, retval.Start, retval.Stop);
-			}
-		}
-		catch (RecognitionException re)
-		{
-			ReportError(re);
-			Recover(input,re);
-		retval.Tree = (CommonTree)adaptor.ErrorNode(input, retval.Start, input.LT(-1), re);
-
-		}
-		finally
-		{
-			TraceOut("cmp_equ_expr_op", 41);
-			LeaveRule("cmp_equ_expr_op", 41);
-			LeaveRule_cmp_equ_expr_op();
-			if (state.backtracking > 0) { Memoize(input, 41, cmp_equ_expr_op_StartIndex); }
-
-		}
-		DebugLocation(316, 29);
-		} finally { DebugExitRule(GrammarFileName, "cmp_equ_expr_op"); }
-		return retval;
-
-	}
-	// $ANTLR end "cmp_equ_expr_op"
-
-	partial void EnterRule_cmp_equ_expr();
-	partial void LeaveRule_cmp_equ_expr();
-
-	// $ANTLR start "cmp_equ_expr"
-	// SugarCpp.g:317:1: cmp_equ_expr : (a= cmp_expr -> $a) ( cmp_equ_expr_op b= cmp_expr -> ^( Expr_Bin cmp_equ_expr_op $cmp_equ_expr $b) )? ;
-	[GrammarRule("cmp_equ_expr")]
-	private AstParserRuleReturnScope<CommonTree, IToken> cmp_equ_expr()
-	{
-		EnterRule_cmp_equ_expr();
-		EnterRule("cmp_equ_expr", 42);
-		TraceIn("cmp_equ_expr", 42);
-		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
-		retval.Start = (IToken)input.LT(1);
-		int cmp_equ_expr_StartIndex = input.Index;
-
-		CommonTree root_0 = default(CommonTree);
-
+		IToken char_literal168 = default(IToken);
 		AstParserRuleReturnScope<CommonTree, IToken> a = default(AstParserRuleReturnScope<CommonTree, IToken>);
 		AstParserRuleReturnScope<CommonTree, IToken> b = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> cmp_equ_expr_op163 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		RewriteRuleSubtreeStream stream_cmp_equ_expr_op=new RewriteRuleSubtreeStream(adaptor,"rule cmp_equ_expr_op");
-		RewriteRuleSubtreeStream stream_cmp_expr=new RewriteRuleSubtreeStream(adaptor,"rule cmp_expr");
-		try { DebugEnterRule(GrammarFileName, "cmp_equ_expr");
-		DebugLocation(317, 1);
+		CommonTree char_literal168_tree = default(CommonTree);
+		RewriteRuleITokenStream stream_113=new RewriteRuleITokenStream(adaptor,"token 113");
+		RewriteRuleSubtreeStream stream_bit_xor=new RewriteRuleSubtreeStream(adaptor,"rule bit_xor");
+		try { DebugEnterRule(GrammarFileName, "bit_or");
+		DebugLocation(314, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 42)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 40)) { return retval; }
 
-			// SugarCpp.g:318:2: ( (a= cmp_expr -> $a) ( cmp_equ_expr_op b= cmp_expr -> ^( Expr_Bin cmp_equ_expr_op $cmp_equ_expr $b) )? )
+			// SugarCpp.g:315:2: ( (a= bit_xor -> $a) ( '|' b= bit_xor -> ^( Expr_Bin '|' $bit_or $b) )* )
 			DebugEnterAlt(1);
-			// SugarCpp.g:318:4: (a= cmp_expr -> $a) ( cmp_equ_expr_op b= cmp_expr -> ^( Expr_Bin cmp_equ_expr_op $cmp_equ_expr $b) )?
+			// SugarCpp.g:315:4: (a= bit_xor -> $a) ( '|' b= bit_xor -> ^( Expr_Bin '|' $bit_or $b) )*
 			{
-			DebugLocation(318, 4);
-			// SugarCpp.g:318:4: (a= cmp_expr -> $a)
+			DebugLocation(315, 4);
+			// SugarCpp.g:315:4: (a= bit_xor -> $a)
 			DebugEnterAlt(1);
-			// SugarCpp.g:318:5: a= cmp_expr
+			// SugarCpp.g:315:5: a= bit_xor
 			{
-			DebugLocation(318, 6);
-			PushFollow(Follow._cmp_expr_in_cmp_equ_expr1686);
-			a=cmp_expr();
+			DebugLocation(315, 6);
+			PushFollow(Follow._bit_xor_in_bit_or1596);
+			a=bit_xor();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_cmp_expr.Add(a.Tree);
+			if (state.backtracking == 0) stream_bit_xor.Add(a.Tree);
 
 
 			{
@@ -7067,9 +6712,9 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			RewriteRuleSubtreeStream stream_a=new RewriteRuleSubtreeStream(adaptor,"rule a",a!=null?a.Tree:null);
 
 			root_0 = (CommonTree)adaptor.Nil();
-			// 318:16: -> $a
+			// 315:15: -> $a
 			{
-				DebugLocation(318, 20);
+				DebugLocation(315, 19);
 				adaptor.AddChild(root_0, stream_a.NextTree());
 
 			}
@@ -7080,81 +6725,90 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			}
 
-			DebugLocation(318, 23);
-			// SugarCpp.g:318:23: ( cmp_equ_expr_op b= cmp_expr -> ^( Expr_Bin cmp_equ_expr_op $cmp_equ_expr $b) )?
-			int alt49=2;
+			DebugLocation(315, 22);
+			// SugarCpp.g:315:22: ( '|' b= bit_xor -> ^( Expr_Bin '|' $bit_or $b) )*
 			try { DebugEnterSubRule(49);
-			try { DebugEnterDecision(49, false);
-			int LA49_0 = input.LA(1);
-
-			if ((LA49_0==55||LA49_0==87))
+			while (true)
 			{
-				alt49 = 1;
-			}
-			} finally { DebugExitDecision(49); }
-			switch (alt49)
-			{
-			case 1:
-				DebugEnterAlt(1);
-				// SugarCpp.g:318:24: cmp_equ_expr_op b= cmp_expr
+				int alt49=2;
+				try { DebugEnterDecision(49, false);
+				int LA49_0 = input.LA(1);
+
+				if ((LA49_0==113))
 				{
-				DebugLocation(318, 24);
-				PushFollow(Follow._cmp_equ_expr_op_in_cmp_equ_expr1695);
-				cmp_equ_expr_op163=cmp_equ_expr_op();
-				PopFollow();
-				if (state.failed) return retval;
-				if (state.backtracking == 0) stream_cmp_equ_expr_op.Add(cmp_equ_expr_op163.Tree);
-				DebugLocation(318, 41);
-				PushFollow(Follow._cmp_expr_in_cmp_equ_expr1699);
-				b=cmp_expr();
-				PopFollow();
-				if (state.failed) return retval;
-				if (state.backtracking == 0) stream_cmp_expr.Add(b.Tree);
+					alt49 = 1;
+				}
 
 
+				} finally { DebugExitDecision(49); }
+				switch ( alt49 )
 				{
-				// AST REWRITE
-				// elements: b, cmp_equ_expr_op, cmp_equ_expr
-				// token labels: 
-				// rule labels: retval, b
-				// token list labels: 
-				// rule list labels: 
-				// wildcard labels: 
-				if (state.backtracking == 0) {
-				retval.Tree = root_0;
-				RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
-				RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
-
-				root_0 = (CommonTree)adaptor.Nil();
-				// 318:51: -> ^( Expr_Bin cmp_equ_expr_op $cmp_equ_expr $b)
-				{
-					DebugLocation(318, 54);
-					// SugarCpp.g:318:54: ^( Expr_Bin cmp_equ_expr_op $cmp_equ_expr $b)
+				case 1:
+					DebugEnterAlt(1);
+					// SugarCpp.g:315:23: '|' b= bit_xor
 					{
-					CommonTree root_1 = (CommonTree)adaptor.Nil();
-					DebugLocation(318, 56);
-					root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Bin, "Expr_Bin"), root_1);
+					DebugLocation(315, 23);
+					char_literal168=(IToken)Match(input,113,Follow._113_in_bit_or1605); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_113.Add(char_literal168);
 
-					DebugLocation(318, 65);
-					adaptor.AddChild(root_1, stream_cmp_equ_expr_op.NextTree());
-					DebugLocation(318, 82);
-					adaptor.AddChild(root_1, stream_retval.NextTree());
-					DebugLocation(318, 96);
-					adaptor.AddChild(root_1, stream_b.NextTree());
+					DebugLocation(315, 28);
+					PushFollow(Follow._bit_xor_in_bit_or1609);
+					b=bit_xor();
+					PopFollow();
+					if (state.failed) return retval;
+					if (state.backtracking == 0) stream_bit_xor.Add(b.Tree);
 
-					adaptor.AddChild(root_0, root_1);
+
+					{
+					// AST REWRITE
+					// elements: b, bit_or, 113
+					// token labels: 
+					// rule labels: retval, b
+					// token list labels: 
+					// rule list labels: 
+					// wildcard labels: 
+					if (state.backtracking == 0) {
+					retval.Tree = root_0;
+					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
+					RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
+
+					root_0 = (CommonTree)adaptor.Nil();
+					// 315:37: -> ^( Expr_Bin '|' $bit_or $b)
+					{
+						DebugLocation(315, 40);
+						// SugarCpp.g:315:40: ^( Expr_Bin '|' $bit_or $b)
+						{
+						CommonTree root_1 = (CommonTree)adaptor.Nil();
+						DebugLocation(315, 42);
+						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Bin, "Expr_Bin"), root_1);
+
+						DebugLocation(315, 51);
+						adaptor.AddChild(root_1, stream_113.NextNode());
+						DebugLocation(315, 56);
+						adaptor.AddChild(root_1, stream_retval.NextTree());
+						DebugLocation(315, 64);
+						adaptor.AddChild(root_1, stream_b.NextTree());
+
+						adaptor.AddChild(root_0, root_1);
+						}
+
 					}
 
-				}
+					retval.Tree = root_0;
+					}
+					}
 
-				retval.Tree = root_0;
-				}
-				}
+					}
+					break;
 
+				default:
+					goto loop49;
 				}
-				break;
-
 			}
+
+			loop49:
+				;
+
 			} finally { DebugExitSubRule(49); }
 
 
@@ -7176,144 +6830,64 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("cmp_equ_expr", 42);
-			LeaveRule("cmp_equ_expr", 42);
-			LeaveRule_cmp_equ_expr();
-			if (state.backtracking > 0) { Memoize(input, 42, cmp_equ_expr_StartIndex); }
+			TraceOut("bit_or", 40);
+			LeaveRule("bit_or", 40);
+			LeaveRule_bit_or();
+			if (state.backtracking > 0) { Memoize(input, 40, bit_or_StartIndex); }
 
 		}
-		DebugLocation(319, 1);
-		} finally { DebugExitRule(GrammarFileName, "cmp_equ_expr"); }
+		DebugLocation(316, 1);
+		} finally { DebugExitRule(GrammarFileName, "bit_or"); }
 		return retval;
 
 	}
-	// $ANTLR end "cmp_equ_expr"
+	// $ANTLR end "bit_or"
 
-	partial void EnterRule_cmp_expr_op();
-	partial void LeaveRule_cmp_expr_op();
+	partial void EnterRule_bit_xor();
+	partial void LeaveRule_bit_xor();
 
-	// $ANTLR start "cmp_expr_op"
-	// SugarCpp.g:321:1: cmp_expr_op : ( '<' | '<=' | '>' | '>=' );
-	[GrammarRule("cmp_expr_op")]
-	private AstParserRuleReturnScope<CommonTree, IToken> cmp_expr_op()
+	// $ANTLR start "bit_xor"
+	// SugarCpp.g:318:1: bit_xor : (a= bit_and -> $a) ( '^' b= bit_and -> ^( Expr_Bin '^' $bit_xor $b) )* ;
+	[GrammarRule("bit_xor")]
+	private AstParserRuleReturnScope<CommonTree, IToken> bit_xor()
 	{
-		EnterRule_cmp_expr_op();
-		EnterRule("cmp_expr_op", 43);
-		TraceIn("cmp_expr_op", 43);
+		EnterRule_bit_xor();
+		EnterRule("bit_xor", 41);
+		TraceIn("bit_xor", 41);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
-		int cmp_expr_op_StartIndex = input.Index;
+		int bit_xor_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken set164 = default(IToken);
-
-		CommonTree set164_tree = default(CommonTree);
-		try { DebugEnterRule(GrammarFileName, "cmp_expr_op");
-		DebugLocation(321, 37);
-		try
-		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 43)) { return retval; }
-
-			// SugarCpp.g:321:12: ( '<' | '<=' | '>' | '>=' )
-			DebugEnterAlt(1);
-			// SugarCpp.g:
-			{
-			root_0 = (CommonTree)adaptor.Nil();
-
-			DebugLocation(321, 12);
-
-			set164=(IToken)input.LT(1);
-			if (input.LA(1)==82||input.LA(1)==85||(input.LA(1)>=89 && input.LA(1)<=90))
-			{
-				input.Consume();
-				if (state.backtracking == 0) adaptor.AddChild(root_0, (CommonTree)adaptor.Create(set164));
-				state.errorRecovery=false;state.failed=false;
-			}
-			else
-			{
-				if (state.backtracking>0) {state.failed=true; return retval;}
-				MismatchedSetException mse = new MismatchedSetException(null,input);
-				DebugRecognitionException(mse);
-				throw mse;
-			}
-
-
-			}
-
-			retval.Stop = (IToken)input.LT(-1);
-
-			if (state.backtracking == 0) {
-			retval.Tree = (CommonTree)adaptor.RulePostProcessing(root_0);
-			adaptor.SetTokenBoundaries(retval.Tree, retval.Start, retval.Stop);
-			}
-		}
-		catch (RecognitionException re)
-		{
-			ReportError(re);
-			Recover(input,re);
-		retval.Tree = (CommonTree)adaptor.ErrorNode(input, retval.Start, input.LT(-1), re);
-
-		}
-		finally
-		{
-			TraceOut("cmp_expr_op", 43);
-			LeaveRule("cmp_expr_op", 43);
-			LeaveRule_cmp_expr_op();
-			if (state.backtracking > 0) { Memoize(input, 43, cmp_expr_op_StartIndex); }
-
-		}
-		DebugLocation(321, 37);
-		} finally { DebugExitRule(GrammarFileName, "cmp_expr_op"); }
-		return retval;
-
-	}
-	// $ANTLR end "cmp_expr_op"
-
-	partial void EnterRule_cmp_expr();
-	partial void LeaveRule_cmp_expr();
-
-	// $ANTLR start "cmp_expr"
-	// SugarCpp.g:322:1: cmp_expr : (a= shift_expr -> $a) ( cmp_expr_op b= shift_expr -> ^( Expr_Bin cmp_expr_op $cmp_expr $b) )? ;
-	[GrammarRule("cmp_expr")]
-	private AstParserRuleReturnScope<CommonTree, IToken> cmp_expr()
-	{
-		EnterRule_cmp_expr();
-		EnterRule("cmp_expr", 44);
-		TraceIn("cmp_expr", 44);
-		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
-		retval.Start = (IToken)input.LT(1);
-		int cmp_expr_StartIndex = input.Index;
-
-		CommonTree root_0 = default(CommonTree);
-
+		IToken char_literal169 = default(IToken);
 		AstParserRuleReturnScope<CommonTree, IToken> a = default(AstParserRuleReturnScope<CommonTree, IToken>);
 		AstParserRuleReturnScope<CommonTree, IToken> b = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> cmp_expr_op165 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		RewriteRuleSubtreeStream stream_cmp_expr_op=new RewriteRuleSubtreeStream(adaptor,"rule cmp_expr_op");
-		RewriteRuleSubtreeStream stream_shift_expr=new RewriteRuleSubtreeStream(adaptor,"rule shift_expr");
-		try { DebugEnterRule(GrammarFileName, "cmp_expr");
-		DebugLocation(322, 1);
+		CommonTree char_literal169_tree = default(CommonTree);
+		RewriteRuleITokenStream stream_95=new RewriteRuleITokenStream(adaptor,"token 95");
+		RewriteRuleSubtreeStream stream_bit_and=new RewriteRuleSubtreeStream(adaptor,"rule bit_and");
+		try { DebugEnterRule(GrammarFileName, "bit_xor");
+		DebugLocation(318, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 44)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 41)) { return retval; }
 
-			// SugarCpp.g:323:2: ( (a= shift_expr -> $a) ( cmp_expr_op b= shift_expr -> ^( Expr_Bin cmp_expr_op $cmp_expr $b) )? )
+			// SugarCpp.g:319:2: ( (a= bit_and -> $a) ( '^' b= bit_and -> ^( Expr_Bin '^' $bit_xor $b) )* )
 			DebugEnterAlt(1);
-			// SugarCpp.g:323:4: (a= shift_expr -> $a) ( cmp_expr_op b= shift_expr -> ^( Expr_Bin cmp_expr_op $cmp_expr $b) )?
+			// SugarCpp.g:319:4: (a= bit_and -> $a) ( '^' b= bit_and -> ^( Expr_Bin '^' $bit_xor $b) )*
 			{
-			DebugLocation(323, 4);
-			// SugarCpp.g:323:4: (a= shift_expr -> $a)
+			DebugLocation(319, 4);
+			// SugarCpp.g:319:4: (a= bit_and -> $a)
 			DebugEnterAlt(1);
-			// SugarCpp.g:323:5: a= shift_expr
+			// SugarCpp.g:319:5: a= bit_and
 			{
-			DebugLocation(323, 6);
-			PushFollow(Follow._shift_expr_in_cmp_expr1749);
-			a=shift_expr();
+			DebugLocation(319, 6);
+			PushFollow(Follow._bit_and_in_bit_xor1639);
+			a=bit_and();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_shift_expr.Add(a.Tree);
+			if (state.backtracking == 0) stream_bit_and.Add(a.Tree);
 
 
 			{
@@ -7330,9 +6904,9 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			RewriteRuleSubtreeStream stream_a=new RewriteRuleSubtreeStream(adaptor,"rule a",a!=null?a.Tree:null);
 
 			root_0 = (CommonTree)adaptor.Nil();
-			// 323:18: -> $a
+			// 319:15: -> $a
 			{
-				DebugLocation(323, 22);
+				DebugLocation(319, 19);
 				adaptor.AddChild(root_0, stream_a.NextTree());
 
 			}
@@ -7343,81 +6917,90 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			}
 
-			DebugLocation(323, 25);
-			// SugarCpp.g:323:25: ( cmp_expr_op b= shift_expr -> ^( Expr_Bin cmp_expr_op $cmp_expr $b) )?
-			int alt50=2;
+			DebugLocation(319, 22);
+			// SugarCpp.g:319:22: ( '^' b= bit_and -> ^( Expr_Bin '^' $bit_xor $b) )*
 			try { DebugEnterSubRule(50);
-			try { DebugEnterDecision(50, false);
-			int LA50_0 = input.LA(1);
-
-			if ((LA50_0==82||LA50_0==85||(LA50_0>=89 && LA50_0<=90)))
+			while (true)
 			{
-				alt50 = 1;
-			}
-			} finally { DebugExitDecision(50); }
-			switch (alt50)
-			{
-			case 1:
-				DebugEnterAlt(1);
-				// SugarCpp.g:323:26: cmp_expr_op b= shift_expr
+				int alt50=2;
+				try { DebugEnterDecision(50, false);
+				int LA50_0 = input.LA(1);
+
+				if ((LA50_0==95))
 				{
-				DebugLocation(323, 26);
-				PushFollow(Follow._cmp_expr_op_in_cmp_expr1758);
-				cmp_expr_op165=cmp_expr_op();
-				PopFollow();
-				if (state.failed) return retval;
-				if (state.backtracking == 0) stream_cmp_expr_op.Add(cmp_expr_op165.Tree);
-				DebugLocation(323, 39);
-				PushFollow(Follow._shift_expr_in_cmp_expr1762);
-				b=shift_expr();
-				PopFollow();
-				if (state.failed) return retval;
-				if (state.backtracking == 0) stream_shift_expr.Add(b.Tree);
+					alt50 = 1;
+				}
 
 
+				} finally { DebugExitDecision(50); }
+				switch ( alt50 )
 				{
-				// AST REWRITE
-				// elements: cmp_expr, b, cmp_expr_op
-				// token labels: 
-				// rule labels: retval, b
-				// token list labels: 
-				// rule list labels: 
-				// wildcard labels: 
-				if (state.backtracking == 0) {
-				retval.Tree = root_0;
-				RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
-				RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
-
-				root_0 = (CommonTree)adaptor.Nil();
-				// 323:51: -> ^( Expr_Bin cmp_expr_op $cmp_expr $b)
-				{
-					DebugLocation(323, 54);
-					// SugarCpp.g:323:54: ^( Expr_Bin cmp_expr_op $cmp_expr $b)
+				case 1:
+					DebugEnterAlt(1);
+					// SugarCpp.g:319:23: '^' b= bit_and
 					{
-					CommonTree root_1 = (CommonTree)adaptor.Nil();
-					DebugLocation(323, 56);
-					root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Bin, "Expr_Bin"), root_1);
+					DebugLocation(319, 23);
+					char_literal169=(IToken)Match(input,95,Follow._95_in_bit_xor1648); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_95.Add(char_literal169);
 
-					DebugLocation(323, 65);
-					adaptor.AddChild(root_1, stream_cmp_expr_op.NextTree());
-					DebugLocation(323, 78);
-					adaptor.AddChild(root_1, stream_retval.NextTree());
-					DebugLocation(323, 88);
-					adaptor.AddChild(root_1, stream_b.NextTree());
+					DebugLocation(319, 28);
+					PushFollow(Follow._bit_and_in_bit_xor1652);
+					b=bit_and();
+					PopFollow();
+					if (state.failed) return retval;
+					if (state.backtracking == 0) stream_bit_and.Add(b.Tree);
 
-					adaptor.AddChild(root_0, root_1);
+
+					{
+					// AST REWRITE
+					// elements: 95, bit_xor, b
+					// token labels: 
+					// rule labels: retval, b
+					// token list labels: 
+					// rule list labels: 
+					// wildcard labels: 
+					if (state.backtracking == 0) {
+					retval.Tree = root_0;
+					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
+					RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
+
+					root_0 = (CommonTree)adaptor.Nil();
+					// 319:37: -> ^( Expr_Bin '^' $bit_xor $b)
+					{
+						DebugLocation(319, 40);
+						// SugarCpp.g:319:40: ^( Expr_Bin '^' $bit_xor $b)
+						{
+						CommonTree root_1 = (CommonTree)adaptor.Nil();
+						DebugLocation(319, 42);
+						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Bin, "Expr_Bin"), root_1);
+
+						DebugLocation(319, 51);
+						adaptor.AddChild(root_1, stream_95.NextNode());
+						DebugLocation(319, 56);
+						adaptor.AddChild(root_1, stream_retval.NextTree());
+						DebugLocation(319, 65);
+						adaptor.AddChild(root_1, stream_b.NextTree());
+
+						adaptor.AddChild(root_0, root_1);
+						}
+
 					}
 
-				}
+					retval.Tree = root_0;
+					}
+					}
 
-				retval.Tree = root_0;
-				}
-				}
+					}
+					break;
 
+				default:
+					goto loop50;
 				}
-				break;
-
 			}
+
+			loop50:
+				;
+
 			} finally { DebugExitSubRule(50); }
 
 
@@ -7439,144 +7022,64 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("cmp_expr", 44);
-			LeaveRule("cmp_expr", 44);
-			LeaveRule_cmp_expr();
-			if (state.backtracking > 0) { Memoize(input, 44, cmp_expr_StartIndex); }
+			TraceOut("bit_xor", 41);
+			LeaveRule("bit_xor", 41);
+			LeaveRule_bit_xor();
+			if (state.backtracking > 0) { Memoize(input, 41, bit_xor_StartIndex); }
 
 		}
-		DebugLocation(324, 1);
-		} finally { DebugExitRule(GrammarFileName, "cmp_expr"); }
+		DebugLocation(320, 1);
+		} finally { DebugExitRule(GrammarFileName, "bit_xor"); }
 		return retval;
 
 	}
-	// $ANTLR end "cmp_expr"
+	// $ANTLR end "bit_xor"
 
-	partial void EnterRule_shift_expr_op();
-	partial void LeaveRule_shift_expr_op();
+	partial void EnterRule_bit_and();
+	partial void LeaveRule_bit_and();
 
-	// $ANTLR start "shift_expr_op"
-	// SugarCpp.g:326:1: shift_expr_op : ( '<<' | '>>' );
-	[GrammarRule("shift_expr_op")]
-	private AstParserRuleReturnScope<CommonTree, IToken> shift_expr_op()
+	// $ANTLR start "bit_and"
+	// SugarCpp.g:322:1: bit_and : (a= cmp_equ_expr -> $a) ( '&' b= cmp_equ_expr -> ^( Expr_Bin '&' $bit_and $b) )* ;
+	[GrammarRule("bit_and")]
+	private AstParserRuleReturnScope<CommonTree, IToken> bit_and()
 	{
-		EnterRule_shift_expr_op();
-		EnterRule("shift_expr_op", 45);
-		TraceIn("shift_expr_op", 45);
+		EnterRule_bit_and();
+		EnterRule("bit_and", 42);
+		TraceIn("bit_and", 42);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
-		int shift_expr_op_StartIndex = input.Index;
+		int bit_and_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken set166 = default(IToken);
-
-		CommonTree set166_tree = default(CommonTree);
-		try { DebugEnterRule(GrammarFileName, "shift_expr_op");
-		DebugLocation(326, 27);
-		try
-		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 45)) { return retval; }
-
-			// SugarCpp.g:326:14: ( '<<' | '>>' )
-			DebugEnterAlt(1);
-			// SugarCpp.g:
-			{
-			root_0 = (CommonTree)adaptor.Nil();
-
-			DebugLocation(326, 14);
-
-			set166=(IToken)input.LT(1);
-			if (input.LA(1)==83||input.LA(1)==91)
-			{
-				input.Consume();
-				if (state.backtracking == 0) adaptor.AddChild(root_0, (CommonTree)adaptor.Create(set166));
-				state.errorRecovery=false;state.failed=false;
-			}
-			else
-			{
-				if (state.backtracking>0) {state.failed=true; return retval;}
-				MismatchedSetException mse = new MismatchedSetException(null,input);
-				DebugRecognitionException(mse);
-				throw mse;
-			}
-
-
-			}
-
-			retval.Stop = (IToken)input.LT(-1);
-
-			if (state.backtracking == 0) {
-			retval.Tree = (CommonTree)adaptor.RulePostProcessing(root_0);
-			adaptor.SetTokenBoundaries(retval.Tree, retval.Start, retval.Stop);
-			}
-		}
-		catch (RecognitionException re)
-		{
-			ReportError(re);
-			Recover(input,re);
-		retval.Tree = (CommonTree)adaptor.ErrorNode(input, retval.Start, input.LT(-1), re);
-
-		}
-		finally
-		{
-			TraceOut("shift_expr_op", 45);
-			LeaveRule("shift_expr_op", 45);
-			LeaveRule_shift_expr_op();
-			if (state.backtracking > 0) { Memoize(input, 45, shift_expr_op_StartIndex); }
-
-		}
-		DebugLocation(326, 27);
-		} finally { DebugExitRule(GrammarFileName, "shift_expr_op"); }
-		return retval;
-
-	}
-	// $ANTLR end "shift_expr_op"
-
-	partial void EnterRule_shift_expr();
-	partial void LeaveRule_shift_expr();
-
-	// $ANTLR start "shift_expr"
-	// SugarCpp.g:327:1: shift_expr : (a= add_expr -> $a) ( shift_expr_op b= add_expr -> ^( Expr_Bin shift_expr_op $shift_expr $b) )* ;
-	[GrammarRule("shift_expr")]
-	private AstParserRuleReturnScope<CommonTree, IToken> shift_expr()
-	{
-		EnterRule_shift_expr();
-		EnterRule("shift_expr", 46);
-		TraceIn("shift_expr", 46);
-		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
-		retval.Start = (IToken)input.LT(1);
-		int shift_expr_StartIndex = input.Index;
-
-		CommonTree root_0 = default(CommonTree);
-
+		IToken char_literal170 = default(IToken);
 		AstParserRuleReturnScope<CommonTree, IToken> a = default(AstParserRuleReturnScope<CommonTree, IToken>);
 		AstParserRuleReturnScope<CommonTree, IToken> b = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> shift_expr_op167 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		RewriteRuleSubtreeStream stream_shift_expr_op=new RewriteRuleSubtreeStream(adaptor,"rule shift_expr_op");
-		RewriteRuleSubtreeStream stream_add_expr=new RewriteRuleSubtreeStream(adaptor,"rule add_expr");
-		try { DebugEnterRule(GrammarFileName, "shift_expr");
-		DebugLocation(327, 1);
+		CommonTree char_literal170_tree = default(CommonTree);
+		RewriteRuleITokenStream stream_59=new RewriteRuleITokenStream(adaptor,"token 59");
+		RewriteRuleSubtreeStream stream_cmp_equ_expr=new RewriteRuleSubtreeStream(adaptor,"rule cmp_equ_expr");
+		try { DebugEnterRule(GrammarFileName, "bit_and");
+		DebugLocation(322, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 46)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 42)) { return retval; }
 
-			// SugarCpp.g:328:2: ( (a= add_expr -> $a) ( shift_expr_op b= add_expr -> ^( Expr_Bin shift_expr_op $shift_expr $b) )* )
+			// SugarCpp.g:323:2: ( (a= cmp_equ_expr -> $a) ( '&' b= cmp_equ_expr -> ^( Expr_Bin '&' $bit_and $b) )* )
 			DebugEnterAlt(1);
-			// SugarCpp.g:328:4: (a= add_expr -> $a) ( shift_expr_op b= add_expr -> ^( Expr_Bin shift_expr_op $shift_expr $b) )*
+			// SugarCpp.g:323:4: (a= cmp_equ_expr -> $a) ( '&' b= cmp_equ_expr -> ^( Expr_Bin '&' $bit_and $b) )*
 			{
-			DebugLocation(328, 4);
-			// SugarCpp.g:328:4: (a= add_expr -> $a)
+			DebugLocation(323, 4);
+			// SugarCpp.g:323:4: (a= cmp_equ_expr -> $a)
 			DebugEnterAlt(1);
-			// SugarCpp.g:328:5: a= add_expr
+			// SugarCpp.g:323:5: a= cmp_equ_expr
 			{
-			DebugLocation(328, 6);
-			PushFollow(Follow._add_expr_in_shift_expr1803);
-			a=add_expr();
+			DebugLocation(323, 6);
+			PushFollow(Follow._cmp_equ_expr_in_bit_and1682);
+			a=cmp_equ_expr();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_add_expr.Add(a.Tree);
+			if (state.backtracking == 0) stream_cmp_equ_expr.Add(a.Tree);
 
 
 			{
@@ -7593,9 +7096,9 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			RewriteRuleSubtreeStream stream_a=new RewriteRuleSubtreeStream(adaptor,"rule a",a!=null?a.Tree:null);
 
 			root_0 = (CommonTree)adaptor.Nil();
-			// 328:16: -> $a
+			// 323:20: -> $a
 			{
-				DebugLocation(328, 20);
+				DebugLocation(323, 24);
 				adaptor.AddChild(root_0, stream_a.NextTree());
 
 			}
@@ -7606,8 +7109,8 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			}
 
-			DebugLocation(328, 23);
-			// SugarCpp.g:328:23: ( shift_expr_op b= add_expr -> ^( Expr_Bin shift_expr_op $shift_expr $b) )*
+			DebugLocation(323, 27);
+			// SugarCpp.g:323:27: ( '&' b= cmp_equ_expr -> ^( Expr_Bin '&' $bit_and $b) )*
 			try { DebugEnterSubRule(51);
 			while (true)
 			{
@@ -7615,7 +7118,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				try { DebugEnterDecision(51, false);
 				int LA51_0 = input.LA(1);
 
-				if ((LA51_0==83||LA51_0==91))
+				if ((LA51_0==59))
 				{
 					alt51 = 1;
 				}
@@ -7626,25 +7129,23 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:328:24: shift_expr_op b= add_expr
+					// SugarCpp.g:323:28: '&' b= cmp_equ_expr
 					{
-					DebugLocation(328, 24);
-					PushFollow(Follow._shift_expr_op_in_shift_expr1812);
-					shift_expr_op167=shift_expr_op();
+					DebugLocation(323, 28);
+					char_literal170=(IToken)Match(input,59,Follow._59_in_bit_and1691); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_59.Add(char_literal170);
+
+					DebugLocation(323, 33);
+					PushFollow(Follow._cmp_equ_expr_in_bit_and1695);
+					b=cmp_equ_expr();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_shift_expr_op.Add(shift_expr_op167.Tree);
-					DebugLocation(328, 39);
-					PushFollow(Follow._add_expr_in_shift_expr1816);
-					b=add_expr();
-					PopFollow();
-					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_add_expr.Add(b.Tree);
+					if (state.backtracking == 0) stream_cmp_equ_expr.Add(b.Tree);
 
 
 					{
 					// AST REWRITE
-					// elements: shift_expr, shift_expr_op, b
+					// elements: bit_and, b, 59
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -7656,20 +7157,20 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
 
 					root_0 = (CommonTree)adaptor.Nil();
-					// 328:49: -> ^( Expr_Bin shift_expr_op $shift_expr $b)
+					// 323:47: -> ^( Expr_Bin '&' $bit_and $b)
 					{
-						DebugLocation(328, 52);
-						// SugarCpp.g:328:52: ^( Expr_Bin shift_expr_op $shift_expr $b)
+						DebugLocation(323, 50);
+						// SugarCpp.g:323:50: ^( Expr_Bin '&' $bit_and $b)
 						{
 						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(328, 54);
+						DebugLocation(323, 52);
 						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Bin, "Expr_Bin"), root_1);
 
-						DebugLocation(328, 63);
-						adaptor.AddChild(root_1, stream_shift_expr_op.NextTree());
-						DebugLocation(328, 78);
+						DebugLocation(323, 61);
+						adaptor.AddChild(root_1, stream_59.NextNode());
+						DebugLocation(323, 66);
 						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(328, 90);
+						DebugLocation(323, 75);
 						adaptor.AddChild(root_1, stream_b.NextTree());
 
 						adaptor.AddChild(root_0, root_1);
@@ -7713,67 +7214,144 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("shift_expr", 46);
-			LeaveRule("shift_expr", 46);
-			LeaveRule_shift_expr();
-			if (state.backtracking > 0) { Memoize(input, 46, shift_expr_StartIndex); }
+			TraceOut("bit_and", 42);
+			LeaveRule("bit_and", 42);
+			LeaveRule_bit_and();
+			if (state.backtracking > 0) { Memoize(input, 42, bit_and_StartIndex); }
 
 		}
-		DebugLocation(329, 1);
-		} finally { DebugExitRule(GrammarFileName, "shift_expr"); }
+		DebugLocation(324, 1);
+		} finally { DebugExitRule(GrammarFileName, "bit_and"); }
 		return retval;
 
 	}
-	// $ANTLR end "shift_expr"
+	// $ANTLR end "bit_and"
 
-	partial void EnterRule_add_expr();
-	partial void LeaveRule_add_expr();
+	partial void EnterRule_cmp_equ_expr_op();
+	partial void LeaveRule_cmp_equ_expr_op();
 
-	// $ANTLR start "add_expr"
-	// SugarCpp.g:331:1: add_expr : (a= infix_expr -> $a) ( '+' b= infix_expr -> ^( Expr_Bin '+' $add_expr $b) | '-' b= infix_expr -> ^( Expr_Bin '-' $add_expr $b) )* ;
-	[GrammarRule("add_expr")]
-	private AstParserRuleReturnScope<CommonTree, IToken> add_expr()
+	// $ANTLR start "cmp_equ_expr_op"
+	// SugarCpp.g:326:1: cmp_equ_expr_op : ( '==' | '!=' );
+	[GrammarRule("cmp_equ_expr_op")]
+	private AstParserRuleReturnScope<CommonTree, IToken> cmp_equ_expr_op()
 	{
-		EnterRule_add_expr();
-		EnterRule("add_expr", 47);
-		TraceIn("add_expr", 47);
+		EnterRule_cmp_equ_expr_op();
+		EnterRule("cmp_equ_expr_op", 43);
+		TraceIn("cmp_equ_expr_op", 43);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
-		int add_expr_StartIndex = input.Index;
+		int cmp_equ_expr_op_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken char_literal168 = default(IToken);
-		IToken char_literal169 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> a = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> b = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		IToken set171 = default(IToken);
 
-		CommonTree char_literal168_tree = default(CommonTree);
-		CommonTree char_literal169_tree = default(CommonTree);
-		RewriteRuleITokenStream stream_69=new RewriteRuleITokenStream(adaptor,"token 69");
-		RewriteRuleITokenStream stream_65=new RewriteRuleITokenStream(adaptor,"token 65");
-		RewriteRuleSubtreeStream stream_infix_expr=new RewriteRuleSubtreeStream(adaptor,"rule infix_expr");
-		try { DebugEnterRule(GrammarFileName, "add_expr");
-		DebugLocation(331, 1);
+		CommonTree set171_tree = default(CommonTree);
+		try { DebugEnterRule(GrammarFileName, "cmp_equ_expr_op");
+		DebugLocation(326, 29);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 47)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 43)) { return retval; }
 
-			// SugarCpp.g:332:2: ( (a= infix_expr -> $a) ( '+' b= infix_expr -> ^( Expr_Bin '+' $add_expr $b) | '-' b= infix_expr -> ^( Expr_Bin '-' $add_expr $b) )* )
+			// SugarCpp.g:326:16: ( '==' | '!=' )
 			DebugEnterAlt(1);
-			// SugarCpp.g:332:4: (a= infix_expr -> $a) ( '+' b= infix_expr -> ^( Expr_Bin '+' $add_expr $b) | '-' b= infix_expr -> ^( Expr_Bin '-' $add_expr $b) )*
+			// SugarCpp.g:
 			{
-			DebugLocation(332, 4);
-			// SugarCpp.g:332:4: (a= infix_expr -> $a)
+			root_0 = (CommonTree)adaptor.Nil();
+
+			DebugLocation(326, 16);
+
+			set171=(IToken)input.LT(1);
+			if (input.LA(1)==55||input.LA(1)==87)
+			{
+				input.Consume();
+				if (state.backtracking == 0) adaptor.AddChild(root_0, (CommonTree)adaptor.Create(set171));
+				state.errorRecovery=false;state.failed=false;
+			}
+			else
+			{
+				if (state.backtracking>0) {state.failed=true; return retval;}
+				MismatchedSetException mse = new MismatchedSetException(null,input);
+				DebugRecognitionException(mse);
+				throw mse;
+			}
+
+
+			}
+
+			retval.Stop = (IToken)input.LT(-1);
+
+			if (state.backtracking == 0) {
+			retval.Tree = (CommonTree)adaptor.RulePostProcessing(root_0);
+			adaptor.SetTokenBoundaries(retval.Tree, retval.Start, retval.Stop);
+			}
+		}
+		catch (RecognitionException re)
+		{
+			ReportError(re);
+			Recover(input,re);
+		retval.Tree = (CommonTree)adaptor.ErrorNode(input, retval.Start, input.LT(-1), re);
+
+		}
+		finally
+		{
+			TraceOut("cmp_equ_expr_op", 43);
+			LeaveRule("cmp_equ_expr_op", 43);
+			LeaveRule_cmp_equ_expr_op();
+			if (state.backtracking > 0) { Memoize(input, 43, cmp_equ_expr_op_StartIndex); }
+
+		}
+		DebugLocation(326, 29);
+		} finally { DebugExitRule(GrammarFileName, "cmp_equ_expr_op"); }
+		return retval;
+
+	}
+	// $ANTLR end "cmp_equ_expr_op"
+
+	partial void EnterRule_cmp_equ_expr();
+	partial void LeaveRule_cmp_equ_expr();
+
+	// $ANTLR start "cmp_equ_expr"
+	// SugarCpp.g:327:1: cmp_equ_expr : (a= cmp_expr -> $a) ( cmp_equ_expr_op b= cmp_expr -> ^( Expr_Bin cmp_equ_expr_op $cmp_equ_expr $b) )? ;
+	[GrammarRule("cmp_equ_expr")]
+	private AstParserRuleReturnScope<CommonTree, IToken> cmp_equ_expr()
+	{
+		EnterRule_cmp_equ_expr();
+		EnterRule("cmp_equ_expr", 44);
+		TraceIn("cmp_equ_expr", 44);
+		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
+		retval.Start = (IToken)input.LT(1);
+		int cmp_equ_expr_StartIndex = input.Index;
+
+		CommonTree root_0 = default(CommonTree);
+
+		AstParserRuleReturnScope<CommonTree, IToken> a = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> b = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> cmp_equ_expr_op172 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+
+		RewriteRuleSubtreeStream stream_cmp_equ_expr_op=new RewriteRuleSubtreeStream(adaptor,"rule cmp_equ_expr_op");
+		RewriteRuleSubtreeStream stream_cmp_expr=new RewriteRuleSubtreeStream(adaptor,"rule cmp_expr");
+		try { DebugEnterRule(GrammarFileName, "cmp_equ_expr");
+		DebugLocation(327, 1);
+		try
+		{
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 44)) { return retval; }
+
+			// SugarCpp.g:328:2: ( (a= cmp_expr -> $a) ( cmp_equ_expr_op b= cmp_expr -> ^( Expr_Bin cmp_equ_expr_op $cmp_equ_expr $b) )? )
 			DebugEnterAlt(1);
-			// SugarCpp.g:332:5: a= infix_expr
+			// SugarCpp.g:328:4: (a= cmp_expr -> $a) ( cmp_equ_expr_op b= cmp_expr -> ^( Expr_Bin cmp_equ_expr_op $cmp_equ_expr $b) )?
 			{
-			DebugLocation(332, 6);
-			PushFollow(Follow._infix_expr_in_add_expr1846);
-			a=infix_expr();
+			DebugLocation(328, 4);
+			// SugarCpp.g:328:4: (a= cmp_expr -> $a)
+			DebugEnterAlt(1);
+			// SugarCpp.g:328:5: a= cmp_expr
+			{
+			DebugLocation(328, 6);
+			PushFollow(Follow._cmp_expr_in_cmp_equ_expr1736);
+			a=cmp_expr();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_infix_expr.Add(a.Tree);
+			if (state.backtracking == 0) stream_cmp_expr.Add(a.Tree);
 
 
 			{
@@ -7790,9 +7368,9 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			RewriteRuleSubtreeStream stream_a=new RewriteRuleSubtreeStream(adaptor,"rule a",a!=null?a.Tree:null);
 
 			root_0 = (CommonTree)adaptor.Nil();
-			// 332:18: -> $a
+			// 328:16: -> $a
 			{
-				DebugLocation(332, 22);
+				DebugLocation(328, 20);
 				adaptor.AddChild(root_0, stream_a.NextTree());
 
 			}
@@ -7803,151 +7381,81 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			}
 
-			DebugLocation(332, 25);
-			// SugarCpp.g:332:25: ( '+' b= infix_expr -> ^( Expr_Bin '+' $add_expr $b) | '-' b= infix_expr -> ^( Expr_Bin '-' $add_expr $b) )*
+			DebugLocation(328, 23);
+			// SugarCpp.g:328:23: ( cmp_equ_expr_op b= cmp_expr -> ^( Expr_Bin cmp_equ_expr_op $cmp_equ_expr $b) )?
+			int alt52=2;
 			try { DebugEnterSubRule(52);
-			while (true)
+			try { DebugEnterDecision(52, false);
+			int LA52_0 = input.LA(1);
+
+			if ((LA52_0==55||LA52_0==87))
 			{
-				int alt52=3;
-				try { DebugEnterDecision(52, false);
-				int LA52_0 = input.LA(1);
-
-				if ((LA52_0==65))
-				{
-					alt52 = 1;
-				}
-				else if ((LA52_0==69))
-				{
-					alt52 = 2;
-				}
-
-
-				} finally { DebugExitDecision(52); }
-				switch ( alt52 )
-				{
-				case 1:
-					DebugEnterAlt(1);
-					// SugarCpp.g:332:27: '+' b= infix_expr
-					{
-					DebugLocation(332, 27);
-					char_literal168=(IToken)Match(input,65,Follow._65_in_add_expr1856); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_65.Add(char_literal168);
-
-					DebugLocation(332, 32);
-					PushFollow(Follow._infix_expr_in_add_expr1860);
-					b=infix_expr();
-					PopFollow();
-					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_infix_expr.Add(b.Tree);
-
-
-					{
-					// AST REWRITE
-					// elements: b, 65, add_expr
-					// token labels: 
-					// rule labels: retval, b
-					// token list labels: 
-					// rule list labels: 
-					// wildcard labels: 
-					if (state.backtracking == 0) {
-					retval.Tree = root_0;
-					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
-					RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
-
-					root_0 = (CommonTree)adaptor.Nil();
-					// 332:44: -> ^( Expr_Bin '+' $add_expr $b)
-					{
-						DebugLocation(332, 47);
-						// SugarCpp.g:332:47: ^( Expr_Bin '+' $add_expr $b)
-						{
-						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(332, 49);
-						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Bin, "Expr_Bin"), root_1);
-
-						DebugLocation(332, 58);
-						adaptor.AddChild(root_1, stream_65.NextNode());
-						DebugLocation(332, 63);
-						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(332, 73);
-						adaptor.AddChild(root_1, stream_b.NextTree());
-
-						adaptor.AddChild(root_0, root_1);
-						}
-
-					}
-
-					retval.Tree = root_0;
-					}
-					}
-
-					}
-					break;
-				case 2:
-					DebugEnterAlt(2);
-					// SugarCpp.g:333:12: '-' b= infix_expr
-					{
-					DebugLocation(333, 12);
-					char_literal169=(IToken)Match(input,69,Follow._69_in_add_expr1887); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_69.Add(char_literal169);
-
-					DebugLocation(333, 17);
-					PushFollow(Follow._infix_expr_in_add_expr1891);
-					b=infix_expr();
-					PopFollow();
-					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_infix_expr.Add(b.Tree);
-
-
-					{
-					// AST REWRITE
-					// elements: add_expr, 69, b
-					// token labels: 
-					// rule labels: retval, b
-					// token list labels: 
-					// rule list labels: 
-					// wildcard labels: 
-					if (state.backtracking == 0) {
-					retval.Tree = root_0;
-					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
-					RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
-
-					root_0 = (CommonTree)adaptor.Nil();
-					// 333:29: -> ^( Expr_Bin '-' $add_expr $b)
-					{
-						DebugLocation(333, 32);
-						// SugarCpp.g:333:32: ^( Expr_Bin '-' $add_expr $b)
-						{
-						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(333, 34);
-						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Bin, "Expr_Bin"), root_1);
-
-						DebugLocation(333, 43);
-						adaptor.AddChild(root_1, stream_69.NextNode());
-						DebugLocation(333, 48);
-						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(333, 58);
-						adaptor.AddChild(root_1, stream_b.NextTree());
-
-						adaptor.AddChild(root_0, root_1);
-						}
-
-					}
-
-					retval.Tree = root_0;
-					}
-					}
-
-					}
-					break;
-
-				default:
-					goto loop52;
-				}
+				alt52 = 1;
 			}
+			} finally { DebugExitDecision(52); }
+			switch (alt52)
+			{
+			case 1:
+				DebugEnterAlt(1);
+				// SugarCpp.g:328:24: cmp_equ_expr_op b= cmp_expr
+				{
+				DebugLocation(328, 24);
+				PushFollow(Follow._cmp_equ_expr_op_in_cmp_equ_expr1745);
+				cmp_equ_expr_op172=cmp_equ_expr_op();
+				PopFollow();
+				if (state.failed) return retval;
+				if (state.backtracking == 0) stream_cmp_equ_expr_op.Add(cmp_equ_expr_op172.Tree);
+				DebugLocation(328, 41);
+				PushFollow(Follow._cmp_expr_in_cmp_equ_expr1749);
+				b=cmp_expr();
+				PopFollow();
+				if (state.failed) return retval;
+				if (state.backtracking == 0) stream_cmp_expr.Add(b.Tree);
 
-			loop52:
-				;
 
+				{
+				// AST REWRITE
+				// elements: b, cmp_equ_expr_op, cmp_equ_expr
+				// token labels: 
+				// rule labels: retval, b
+				// token list labels: 
+				// rule list labels: 
+				// wildcard labels: 
+				if (state.backtracking == 0) {
+				retval.Tree = root_0;
+				RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
+				RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
+
+				root_0 = (CommonTree)adaptor.Nil();
+				// 328:51: -> ^( Expr_Bin cmp_equ_expr_op $cmp_equ_expr $b)
+				{
+					DebugLocation(328, 54);
+					// SugarCpp.g:328:54: ^( Expr_Bin cmp_equ_expr_op $cmp_equ_expr $b)
+					{
+					CommonTree root_1 = (CommonTree)adaptor.Nil();
+					DebugLocation(328, 56);
+					root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Bin, "Expr_Bin"), root_1);
+
+					DebugLocation(328, 65);
+					adaptor.AddChild(root_1, stream_cmp_equ_expr_op.NextTree());
+					DebugLocation(328, 82);
+					adaptor.AddChild(root_1, stream_retval.NextTree());
+					DebugLocation(328, 96);
+					adaptor.AddChild(root_1, stream_b.NextTree());
+
+					adaptor.AddChild(root_0, root_1);
+					}
+
+				}
+
+				retval.Tree = root_0;
+				}
+				}
+
+				}
+				break;
+
+			}
 			} finally { DebugExitSubRule(52); }
 
 
@@ -7969,63 +7477,407 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("add_expr", 47);
-			LeaveRule("add_expr", 47);
-			LeaveRule_add_expr();
-			if (state.backtracking > 0) { Memoize(input, 47, add_expr_StartIndex); }
+			TraceOut("cmp_equ_expr", 44);
+			LeaveRule("cmp_equ_expr", 44);
+			LeaveRule_cmp_equ_expr();
+			if (state.backtracking > 0) { Memoize(input, 44, cmp_equ_expr_StartIndex); }
 
 		}
-		DebugLocation(335, 1);
-		} finally { DebugExitRule(GrammarFileName, "add_expr"); }
+		DebugLocation(329, 1);
+		} finally { DebugExitRule(GrammarFileName, "cmp_equ_expr"); }
 		return retval;
 
 	}
-	// $ANTLR end "add_expr"
+	// $ANTLR end "cmp_equ_expr"
 
-	partial void EnterRule_infix_expr();
-	partial void LeaveRule_infix_expr();
+	partial void EnterRule_cmp_expr_op();
+	partial void LeaveRule_cmp_expr_op();
 
-	// $ANTLR start "infix_expr"
-	// SugarCpp.g:337:1: infix_expr : (a= mul_expr -> $a) ( infix_func b= mul_expr -> ^( Expr_Infix infix_func $infix_expr $b) )* ;
-	[GrammarRule("infix_expr")]
-	private AstParserRuleReturnScope<CommonTree, IToken> infix_expr()
+	// $ANTLR start "cmp_expr_op"
+	// SugarCpp.g:331:1: cmp_expr_op : ( '<' | '<=' | '>' | '>=' );
+	[GrammarRule("cmp_expr_op")]
+	private AstParserRuleReturnScope<CommonTree, IToken> cmp_expr_op()
 	{
-		EnterRule_infix_expr();
-		EnterRule("infix_expr", 48);
-		TraceIn("infix_expr", 48);
+		EnterRule_cmp_expr_op();
+		EnterRule("cmp_expr_op", 45);
+		TraceIn("cmp_expr_op", 45);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
-		int infix_expr_StartIndex = input.Index;
+		int cmp_expr_op_StartIndex = input.Index;
+
+		CommonTree root_0 = default(CommonTree);
+
+		IToken set173 = default(IToken);
+
+		CommonTree set173_tree = default(CommonTree);
+		try { DebugEnterRule(GrammarFileName, "cmp_expr_op");
+		DebugLocation(331, 37);
+		try
+		{
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 45)) { return retval; }
+
+			// SugarCpp.g:331:12: ( '<' | '<=' | '>' | '>=' )
+			DebugEnterAlt(1);
+			// SugarCpp.g:
+			{
+			root_0 = (CommonTree)adaptor.Nil();
+
+			DebugLocation(331, 12);
+
+			set173=(IToken)input.LT(1);
+			if (input.LA(1)==82||input.LA(1)==85||(input.LA(1)>=89 && input.LA(1)<=90))
+			{
+				input.Consume();
+				if (state.backtracking == 0) adaptor.AddChild(root_0, (CommonTree)adaptor.Create(set173));
+				state.errorRecovery=false;state.failed=false;
+			}
+			else
+			{
+				if (state.backtracking>0) {state.failed=true; return retval;}
+				MismatchedSetException mse = new MismatchedSetException(null,input);
+				DebugRecognitionException(mse);
+				throw mse;
+			}
+
+
+			}
+
+			retval.Stop = (IToken)input.LT(-1);
+
+			if (state.backtracking == 0) {
+			retval.Tree = (CommonTree)adaptor.RulePostProcessing(root_0);
+			adaptor.SetTokenBoundaries(retval.Tree, retval.Start, retval.Stop);
+			}
+		}
+		catch (RecognitionException re)
+		{
+			ReportError(re);
+			Recover(input,re);
+		retval.Tree = (CommonTree)adaptor.ErrorNode(input, retval.Start, input.LT(-1), re);
+
+		}
+		finally
+		{
+			TraceOut("cmp_expr_op", 45);
+			LeaveRule("cmp_expr_op", 45);
+			LeaveRule_cmp_expr_op();
+			if (state.backtracking > 0) { Memoize(input, 45, cmp_expr_op_StartIndex); }
+
+		}
+		DebugLocation(331, 37);
+		} finally { DebugExitRule(GrammarFileName, "cmp_expr_op"); }
+		return retval;
+
+	}
+	// $ANTLR end "cmp_expr_op"
+
+	partial void EnterRule_cmp_expr();
+	partial void LeaveRule_cmp_expr();
+
+	// $ANTLR start "cmp_expr"
+	// SugarCpp.g:332:1: cmp_expr : (a= shift_expr -> $a) ( cmp_expr_op b= shift_expr -> ^( Expr_Bin cmp_expr_op $cmp_expr $b) )? ;
+	[GrammarRule("cmp_expr")]
+	private AstParserRuleReturnScope<CommonTree, IToken> cmp_expr()
+	{
+		EnterRule_cmp_expr();
+		EnterRule("cmp_expr", 46);
+		TraceIn("cmp_expr", 46);
+		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
+		retval.Start = (IToken)input.LT(1);
+		int cmp_expr_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
 		AstParserRuleReturnScope<CommonTree, IToken> a = default(AstParserRuleReturnScope<CommonTree, IToken>);
 		AstParserRuleReturnScope<CommonTree, IToken> b = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> infix_func170 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> cmp_expr_op174 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		RewriteRuleSubtreeStream stream_infix_func=new RewriteRuleSubtreeStream(adaptor,"rule infix_func");
-		RewriteRuleSubtreeStream stream_mul_expr=new RewriteRuleSubtreeStream(adaptor,"rule mul_expr");
-		try { DebugEnterRule(GrammarFileName, "infix_expr");
+		RewriteRuleSubtreeStream stream_cmp_expr_op=new RewriteRuleSubtreeStream(adaptor,"rule cmp_expr_op");
+		RewriteRuleSubtreeStream stream_shift_expr=new RewriteRuleSubtreeStream(adaptor,"rule shift_expr");
+		try { DebugEnterRule(GrammarFileName, "cmp_expr");
+		DebugLocation(332, 1);
+		try
+		{
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 46)) { return retval; }
+
+			// SugarCpp.g:333:2: ( (a= shift_expr -> $a) ( cmp_expr_op b= shift_expr -> ^( Expr_Bin cmp_expr_op $cmp_expr $b) )? )
+			DebugEnterAlt(1);
+			// SugarCpp.g:333:4: (a= shift_expr -> $a) ( cmp_expr_op b= shift_expr -> ^( Expr_Bin cmp_expr_op $cmp_expr $b) )?
+			{
+			DebugLocation(333, 4);
+			// SugarCpp.g:333:4: (a= shift_expr -> $a)
+			DebugEnterAlt(1);
+			// SugarCpp.g:333:5: a= shift_expr
+			{
+			DebugLocation(333, 6);
+			PushFollow(Follow._shift_expr_in_cmp_expr1799);
+			a=shift_expr();
+			PopFollow();
+			if (state.failed) return retval;
+			if (state.backtracking == 0) stream_shift_expr.Add(a.Tree);
+
+
+			{
+			// AST REWRITE
+			// elements: a
+			// token labels: 
+			// rule labels: retval, a
+			// token list labels: 
+			// rule list labels: 
+			// wildcard labels: 
+			if (state.backtracking == 0) {
+			retval.Tree = root_0;
+			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
+			RewriteRuleSubtreeStream stream_a=new RewriteRuleSubtreeStream(adaptor,"rule a",a!=null?a.Tree:null);
+
+			root_0 = (CommonTree)adaptor.Nil();
+			// 333:18: -> $a
+			{
+				DebugLocation(333, 22);
+				adaptor.AddChild(root_0, stream_a.NextTree());
+
+			}
+
+			retval.Tree = root_0;
+			}
+			}
+
+			}
+
+			DebugLocation(333, 25);
+			// SugarCpp.g:333:25: ( cmp_expr_op b= shift_expr -> ^( Expr_Bin cmp_expr_op $cmp_expr $b) )?
+			int alt53=2;
+			try { DebugEnterSubRule(53);
+			try { DebugEnterDecision(53, false);
+			int LA53_0 = input.LA(1);
+
+			if ((LA53_0==82||LA53_0==85||(LA53_0>=89 && LA53_0<=90)))
+			{
+				alt53 = 1;
+			}
+			} finally { DebugExitDecision(53); }
+			switch (alt53)
+			{
+			case 1:
+				DebugEnterAlt(1);
+				// SugarCpp.g:333:26: cmp_expr_op b= shift_expr
+				{
+				DebugLocation(333, 26);
+				PushFollow(Follow._cmp_expr_op_in_cmp_expr1808);
+				cmp_expr_op174=cmp_expr_op();
+				PopFollow();
+				if (state.failed) return retval;
+				if (state.backtracking == 0) stream_cmp_expr_op.Add(cmp_expr_op174.Tree);
+				DebugLocation(333, 39);
+				PushFollow(Follow._shift_expr_in_cmp_expr1812);
+				b=shift_expr();
+				PopFollow();
+				if (state.failed) return retval;
+				if (state.backtracking == 0) stream_shift_expr.Add(b.Tree);
+
+
+				{
+				// AST REWRITE
+				// elements: cmp_expr_op, b, cmp_expr
+				// token labels: 
+				// rule labels: retval, b
+				// token list labels: 
+				// rule list labels: 
+				// wildcard labels: 
+				if (state.backtracking == 0) {
+				retval.Tree = root_0;
+				RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
+				RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
+
+				root_0 = (CommonTree)adaptor.Nil();
+				// 333:51: -> ^( Expr_Bin cmp_expr_op $cmp_expr $b)
+				{
+					DebugLocation(333, 54);
+					// SugarCpp.g:333:54: ^( Expr_Bin cmp_expr_op $cmp_expr $b)
+					{
+					CommonTree root_1 = (CommonTree)adaptor.Nil();
+					DebugLocation(333, 56);
+					root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Bin, "Expr_Bin"), root_1);
+
+					DebugLocation(333, 65);
+					adaptor.AddChild(root_1, stream_cmp_expr_op.NextTree());
+					DebugLocation(333, 78);
+					adaptor.AddChild(root_1, stream_retval.NextTree());
+					DebugLocation(333, 88);
+					adaptor.AddChild(root_1, stream_b.NextTree());
+
+					adaptor.AddChild(root_0, root_1);
+					}
+
+				}
+
+				retval.Tree = root_0;
+				}
+				}
+
+				}
+				break;
+
+			}
+			} finally { DebugExitSubRule(53); }
+
+
+			}
+
+			retval.Stop = (IToken)input.LT(-1);
+
+			if (state.backtracking == 0) {
+			retval.Tree = (CommonTree)adaptor.RulePostProcessing(root_0);
+			adaptor.SetTokenBoundaries(retval.Tree, retval.Start, retval.Stop);
+			}
+		}
+		catch (RecognitionException re)
+		{
+			ReportError(re);
+			Recover(input,re);
+		retval.Tree = (CommonTree)adaptor.ErrorNode(input, retval.Start, input.LT(-1), re);
+
+		}
+		finally
+		{
+			TraceOut("cmp_expr", 46);
+			LeaveRule("cmp_expr", 46);
+			LeaveRule_cmp_expr();
+			if (state.backtracking > 0) { Memoize(input, 46, cmp_expr_StartIndex); }
+
+		}
+		DebugLocation(334, 1);
+		} finally { DebugExitRule(GrammarFileName, "cmp_expr"); }
+		return retval;
+
+	}
+	// $ANTLR end "cmp_expr"
+
+	partial void EnterRule_shift_expr_op();
+	partial void LeaveRule_shift_expr_op();
+
+	// $ANTLR start "shift_expr_op"
+	// SugarCpp.g:336:1: shift_expr_op : ( '<<' | '>>' );
+	[GrammarRule("shift_expr_op")]
+	private AstParserRuleReturnScope<CommonTree, IToken> shift_expr_op()
+	{
+		EnterRule_shift_expr_op();
+		EnterRule("shift_expr_op", 47);
+		TraceIn("shift_expr_op", 47);
+		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
+		retval.Start = (IToken)input.LT(1);
+		int shift_expr_op_StartIndex = input.Index;
+
+		CommonTree root_0 = default(CommonTree);
+
+		IToken set175 = default(IToken);
+
+		CommonTree set175_tree = default(CommonTree);
+		try { DebugEnterRule(GrammarFileName, "shift_expr_op");
+		DebugLocation(336, 27);
+		try
+		{
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 47)) { return retval; }
+
+			// SugarCpp.g:336:14: ( '<<' | '>>' )
+			DebugEnterAlt(1);
+			// SugarCpp.g:
+			{
+			root_0 = (CommonTree)adaptor.Nil();
+
+			DebugLocation(336, 14);
+
+			set175=(IToken)input.LT(1);
+			if (input.LA(1)==83||input.LA(1)==91)
+			{
+				input.Consume();
+				if (state.backtracking == 0) adaptor.AddChild(root_0, (CommonTree)adaptor.Create(set175));
+				state.errorRecovery=false;state.failed=false;
+			}
+			else
+			{
+				if (state.backtracking>0) {state.failed=true; return retval;}
+				MismatchedSetException mse = new MismatchedSetException(null,input);
+				DebugRecognitionException(mse);
+				throw mse;
+			}
+
+
+			}
+
+			retval.Stop = (IToken)input.LT(-1);
+
+			if (state.backtracking == 0) {
+			retval.Tree = (CommonTree)adaptor.RulePostProcessing(root_0);
+			adaptor.SetTokenBoundaries(retval.Tree, retval.Start, retval.Stop);
+			}
+		}
+		catch (RecognitionException re)
+		{
+			ReportError(re);
+			Recover(input,re);
+		retval.Tree = (CommonTree)adaptor.ErrorNode(input, retval.Start, input.LT(-1), re);
+
+		}
+		finally
+		{
+			TraceOut("shift_expr_op", 47);
+			LeaveRule("shift_expr_op", 47);
+			LeaveRule_shift_expr_op();
+			if (state.backtracking > 0) { Memoize(input, 47, shift_expr_op_StartIndex); }
+
+		}
+		DebugLocation(336, 27);
+		} finally { DebugExitRule(GrammarFileName, "shift_expr_op"); }
+		return retval;
+
+	}
+	// $ANTLR end "shift_expr_op"
+
+	partial void EnterRule_shift_expr();
+	partial void LeaveRule_shift_expr();
+
+	// $ANTLR start "shift_expr"
+	// SugarCpp.g:337:1: shift_expr : (a= add_expr -> $a) ( shift_expr_op b= add_expr -> ^( Expr_Bin shift_expr_op $shift_expr $b) )* ;
+	[GrammarRule("shift_expr")]
+	private AstParserRuleReturnScope<CommonTree, IToken> shift_expr()
+	{
+		EnterRule_shift_expr();
+		EnterRule("shift_expr", 48);
+		TraceIn("shift_expr", 48);
+		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
+		retval.Start = (IToken)input.LT(1);
+		int shift_expr_StartIndex = input.Index;
+
+		CommonTree root_0 = default(CommonTree);
+
+		AstParserRuleReturnScope<CommonTree, IToken> a = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> b = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> shift_expr_op176 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+
+		RewriteRuleSubtreeStream stream_shift_expr_op=new RewriteRuleSubtreeStream(adaptor,"rule shift_expr_op");
+		RewriteRuleSubtreeStream stream_add_expr=new RewriteRuleSubtreeStream(adaptor,"rule add_expr");
+		try { DebugEnterRule(GrammarFileName, "shift_expr");
 		DebugLocation(337, 1);
 		try
 		{
 			if (state.backtracking > 0 && AlreadyParsedRule(input, 48)) { return retval; }
 
-			// SugarCpp.g:338:2: ( (a= mul_expr -> $a) ( infix_func b= mul_expr -> ^( Expr_Infix infix_func $infix_expr $b) )* )
+			// SugarCpp.g:338:2: ( (a= add_expr -> $a) ( shift_expr_op b= add_expr -> ^( Expr_Bin shift_expr_op $shift_expr $b) )* )
 			DebugEnterAlt(1);
-			// SugarCpp.g:338:4: (a= mul_expr -> $a) ( infix_func b= mul_expr -> ^( Expr_Infix infix_func $infix_expr $b) )*
+			// SugarCpp.g:338:4: (a= add_expr -> $a) ( shift_expr_op b= add_expr -> ^( Expr_Bin shift_expr_op $shift_expr $b) )*
 			{
 			DebugLocation(338, 4);
-			// SugarCpp.g:338:4: (a= mul_expr -> $a)
+			// SugarCpp.g:338:4: (a= add_expr -> $a)
 			DebugEnterAlt(1);
-			// SugarCpp.g:338:5: a= mul_expr
+			// SugarCpp.g:338:5: a= add_expr
 			{
 			DebugLocation(338, 6);
-			PushFollow(Follow._mul_expr_in_infix_expr1931);
-			a=mul_expr();
+			PushFollow(Follow._add_expr_in_shift_expr1853);
+			a=add_expr();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_mul_expr.Add(a.Tree);
+			if (state.backtracking == 0) stream_add_expr.Add(a.Tree);
 
 
 			{
@@ -8056,253 +7908,44 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			}
 
 			DebugLocation(338, 23);
-			// SugarCpp.g:338:23: ( infix_func b= mul_expr -> ^( Expr_Infix infix_func $infix_expr $b) )*
-			try { DebugEnterSubRule(53);
-			while (true)
-			{
-				int alt53=2;
-				try { DebugEnterDecision(53, false);
-				int LA53_0 = input.LA(1);
-
-				if ((LA53_0==97))
-				{
-					alt53 = 1;
-				}
-
-
-				} finally { DebugExitDecision(53); }
-				switch ( alt53 )
-				{
-				case 1:
-					DebugEnterAlt(1);
-					// SugarCpp.g:338:25: infix_func b= mul_expr
-					{
-					DebugLocation(338, 25);
-					PushFollow(Follow._infix_func_in_infix_expr1941);
-					infix_func170=infix_func();
-					PopFollow();
-					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_infix_func.Add(infix_func170.Tree);
-					DebugLocation(338, 37);
-					PushFollow(Follow._mul_expr_in_infix_expr1945);
-					b=mul_expr();
-					PopFollow();
-					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_mul_expr.Add(b.Tree);
-
-
-					{
-					// AST REWRITE
-					// elements: infix_expr, b, infix_func
-					// token labels: 
-					// rule labels: retval, b
-					// token list labels: 
-					// rule list labels: 
-					// wildcard labels: 
-					if (state.backtracking == 0) {
-					retval.Tree = root_0;
-					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
-					RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
-
-					root_0 = (CommonTree)adaptor.Nil();
-					// 338:48: -> ^( Expr_Infix infix_func $infix_expr $b)
-					{
-						DebugLocation(338, 51);
-						// SugarCpp.g:338:51: ^( Expr_Infix infix_func $infix_expr $b)
-						{
-						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(338, 53);
-						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Infix, "Expr_Infix"), root_1);
-
-						DebugLocation(338, 64);
-						adaptor.AddChild(root_1, stream_infix_func.NextTree());
-						DebugLocation(338, 76);
-						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(338, 88);
-						adaptor.AddChild(root_1, stream_b.NextTree());
-
-						adaptor.AddChild(root_0, root_1);
-						}
-
-					}
-
-					retval.Tree = root_0;
-					}
-					}
-
-					}
-					break;
-
-				default:
-					goto loop53;
-				}
-			}
-
-			loop53:
-				;
-
-			} finally { DebugExitSubRule(53); }
-
-
-			}
-
-			retval.Stop = (IToken)input.LT(-1);
-
-			if (state.backtracking == 0) {
-			retval.Tree = (CommonTree)adaptor.RulePostProcessing(root_0);
-			adaptor.SetTokenBoundaries(retval.Tree, retval.Start, retval.Stop);
-			}
-		}
-		catch (RecognitionException re)
-		{
-			ReportError(re);
-			Recover(input,re);
-		retval.Tree = (CommonTree)adaptor.ErrorNode(input, retval.Start, input.LT(-1), re);
-
-		}
-		finally
-		{
-			TraceOut("infix_expr", 48);
-			LeaveRule("infix_expr", 48);
-			LeaveRule_infix_expr();
-			if (state.backtracking > 0) { Memoize(input, 48, infix_expr_StartIndex); }
-
-		}
-		DebugLocation(339, 1);
-		} finally { DebugExitRule(GrammarFileName, "infix_expr"); }
-		return retval;
-
-	}
-	// $ANTLR end "infix_expr"
-
-	partial void EnterRule_mul_expr();
-	partial void LeaveRule_mul_expr();
-
-	// $ANTLR start "mul_expr"
-	// SugarCpp.g:341:1: mul_expr : (a= selector_expr -> $a) ( '*' b= selector_expr -> ^( Expr_Bin '*' $mul_expr $b) | '/' b= selector_expr -> ^( Expr_Bin '/' $mul_expr $b) | '%' b= selector_expr -> ^( Expr_Bin '%' $mul_expr $b) )* ;
-	[GrammarRule("mul_expr")]
-	private AstParserRuleReturnScope<CommonTree, IToken> mul_expr()
-	{
-		EnterRule_mul_expr();
-		EnterRule("mul_expr", 49);
-		TraceIn("mul_expr", 49);
-		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
-		retval.Start = (IToken)input.LT(1);
-		int mul_expr_StartIndex = input.Index;
-
-		CommonTree root_0 = default(CommonTree);
-
-		IToken char_literal171 = default(IToken);
-		IToken char_literal172 = default(IToken);
-		IToken char_literal173 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> a = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> b = default(AstParserRuleReturnScope<CommonTree, IToken>);
-
-		CommonTree char_literal171_tree = default(CommonTree);
-		CommonTree char_literal172_tree = default(CommonTree);
-		CommonTree char_literal173_tree = default(CommonTree);
-		RewriteRuleITokenStream stream_56=new RewriteRuleITokenStream(adaptor,"token 56");
-		RewriteRuleITokenStream stream_63=new RewriteRuleITokenStream(adaptor,"token 63");
-		RewriteRuleITokenStream stream_76=new RewriteRuleITokenStream(adaptor,"token 76");
-		RewriteRuleSubtreeStream stream_selector_expr=new RewriteRuleSubtreeStream(adaptor,"rule selector_expr");
-		try { DebugEnterRule(GrammarFileName, "mul_expr");
-		DebugLocation(341, 1);
-		try
-		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 49)) { return retval; }
-
-			// SugarCpp.g:342:2: ( (a= selector_expr -> $a) ( '*' b= selector_expr -> ^( Expr_Bin '*' $mul_expr $b) | '/' b= selector_expr -> ^( Expr_Bin '/' $mul_expr $b) | '%' b= selector_expr -> ^( Expr_Bin '%' $mul_expr $b) )* )
-			DebugEnterAlt(1);
-			// SugarCpp.g:342:4: (a= selector_expr -> $a) ( '*' b= selector_expr -> ^( Expr_Bin '*' $mul_expr $b) | '/' b= selector_expr -> ^( Expr_Bin '/' $mul_expr $b) | '%' b= selector_expr -> ^( Expr_Bin '%' $mul_expr $b) )*
-			{
-			DebugLocation(342, 4);
-			// SugarCpp.g:342:4: (a= selector_expr -> $a)
-			DebugEnterAlt(1);
-			// SugarCpp.g:342:5: a= selector_expr
-			{
-			DebugLocation(342, 6);
-			PushFollow(Follow._selector_expr_in_mul_expr1977);
-			a=selector_expr();
-			PopFollow();
-			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_selector_expr.Add(a.Tree);
-
-
-			{
-			// AST REWRITE
-			// elements: a
-			// token labels: 
-			// rule labels: retval, a
-			// token list labels: 
-			// rule list labels: 
-			// wildcard labels: 
-			if (state.backtracking == 0) {
-			retval.Tree = root_0;
-			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
-			RewriteRuleSubtreeStream stream_a=new RewriteRuleSubtreeStream(adaptor,"rule a",a!=null?a.Tree:null);
-
-			root_0 = (CommonTree)adaptor.Nil();
-			// 342:21: -> $a
-			{
-				DebugLocation(342, 25);
-				adaptor.AddChild(root_0, stream_a.NextTree());
-
-			}
-
-			retval.Tree = root_0;
-			}
-			}
-
-			}
-
-			DebugLocation(342, 28);
-			// SugarCpp.g:342:28: ( '*' b= selector_expr -> ^( Expr_Bin '*' $mul_expr $b) | '/' b= selector_expr -> ^( Expr_Bin '/' $mul_expr $b) | '%' b= selector_expr -> ^( Expr_Bin '%' $mul_expr $b) )*
+			// SugarCpp.g:338:23: ( shift_expr_op b= add_expr -> ^( Expr_Bin shift_expr_op $shift_expr $b) )*
 			try { DebugEnterSubRule(54);
 			while (true)
 			{
-				int alt54=4;
+				int alt54=2;
 				try { DebugEnterDecision(54, false);
-				switch (input.LA(1))
+				int LA54_0 = input.LA(1);
+
+				if ((LA54_0==83||LA54_0==91))
 				{
-				case 63:
-					{
 					alt54 = 1;
-					}
-					break;
-				case 76:
-					{
-					alt54 = 2;
-					}
-					break;
-				case 56:
-					{
-					alt54 = 3;
-					}
-					break;
 				}
+
 
 				} finally { DebugExitDecision(54); }
 				switch ( alt54 )
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:342:30: '*' b= selector_expr
+					// SugarCpp.g:338:24: shift_expr_op b= add_expr
 					{
-					DebugLocation(342, 30);
-					char_literal171=(IToken)Match(input,63,Follow._63_in_mul_expr1987); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_63.Add(char_literal171);
-
-					DebugLocation(342, 35);
-					PushFollow(Follow._selector_expr_in_mul_expr1991);
-					b=selector_expr();
+					DebugLocation(338, 24);
+					PushFollow(Follow._shift_expr_op_in_shift_expr1862);
+					shift_expr_op176=shift_expr_op();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_selector_expr.Add(b.Tree);
+					if (state.backtracking == 0) stream_shift_expr_op.Add(shift_expr_op176.Tree);
+					DebugLocation(338, 39);
+					PushFollow(Follow._add_expr_in_shift_expr1866);
+					b=add_expr();
+					PopFollow();
+					if (state.failed) return retval;
+					if (state.backtracking == 0) stream_add_expr.Add(b.Tree);
 
 
 					{
 					// AST REWRITE
-					// elements: b, mul_expr, 63
+					// elements: b, shift_expr_op, shift_expr
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -8314,134 +7957,20 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
 
 					root_0 = (CommonTree)adaptor.Nil();
-					// 342:50: -> ^( Expr_Bin '*' $mul_expr $b)
+					// 338:49: -> ^( Expr_Bin shift_expr_op $shift_expr $b)
 					{
-						DebugLocation(342, 53);
-						// SugarCpp.g:342:53: ^( Expr_Bin '*' $mul_expr $b)
+						DebugLocation(338, 52);
+						// SugarCpp.g:338:52: ^( Expr_Bin shift_expr_op $shift_expr $b)
 						{
 						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(342, 55);
+						DebugLocation(338, 54);
 						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Bin, "Expr_Bin"), root_1);
 
-						DebugLocation(342, 64);
-						adaptor.AddChild(root_1, stream_63.NextNode());
-						DebugLocation(342, 69);
+						DebugLocation(338, 63);
+						adaptor.AddChild(root_1, stream_shift_expr_op.NextTree());
+						DebugLocation(338, 78);
 						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(342, 79);
-						adaptor.AddChild(root_1, stream_b.NextTree());
-
-						adaptor.AddChild(root_0, root_1);
-						}
-
-					}
-
-					retval.Tree = root_0;
-					}
-					}
-
-					}
-					break;
-				case 2:
-					DebugEnterAlt(2);
-					// SugarCpp.g:343:15: '/' b= selector_expr
-					{
-					DebugLocation(343, 15);
-					char_literal172=(IToken)Match(input,76,Follow._76_in_mul_expr2021); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_76.Add(char_literal172);
-
-					DebugLocation(343, 20);
-					PushFollow(Follow._selector_expr_in_mul_expr2025);
-					b=selector_expr();
-					PopFollow();
-					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_selector_expr.Add(b.Tree);
-
-
-					{
-					// AST REWRITE
-					// elements: 76, mul_expr, b
-					// token labels: 
-					// rule labels: retval, b
-					// token list labels: 
-					// rule list labels: 
-					// wildcard labels: 
-					if (state.backtracking == 0) {
-					retval.Tree = root_0;
-					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
-					RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
-
-					root_0 = (CommonTree)adaptor.Nil();
-					// 343:35: -> ^( Expr_Bin '/' $mul_expr $b)
-					{
-						DebugLocation(343, 38);
-						// SugarCpp.g:343:38: ^( Expr_Bin '/' $mul_expr $b)
-						{
-						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(343, 40);
-						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Bin, "Expr_Bin"), root_1);
-
-						DebugLocation(343, 49);
-						adaptor.AddChild(root_1, stream_76.NextNode());
-						DebugLocation(343, 54);
-						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(343, 64);
-						adaptor.AddChild(root_1, stream_b.NextTree());
-
-						adaptor.AddChild(root_0, root_1);
-						}
-
-					}
-
-					retval.Tree = root_0;
-					}
-					}
-
-					}
-					break;
-				case 3:
-					DebugEnterAlt(3);
-					// SugarCpp.g:344:15: '%' b= selector_expr
-					{
-					DebugLocation(344, 15);
-					char_literal173=(IToken)Match(input,56,Follow._56_in_mul_expr2055); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_56.Add(char_literal173);
-
-					DebugLocation(344, 20);
-					PushFollow(Follow._selector_expr_in_mul_expr2059);
-					b=selector_expr();
-					PopFollow();
-					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_selector_expr.Add(b.Tree);
-
-
-					{
-					// AST REWRITE
-					// elements: b, 56, mul_expr
-					// token labels: 
-					// rule labels: retval, b
-					// token list labels: 
-					// rule list labels: 
-					// wildcard labels: 
-					if (state.backtracking == 0) {
-					retval.Tree = root_0;
-					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
-					RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
-
-					root_0 = (CommonTree)adaptor.Nil();
-					// 344:35: -> ^( Expr_Bin '%' $mul_expr $b)
-					{
-						DebugLocation(344, 38);
-						// SugarCpp.g:344:38: ^( Expr_Bin '%' $mul_expr $b)
-						{
-						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(344, 40);
-						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Bin, "Expr_Bin"), root_1);
-
-						DebugLocation(344, 49);
-						adaptor.AddChild(root_1, stream_56.NextNode());
-						DebugLocation(344, 54);
-						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(344, 64);
+						DebugLocation(338, 90);
 						adaptor.AddChild(root_1, stream_b.NextTree());
 
 						adaptor.AddChild(root_0, root_1);
@@ -8485,68 +8014,67 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("mul_expr", 49);
-			LeaveRule("mul_expr", 49);
-			LeaveRule_mul_expr();
-			if (state.backtracking > 0) { Memoize(input, 49, mul_expr_StartIndex); }
+			TraceOut("shift_expr", 48);
+			LeaveRule("shift_expr", 48);
+			LeaveRule_shift_expr();
+			if (state.backtracking > 0) { Memoize(input, 48, shift_expr_StartIndex); }
 
 		}
-		DebugLocation(346, 1);
-		} finally { DebugExitRule(GrammarFileName, "mul_expr"); }
+		DebugLocation(339, 1);
+		} finally { DebugExitRule(GrammarFileName, "shift_expr"); }
 		return retval;
 
 	}
-	// $ANTLR end "mul_expr"
+	// $ANTLR end "shift_expr"
 
-	partial void EnterRule_selector_expr();
-	partial void LeaveRule_selector_expr();
+	partial void EnterRule_add_expr();
+	partial void LeaveRule_add_expr();
 
-	// $ANTLR start "selector_expr"
-	// SugarCpp.g:348:1: selector_expr : (a= prefix_expr -> $a) ( '->*' b= ident -> ^( Expr_Access '->*' $selector_expr $b) | '.*' b= ident -> ^( Expr_Access '.*' $selector_expr $b) )* ;
-	[GrammarRule("selector_expr")]
-	private AstParserRuleReturnScope<CommonTree, IToken> selector_expr()
+	// $ANTLR start "add_expr"
+	// SugarCpp.g:341:1: add_expr : (a= infix_expr -> $a) ( '+' b= infix_expr -> ^( Expr_Bin '+' $add_expr $b) | '-' b= infix_expr -> ^( Expr_Bin '-' $add_expr $b) )* ;
+	[GrammarRule("add_expr")]
+	private AstParserRuleReturnScope<CommonTree, IToken> add_expr()
 	{
-		EnterRule_selector_expr();
-		EnterRule("selector_expr", 50);
-		TraceIn("selector_expr", 50);
+		EnterRule_add_expr();
+		EnterRule("add_expr", 49);
+		TraceIn("add_expr", 49);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
-		int selector_expr_StartIndex = input.Index;
+		int add_expr_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken string_literal174 = default(IToken);
-		IToken string_literal175 = default(IToken);
+		IToken char_literal177 = default(IToken);
+		IToken char_literal178 = default(IToken);
 		AstParserRuleReturnScope<CommonTree, IToken> a = default(AstParserRuleReturnScope<CommonTree, IToken>);
 		AstParserRuleReturnScope<CommonTree, IToken> b = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree string_literal174_tree = default(CommonTree);
-		CommonTree string_literal175_tree = default(CommonTree);
-		RewriteRuleITokenStream stream_73=new RewriteRuleITokenStream(adaptor,"token 73");
-		RewriteRuleITokenStream stream_75=new RewriteRuleITokenStream(adaptor,"token 75");
-		RewriteRuleSubtreeStream stream_prefix_expr=new RewriteRuleSubtreeStream(adaptor,"rule prefix_expr");
-		RewriteRuleSubtreeStream stream_ident=new RewriteRuleSubtreeStream(adaptor,"rule ident");
-		try { DebugEnterRule(GrammarFileName, "selector_expr");
-		DebugLocation(348, 1);
+		CommonTree char_literal177_tree = default(CommonTree);
+		CommonTree char_literal178_tree = default(CommonTree);
+		RewriteRuleITokenStream stream_69=new RewriteRuleITokenStream(adaptor,"token 69");
+		RewriteRuleITokenStream stream_65=new RewriteRuleITokenStream(adaptor,"token 65");
+		RewriteRuleSubtreeStream stream_infix_expr=new RewriteRuleSubtreeStream(adaptor,"rule infix_expr");
+		try { DebugEnterRule(GrammarFileName, "add_expr");
+		DebugLocation(341, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 50)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 49)) { return retval; }
 
-			// SugarCpp.g:349:2: ( (a= prefix_expr -> $a) ( '->*' b= ident -> ^( Expr_Access '->*' $selector_expr $b) | '.*' b= ident -> ^( Expr_Access '.*' $selector_expr $b) )* )
+			// SugarCpp.g:342:2: ( (a= infix_expr -> $a) ( '+' b= infix_expr -> ^( Expr_Bin '+' $add_expr $b) | '-' b= infix_expr -> ^( Expr_Bin '-' $add_expr $b) )* )
 			DebugEnterAlt(1);
-			// SugarCpp.g:349:4: (a= prefix_expr -> $a) ( '->*' b= ident -> ^( Expr_Access '->*' $selector_expr $b) | '.*' b= ident -> ^( Expr_Access '.*' $selector_expr $b) )*
+			// SugarCpp.g:342:4: (a= infix_expr -> $a) ( '+' b= infix_expr -> ^( Expr_Bin '+' $add_expr $b) | '-' b= infix_expr -> ^( Expr_Bin '-' $add_expr $b) )*
 			{
-			DebugLocation(349, 4);
-			// SugarCpp.g:349:4: (a= prefix_expr -> $a)
+			DebugLocation(342, 4);
+			// SugarCpp.g:342:4: (a= infix_expr -> $a)
 			DebugEnterAlt(1);
-			// SugarCpp.g:349:5: a= prefix_expr
+			// SugarCpp.g:342:5: a= infix_expr
 			{
-			DebugLocation(349, 6);
-			PushFollow(Follow._prefix_expr_in_selector_expr2102);
-			a=prefix_expr();
+			DebugLocation(342, 6);
+			PushFollow(Follow._infix_expr_in_add_expr1896);
+			a=infix_expr();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) stream_prefix_expr.Add(a.Tree);
+			if (state.backtracking == 0) stream_infix_expr.Add(a.Tree);
 
 
 			{
@@ -8563,9 +8091,9 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			RewriteRuleSubtreeStream stream_a=new RewriteRuleSubtreeStream(adaptor,"rule a",a!=null?a.Tree:null);
 
 			root_0 = (CommonTree)adaptor.Nil();
-			// 349:19: -> $a
+			// 342:18: -> $a
 			{
-				DebugLocation(349, 23);
+				DebugLocation(342, 22);
 				adaptor.AddChild(root_0, stream_a.NextTree());
 
 			}
@@ -8576,8 +8104,8 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			}
 
-			DebugLocation(349, 26);
-			// SugarCpp.g:349:26: ( '->*' b= ident -> ^( Expr_Access '->*' $selector_expr $b) | '.*' b= ident -> ^( Expr_Access '.*' $selector_expr $b) )*
+			DebugLocation(342, 25);
+			// SugarCpp.g:342:25: ( '+' b= infix_expr -> ^( Expr_Bin '+' $add_expr $b) | '-' b= infix_expr -> ^( Expr_Bin '-' $add_expr $b) )*
 			try { DebugEnterSubRule(55);
 			while (true)
 			{
@@ -8585,11 +8113,11 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				try { DebugEnterDecision(55, false);
 				int LA55_0 = input.LA(1);
 
-				if ((LA55_0==73))
+				if ((LA55_0==65))
 				{
 					alt55 = 1;
 				}
-				else if ((LA55_0==75))
+				else if ((LA55_0==69))
 				{
 					alt55 = 2;
 				}
@@ -8600,23 +8128,23 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:349:28: '->*' b= ident
+					// SugarCpp.g:342:27: '+' b= infix_expr
 					{
-					DebugLocation(349, 28);
-					string_literal174=(IToken)Match(input,73,Follow._73_in_selector_expr2112); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_73.Add(string_literal174);
+					DebugLocation(342, 27);
+					char_literal177=(IToken)Match(input,65,Follow._65_in_add_expr1906); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_65.Add(char_literal177);
 
-					DebugLocation(349, 35);
-					PushFollow(Follow._ident_in_selector_expr2116);
-					b=ident();
+					DebugLocation(342, 32);
+					PushFollow(Follow._infix_expr_in_add_expr1910);
+					b=infix_expr();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_ident.Add(b.Tree);
+					if (state.backtracking == 0) stream_infix_expr.Add(b.Tree);
 
 
 					{
 					// AST REWRITE
-					// elements: selector_expr, 73, b
+					// elements: add_expr, 65, b
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -8628,20 +8156,20 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
 
 					root_0 = (CommonTree)adaptor.Nil();
-					// 349:42: -> ^( Expr_Access '->*' $selector_expr $b)
+					// 342:44: -> ^( Expr_Bin '+' $add_expr $b)
 					{
-						DebugLocation(349, 45);
-						// SugarCpp.g:349:45: ^( Expr_Access '->*' $selector_expr $b)
+						DebugLocation(342, 47);
+						// SugarCpp.g:342:47: ^( Expr_Bin '+' $add_expr $b)
 						{
 						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(349, 47);
-						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Access, "Expr_Access"), root_1);
+						DebugLocation(342, 49);
+						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Bin, "Expr_Bin"), root_1);
 
-						DebugLocation(349, 59);
-						adaptor.AddChild(root_1, stream_73.NextNode());
-						DebugLocation(349, 66);
+						DebugLocation(342, 58);
+						adaptor.AddChild(root_1, stream_65.NextNode());
+						DebugLocation(342, 63);
 						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(349, 81);
+						DebugLocation(342, 73);
 						adaptor.AddChild(root_1, stream_b.NextTree());
 
 						adaptor.AddChild(root_0, root_1);
@@ -8657,23 +8185,23 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					break;
 				case 2:
 					DebugEnterAlt(2);
-					// SugarCpp.g:350:13: '.*' b= ident
+					// SugarCpp.g:343:12: '-' b= infix_expr
 					{
-					DebugLocation(350, 13);
-					string_literal175=(IToken)Match(input,75,Follow._75_in_selector_expr2144); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_75.Add(string_literal175);
+					DebugLocation(343, 12);
+					char_literal178=(IToken)Match(input,69,Follow._69_in_add_expr1937); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_69.Add(char_literal178);
 
-					DebugLocation(350, 20);
-					PushFollow(Follow._ident_in_selector_expr2149);
-					b=ident();
+					DebugLocation(343, 17);
+					PushFollow(Follow._infix_expr_in_add_expr1941);
+					b=infix_expr();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_ident.Add(b.Tree);
+					if (state.backtracking == 0) stream_infix_expr.Add(b.Tree);
 
 
 					{
 					// AST REWRITE
-					// elements: selector_expr, 75, b
+					// elements: b, add_expr, 69
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -8685,20 +8213,20 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
 
 					root_0 = (CommonTree)adaptor.Nil();
-					// 350:27: -> ^( Expr_Access '.*' $selector_expr $b)
+					// 343:29: -> ^( Expr_Bin '-' $add_expr $b)
 					{
-						DebugLocation(350, 30);
-						// SugarCpp.g:350:30: ^( Expr_Access '.*' $selector_expr $b)
+						DebugLocation(343, 32);
+						// SugarCpp.g:343:32: ^( Expr_Bin '-' $add_expr $b)
 						{
 						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(350, 32);
-						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Access, "Expr_Access"), root_1);
+						DebugLocation(343, 34);
+						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Bin, "Expr_Bin"), root_1);
 
-						DebugLocation(350, 44);
-						adaptor.AddChild(root_1, stream_75.NextNode());
-						DebugLocation(350, 51);
+						DebugLocation(343, 43);
+						adaptor.AddChild(root_1, stream_69.NextNode());
+						DebugLocation(343, 48);
 						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(350, 66);
+						DebugLocation(343, 58);
 						adaptor.AddChild(root_1, stream_b.NextTree());
 
 						adaptor.AddChild(root_0, root_1);
@@ -8742,13 +8270,786 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("selector_expr", 50);
-			LeaveRule("selector_expr", 50);
-			LeaveRule_selector_expr();
-			if (state.backtracking > 0) { Memoize(input, 50, selector_expr_StartIndex); }
+			TraceOut("add_expr", 49);
+			LeaveRule("add_expr", 49);
+			LeaveRule_add_expr();
+			if (state.backtracking > 0) { Memoize(input, 49, add_expr_StartIndex); }
 
 		}
-		DebugLocation(352, 1);
+		DebugLocation(345, 1);
+		} finally { DebugExitRule(GrammarFileName, "add_expr"); }
+		return retval;
+
+	}
+	// $ANTLR end "add_expr"
+
+	partial void EnterRule_infix_expr();
+	partial void LeaveRule_infix_expr();
+
+	// $ANTLR start "infix_expr"
+	// SugarCpp.g:347:1: infix_expr : (a= mul_expr -> $a) ( infix_func b= mul_expr -> ^( Expr_Infix infix_func $infix_expr $b) )* ;
+	[GrammarRule("infix_expr")]
+	private AstParserRuleReturnScope<CommonTree, IToken> infix_expr()
+	{
+		EnterRule_infix_expr();
+		EnterRule("infix_expr", 50);
+		TraceIn("infix_expr", 50);
+		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
+		retval.Start = (IToken)input.LT(1);
+		int infix_expr_StartIndex = input.Index;
+
+		CommonTree root_0 = default(CommonTree);
+
+		AstParserRuleReturnScope<CommonTree, IToken> a = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> b = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> infix_func179 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+
+		RewriteRuleSubtreeStream stream_infix_func=new RewriteRuleSubtreeStream(adaptor,"rule infix_func");
+		RewriteRuleSubtreeStream stream_mul_expr=new RewriteRuleSubtreeStream(adaptor,"rule mul_expr");
+		try { DebugEnterRule(GrammarFileName, "infix_expr");
+		DebugLocation(347, 1);
+		try
+		{
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 50)) { return retval; }
+
+			// SugarCpp.g:348:2: ( (a= mul_expr -> $a) ( infix_func b= mul_expr -> ^( Expr_Infix infix_func $infix_expr $b) )* )
+			DebugEnterAlt(1);
+			// SugarCpp.g:348:4: (a= mul_expr -> $a) ( infix_func b= mul_expr -> ^( Expr_Infix infix_func $infix_expr $b) )*
+			{
+			DebugLocation(348, 4);
+			// SugarCpp.g:348:4: (a= mul_expr -> $a)
+			DebugEnterAlt(1);
+			// SugarCpp.g:348:5: a= mul_expr
+			{
+			DebugLocation(348, 6);
+			PushFollow(Follow._mul_expr_in_infix_expr1981);
+			a=mul_expr();
+			PopFollow();
+			if (state.failed) return retval;
+			if (state.backtracking == 0) stream_mul_expr.Add(a.Tree);
+
+
+			{
+			// AST REWRITE
+			// elements: a
+			// token labels: 
+			// rule labels: retval, a
+			// token list labels: 
+			// rule list labels: 
+			// wildcard labels: 
+			if (state.backtracking == 0) {
+			retval.Tree = root_0;
+			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
+			RewriteRuleSubtreeStream stream_a=new RewriteRuleSubtreeStream(adaptor,"rule a",a!=null?a.Tree:null);
+
+			root_0 = (CommonTree)adaptor.Nil();
+			// 348:16: -> $a
+			{
+				DebugLocation(348, 20);
+				adaptor.AddChild(root_0, stream_a.NextTree());
+
+			}
+
+			retval.Tree = root_0;
+			}
+			}
+
+			}
+
+			DebugLocation(348, 23);
+			// SugarCpp.g:348:23: ( infix_func b= mul_expr -> ^( Expr_Infix infix_func $infix_expr $b) )*
+			try { DebugEnterSubRule(56);
+			while (true)
+			{
+				int alt56=2;
+				try { DebugEnterDecision(56, false);
+				int LA56_0 = input.LA(1);
+
+				if ((LA56_0==97))
+				{
+					alt56 = 1;
+				}
+
+
+				} finally { DebugExitDecision(56); }
+				switch ( alt56 )
+				{
+				case 1:
+					DebugEnterAlt(1);
+					// SugarCpp.g:348:25: infix_func b= mul_expr
+					{
+					DebugLocation(348, 25);
+					PushFollow(Follow._infix_func_in_infix_expr1991);
+					infix_func179=infix_func();
+					PopFollow();
+					if (state.failed) return retval;
+					if (state.backtracking == 0) stream_infix_func.Add(infix_func179.Tree);
+					DebugLocation(348, 37);
+					PushFollow(Follow._mul_expr_in_infix_expr1995);
+					b=mul_expr();
+					PopFollow();
+					if (state.failed) return retval;
+					if (state.backtracking == 0) stream_mul_expr.Add(b.Tree);
+
+
+					{
+					// AST REWRITE
+					// elements: b, infix_expr, infix_func
+					// token labels: 
+					// rule labels: retval, b
+					// token list labels: 
+					// rule list labels: 
+					// wildcard labels: 
+					if (state.backtracking == 0) {
+					retval.Tree = root_0;
+					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
+					RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
+
+					root_0 = (CommonTree)adaptor.Nil();
+					// 348:48: -> ^( Expr_Infix infix_func $infix_expr $b)
+					{
+						DebugLocation(348, 51);
+						// SugarCpp.g:348:51: ^( Expr_Infix infix_func $infix_expr $b)
+						{
+						CommonTree root_1 = (CommonTree)adaptor.Nil();
+						DebugLocation(348, 53);
+						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Infix, "Expr_Infix"), root_1);
+
+						DebugLocation(348, 64);
+						adaptor.AddChild(root_1, stream_infix_func.NextTree());
+						DebugLocation(348, 76);
+						adaptor.AddChild(root_1, stream_retval.NextTree());
+						DebugLocation(348, 88);
+						adaptor.AddChild(root_1, stream_b.NextTree());
+
+						adaptor.AddChild(root_0, root_1);
+						}
+
+					}
+
+					retval.Tree = root_0;
+					}
+					}
+
+					}
+					break;
+
+				default:
+					goto loop56;
+				}
+			}
+
+			loop56:
+				;
+
+			} finally { DebugExitSubRule(56); }
+
+
+			}
+
+			retval.Stop = (IToken)input.LT(-1);
+
+			if (state.backtracking == 0) {
+			retval.Tree = (CommonTree)adaptor.RulePostProcessing(root_0);
+			adaptor.SetTokenBoundaries(retval.Tree, retval.Start, retval.Stop);
+			}
+		}
+		catch (RecognitionException re)
+		{
+			ReportError(re);
+			Recover(input,re);
+		retval.Tree = (CommonTree)adaptor.ErrorNode(input, retval.Start, input.LT(-1), re);
+
+		}
+		finally
+		{
+			TraceOut("infix_expr", 50);
+			LeaveRule("infix_expr", 50);
+			LeaveRule_infix_expr();
+			if (state.backtracking > 0) { Memoize(input, 50, infix_expr_StartIndex); }
+
+		}
+		DebugLocation(349, 1);
+		} finally { DebugExitRule(GrammarFileName, "infix_expr"); }
+		return retval;
+
+	}
+	// $ANTLR end "infix_expr"
+
+	partial void EnterRule_mul_expr();
+	partial void LeaveRule_mul_expr();
+
+	// $ANTLR start "mul_expr"
+	// SugarCpp.g:351:1: mul_expr : (a= selector_expr -> $a) ( '*' b= selector_expr -> ^( Expr_Bin '*' $mul_expr $b) | '/' b= selector_expr -> ^( Expr_Bin '/' $mul_expr $b) | '%' b= selector_expr -> ^( Expr_Bin '%' $mul_expr $b) )* ;
+	[GrammarRule("mul_expr")]
+	private AstParserRuleReturnScope<CommonTree, IToken> mul_expr()
+	{
+		EnterRule_mul_expr();
+		EnterRule("mul_expr", 51);
+		TraceIn("mul_expr", 51);
+		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
+		retval.Start = (IToken)input.LT(1);
+		int mul_expr_StartIndex = input.Index;
+
+		CommonTree root_0 = default(CommonTree);
+
+		IToken char_literal180 = default(IToken);
+		IToken char_literal181 = default(IToken);
+		IToken char_literal182 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> a = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> b = default(AstParserRuleReturnScope<CommonTree, IToken>);
+
+		CommonTree char_literal180_tree = default(CommonTree);
+		CommonTree char_literal181_tree = default(CommonTree);
+		CommonTree char_literal182_tree = default(CommonTree);
+		RewriteRuleITokenStream stream_56=new RewriteRuleITokenStream(adaptor,"token 56");
+		RewriteRuleITokenStream stream_63=new RewriteRuleITokenStream(adaptor,"token 63");
+		RewriteRuleITokenStream stream_76=new RewriteRuleITokenStream(adaptor,"token 76");
+		RewriteRuleSubtreeStream stream_selector_expr=new RewriteRuleSubtreeStream(adaptor,"rule selector_expr");
+		try { DebugEnterRule(GrammarFileName, "mul_expr");
+		DebugLocation(351, 1);
+		try
+		{
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 51)) { return retval; }
+
+			// SugarCpp.g:352:2: ( (a= selector_expr -> $a) ( '*' b= selector_expr -> ^( Expr_Bin '*' $mul_expr $b) | '/' b= selector_expr -> ^( Expr_Bin '/' $mul_expr $b) | '%' b= selector_expr -> ^( Expr_Bin '%' $mul_expr $b) )* )
+			DebugEnterAlt(1);
+			// SugarCpp.g:352:4: (a= selector_expr -> $a) ( '*' b= selector_expr -> ^( Expr_Bin '*' $mul_expr $b) | '/' b= selector_expr -> ^( Expr_Bin '/' $mul_expr $b) | '%' b= selector_expr -> ^( Expr_Bin '%' $mul_expr $b) )*
+			{
+			DebugLocation(352, 4);
+			// SugarCpp.g:352:4: (a= selector_expr -> $a)
+			DebugEnterAlt(1);
+			// SugarCpp.g:352:5: a= selector_expr
+			{
+			DebugLocation(352, 6);
+			PushFollow(Follow._selector_expr_in_mul_expr2027);
+			a=selector_expr();
+			PopFollow();
+			if (state.failed) return retval;
+			if (state.backtracking == 0) stream_selector_expr.Add(a.Tree);
+
+
+			{
+			// AST REWRITE
+			// elements: a
+			// token labels: 
+			// rule labels: retval, a
+			// token list labels: 
+			// rule list labels: 
+			// wildcard labels: 
+			if (state.backtracking == 0) {
+			retval.Tree = root_0;
+			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
+			RewriteRuleSubtreeStream stream_a=new RewriteRuleSubtreeStream(adaptor,"rule a",a!=null?a.Tree:null);
+
+			root_0 = (CommonTree)adaptor.Nil();
+			// 352:21: -> $a
+			{
+				DebugLocation(352, 25);
+				adaptor.AddChild(root_0, stream_a.NextTree());
+
+			}
+
+			retval.Tree = root_0;
+			}
+			}
+
+			}
+
+			DebugLocation(352, 28);
+			// SugarCpp.g:352:28: ( '*' b= selector_expr -> ^( Expr_Bin '*' $mul_expr $b) | '/' b= selector_expr -> ^( Expr_Bin '/' $mul_expr $b) | '%' b= selector_expr -> ^( Expr_Bin '%' $mul_expr $b) )*
+			try { DebugEnterSubRule(57);
+			while (true)
+			{
+				int alt57=4;
+				try { DebugEnterDecision(57, false);
+				switch (input.LA(1))
+				{
+				case 63:
+					{
+					alt57 = 1;
+					}
+					break;
+				case 76:
+					{
+					alt57 = 2;
+					}
+					break;
+				case 56:
+					{
+					alt57 = 3;
+					}
+					break;
+				}
+
+				} finally { DebugExitDecision(57); }
+				switch ( alt57 )
+				{
+				case 1:
+					DebugEnterAlt(1);
+					// SugarCpp.g:352:30: '*' b= selector_expr
+					{
+					DebugLocation(352, 30);
+					char_literal180=(IToken)Match(input,63,Follow._63_in_mul_expr2037); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_63.Add(char_literal180);
+
+					DebugLocation(352, 35);
+					PushFollow(Follow._selector_expr_in_mul_expr2041);
+					b=selector_expr();
+					PopFollow();
+					if (state.failed) return retval;
+					if (state.backtracking == 0) stream_selector_expr.Add(b.Tree);
+
+
+					{
+					// AST REWRITE
+					// elements: b, mul_expr, 63
+					// token labels: 
+					// rule labels: retval, b
+					// token list labels: 
+					// rule list labels: 
+					// wildcard labels: 
+					if (state.backtracking == 0) {
+					retval.Tree = root_0;
+					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
+					RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
+
+					root_0 = (CommonTree)adaptor.Nil();
+					// 352:50: -> ^( Expr_Bin '*' $mul_expr $b)
+					{
+						DebugLocation(352, 53);
+						// SugarCpp.g:352:53: ^( Expr_Bin '*' $mul_expr $b)
+						{
+						CommonTree root_1 = (CommonTree)adaptor.Nil();
+						DebugLocation(352, 55);
+						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Bin, "Expr_Bin"), root_1);
+
+						DebugLocation(352, 64);
+						adaptor.AddChild(root_1, stream_63.NextNode());
+						DebugLocation(352, 69);
+						adaptor.AddChild(root_1, stream_retval.NextTree());
+						DebugLocation(352, 79);
+						adaptor.AddChild(root_1, stream_b.NextTree());
+
+						adaptor.AddChild(root_0, root_1);
+						}
+
+					}
+
+					retval.Tree = root_0;
+					}
+					}
+
+					}
+					break;
+				case 2:
+					DebugEnterAlt(2);
+					// SugarCpp.g:353:15: '/' b= selector_expr
+					{
+					DebugLocation(353, 15);
+					char_literal181=(IToken)Match(input,76,Follow._76_in_mul_expr2071); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_76.Add(char_literal181);
+
+					DebugLocation(353, 20);
+					PushFollow(Follow._selector_expr_in_mul_expr2075);
+					b=selector_expr();
+					PopFollow();
+					if (state.failed) return retval;
+					if (state.backtracking == 0) stream_selector_expr.Add(b.Tree);
+
+
+					{
+					// AST REWRITE
+					// elements: 76, mul_expr, b
+					// token labels: 
+					// rule labels: retval, b
+					// token list labels: 
+					// rule list labels: 
+					// wildcard labels: 
+					if (state.backtracking == 0) {
+					retval.Tree = root_0;
+					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
+					RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
+
+					root_0 = (CommonTree)adaptor.Nil();
+					// 353:35: -> ^( Expr_Bin '/' $mul_expr $b)
+					{
+						DebugLocation(353, 38);
+						// SugarCpp.g:353:38: ^( Expr_Bin '/' $mul_expr $b)
+						{
+						CommonTree root_1 = (CommonTree)adaptor.Nil();
+						DebugLocation(353, 40);
+						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Bin, "Expr_Bin"), root_1);
+
+						DebugLocation(353, 49);
+						adaptor.AddChild(root_1, stream_76.NextNode());
+						DebugLocation(353, 54);
+						adaptor.AddChild(root_1, stream_retval.NextTree());
+						DebugLocation(353, 64);
+						adaptor.AddChild(root_1, stream_b.NextTree());
+
+						adaptor.AddChild(root_0, root_1);
+						}
+
+					}
+
+					retval.Tree = root_0;
+					}
+					}
+
+					}
+					break;
+				case 3:
+					DebugEnterAlt(3);
+					// SugarCpp.g:354:15: '%' b= selector_expr
+					{
+					DebugLocation(354, 15);
+					char_literal182=(IToken)Match(input,56,Follow._56_in_mul_expr2105); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_56.Add(char_literal182);
+
+					DebugLocation(354, 20);
+					PushFollow(Follow._selector_expr_in_mul_expr2109);
+					b=selector_expr();
+					PopFollow();
+					if (state.failed) return retval;
+					if (state.backtracking == 0) stream_selector_expr.Add(b.Tree);
+
+
+					{
+					// AST REWRITE
+					// elements: mul_expr, 56, b
+					// token labels: 
+					// rule labels: retval, b
+					// token list labels: 
+					// rule list labels: 
+					// wildcard labels: 
+					if (state.backtracking == 0) {
+					retval.Tree = root_0;
+					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
+					RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
+
+					root_0 = (CommonTree)adaptor.Nil();
+					// 354:35: -> ^( Expr_Bin '%' $mul_expr $b)
+					{
+						DebugLocation(354, 38);
+						// SugarCpp.g:354:38: ^( Expr_Bin '%' $mul_expr $b)
+						{
+						CommonTree root_1 = (CommonTree)adaptor.Nil();
+						DebugLocation(354, 40);
+						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Bin, "Expr_Bin"), root_1);
+
+						DebugLocation(354, 49);
+						adaptor.AddChild(root_1, stream_56.NextNode());
+						DebugLocation(354, 54);
+						adaptor.AddChild(root_1, stream_retval.NextTree());
+						DebugLocation(354, 64);
+						adaptor.AddChild(root_1, stream_b.NextTree());
+
+						adaptor.AddChild(root_0, root_1);
+						}
+
+					}
+
+					retval.Tree = root_0;
+					}
+					}
+
+					}
+					break;
+
+				default:
+					goto loop57;
+				}
+			}
+
+			loop57:
+				;
+
+			} finally { DebugExitSubRule(57); }
+
+
+			}
+
+			retval.Stop = (IToken)input.LT(-1);
+
+			if (state.backtracking == 0) {
+			retval.Tree = (CommonTree)adaptor.RulePostProcessing(root_0);
+			adaptor.SetTokenBoundaries(retval.Tree, retval.Start, retval.Stop);
+			}
+		}
+		catch (RecognitionException re)
+		{
+			ReportError(re);
+			Recover(input,re);
+		retval.Tree = (CommonTree)adaptor.ErrorNode(input, retval.Start, input.LT(-1), re);
+
+		}
+		finally
+		{
+			TraceOut("mul_expr", 51);
+			LeaveRule("mul_expr", 51);
+			LeaveRule_mul_expr();
+			if (state.backtracking > 0) { Memoize(input, 51, mul_expr_StartIndex); }
+
+		}
+		DebugLocation(356, 1);
+		} finally { DebugExitRule(GrammarFileName, "mul_expr"); }
+		return retval;
+
+	}
+	// $ANTLR end "mul_expr"
+
+	partial void EnterRule_selector_expr();
+	partial void LeaveRule_selector_expr();
+
+	// $ANTLR start "selector_expr"
+	// SugarCpp.g:358:1: selector_expr : (a= prefix_expr -> $a) ( '->*' b= ident -> ^( Expr_Access '->*' $selector_expr $b) | '.*' b= ident -> ^( Expr_Access '.*' $selector_expr $b) )* ;
+	[GrammarRule("selector_expr")]
+	private AstParserRuleReturnScope<CommonTree, IToken> selector_expr()
+	{
+		EnterRule_selector_expr();
+		EnterRule("selector_expr", 52);
+		TraceIn("selector_expr", 52);
+		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
+		retval.Start = (IToken)input.LT(1);
+		int selector_expr_StartIndex = input.Index;
+
+		CommonTree root_0 = default(CommonTree);
+
+		IToken string_literal183 = default(IToken);
+		IToken string_literal184 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> a = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> b = default(AstParserRuleReturnScope<CommonTree, IToken>);
+
+		CommonTree string_literal183_tree = default(CommonTree);
+		CommonTree string_literal184_tree = default(CommonTree);
+		RewriteRuleITokenStream stream_73=new RewriteRuleITokenStream(adaptor,"token 73");
+		RewriteRuleITokenStream stream_75=new RewriteRuleITokenStream(adaptor,"token 75");
+		RewriteRuleSubtreeStream stream_prefix_expr=new RewriteRuleSubtreeStream(adaptor,"rule prefix_expr");
+		RewriteRuleSubtreeStream stream_ident=new RewriteRuleSubtreeStream(adaptor,"rule ident");
+		try { DebugEnterRule(GrammarFileName, "selector_expr");
+		DebugLocation(358, 1);
+		try
+		{
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 52)) { return retval; }
+
+			// SugarCpp.g:359:2: ( (a= prefix_expr -> $a) ( '->*' b= ident -> ^( Expr_Access '->*' $selector_expr $b) | '.*' b= ident -> ^( Expr_Access '.*' $selector_expr $b) )* )
+			DebugEnterAlt(1);
+			// SugarCpp.g:359:4: (a= prefix_expr -> $a) ( '->*' b= ident -> ^( Expr_Access '->*' $selector_expr $b) | '.*' b= ident -> ^( Expr_Access '.*' $selector_expr $b) )*
+			{
+			DebugLocation(359, 4);
+			// SugarCpp.g:359:4: (a= prefix_expr -> $a)
+			DebugEnterAlt(1);
+			// SugarCpp.g:359:5: a= prefix_expr
+			{
+			DebugLocation(359, 6);
+			PushFollow(Follow._prefix_expr_in_selector_expr2152);
+			a=prefix_expr();
+			PopFollow();
+			if (state.failed) return retval;
+			if (state.backtracking == 0) stream_prefix_expr.Add(a.Tree);
+
+
+			{
+			// AST REWRITE
+			// elements: a
+			// token labels: 
+			// rule labels: retval, a
+			// token list labels: 
+			// rule list labels: 
+			// wildcard labels: 
+			if (state.backtracking == 0) {
+			retval.Tree = root_0;
+			RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
+			RewriteRuleSubtreeStream stream_a=new RewriteRuleSubtreeStream(adaptor,"rule a",a!=null?a.Tree:null);
+
+			root_0 = (CommonTree)adaptor.Nil();
+			// 359:19: -> $a
+			{
+				DebugLocation(359, 23);
+				adaptor.AddChild(root_0, stream_a.NextTree());
+
+			}
+
+			retval.Tree = root_0;
+			}
+			}
+
+			}
+
+			DebugLocation(359, 26);
+			// SugarCpp.g:359:26: ( '->*' b= ident -> ^( Expr_Access '->*' $selector_expr $b) | '.*' b= ident -> ^( Expr_Access '.*' $selector_expr $b) )*
+			try { DebugEnterSubRule(58);
+			while (true)
+			{
+				int alt58=3;
+				try { DebugEnterDecision(58, false);
+				int LA58_0 = input.LA(1);
+
+				if ((LA58_0==73))
+				{
+					alt58 = 1;
+				}
+				else if ((LA58_0==75))
+				{
+					alt58 = 2;
+				}
+
+
+				} finally { DebugExitDecision(58); }
+				switch ( alt58 )
+				{
+				case 1:
+					DebugEnterAlt(1);
+					// SugarCpp.g:359:28: '->*' b= ident
+					{
+					DebugLocation(359, 28);
+					string_literal183=(IToken)Match(input,73,Follow._73_in_selector_expr2162); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_73.Add(string_literal183);
+
+					DebugLocation(359, 35);
+					PushFollow(Follow._ident_in_selector_expr2166);
+					b=ident();
+					PopFollow();
+					if (state.failed) return retval;
+					if (state.backtracking == 0) stream_ident.Add(b.Tree);
+
+
+					{
+					// AST REWRITE
+					// elements: selector_expr, b, 73
+					// token labels: 
+					// rule labels: retval, b
+					// token list labels: 
+					// rule list labels: 
+					// wildcard labels: 
+					if (state.backtracking == 0) {
+					retval.Tree = root_0;
+					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
+					RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
+
+					root_0 = (CommonTree)adaptor.Nil();
+					// 359:42: -> ^( Expr_Access '->*' $selector_expr $b)
+					{
+						DebugLocation(359, 45);
+						// SugarCpp.g:359:45: ^( Expr_Access '->*' $selector_expr $b)
+						{
+						CommonTree root_1 = (CommonTree)adaptor.Nil();
+						DebugLocation(359, 47);
+						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Access, "Expr_Access"), root_1);
+
+						DebugLocation(359, 59);
+						adaptor.AddChild(root_1, stream_73.NextNode());
+						DebugLocation(359, 66);
+						adaptor.AddChild(root_1, stream_retval.NextTree());
+						DebugLocation(359, 81);
+						adaptor.AddChild(root_1, stream_b.NextTree());
+
+						adaptor.AddChild(root_0, root_1);
+						}
+
+					}
+
+					retval.Tree = root_0;
+					}
+					}
+
+					}
+					break;
+				case 2:
+					DebugEnterAlt(2);
+					// SugarCpp.g:360:13: '.*' b= ident
+					{
+					DebugLocation(360, 13);
+					string_literal184=(IToken)Match(input,75,Follow._75_in_selector_expr2194); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_75.Add(string_literal184);
+
+					DebugLocation(360, 20);
+					PushFollow(Follow._ident_in_selector_expr2199);
+					b=ident();
+					PopFollow();
+					if (state.failed) return retval;
+					if (state.backtracking == 0) stream_ident.Add(b.Tree);
+
+
+					{
+					// AST REWRITE
+					// elements: b, 75, selector_expr
+					// token labels: 
+					// rule labels: retval, b
+					// token list labels: 
+					// rule list labels: 
+					// wildcard labels: 
+					if (state.backtracking == 0) {
+					retval.Tree = root_0;
+					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
+					RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
+
+					root_0 = (CommonTree)adaptor.Nil();
+					// 360:27: -> ^( Expr_Access '.*' $selector_expr $b)
+					{
+						DebugLocation(360, 30);
+						// SugarCpp.g:360:30: ^( Expr_Access '.*' $selector_expr $b)
+						{
+						CommonTree root_1 = (CommonTree)adaptor.Nil();
+						DebugLocation(360, 32);
+						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Access, "Expr_Access"), root_1);
+
+						DebugLocation(360, 44);
+						adaptor.AddChild(root_1, stream_75.NextNode());
+						DebugLocation(360, 51);
+						adaptor.AddChild(root_1, stream_retval.NextTree());
+						DebugLocation(360, 66);
+						adaptor.AddChild(root_1, stream_b.NextTree());
+
+						adaptor.AddChild(root_0, root_1);
+						}
+
+					}
+
+					retval.Tree = root_0;
+					}
+					}
+
+					}
+					break;
+
+				default:
+					goto loop58;
+				}
+			}
+
+			loop58:
+				;
+
+			} finally { DebugExitSubRule(58); }
+
+
+			}
+
+			retval.Stop = (IToken)input.LT(-1);
+
+			if (state.backtracking == 0) {
+			retval.Tree = (CommonTree)adaptor.RulePostProcessing(root_0);
+			adaptor.SetTokenBoundaries(retval.Tree, retval.Start, retval.Stop);
+			}
+		}
+		catch (RecognitionException re)
+		{
+			ReportError(re);
+			Recover(input,re);
+		retval.Tree = (CommonTree)adaptor.ErrorNode(input, retval.Start, input.LT(-1), re);
+
+		}
+		finally
+		{
+			TraceOut("selector_expr", 52);
+			LeaveRule("selector_expr", 52);
+			LeaveRule_selector_expr();
+			if (state.backtracking > 0) { Memoize(input, 52, selector_expr_StartIndex); }
+
+		}
+		DebugLocation(362, 1);
 		} finally { DebugExitRule(GrammarFileName, "selector_expr"); }
 		return retval;
 
@@ -8759,41 +9060,41 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_prefix_expr_op();
 
 	// $ANTLR start "prefix_expr_op"
-	// SugarCpp.g:354:1: prefix_expr_op : ( '!' | '~' | '++' | '--' | '-' | '+' | '*' | '&' );
+	// SugarCpp.g:364:1: prefix_expr_op : ( '!' | '~' | '++' | '--' | '-' | '+' | '*' | '&' );
 	[GrammarRule("prefix_expr_op")]
 	private AstParserRuleReturnScope<CommonTree, IToken> prefix_expr_op()
 	{
 		EnterRule_prefix_expr_op();
-		EnterRule("prefix_expr_op", 51);
-		TraceIn("prefix_expr_op", 51);
+		EnterRule("prefix_expr_op", 53);
+		TraceIn("prefix_expr_op", 53);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int prefix_expr_op_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken set176 = default(IToken);
+		IToken set185 = default(IToken);
 
-		CommonTree set176_tree = default(CommonTree);
+		CommonTree set185_tree = default(CommonTree);
 		try { DebugEnterRule(GrammarFileName, "prefix_expr_op");
-		DebugLocation(354, 64);
+		DebugLocation(364, 64);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 51)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 53)) { return retval; }
 
-			// SugarCpp.g:354:15: ( '!' | '~' | '++' | '--' | '-' | '+' | '*' | '&' )
+			// SugarCpp.g:364:15: ( '!' | '~' | '++' | '--' | '-' | '+' | '*' | '&' )
 			DebugEnterAlt(1);
 			// SugarCpp.g:
 			{
 			root_0 = (CommonTree)adaptor.Nil();
 
-			DebugLocation(354, 15);
+			DebugLocation(364, 15);
 
-			set176=(IToken)input.LT(1);
+			set185=(IToken)input.LT(1);
 			if (input.LA(1)==54||input.LA(1)==59||input.LA(1)==63||(input.LA(1)>=65 && input.LA(1)<=66)||(input.LA(1)>=69 && input.LA(1)<=70)||input.LA(1)==116)
 			{
 				input.Consume();
-				if (state.backtracking == 0) adaptor.AddChild(root_0, (CommonTree)adaptor.Create(set176));
+				if (state.backtracking == 0) adaptor.AddChild(root_0, (CommonTree)adaptor.Create(set185));
 				state.errorRecovery=false;state.failed=false;
 			}
 			else
@@ -8823,13 +9124,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("prefix_expr_op", 51);
-			LeaveRule("prefix_expr_op", 51);
+			TraceOut("prefix_expr_op", 53);
+			LeaveRule("prefix_expr_op", 53);
 			LeaveRule_prefix_expr_op();
-			if (state.backtracking > 0) { Memoize(input, 51, prefix_expr_op_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 53, prefix_expr_op_StartIndex); }
 
 		}
-		DebugLocation(354, 64);
+		DebugLocation(364, 64);
 		} finally { DebugExitRule(GrammarFileName, "prefix_expr_op"); }
 		return retval;
 
@@ -8840,36 +9141,36 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_prefix_expr();
 
 	// $ANTLR start "prefix_expr"
-	// SugarCpp.g:355:1: prefix_expr : ( ( prefix_expr_op prefix_expr ) -> ^( Expr_Prefix prefix_expr_op prefix_expr ) | 'new' type_name ( '(' ( expr_list )? ')' -> ^( Expr_New_Type type_name ( expr_list )? ) | '[' expr_list ']' -> ^( Expr_New_Array type_name expr_list ) ) | suffix_expr );
+	// SugarCpp.g:365:1: prefix_expr : ( ( prefix_expr_op prefix_expr ) -> ^( Expr_Prefix prefix_expr_op prefix_expr ) | 'new' type_name ( '(' ( expr_list )? ')' -> ^( Expr_New_Type type_name ( expr_list )? ) | '[' expr_list ']' -> ^( Expr_New_Array type_name expr_list ) ) | suffix_expr );
 	[GrammarRule("prefix_expr")]
 	private AstParserRuleReturnScope<CommonTree, IToken> prefix_expr()
 	{
 		EnterRule_prefix_expr();
-		EnterRule("prefix_expr", 52);
-		TraceIn("prefix_expr", 52);
+		EnterRule("prefix_expr", 54);
+		TraceIn("prefix_expr", 54);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int prefix_expr_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken string_literal179 = default(IToken);
-		IToken char_literal181 = default(IToken);
-		IToken char_literal183 = default(IToken);
-		IToken char_literal184 = default(IToken);
-		IToken char_literal186 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> prefix_expr_op177 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> prefix_expr178 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> type_name180 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> expr_list182 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> expr_list185 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> suffix_expr187 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		IToken string_literal188 = default(IToken);
+		IToken char_literal190 = default(IToken);
+		IToken char_literal192 = default(IToken);
+		IToken char_literal193 = default(IToken);
+		IToken char_literal195 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> prefix_expr_op186 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> prefix_expr187 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> type_name189 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> expr_list191 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> expr_list194 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> suffix_expr196 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree string_literal179_tree = default(CommonTree);
-		CommonTree char_literal181_tree = default(CommonTree);
-		CommonTree char_literal183_tree = default(CommonTree);
-		CommonTree char_literal184_tree = default(CommonTree);
-		CommonTree char_literal186_tree = default(CommonTree);
+		CommonTree string_literal188_tree = default(CommonTree);
+		CommonTree char_literal190_tree = default(CommonTree);
+		CommonTree char_literal192_tree = default(CommonTree);
+		CommonTree char_literal193_tree = default(CommonTree);
+		CommonTree char_literal195_tree = default(CommonTree);
 		RewriteRuleITokenStream stream_94=new RewriteRuleITokenStream(adaptor,"token 94");
 		RewriteRuleITokenStream stream_93=new RewriteRuleITokenStream(adaptor,"token 93");
 		RewriteRuleITokenStream stream_107=new RewriteRuleITokenStream(adaptor,"token 107");
@@ -8880,14 +9181,14 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		RewriteRuleSubtreeStream stream_prefix_expr_op=new RewriteRuleSubtreeStream(adaptor,"rule prefix_expr_op");
 		RewriteRuleSubtreeStream stream_expr_list=new RewriteRuleSubtreeStream(adaptor,"rule expr_list");
 		try { DebugEnterRule(GrammarFileName, "prefix_expr");
-		DebugLocation(355, 1);
+		DebugLocation(365, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 52)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 54)) { return retval; }
 
-			// SugarCpp.g:356:2: ( ( prefix_expr_op prefix_expr ) -> ^( Expr_Prefix prefix_expr_op prefix_expr ) | 'new' type_name ( '(' ( expr_list )? ')' -> ^( Expr_New_Type type_name ( expr_list )? ) | '[' expr_list ']' -> ^( Expr_New_Array type_name expr_list ) ) | suffix_expr )
-			int alt58=3;
-			try { DebugEnterDecision(58, false);
+			// SugarCpp.g:366:2: ( ( prefix_expr_op prefix_expr ) -> ^( Expr_Prefix prefix_expr_op prefix_expr ) | 'new' type_name ( '(' ( expr_list )? ')' -> ^( Expr_New_Type type_name ( expr_list )? ) | '[' expr_list ']' -> ^( Expr_New_Array type_name expr_list ) ) | suffix_expr )
+			int alt61=3;
+			try { DebugEnterDecision(61, false);
 			switch (input.LA(1))
 			{
 			case 54:
@@ -8899,12 +9200,12 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			case 70:
 			case 116:
 				{
-				alt58 = 1;
+				alt61 = 1;
 				}
 				break;
 			case 107:
 				{
-				alt58 = 2;
+				alt61 = 2;
 				}
 				break;
 			case IDENT:
@@ -8912,42 +9213,42 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			case STRING:
 			case 61:
 				{
-				alt58 = 3;
+				alt61 = 3;
 				}
 				break;
 			default:
 				{
 					if (state.backtracking>0) {state.failed=true; return retval;}
-					NoViableAltException nvae = new NoViableAltException("", 58, 0, input);
+					NoViableAltException nvae = new NoViableAltException("", 61, 0, input);
 					DebugRecognitionException(nvae);
 					throw nvae;
 				}
 			}
 
-			} finally { DebugExitDecision(58); }
-			switch (alt58)
+			} finally { DebugExitDecision(61); }
+			switch (alt61)
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:356:4: ( prefix_expr_op prefix_expr )
+				// SugarCpp.g:366:4: ( prefix_expr_op prefix_expr )
 				{
-				DebugLocation(356, 4);
-				// SugarCpp.g:356:4: ( prefix_expr_op prefix_expr )
+				DebugLocation(366, 4);
+				// SugarCpp.g:366:4: ( prefix_expr_op prefix_expr )
 				DebugEnterAlt(1);
-				// SugarCpp.g:356:5: prefix_expr_op prefix_expr
+				// SugarCpp.g:366:5: prefix_expr_op prefix_expr
 				{
-				DebugLocation(356, 5);
-				PushFollow(Follow._prefix_expr_op_in_prefix_expr2224);
-				prefix_expr_op177=prefix_expr_op();
+				DebugLocation(366, 5);
+				PushFollow(Follow._prefix_expr_op_in_prefix_expr2274);
+				prefix_expr_op186=prefix_expr_op();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) stream_prefix_expr_op.Add(prefix_expr_op177.Tree);
-				DebugLocation(356, 20);
-				PushFollow(Follow._prefix_expr_in_prefix_expr2226);
-				prefix_expr178=prefix_expr();
+				if (state.backtracking == 0) stream_prefix_expr_op.Add(prefix_expr_op186.Tree);
+				DebugLocation(366, 20);
+				PushFollow(Follow._prefix_expr_in_prefix_expr2276);
+				prefix_expr187=prefix_expr();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) stream_prefix_expr.Add(prefix_expr178.Tree);
+				if (state.backtracking == 0) stream_prefix_expr.Add(prefix_expr187.Tree);
 
 				}
 
@@ -8955,7 +9256,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: prefix_expr_op, prefix_expr
+				// elements: prefix_expr, prefix_expr_op
 				// token labels: 
 				// rule labels: retval
 				// token list labels: 
@@ -8966,18 +9267,18 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 				root_0 = (CommonTree)adaptor.Nil();
-				// 356:33: -> ^( Expr_Prefix prefix_expr_op prefix_expr )
+				// 366:33: -> ^( Expr_Prefix prefix_expr_op prefix_expr )
 				{
-					DebugLocation(356, 36);
-					// SugarCpp.g:356:36: ^( Expr_Prefix prefix_expr_op prefix_expr )
+					DebugLocation(366, 36);
+					// SugarCpp.g:366:36: ^( Expr_Prefix prefix_expr_op prefix_expr )
 					{
 					CommonTree root_1 = (CommonTree)adaptor.Nil();
-					DebugLocation(356, 38);
+					DebugLocation(366, 38);
 					root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Prefix, "Expr_Prefix"), root_1);
 
-					DebugLocation(356, 50);
+					DebugLocation(366, 50);
 					adaptor.AddChild(root_1, stream_prefix_expr_op.NextTree());
-					DebugLocation(356, 65);
+					DebugLocation(366, 65);
 					adaptor.AddChild(root_1, stream_prefix_expr.NextTree());
 
 					adaptor.AddChild(root_0, root_1);
@@ -8993,85 +9294,85 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				break;
 			case 2:
 				DebugEnterAlt(2);
-				// SugarCpp.g:357:4: 'new' type_name ( '(' ( expr_list )? ')' -> ^( Expr_New_Type type_name ( expr_list )? ) | '[' expr_list ']' -> ^( Expr_New_Array type_name expr_list ) )
+				// SugarCpp.g:367:4: 'new' type_name ( '(' ( expr_list )? ')' -> ^( Expr_New_Type type_name ( expr_list )? ) | '[' expr_list ']' -> ^( Expr_New_Array type_name expr_list ) )
 				{
-				DebugLocation(357, 4);
-				string_literal179=(IToken)Match(input,107,Follow._107_in_prefix_expr2242); if (state.failed) return retval; 
-				if (state.backtracking == 0) stream_107.Add(string_literal179);
+				DebugLocation(367, 4);
+				string_literal188=(IToken)Match(input,107,Follow._107_in_prefix_expr2292); if (state.failed) return retval; 
+				if (state.backtracking == 0) stream_107.Add(string_literal188);
 
-				DebugLocation(357, 10);
-				PushFollow(Follow._type_name_in_prefix_expr2244);
-				type_name180=type_name();
+				DebugLocation(367, 10);
+				PushFollow(Follow._type_name_in_prefix_expr2294);
+				type_name189=type_name();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) stream_type_name.Add(type_name180.Tree);
-				DebugLocation(357, 20);
-				// SugarCpp.g:357:20: ( '(' ( expr_list )? ')' -> ^( Expr_New_Type type_name ( expr_list )? ) | '[' expr_list ']' -> ^( Expr_New_Array type_name expr_list ) )
-				int alt57=2;
-				try { DebugEnterSubRule(57);
-				try { DebugEnterDecision(57, false);
-				int LA57_0 = input.LA(1);
+				if (state.backtracking == 0) stream_type_name.Add(type_name189.Tree);
+				DebugLocation(367, 20);
+				// SugarCpp.g:367:20: ( '(' ( expr_list )? ')' -> ^( Expr_New_Type type_name ( expr_list )? ) | '[' expr_list ']' -> ^( Expr_New_Array type_name expr_list ) )
+				int alt60=2;
+				try { DebugEnterSubRule(60);
+				try { DebugEnterDecision(60, false);
+				int LA60_0 = input.LA(1);
 
-				if ((LA57_0==61))
+				if ((LA60_0==61))
 				{
-					alt57 = 1;
+					alt60 = 1;
 				}
-				else if ((LA57_0==93))
+				else if ((LA60_0==93))
 				{
-					alt57 = 2;
+					alt60 = 2;
 				}
 				else
 				{
 					if (state.backtracking>0) {state.failed=true; return retval;}
-					NoViableAltException nvae = new NoViableAltException("", 57, 0, input);
+					NoViableAltException nvae = new NoViableAltException("", 60, 0, input);
 					DebugRecognitionException(nvae);
 					throw nvae;
 				}
-				} finally { DebugExitDecision(57); }
-				switch (alt57)
+				} finally { DebugExitDecision(60); }
+				switch (alt60)
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:357:22: '(' ( expr_list )? ')'
+					// SugarCpp.g:367:22: '(' ( expr_list )? ')'
 					{
-					DebugLocation(357, 22);
-					char_literal181=(IToken)Match(input,61,Follow._61_in_prefix_expr2248); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_61.Add(char_literal181);
+					DebugLocation(367, 22);
+					char_literal190=(IToken)Match(input,61,Follow._61_in_prefix_expr2298); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_61.Add(char_literal190);
 
-					DebugLocation(357, 26);
-					// SugarCpp.g:357:26: ( expr_list )?
-					int alt56=2;
-					try { DebugEnterSubRule(56);
-					try { DebugEnterDecision(56, false);
-					int LA56_0 = input.LA(1);
+					DebugLocation(367, 26);
+					// SugarCpp.g:367:26: ( expr_list )?
+					int alt59=2;
+					try { DebugEnterSubRule(59);
+					try { DebugEnterDecision(59, false);
+					int LA59_0 = input.LA(1);
 
-					if ((LA56_0==IDENT||LA56_0==NUMBER||LA56_0==STRING||LA56_0==54||LA56_0==59||LA56_0==61||LA56_0==63||(LA56_0>=65 && LA56_0<=66)||(LA56_0>=69 && LA56_0<=70)||LA56_0==107||LA56_0==116))
+					if ((LA59_0==IDENT||LA59_0==NUMBER||LA59_0==STRING||LA59_0==54||LA59_0==59||LA59_0==61||LA59_0==63||(LA59_0>=65 && LA59_0<=66)||(LA59_0>=69 && LA59_0<=70)||LA59_0==107||LA59_0==116))
 					{
-						alt56 = 1;
+						alt59 = 1;
 					}
-					} finally { DebugExitDecision(56); }
-					switch (alt56)
+					} finally { DebugExitDecision(59); }
+					switch (alt59)
 					{
 					case 1:
 						DebugEnterAlt(1);
-						// SugarCpp.g:357:26: expr_list
+						// SugarCpp.g:367:26: expr_list
 						{
-						DebugLocation(357, 26);
-						PushFollow(Follow._expr_list_in_prefix_expr2250);
-						expr_list182=expr_list();
+						DebugLocation(367, 26);
+						PushFollow(Follow._expr_list_in_prefix_expr2300);
+						expr_list191=expr_list();
 						PopFollow();
 						if (state.failed) return retval;
-						if (state.backtracking == 0) stream_expr_list.Add(expr_list182.Tree);
+						if (state.backtracking == 0) stream_expr_list.Add(expr_list191.Tree);
 
 						}
 						break;
 
 					}
-					} finally { DebugExitSubRule(56); }
+					} finally { DebugExitSubRule(59); }
 
-					DebugLocation(357, 37);
-					char_literal183=(IToken)Match(input,62,Follow._62_in_prefix_expr2253); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_62.Add(char_literal183);
+					DebugLocation(367, 37);
+					char_literal192=(IToken)Match(input,62,Follow._62_in_prefix_expr2303); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_62.Add(char_literal192);
 
 
 
@@ -9088,22 +9389,22 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 					root_0 = (CommonTree)adaptor.Nil();
-					// 357:41: -> ^( Expr_New_Type type_name ( expr_list )? )
+					// 367:41: -> ^( Expr_New_Type type_name ( expr_list )? )
 					{
-						DebugLocation(357, 44);
-						// SugarCpp.g:357:44: ^( Expr_New_Type type_name ( expr_list )? )
+						DebugLocation(367, 44);
+						// SugarCpp.g:367:44: ^( Expr_New_Type type_name ( expr_list )? )
 						{
 						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(357, 46);
+						DebugLocation(367, 46);
 						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_New_Type, "Expr_New_Type"), root_1);
 
-						DebugLocation(357, 60);
+						DebugLocation(367, 60);
 						adaptor.AddChild(root_1, stream_type_name.NextTree());
-						DebugLocation(357, 70);
-						// SugarCpp.g:357:70: ( expr_list )?
+						DebugLocation(367, 70);
+						// SugarCpp.g:367:70: ( expr_list )?
 						if (stream_expr_list.HasNext)
 						{
-							DebugLocation(357, 70);
+							DebugLocation(367, 70);
 							adaptor.AddChild(root_1, stream_expr_list.NextTree());
 
 						}
@@ -9122,27 +9423,27 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					break;
 				case 2:
 					DebugEnterAlt(2);
-					// SugarCpp.g:358:10: '[' expr_list ']'
+					// SugarCpp.g:368:10: '[' expr_list ']'
 					{
-					DebugLocation(358, 10);
-					char_literal184=(IToken)Match(input,93,Follow._93_in_prefix_expr2275); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_93.Add(char_literal184);
+					DebugLocation(368, 10);
+					char_literal193=(IToken)Match(input,93,Follow._93_in_prefix_expr2325); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_93.Add(char_literal193);
 
-					DebugLocation(358, 14);
-					PushFollow(Follow._expr_list_in_prefix_expr2277);
-					expr_list185=expr_list();
+					DebugLocation(368, 14);
+					PushFollow(Follow._expr_list_in_prefix_expr2327);
+					expr_list194=expr_list();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_expr_list.Add(expr_list185.Tree);
-					DebugLocation(358, 24);
-					char_literal186=(IToken)Match(input,94,Follow._94_in_prefix_expr2279); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_94.Add(char_literal186);
+					if (state.backtracking == 0) stream_expr_list.Add(expr_list194.Tree);
+					DebugLocation(368, 24);
+					char_literal195=(IToken)Match(input,94,Follow._94_in_prefix_expr2329); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_94.Add(char_literal195);
 
 
 
 					{
 					// AST REWRITE
-					// elements: expr_list, type_name
+					// elements: type_name, expr_list
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -9153,18 +9454,18 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 					root_0 = (CommonTree)adaptor.Nil();
-					// 358:28: -> ^( Expr_New_Array type_name expr_list )
+					// 368:28: -> ^( Expr_New_Array type_name expr_list )
 					{
-						DebugLocation(358, 31);
-						// SugarCpp.g:358:31: ^( Expr_New_Array type_name expr_list )
+						DebugLocation(368, 31);
+						// SugarCpp.g:368:31: ^( Expr_New_Array type_name expr_list )
 						{
 						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(358, 33);
+						DebugLocation(368, 33);
 						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_New_Array, "Expr_New_Array"), root_1);
 
-						DebugLocation(358, 48);
+						DebugLocation(368, 48);
 						adaptor.AddChild(root_1, stream_type_name.NextTree());
-						DebugLocation(358, 58);
+						DebugLocation(368, 58);
 						adaptor.AddChild(root_1, stream_expr_list.NextTree());
 
 						adaptor.AddChild(root_0, root_1);
@@ -9180,23 +9481,23 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					break;
 
 				}
-				} finally { DebugExitSubRule(57); }
+				} finally { DebugExitSubRule(60); }
 
 
 				}
 				break;
 			case 3:
 				DebugEnterAlt(3);
-				// SugarCpp.g:359:4: suffix_expr
+				// SugarCpp.g:369:4: suffix_expr
 				{
 				root_0 = (CommonTree)adaptor.Nil();
 
-				DebugLocation(359, 4);
-				PushFollow(Follow._suffix_expr_in_prefix_expr2295);
-				suffix_expr187=suffix_expr();
+				DebugLocation(369, 4);
+				PushFollow(Follow._suffix_expr_in_prefix_expr2345);
+				suffix_expr196=suffix_expr();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) adaptor.AddChild(root_0, suffix_expr187.Tree);
+				if (state.backtracking == 0) adaptor.AddChild(root_0, suffix_expr196.Tree);
 
 				}
 				break;
@@ -9218,13 +9519,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("prefix_expr", 52);
-			LeaveRule("prefix_expr", 52);
+			TraceOut("prefix_expr", 54);
+			LeaveRule("prefix_expr", 54);
 			LeaveRule_prefix_expr();
-			if (state.backtracking > 0) { Memoize(input, 52, prefix_expr_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 54, prefix_expr_StartIndex); }
 
 		}
-		DebugLocation(360, 1);
+		DebugLocation(370, 1);
 		} finally { DebugExitRule(GrammarFileName, "prefix_expr"); }
 		return retval;
 
@@ -9235,85 +9536,85 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_expr_list();
 
 	// $ANTLR start "expr_list"
-	// SugarCpp.g:362:1: expr_list : expr ( ',' ! expr )* ;
+	// SugarCpp.g:372:1: expr_list : expr ( ',' ! expr )* ;
 	[GrammarRule("expr_list")]
 	private AstParserRuleReturnScope<CommonTree, IToken> expr_list()
 	{
 		EnterRule_expr_list();
-		EnterRule("expr_list", 53);
-		TraceIn("expr_list", 53);
+		EnterRule("expr_list", 55);
+		TraceIn("expr_list", 55);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int expr_list_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken char_literal189 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> expr188 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> expr190 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		IToken char_literal198 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> expr197 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> expr199 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree char_literal189_tree = default(CommonTree);
+		CommonTree char_literal198_tree = default(CommonTree);
 		try { DebugEnterRule(GrammarFileName, "expr_list");
-		DebugLocation(362, 1);
+		DebugLocation(372, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 53)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 55)) { return retval; }
 
-			// SugarCpp.g:363:2: ( expr ( ',' ! expr )* )
+			// SugarCpp.g:373:2: ( expr ( ',' ! expr )* )
 			DebugEnterAlt(1);
-			// SugarCpp.g:363:4: expr ( ',' ! expr )*
+			// SugarCpp.g:373:4: expr ( ',' ! expr )*
 			{
 			root_0 = (CommonTree)adaptor.Nil();
 
-			DebugLocation(363, 4);
-			PushFollow(Follow._expr_in_expr_list2307);
-			expr188=expr();
+			DebugLocation(373, 4);
+			PushFollow(Follow._expr_in_expr_list2357);
+			expr197=expr();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) adaptor.AddChild(root_0, expr188.Tree);
-			DebugLocation(363, 9);
-			// SugarCpp.g:363:9: ( ',' ! expr )*
-			try { DebugEnterSubRule(59);
+			if (state.backtracking == 0) adaptor.AddChild(root_0, expr197.Tree);
+			DebugLocation(373, 9);
+			// SugarCpp.g:373:9: ( ',' ! expr )*
+			try { DebugEnterSubRule(62);
 			while (true)
 			{
-				int alt59=2;
-				try { DebugEnterDecision(59, false);
-				int LA59_0 = input.LA(1);
+				int alt62=2;
+				try { DebugEnterDecision(62, false);
+				int LA62_0 = input.LA(1);
 
-				if ((LA59_0==68))
+				if ((LA62_0==68))
 				{
-					alt59 = 1;
+					alt62 = 1;
 				}
 
 
-				} finally { DebugExitDecision(59); }
-				switch ( alt59 )
+				} finally { DebugExitDecision(62); }
+				switch ( alt62 )
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:363:10: ',' ! expr
+					// SugarCpp.g:373:10: ',' ! expr
 					{
-					DebugLocation(363, 13);
-					char_literal189=(IToken)Match(input,68,Follow._68_in_expr_list2310); if (state.failed) return retval;
-					DebugLocation(363, 15);
-					PushFollow(Follow._expr_in_expr_list2313);
-					expr190=expr();
+					DebugLocation(373, 13);
+					char_literal198=(IToken)Match(input,68,Follow._68_in_expr_list2360); if (state.failed) return retval;
+					DebugLocation(373, 15);
+					PushFollow(Follow._expr_in_expr_list2363);
+					expr199=expr();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) adaptor.AddChild(root_0, expr190.Tree);
+					if (state.backtracking == 0) adaptor.AddChild(root_0, expr199.Tree);
 
 					}
 					break;
 
 				default:
-					goto loop59;
+					goto loop62;
 				}
 			}
 
-			loop59:
+			loop62:
 				;
 
-			} finally { DebugExitSubRule(59); }
+			} finally { DebugExitSubRule(62); }
 
 
 			}
@@ -9334,13 +9635,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("expr_list", 53);
-			LeaveRule("expr_list", 53);
+			TraceOut("expr_list", 55);
+			LeaveRule("expr_list", 55);
 			LeaveRule_expr_list();
-			if (state.backtracking > 0) { Memoize(input, 53, expr_list_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 55, expr_list_StartIndex); }
 
 		}
-		DebugLocation(364, 1);
+		DebugLocation(374, 1);
 		} finally { DebugExitRule(GrammarFileName, "expr_list"); }
 		return retval;
 
@@ -9351,53 +9652,53 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_suffix_expr();
 
 	// $ANTLR start "suffix_expr"
-	// SugarCpp.g:366:1: suffix_expr : (a= atom_expr -> $a) ( '++' -> ^( Expr_Suffix '++' $suffix_expr) | '--' -> ^( Expr_Suffix '--' $suffix_expr) | '.' ident -> ^( Expr_Access '.' $suffix_expr ident ) | '->' ident -> ^( Expr_Access '->' $suffix_expr ident ) | '::' ident -> ^( Expr_Access '::' $suffix_expr ident ) | ( generic_parameter )? '(' ( expr_list )? ')' -> ^( Expr_Call $suffix_expr ( generic_parameter )? ( expr_list )? ) | '[' ( expr_list )? ']' -> ^( Expr_Dict $suffix_expr ( expr_list )? ) | ':' ident '(' ( expr_list )? ')' -> ^( Expr_Call_With $suffix_expr ident ( expr_list )? ) )* ;
+	// SugarCpp.g:376:1: suffix_expr : (a= atom_expr -> $a) ( '++' -> ^( Expr_Suffix '++' $suffix_expr) | '--' -> ^( Expr_Suffix '--' $suffix_expr) | '.' ident -> ^( Expr_Access '.' $suffix_expr ident ) | '->' ident -> ^( Expr_Access '->' $suffix_expr ident ) | '::' ident -> ^( Expr_Access '::' $suffix_expr ident ) | ( generic_parameter )? '(' ( expr_list )? ')' -> ^( Expr_Call $suffix_expr ( generic_parameter )? ( expr_list )? ) | '[' ( expr_list )? ']' -> ^( Expr_Dict $suffix_expr ( expr_list )? ) | ':' ident '(' ( expr_list )? ')' -> ^( Expr_Call_With $suffix_expr ident ( expr_list )? ) )* ;
 	[GrammarRule("suffix_expr")]
 	private AstParserRuleReturnScope<CommonTree, IToken> suffix_expr()
 	{
 		EnterRule_suffix_expr();
-		EnterRule("suffix_expr", 54);
-		TraceIn("suffix_expr", 54);
+		EnterRule("suffix_expr", 56);
+		TraceIn("suffix_expr", 56);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int suffix_expr_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken string_literal191 = default(IToken);
-		IToken string_literal192 = default(IToken);
-		IToken char_literal193 = default(IToken);
-		IToken string_literal195 = default(IToken);
-		IToken string_literal197 = default(IToken);
-		IToken char_literal200 = default(IToken);
+		IToken string_literal200 = default(IToken);
+		IToken string_literal201 = default(IToken);
 		IToken char_literal202 = default(IToken);
-		IToken char_literal203 = default(IToken);
-		IToken char_literal205 = default(IToken);
-		IToken char_literal206 = default(IToken);
-		IToken char_literal208 = default(IToken);
-		IToken char_literal210 = default(IToken);
+		IToken string_literal204 = default(IToken);
+		IToken string_literal206 = default(IToken);
+		IToken char_literal209 = default(IToken);
+		IToken char_literal211 = default(IToken);
+		IToken char_literal212 = default(IToken);
+		IToken char_literal214 = default(IToken);
+		IToken char_literal215 = default(IToken);
+		IToken char_literal217 = default(IToken);
+		IToken char_literal219 = default(IToken);
 		AstParserRuleReturnScope<CommonTree, IToken> a = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> ident194 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> ident196 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> ident198 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> generic_parameter199 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> expr_list201 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> expr_list204 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> ident203 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> ident205 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 		AstParserRuleReturnScope<CommonTree, IToken> ident207 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> expr_list209 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> generic_parameter208 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> expr_list210 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> expr_list213 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> ident216 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> expr_list218 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree string_literal191_tree = default(CommonTree);
-		CommonTree string_literal192_tree = default(CommonTree);
-		CommonTree char_literal193_tree = default(CommonTree);
-		CommonTree string_literal195_tree = default(CommonTree);
-		CommonTree string_literal197_tree = default(CommonTree);
-		CommonTree char_literal200_tree = default(CommonTree);
+		CommonTree string_literal200_tree = default(CommonTree);
+		CommonTree string_literal201_tree = default(CommonTree);
 		CommonTree char_literal202_tree = default(CommonTree);
-		CommonTree char_literal203_tree = default(CommonTree);
-		CommonTree char_literal205_tree = default(CommonTree);
-		CommonTree char_literal206_tree = default(CommonTree);
-		CommonTree char_literal208_tree = default(CommonTree);
-		CommonTree char_literal210_tree = default(CommonTree);
+		CommonTree string_literal204_tree = default(CommonTree);
+		CommonTree string_literal206_tree = default(CommonTree);
+		CommonTree char_literal209_tree = default(CommonTree);
+		CommonTree char_literal211_tree = default(CommonTree);
+		CommonTree char_literal212_tree = default(CommonTree);
+		CommonTree char_literal214_tree = default(CommonTree);
+		CommonTree char_literal215_tree = default(CommonTree);
+		CommonTree char_literal217_tree = default(CommonTree);
+		CommonTree char_literal219_tree = default(CommonTree);
 		RewriteRuleITokenStream stream_79=new RewriteRuleITokenStream(adaptor,"token 79");
 		RewriteRuleITokenStream stream_66=new RewriteRuleITokenStream(adaptor,"token 66");
 		RewriteRuleITokenStream stream_78=new RewriteRuleITokenStream(adaptor,"token 78");
@@ -9413,22 +9714,22 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		RewriteRuleSubtreeStream stream_generic_parameter=new RewriteRuleSubtreeStream(adaptor,"rule generic_parameter");
 		RewriteRuleSubtreeStream stream_expr_list=new RewriteRuleSubtreeStream(adaptor,"rule expr_list");
 		try { DebugEnterRule(GrammarFileName, "suffix_expr");
-		DebugLocation(366, 1);
+		DebugLocation(376, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 54)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 56)) { return retval; }
 
-			// SugarCpp.g:367:2: ( (a= atom_expr -> $a) ( '++' -> ^( Expr_Suffix '++' $suffix_expr) | '--' -> ^( Expr_Suffix '--' $suffix_expr) | '.' ident -> ^( Expr_Access '.' $suffix_expr ident ) | '->' ident -> ^( Expr_Access '->' $suffix_expr ident ) | '::' ident -> ^( Expr_Access '::' $suffix_expr ident ) | ( generic_parameter )? '(' ( expr_list )? ')' -> ^( Expr_Call $suffix_expr ( generic_parameter )? ( expr_list )? ) | '[' ( expr_list )? ']' -> ^( Expr_Dict $suffix_expr ( expr_list )? ) | ':' ident '(' ( expr_list )? ')' -> ^( Expr_Call_With $suffix_expr ident ( expr_list )? ) )* )
+			// SugarCpp.g:377:2: ( (a= atom_expr -> $a) ( '++' -> ^( Expr_Suffix '++' $suffix_expr) | '--' -> ^( Expr_Suffix '--' $suffix_expr) | '.' ident -> ^( Expr_Access '.' $suffix_expr ident ) | '->' ident -> ^( Expr_Access '->' $suffix_expr ident ) | '::' ident -> ^( Expr_Access '::' $suffix_expr ident ) | ( generic_parameter )? '(' ( expr_list )? ')' -> ^( Expr_Call $suffix_expr ( generic_parameter )? ( expr_list )? ) | '[' ( expr_list )? ']' -> ^( Expr_Dict $suffix_expr ( expr_list )? ) | ':' ident '(' ( expr_list )? ')' -> ^( Expr_Call_With $suffix_expr ident ( expr_list )? ) )* )
 			DebugEnterAlt(1);
-			// SugarCpp.g:367:4: (a= atom_expr -> $a) ( '++' -> ^( Expr_Suffix '++' $suffix_expr) | '--' -> ^( Expr_Suffix '--' $suffix_expr) | '.' ident -> ^( Expr_Access '.' $suffix_expr ident ) | '->' ident -> ^( Expr_Access '->' $suffix_expr ident ) | '::' ident -> ^( Expr_Access '::' $suffix_expr ident ) | ( generic_parameter )? '(' ( expr_list )? ')' -> ^( Expr_Call $suffix_expr ( generic_parameter )? ( expr_list )? ) | '[' ( expr_list )? ']' -> ^( Expr_Dict $suffix_expr ( expr_list )? ) | ':' ident '(' ( expr_list )? ')' -> ^( Expr_Call_With $suffix_expr ident ( expr_list )? ) )*
+			// SugarCpp.g:377:4: (a= atom_expr -> $a) ( '++' -> ^( Expr_Suffix '++' $suffix_expr) | '--' -> ^( Expr_Suffix '--' $suffix_expr) | '.' ident -> ^( Expr_Access '.' $suffix_expr ident ) | '->' ident -> ^( Expr_Access '->' $suffix_expr ident ) | '::' ident -> ^( Expr_Access '::' $suffix_expr ident ) | ( generic_parameter )? '(' ( expr_list )? ')' -> ^( Expr_Call $suffix_expr ( generic_parameter )? ( expr_list )? ) | '[' ( expr_list )? ']' -> ^( Expr_Dict $suffix_expr ( expr_list )? ) | ':' ident '(' ( expr_list )? ')' -> ^( Expr_Call_With $suffix_expr ident ( expr_list )? ) )*
 			{
-			DebugLocation(367, 4);
-			// SugarCpp.g:367:4: (a= atom_expr -> $a)
+			DebugLocation(377, 4);
+			// SugarCpp.g:377:4: (a= atom_expr -> $a)
 			DebugEnterAlt(1);
-			// SugarCpp.g:367:5: a= atom_expr
+			// SugarCpp.g:377:5: a= atom_expr
 			{
-			DebugLocation(367, 6);
-			PushFollow(Follow._atom_expr_in_suffix_expr2329);
+			DebugLocation(377, 6);
+			PushFollow(Follow._atom_expr_in_suffix_expr2379);
 			a=atom_expr();
 			PopFollow();
 			if (state.failed) return retval;
@@ -9449,9 +9750,9 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			RewriteRuleSubtreeStream stream_a=new RewriteRuleSubtreeStream(adaptor,"rule a",a!=null?a.Tree:null);
 
 			root_0 = (CommonTree)adaptor.Nil();
-			// 367:17: -> $a
+			// 377:17: -> $a
 			{
-				DebugLocation(367, 21);
+				DebugLocation(377, 21);
 				adaptor.AddChild(root_0, stream_a.NextTree());
 
 			}
@@ -9462,22 +9763,22 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			}
 
-			DebugLocation(367, 24);
-			// SugarCpp.g:367:24: ( '++' -> ^( Expr_Suffix '++' $suffix_expr) | '--' -> ^( Expr_Suffix '--' $suffix_expr) | '.' ident -> ^( Expr_Access '.' $suffix_expr ident ) | '->' ident -> ^( Expr_Access '->' $suffix_expr ident ) | '::' ident -> ^( Expr_Access '::' $suffix_expr ident ) | ( generic_parameter )? '(' ( expr_list )? ')' -> ^( Expr_Call $suffix_expr ( generic_parameter )? ( expr_list )? ) | '[' ( expr_list )? ']' -> ^( Expr_Dict $suffix_expr ( expr_list )? ) | ':' ident '(' ( expr_list )? ')' -> ^( Expr_Call_With $suffix_expr ident ( expr_list )? ) )*
-			try { DebugEnterSubRule(64);
+			DebugLocation(377, 24);
+			// SugarCpp.g:377:24: ( '++' -> ^( Expr_Suffix '++' $suffix_expr) | '--' -> ^( Expr_Suffix '--' $suffix_expr) | '.' ident -> ^( Expr_Access '.' $suffix_expr ident ) | '->' ident -> ^( Expr_Access '->' $suffix_expr ident ) | '::' ident -> ^( Expr_Access '::' $suffix_expr ident ) | ( generic_parameter )? '(' ( expr_list )? ')' -> ^( Expr_Call $suffix_expr ( generic_parameter )? ( expr_list )? ) | '[' ( expr_list )? ']' -> ^( Expr_Dict $suffix_expr ( expr_list )? ) | ':' ident '(' ( expr_list )? ')' -> ^( Expr_Call_With $suffix_expr ident ( expr_list )? ) )*
+			try { DebugEnterSubRule(67);
 			while (true)
 			{
-				int alt64=9;
-				try { DebugEnterDecision(64, false);
+				int alt67=9;
+				try { DebugEnterDecision(67, false);
 				switch (input.LA(1))
 				{
 				case 82:
 					{
-					int LA64_10 = input.LA(2);
+					int LA67_10 = input.LA(2);
 
-					if ((EvaluatePredicate(synpred108_SugarCpp_fragment)))
+					if ((EvaluatePredicate(synpred112_SugarCpp_fragment)))
 					{
-						alt64 = 6;
+						alt67 = 6;
 					}
 
 
@@ -9485,11 +9786,11 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					break;
 				case 93:
 					{
-					int LA64_29 = input.LA(2);
+					int LA67_29 = input.LA(2);
 
-					if ((EvaluatePredicate(synpred110_SugarCpp_fragment)))
+					if ((EvaluatePredicate(synpred114_SugarCpp_fragment)))
 					{
-						alt64 = 7;
+						alt67 = 7;
 					}
 
 
@@ -9497,51 +9798,51 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					break;
 				case 66:
 					{
-					alt64 = 1;
+					alt67 = 1;
 					}
 					break;
 				case 70:
 					{
-					alt64 = 2;
+					alt67 = 2;
 					}
 					break;
 				case 74:
 					{
-					alt64 = 3;
+					alt67 = 3;
 					}
 					break;
 				case 72:
 					{
-					alt64 = 4;
+					alt67 = 4;
 					}
 					break;
 				case 79:
 					{
-					alt64 = 5;
+					alt67 = 5;
 					}
 					break;
 				case 61:
 					{
-					alt64 = 6;
+					alt67 = 6;
 					}
 					break;
 				case 78:
 					{
-					alt64 = 8;
+					alt67 = 8;
 					}
 					break;
 				}
 
-				} finally { DebugExitDecision(64); }
-				switch ( alt64 )
+				} finally { DebugExitDecision(67); }
+				switch ( alt67 )
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:367:26: '++'
+					// SugarCpp.g:377:26: '++'
 					{
-					DebugLocation(367, 26);
-					string_literal191=(IToken)Match(input,66,Follow._66_in_suffix_expr2339); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_66.Add(string_literal191);
+					DebugLocation(377, 26);
+					string_literal200=(IToken)Match(input,66,Follow._66_in_suffix_expr2389); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_66.Add(string_literal200);
 
 
 
@@ -9558,18 +9859,18 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 					root_0 = (CommonTree)adaptor.Nil();
-					// 367:31: -> ^( Expr_Suffix '++' $suffix_expr)
+					// 377:31: -> ^( Expr_Suffix '++' $suffix_expr)
 					{
-						DebugLocation(367, 34);
-						// SugarCpp.g:367:34: ^( Expr_Suffix '++' $suffix_expr)
+						DebugLocation(377, 34);
+						// SugarCpp.g:377:34: ^( Expr_Suffix '++' $suffix_expr)
 						{
 						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(367, 36);
+						DebugLocation(377, 36);
 						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Suffix, "Expr_Suffix"), root_1);
 
-						DebugLocation(367, 48);
+						DebugLocation(377, 48);
 						adaptor.AddChild(root_1, stream_66.NextNode());
-						DebugLocation(367, 54);
+						DebugLocation(377, 54);
 						adaptor.AddChild(root_1, stream_retval.NextTree());
 
 						adaptor.AddChild(root_0, root_1);
@@ -9585,11 +9886,11 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					break;
 				case 2:
 					DebugEnterAlt(2);
-					// SugarCpp.g:368:14: '--'
+					// SugarCpp.g:378:14: '--'
 					{
-					DebugLocation(368, 14);
-					string_literal192=(IToken)Match(input,70,Follow._70_in_suffix_expr2365); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_70.Add(string_literal192);
+					DebugLocation(378, 14);
+					string_literal201=(IToken)Match(input,70,Follow._70_in_suffix_expr2415); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_70.Add(string_literal201);
 
 
 
@@ -9606,18 +9907,18 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 					root_0 = (CommonTree)adaptor.Nil();
-					// 368:19: -> ^( Expr_Suffix '--' $suffix_expr)
+					// 378:19: -> ^( Expr_Suffix '--' $suffix_expr)
 					{
-						DebugLocation(368, 22);
-						// SugarCpp.g:368:22: ^( Expr_Suffix '--' $suffix_expr)
+						DebugLocation(378, 22);
+						// SugarCpp.g:378:22: ^( Expr_Suffix '--' $suffix_expr)
 						{
 						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(368, 24);
+						DebugLocation(378, 24);
 						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Suffix, "Expr_Suffix"), root_1);
 
-						DebugLocation(368, 36);
+						DebugLocation(378, 36);
 						adaptor.AddChild(root_1, stream_70.NextNode());
-						DebugLocation(368, 42);
+						DebugLocation(378, 42);
 						adaptor.AddChild(root_1, stream_retval.NextTree());
 
 						adaptor.AddChild(root_0, root_1);
@@ -9633,23 +9934,23 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					break;
 				case 3:
 					DebugEnterAlt(3);
-					// SugarCpp.g:369:11: '.' ident
+					// SugarCpp.g:379:11: '.' ident
 					{
-					DebugLocation(369, 11);
-					char_literal193=(IToken)Match(input,74,Follow._74_in_suffix_expr2388); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_74.Add(char_literal193);
+					DebugLocation(379, 11);
+					char_literal202=(IToken)Match(input,74,Follow._74_in_suffix_expr2438); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_74.Add(char_literal202);
 
-					DebugLocation(369, 15);
-					PushFollow(Follow._ident_in_suffix_expr2390);
-					ident194=ident();
+					DebugLocation(379, 15);
+					PushFollow(Follow._ident_in_suffix_expr2440);
+					ident203=ident();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_ident.Add(ident194.Tree);
+					if (state.backtracking == 0) stream_ident.Add(ident203.Tree);
 
 
 					{
 					// AST REWRITE
-					// elements: ident, 74, suffix_expr
+					// elements: suffix_expr, ident, 74
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -9660,20 +9961,20 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 					root_0 = (CommonTree)adaptor.Nil();
-					// 369:21: -> ^( Expr_Access '.' $suffix_expr ident )
+					// 379:21: -> ^( Expr_Access '.' $suffix_expr ident )
 					{
-						DebugLocation(369, 24);
-						// SugarCpp.g:369:24: ^( Expr_Access '.' $suffix_expr ident )
+						DebugLocation(379, 24);
+						// SugarCpp.g:379:24: ^( Expr_Access '.' $suffix_expr ident )
 						{
 						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(369, 26);
+						DebugLocation(379, 26);
 						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Access, "Expr_Access"), root_1);
 
-						DebugLocation(369, 38);
+						DebugLocation(379, 38);
 						adaptor.AddChild(root_1, stream_74.NextNode());
-						DebugLocation(369, 43);
+						DebugLocation(379, 43);
 						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(369, 55);
+						DebugLocation(379, 55);
 						adaptor.AddChild(root_1, stream_ident.NextTree());
 
 						adaptor.AddChild(root_0, root_1);
@@ -9689,23 +9990,23 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					break;
 				case 4:
 					DebugEnterAlt(4);
-					// SugarCpp.g:370:11: '->' ident
+					// SugarCpp.g:380:11: '->' ident
 					{
-					DebugLocation(370, 11);
-					string_literal195=(IToken)Match(input,72,Follow._72_in_suffix_expr2415); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_72.Add(string_literal195);
+					DebugLocation(380, 11);
+					string_literal204=(IToken)Match(input,72,Follow._72_in_suffix_expr2465); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_72.Add(string_literal204);
 
-					DebugLocation(370, 16);
-					PushFollow(Follow._ident_in_suffix_expr2417);
-					ident196=ident();
+					DebugLocation(380, 16);
+					PushFollow(Follow._ident_in_suffix_expr2467);
+					ident205=ident();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_ident.Add(ident196.Tree);
+					if (state.backtracking == 0) stream_ident.Add(ident205.Tree);
 
 
 					{
 					// AST REWRITE
-					// elements: 72, suffix_expr, ident
+					// elements: ident, suffix_expr, 72
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -9716,20 +10017,20 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 					root_0 = (CommonTree)adaptor.Nil();
-					// 370:22: -> ^( Expr_Access '->' $suffix_expr ident )
+					// 380:22: -> ^( Expr_Access '->' $suffix_expr ident )
 					{
-						DebugLocation(370, 25);
-						// SugarCpp.g:370:25: ^( Expr_Access '->' $suffix_expr ident )
+						DebugLocation(380, 25);
+						// SugarCpp.g:380:25: ^( Expr_Access '->' $suffix_expr ident )
 						{
 						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(370, 27);
+						DebugLocation(380, 27);
 						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Access, "Expr_Access"), root_1);
 
-						DebugLocation(370, 39);
+						DebugLocation(380, 39);
 						adaptor.AddChild(root_1, stream_72.NextNode());
-						DebugLocation(370, 45);
+						DebugLocation(380, 45);
 						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(370, 57);
+						DebugLocation(380, 57);
 						adaptor.AddChild(root_1, stream_ident.NextTree());
 
 						adaptor.AddChild(root_0, root_1);
@@ -9745,18 +10046,18 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					break;
 				case 5:
 					DebugEnterAlt(5);
-					// SugarCpp.g:371:11: '::' ident
+					// SugarCpp.g:381:11: '::' ident
 					{
-					DebugLocation(371, 11);
-					string_literal197=(IToken)Match(input,79,Follow._79_in_suffix_expr2442); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_79.Add(string_literal197);
+					DebugLocation(381, 11);
+					string_literal206=(IToken)Match(input,79,Follow._79_in_suffix_expr2492); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_79.Add(string_literal206);
 
-					DebugLocation(371, 16);
-					PushFollow(Follow._ident_in_suffix_expr2444);
-					ident198=ident();
+					DebugLocation(381, 16);
+					PushFollow(Follow._ident_in_suffix_expr2494);
+					ident207=ident();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_ident.Add(ident198.Tree);
+					if (state.backtracking == 0) stream_ident.Add(ident207.Tree);
 
 
 					{
@@ -9772,20 +10073,20 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 					root_0 = (CommonTree)adaptor.Nil();
-					// 371:22: -> ^( Expr_Access '::' $suffix_expr ident )
+					// 381:22: -> ^( Expr_Access '::' $suffix_expr ident )
 					{
-						DebugLocation(371, 25);
-						// SugarCpp.g:371:25: ^( Expr_Access '::' $suffix_expr ident )
+						DebugLocation(381, 25);
+						// SugarCpp.g:381:25: ^( Expr_Access '::' $suffix_expr ident )
 						{
 						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(371, 27);
+						DebugLocation(381, 27);
 						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Access, "Expr_Access"), root_1);
 
-						DebugLocation(371, 39);
+						DebugLocation(381, 39);
 						adaptor.AddChild(root_1, stream_79.NextNode());
-						DebugLocation(371, 45);
+						DebugLocation(381, 45);
 						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(371, 57);
+						DebugLocation(381, 57);
 						adaptor.AddChild(root_1, stream_ident.NextTree());
 
 						adaptor.AddChild(root_0, root_1);
@@ -9801,83 +10102,83 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					break;
 				case 6:
 					DebugEnterAlt(6);
-					// SugarCpp.g:372:11: ( generic_parameter )? '(' ( expr_list )? ')'
+					// SugarCpp.g:382:11: ( generic_parameter )? '(' ( expr_list )? ')'
 					{
-					DebugLocation(372, 11);
-					// SugarCpp.g:372:11: ( generic_parameter )?
-					int alt60=2;
-					try { DebugEnterSubRule(60);
-					try { DebugEnterDecision(60, false);
-					int LA60_0 = input.LA(1);
+					DebugLocation(382, 11);
+					// SugarCpp.g:382:11: ( generic_parameter )?
+					int alt63=2;
+					try { DebugEnterSubRule(63);
+					try { DebugEnterDecision(63, false);
+					int LA63_0 = input.LA(1);
 
-					if ((LA60_0==82))
+					if ((LA63_0==82))
 					{
-						alt60 = 1;
+						alt63 = 1;
 					}
-					} finally { DebugExitDecision(60); }
-					switch (alt60)
+					} finally { DebugExitDecision(63); }
+					switch (alt63)
 					{
 					case 1:
 						DebugEnterAlt(1);
-						// SugarCpp.g:372:11: generic_parameter
+						// SugarCpp.g:382:11: generic_parameter
 						{
-						DebugLocation(372, 11);
-						PushFollow(Follow._generic_parameter_in_suffix_expr2469);
-						generic_parameter199=generic_parameter();
+						DebugLocation(382, 11);
+						PushFollow(Follow._generic_parameter_in_suffix_expr2519);
+						generic_parameter208=generic_parameter();
 						PopFollow();
 						if (state.failed) return retval;
-						if (state.backtracking == 0) stream_generic_parameter.Add(generic_parameter199.Tree);
+						if (state.backtracking == 0) stream_generic_parameter.Add(generic_parameter208.Tree);
 
 						}
 						break;
 
 					}
-					} finally { DebugExitSubRule(60); }
+					} finally { DebugExitSubRule(63); }
 
-					DebugLocation(372, 30);
-					char_literal200=(IToken)Match(input,61,Follow._61_in_suffix_expr2472); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_61.Add(char_literal200);
+					DebugLocation(382, 30);
+					char_literal209=(IToken)Match(input,61,Follow._61_in_suffix_expr2522); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_61.Add(char_literal209);
 
-					DebugLocation(372, 34);
-					// SugarCpp.g:372:34: ( expr_list )?
-					int alt61=2;
-					try { DebugEnterSubRule(61);
-					try { DebugEnterDecision(61, false);
-					int LA61_0 = input.LA(1);
+					DebugLocation(382, 34);
+					// SugarCpp.g:382:34: ( expr_list )?
+					int alt64=2;
+					try { DebugEnterSubRule(64);
+					try { DebugEnterDecision(64, false);
+					int LA64_0 = input.LA(1);
 
-					if ((LA61_0==IDENT||LA61_0==NUMBER||LA61_0==STRING||LA61_0==54||LA61_0==59||LA61_0==61||LA61_0==63||(LA61_0>=65 && LA61_0<=66)||(LA61_0>=69 && LA61_0<=70)||LA61_0==107||LA61_0==116))
+					if ((LA64_0==IDENT||LA64_0==NUMBER||LA64_0==STRING||LA64_0==54||LA64_0==59||LA64_0==61||LA64_0==63||(LA64_0>=65 && LA64_0<=66)||(LA64_0>=69 && LA64_0<=70)||LA64_0==107||LA64_0==116))
 					{
-						alt61 = 1;
+						alt64 = 1;
 					}
-					} finally { DebugExitDecision(61); }
-					switch (alt61)
+					} finally { DebugExitDecision(64); }
+					switch (alt64)
 					{
 					case 1:
 						DebugEnterAlt(1);
-						// SugarCpp.g:372:34: expr_list
+						// SugarCpp.g:382:34: expr_list
 						{
-						DebugLocation(372, 34);
-						PushFollow(Follow._expr_list_in_suffix_expr2474);
-						expr_list201=expr_list();
+						DebugLocation(382, 34);
+						PushFollow(Follow._expr_list_in_suffix_expr2524);
+						expr_list210=expr_list();
 						PopFollow();
 						if (state.failed) return retval;
-						if (state.backtracking == 0) stream_expr_list.Add(expr_list201.Tree);
+						if (state.backtracking == 0) stream_expr_list.Add(expr_list210.Tree);
 
 						}
 						break;
 
 					}
-					} finally { DebugExitSubRule(61); }
+					} finally { DebugExitSubRule(64); }
 
-					DebugLocation(372, 45);
-					char_literal202=(IToken)Match(input,62,Follow._62_in_suffix_expr2477); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_62.Add(char_literal202);
+					DebugLocation(382, 45);
+					char_literal211=(IToken)Match(input,62,Follow._62_in_suffix_expr2527); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_62.Add(char_literal211);
 
 
 
 					{
 					// AST REWRITE
-					// elements: suffix_expr, generic_parameter, expr_list
+					// elements: generic_parameter, expr_list, suffix_expr
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -9888,31 +10189,31 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 					root_0 = (CommonTree)adaptor.Nil();
-					// 372:49: -> ^( Expr_Call $suffix_expr ( generic_parameter )? ( expr_list )? )
+					// 382:49: -> ^( Expr_Call $suffix_expr ( generic_parameter )? ( expr_list )? )
 					{
-						DebugLocation(372, 52);
-						// SugarCpp.g:372:52: ^( Expr_Call $suffix_expr ( generic_parameter )? ( expr_list )? )
+						DebugLocation(382, 52);
+						// SugarCpp.g:382:52: ^( Expr_Call $suffix_expr ( generic_parameter )? ( expr_list )? )
 						{
 						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(372, 54);
+						DebugLocation(382, 54);
 						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Call, "Expr_Call"), root_1);
 
-						DebugLocation(372, 65);
+						DebugLocation(382, 65);
 						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(372, 77);
-						// SugarCpp.g:372:77: ( generic_parameter )?
+						DebugLocation(382, 77);
+						// SugarCpp.g:382:77: ( generic_parameter )?
 						if (stream_generic_parameter.HasNext)
 						{
-							DebugLocation(372, 77);
+							DebugLocation(382, 77);
 							adaptor.AddChild(root_1, stream_generic_parameter.NextTree());
 
 						}
 						stream_generic_parameter.Reset();
-						DebugLocation(372, 96);
-						// SugarCpp.g:372:96: ( expr_list )?
+						DebugLocation(382, 96);
+						// SugarCpp.g:382:96: ( expr_list )?
 						if (stream_expr_list.HasNext)
 						{
-							DebugLocation(372, 96);
+							DebugLocation(382, 96);
 							adaptor.AddChild(root_1, stream_expr_list.NextTree());
 
 						}
@@ -9931,52 +10232,52 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					break;
 				case 7:
 					DebugEnterAlt(7);
-					// SugarCpp.g:373:11: '[' ( expr_list )? ']'
+					// SugarCpp.g:383:11: '[' ( expr_list )? ']'
 					{
-					DebugLocation(373, 11);
-					char_literal203=(IToken)Match(input,93,Follow._93_in_suffix_expr2504); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_93.Add(char_literal203);
+					DebugLocation(383, 11);
+					char_literal212=(IToken)Match(input,93,Follow._93_in_suffix_expr2554); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_93.Add(char_literal212);
 
-					DebugLocation(373, 15);
-					// SugarCpp.g:373:15: ( expr_list )?
-					int alt62=2;
-					try { DebugEnterSubRule(62);
-					try { DebugEnterDecision(62, false);
-					int LA62_0 = input.LA(1);
+					DebugLocation(383, 15);
+					// SugarCpp.g:383:15: ( expr_list )?
+					int alt65=2;
+					try { DebugEnterSubRule(65);
+					try { DebugEnterDecision(65, false);
+					int LA65_0 = input.LA(1);
 
-					if ((LA62_0==IDENT||LA62_0==NUMBER||LA62_0==STRING||LA62_0==54||LA62_0==59||LA62_0==61||LA62_0==63||(LA62_0>=65 && LA62_0<=66)||(LA62_0>=69 && LA62_0<=70)||LA62_0==107||LA62_0==116))
+					if ((LA65_0==IDENT||LA65_0==NUMBER||LA65_0==STRING||LA65_0==54||LA65_0==59||LA65_0==61||LA65_0==63||(LA65_0>=65 && LA65_0<=66)||(LA65_0>=69 && LA65_0<=70)||LA65_0==107||LA65_0==116))
 					{
-						alt62 = 1;
+						alt65 = 1;
 					}
-					} finally { DebugExitDecision(62); }
-					switch (alt62)
+					} finally { DebugExitDecision(65); }
+					switch (alt65)
 					{
 					case 1:
 						DebugEnterAlt(1);
-						// SugarCpp.g:373:15: expr_list
+						// SugarCpp.g:383:15: expr_list
 						{
-						DebugLocation(373, 15);
-						PushFollow(Follow._expr_list_in_suffix_expr2506);
-						expr_list204=expr_list();
+						DebugLocation(383, 15);
+						PushFollow(Follow._expr_list_in_suffix_expr2556);
+						expr_list213=expr_list();
 						PopFollow();
 						if (state.failed) return retval;
-						if (state.backtracking == 0) stream_expr_list.Add(expr_list204.Tree);
+						if (state.backtracking == 0) stream_expr_list.Add(expr_list213.Tree);
 
 						}
 						break;
 
 					}
-					} finally { DebugExitSubRule(62); }
+					} finally { DebugExitSubRule(65); }
 
-					DebugLocation(373, 26);
-					char_literal205=(IToken)Match(input,94,Follow._94_in_suffix_expr2509); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_94.Add(char_literal205);
+					DebugLocation(383, 26);
+					char_literal214=(IToken)Match(input,94,Follow._94_in_suffix_expr2559); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_94.Add(char_literal214);
 
 
 
 					{
 					// AST REWRITE
-					// elements: expr_list, suffix_expr
+					// elements: suffix_expr, expr_list
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -9987,22 +10288,22 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 					root_0 = (CommonTree)adaptor.Nil();
-					// 373:30: -> ^( Expr_Dict $suffix_expr ( expr_list )? )
+					// 383:30: -> ^( Expr_Dict $suffix_expr ( expr_list )? )
 					{
-						DebugLocation(373, 33);
-						// SugarCpp.g:373:33: ^( Expr_Dict $suffix_expr ( expr_list )? )
+						DebugLocation(383, 33);
+						// SugarCpp.g:383:33: ^( Expr_Dict $suffix_expr ( expr_list )? )
 						{
 						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(373, 35);
+						DebugLocation(383, 35);
 						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Dict, "Expr_Dict"), root_1);
 
-						DebugLocation(373, 46);
+						DebugLocation(383, 46);
 						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(373, 58);
-						// SugarCpp.g:373:58: ( expr_list )?
+						DebugLocation(383, 58);
+						// SugarCpp.g:383:58: ( expr_list )?
 						if (stream_expr_list.HasNext)
 						{
-							DebugLocation(373, 58);
+							DebugLocation(383, 58);
 							adaptor.AddChild(root_1, stream_expr_list.NextTree());
 
 						}
@@ -10021,56 +10322,56 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					break;
 				case 8:
 					DebugEnterAlt(8);
-					// SugarCpp.g:374:11: ':' ident '(' ( expr_list )? ')'
+					// SugarCpp.g:384:11: ':' ident '(' ( expr_list )? ')'
 					{
-					DebugLocation(374, 11);
-					char_literal206=(IToken)Match(input,78,Follow._78_in_suffix_expr2533); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_78.Add(char_literal206);
+					DebugLocation(384, 11);
+					char_literal215=(IToken)Match(input,78,Follow._78_in_suffix_expr2583); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_78.Add(char_literal215);
 
-					DebugLocation(374, 15);
-					PushFollow(Follow._ident_in_suffix_expr2535);
-					ident207=ident();
+					DebugLocation(384, 15);
+					PushFollow(Follow._ident_in_suffix_expr2585);
+					ident216=ident();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_ident.Add(ident207.Tree);
-					DebugLocation(374, 21);
-					char_literal208=(IToken)Match(input,61,Follow._61_in_suffix_expr2537); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_61.Add(char_literal208);
+					if (state.backtracking == 0) stream_ident.Add(ident216.Tree);
+					DebugLocation(384, 21);
+					char_literal217=(IToken)Match(input,61,Follow._61_in_suffix_expr2587); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_61.Add(char_literal217);
 
-					DebugLocation(374, 25);
-					// SugarCpp.g:374:25: ( expr_list )?
-					int alt63=2;
-					try { DebugEnterSubRule(63);
-					try { DebugEnterDecision(63, false);
-					int LA63_0 = input.LA(1);
+					DebugLocation(384, 25);
+					// SugarCpp.g:384:25: ( expr_list )?
+					int alt66=2;
+					try { DebugEnterSubRule(66);
+					try { DebugEnterDecision(66, false);
+					int LA66_0 = input.LA(1);
 
-					if ((LA63_0==IDENT||LA63_0==NUMBER||LA63_0==STRING||LA63_0==54||LA63_0==59||LA63_0==61||LA63_0==63||(LA63_0>=65 && LA63_0<=66)||(LA63_0>=69 && LA63_0<=70)||LA63_0==107||LA63_0==116))
+					if ((LA66_0==IDENT||LA66_0==NUMBER||LA66_0==STRING||LA66_0==54||LA66_0==59||LA66_0==61||LA66_0==63||(LA66_0>=65 && LA66_0<=66)||(LA66_0>=69 && LA66_0<=70)||LA66_0==107||LA66_0==116))
 					{
-						alt63 = 1;
+						alt66 = 1;
 					}
-					} finally { DebugExitDecision(63); }
-					switch (alt63)
+					} finally { DebugExitDecision(66); }
+					switch (alt66)
 					{
 					case 1:
 						DebugEnterAlt(1);
-						// SugarCpp.g:374:25: expr_list
+						// SugarCpp.g:384:25: expr_list
 						{
-						DebugLocation(374, 25);
-						PushFollow(Follow._expr_list_in_suffix_expr2539);
-						expr_list209=expr_list();
+						DebugLocation(384, 25);
+						PushFollow(Follow._expr_list_in_suffix_expr2589);
+						expr_list218=expr_list();
 						PopFollow();
 						if (state.failed) return retval;
-						if (state.backtracking == 0) stream_expr_list.Add(expr_list209.Tree);
+						if (state.backtracking == 0) stream_expr_list.Add(expr_list218.Tree);
 
 						}
 						break;
 
 					}
-					} finally { DebugExitSubRule(63); }
+					} finally { DebugExitSubRule(66); }
 
-					DebugLocation(374, 36);
-					char_literal210=(IToken)Match(input,62,Follow._62_in_suffix_expr2542); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_62.Add(char_literal210);
+					DebugLocation(384, 36);
+					char_literal219=(IToken)Match(input,62,Follow._62_in_suffix_expr2592); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_62.Add(char_literal219);
 
 
 
@@ -10087,24 +10388,24 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 					root_0 = (CommonTree)adaptor.Nil();
-					// 374:40: -> ^( Expr_Call_With $suffix_expr ident ( expr_list )? )
+					// 384:40: -> ^( Expr_Call_With $suffix_expr ident ( expr_list )? )
 					{
-						DebugLocation(374, 43);
-						// SugarCpp.g:374:43: ^( Expr_Call_With $suffix_expr ident ( expr_list )? )
+						DebugLocation(384, 43);
+						// SugarCpp.g:384:43: ^( Expr_Call_With $suffix_expr ident ( expr_list )? )
 						{
 						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(374, 45);
+						DebugLocation(384, 45);
 						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Call_With, "Expr_Call_With"), root_1);
 
-						DebugLocation(374, 61);
+						DebugLocation(384, 61);
 						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(374, 73);
+						DebugLocation(384, 73);
 						adaptor.AddChild(root_1, stream_ident.NextTree());
-						DebugLocation(374, 79);
-						// SugarCpp.g:374:79: ( expr_list )?
+						DebugLocation(384, 79);
+						// SugarCpp.g:384:79: ( expr_list )?
 						if (stream_expr_list.HasNext)
 						{
-							DebugLocation(374, 79);
+							DebugLocation(384, 79);
 							adaptor.AddChild(root_1, stream_expr_list.NextTree());
 
 						}
@@ -10123,14 +10424,14 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					break;
 
 				default:
-					goto loop64;
+					goto loop67;
 				}
 			}
 
-			loop64:
+			loop67:
 				;
 
-			} finally { DebugExitSubRule(64); }
+			} finally { DebugExitSubRule(67); }
 
 
 			}
@@ -10151,13 +10452,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("suffix_expr", 54);
-			LeaveRule("suffix_expr", 54);
+			TraceOut("suffix_expr", 56);
+			LeaveRule("suffix_expr", 56);
 			LeaveRule_suffix_expr();
-			if (state.backtracking > 0) { Memoize(input, 54, suffix_expr_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 56, suffix_expr_StartIndex); }
 
 		}
-		DebugLocation(376, 1);
+		DebugLocation(386, 1);
 		} finally { DebugExitRule(GrammarFileName, "suffix_expr"); }
 		return retval;
 
@@ -10168,33 +10469,33 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_atom_expr();
 
 	// $ANTLR start "atom_expr"
-	// SugarCpp.g:378:1: atom_expr : ( NUMBER | ident | STRING | '(' expr ( ',' expr )* ')' -> { more_than_one }? ^( Expr_Tuple ( expr )+ ) -> ^( Expr_Bracket expr ) );
+	// SugarCpp.g:388:1: atom_expr : ( NUMBER | ident | STRING | '(' expr ( ',' expr )* ')' -> { more_than_one }? ^( Expr_Tuple ( expr )+ ) -> ^( Expr_Bracket expr ) );
 	[GrammarRule("atom_expr")]
 	private AstParserRuleReturnScope<CommonTree, IToken> atom_expr()
 	{
 		EnterRule_atom_expr();
-		EnterRule("atom_expr", 55);
-		TraceIn("atom_expr", 55);
+		EnterRule("atom_expr", 57);
+		TraceIn("atom_expr", 57);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int atom_expr_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken NUMBER211 = default(IToken);
-		IToken STRING213 = default(IToken);
-		IToken char_literal214 = default(IToken);
-		IToken char_literal216 = default(IToken);
-		IToken char_literal218 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> ident212 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> expr215 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> expr217 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		IToken NUMBER220 = default(IToken);
+		IToken STRING222 = default(IToken);
+		IToken char_literal223 = default(IToken);
+		IToken char_literal225 = default(IToken);
+		IToken char_literal227 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> ident221 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> expr224 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> expr226 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree NUMBER211_tree = default(CommonTree);
-		CommonTree STRING213_tree = default(CommonTree);
-		CommonTree char_literal214_tree = default(CommonTree);
-		CommonTree char_literal216_tree = default(CommonTree);
-		CommonTree char_literal218_tree = default(CommonTree);
+		CommonTree NUMBER220_tree = default(CommonTree);
+		CommonTree STRING222_tree = default(CommonTree);
+		CommonTree char_literal223_tree = default(CommonTree);
+		CommonTree char_literal225_tree = default(CommonTree);
+		CommonTree char_literal227_tree = default(CommonTree);
 		RewriteRuleITokenStream stream_68=new RewriteRuleITokenStream(adaptor,"token 68");
 		RewriteRuleITokenStream stream_62=new RewriteRuleITokenStream(adaptor,"token 62");
 		RewriteRuleITokenStream stream_61=new RewriteRuleITokenStream(adaptor,"token 61");
@@ -10203,140 +10504,140 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			bool more_than_one = false;
 
 		try { DebugEnterRule(GrammarFileName, "atom_expr");
-		DebugLocation(378, 1);
+		DebugLocation(388, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 55)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 57)) { return retval; }
 
-			// SugarCpp.g:383:2: ( NUMBER | ident | STRING | '(' expr ( ',' expr )* ')' -> { more_than_one }? ^( Expr_Tuple ( expr )+ ) -> ^( Expr_Bracket expr ) )
-			int alt66=4;
-			try { DebugEnterDecision(66, false);
+			// SugarCpp.g:393:2: ( NUMBER | ident | STRING | '(' expr ( ',' expr )* ')' -> { more_than_one }? ^( Expr_Tuple ( expr )+ ) -> ^( Expr_Bracket expr ) )
+			int alt69=4;
+			try { DebugEnterDecision(69, false);
 			switch (input.LA(1))
 			{
 			case NUMBER:
 				{
-				alt66 = 1;
+				alt69 = 1;
 				}
 				break;
 			case IDENT:
 				{
-				alt66 = 2;
+				alt69 = 2;
 				}
 				break;
 			case STRING:
 				{
-				alt66 = 3;
+				alt69 = 3;
 				}
 				break;
 			case 61:
 				{
-				alt66 = 4;
+				alt69 = 4;
 				}
 				break;
 			default:
 				{
 					if (state.backtracking>0) {state.failed=true; return retval;}
-					NoViableAltException nvae = new NoViableAltException("", 66, 0, input);
+					NoViableAltException nvae = new NoViableAltException("", 69, 0, input);
 					DebugRecognitionException(nvae);
 					throw nvae;
 				}
 			}
 
-			} finally { DebugExitDecision(66); }
-			switch (alt66)
+			} finally { DebugExitDecision(69); }
+			switch (alt69)
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:383:4: NUMBER
+				// SugarCpp.g:393:4: NUMBER
 				{
 				root_0 = (CommonTree)adaptor.Nil();
 
-				DebugLocation(383, 4);
-				NUMBER211=(IToken)Match(input,NUMBER,Follow._NUMBER_in_atom_expr2586); if (state.failed) return retval;
+				DebugLocation(393, 4);
+				NUMBER220=(IToken)Match(input,NUMBER,Follow._NUMBER_in_atom_expr2636); if (state.failed) return retval;
 				if (state.backtracking == 0) {
-				NUMBER211_tree = (CommonTree)adaptor.Create(NUMBER211);
-				adaptor.AddChild(root_0, NUMBER211_tree);
+				NUMBER220_tree = (CommonTree)adaptor.Create(NUMBER220);
+				adaptor.AddChild(root_0, NUMBER220_tree);
 				}
 
 				}
 				break;
 			case 2:
 				DebugEnterAlt(2);
-				// SugarCpp.g:384:4: ident
+				// SugarCpp.g:394:4: ident
 				{
 				root_0 = (CommonTree)adaptor.Nil();
 
-				DebugLocation(384, 4);
-				PushFollow(Follow._ident_in_atom_expr2591);
-				ident212=ident();
+				DebugLocation(394, 4);
+				PushFollow(Follow._ident_in_atom_expr2641);
+				ident221=ident();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) adaptor.AddChild(root_0, ident212.Tree);
+				if (state.backtracking == 0) adaptor.AddChild(root_0, ident221.Tree);
 
 				}
 				break;
 			case 3:
 				DebugEnterAlt(3);
-				// SugarCpp.g:385:4: STRING
+				// SugarCpp.g:395:4: STRING
 				{
 				root_0 = (CommonTree)adaptor.Nil();
 
-				DebugLocation(385, 4);
-				STRING213=(IToken)Match(input,STRING,Follow._STRING_in_atom_expr2596); if (state.failed) return retval;
+				DebugLocation(395, 4);
+				STRING222=(IToken)Match(input,STRING,Follow._STRING_in_atom_expr2646); if (state.failed) return retval;
 				if (state.backtracking == 0) {
-				STRING213_tree = (CommonTree)adaptor.Create(STRING213);
-				adaptor.AddChild(root_0, STRING213_tree);
+				STRING222_tree = (CommonTree)adaptor.Create(STRING222);
+				adaptor.AddChild(root_0, STRING222_tree);
 				}
 
 				}
 				break;
 			case 4:
 				DebugEnterAlt(4);
-				// SugarCpp.g:386:4: '(' expr ( ',' expr )* ')'
+				// SugarCpp.g:396:4: '(' expr ( ',' expr )* ')'
 				{
-				DebugLocation(386, 4);
-				char_literal214=(IToken)Match(input,61,Follow._61_in_atom_expr2601); if (state.failed) return retval; 
-				if (state.backtracking == 0) stream_61.Add(char_literal214);
+				DebugLocation(396, 4);
+				char_literal223=(IToken)Match(input,61,Follow._61_in_atom_expr2651); if (state.failed) return retval; 
+				if (state.backtracking == 0) stream_61.Add(char_literal223);
 
-				DebugLocation(386, 8);
-				PushFollow(Follow._expr_in_atom_expr2603);
-				expr215=expr();
+				DebugLocation(396, 8);
+				PushFollow(Follow._expr_in_atom_expr2653);
+				expr224=expr();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) stream_expr.Add(expr215.Tree);
-				DebugLocation(386, 13);
-				// SugarCpp.g:386:13: ( ',' expr )*
-				try { DebugEnterSubRule(65);
+				if (state.backtracking == 0) stream_expr.Add(expr224.Tree);
+				DebugLocation(396, 13);
+				// SugarCpp.g:396:13: ( ',' expr )*
+				try { DebugEnterSubRule(68);
 				while (true)
 				{
-					int alt65=2;
-					try { DebugEnterDecision(65, false);
-					int LA65_0 = input.LA(1);
+					int alt68=2;
+					try { DebugEnterDecision(68, false);
+					int LA68_0 = input.LA(1);
 
-					if ((LA65_0==68))
+					if ((LA68_0==68))
 					{
-						alt65 = 1;
+						alt68 = 1;
 					}
 
 
-					} finally { DebugExitDecision(65); }
-					switch ( alt65 )
+					} finally { DebugExitDecision(68); }
+					switch ( alt68 )
 					{
 					case 1:
 						DebugEnterAlt(1);
-						// SugarCpp.g:386:14: ',' expr
+						// SugarCpp.g:396:14: ',' expr
 						{
-						DebugLocation(386, 14);
-						char_literal216=(IToken)Match(input,68,Follow._68_in_atom_expr2606); if (state.failed) return retval; 
-						if (state.backtracking == 0) stream_68.Add(char_literal216);
+						DebugLocation(396, 14);
+						char_literal225=(IToken)Match(input,68,Follow._68_in_atom_expr2656); if (state.failed) return retval; 
+						if (state.backtracking == 0) stream_68.Add(char_literal225);
 
-						DebugLocation(386, 18);
-						PushFollow(Follow._expr_in_atom_expr2608);
-						expr217=expr();
+						DebugLocation(396, 18);
+						PushFollow(Follow._expr_in_atom_expr2658);
+						expr226=expr();
 						PopFollow();
 						if (state.failed) return retval;
-						if (state.backtracking == 0) stream_expr.Add(expr217.Tree);
-						DebugLocation(386, 23);
+						if (state.backtracking == 0) stream_expr.Add(expr226.Tree);
+						DebugLocation(396, 23);
 						if (state.backtracking == 0)
 						{
 							 more_than_one = true; 
@@ -10346,18 +10647,18 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 						break;
 
 					default:
-						goto loop65;
+						goto loop68;
 					}
 				}
 
-				loop65:
+				loop68:
 					;
 
-				} finally { DebugExitSubRule(65); }
+				} finally { DebugExitSubRule(68); }
 
-				DebugLocation(386, 52);
-				char_literal218=(IToken)Match(input,62,Follow._62_in_atom_expr2615); if (state.failed) return retval; 
-				if (state.backtracking == 0) stream_62.Add(char_literal218);
+				DebugLocation(396, 52);
+				char_literal227=(IToken)Match(input,62,Follow._62_in_atom_expr2665); if (state.failed) return retval; 
+				if (state.backtracking == 0) stream_62.Add(char_literal227);
 
 
 
@@ -10374,24 +10675,24 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 				root_0 = (CommonTree)adaptor.Nil();
-				// 387:3: -> { more_than_one }? ^( Expr_Tuple ( expr )+ )
+				// 397:3: -> { more_than_one }? ^( Expr_Tuple ( expr )+ )
 				if ( more_than_one )
 				{
-					DebugLocation(387, 25);
-					// SugarCpp.g:387:25: ^( Expr_Tuple ( expr )+ )
+					DebugLocation(397, 25);
+					// SugarCpp.g:397:25: ^( Expr_Tuple ( expr )+ )
 					{
 					CommonTree root_1 = (CommonTree)adaptor.Nil();
-					DebugLocation(387, 27);
+					DebugLocation(397, 27);
 					root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Tuple, "Expr_Tuple"), root_1);
 
-					DebugLocation(387, 38);
+					DebugLocation(397, 38);
 					if (!(stream_expr.HasNext))
 					{
 						throw new RewriteEarlyExitException();
 					}
 					while ( stream_expr.HasNext )
 					{
-						DebugLocation(387, 38);
+						DebugLocation(397, 38);
 						adaptor.AddChild(root_1, stream_expr.NextTree());
 
 					}
@@ -10401,16 +10702,16 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					}
 
 				}
-				else // 388:3: -> ^( Expr_Bracket expr )
+				else // 398:3: -> ^( Expr_Bracket expr )
 				{
-					DebugLocation(388, 6);
-					// SugarCpp.g:388:6: ^( Expr_Bracket expr )
+					DebugLocation(398, 6);
+					// SugarCpp.g:398:6: ^( Expr_Bracket expr )
 					{
 					CommonTree root_1 = (CommonTree)adaptor.Nil();
-					DebugLocation(388, 8);
+					DebugLocation(398, 8);
 					root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Bracket, "Expr_Bracket"), root_1);
 
-					DebugLocation(388, 21);
+					DebugLocation(398, 21);
 					adaptor.AddChild(root_1, stream_expr.NextTree());
 
 					adaptor.AddChild(root_0, root_1);
@@ -10442,13 +10743,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("atom_expr", 55);
-			LeaveRule("atom_expr", 55);
+			TraceOut("atom_expr", 57);
+			LeaveRule("atom_expr", 57);
 			LeaveRule_atom_expr();
-			if (state.backtracking > 0) { Memoize(input, 55, atom_expr_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 57, atom_expr_StartIndex); }
 
 		}
-		DebugLocation(389, 1);
+		DebugLocation(399, 1);
 		} finally { DebugExitRule(GrammarFileName, "atom_expr"); }
 		return retval;
 
@@ -10459,45 +10760,45 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_lvalue();
 
 	// $ANTLR start "lvalue"
-	// SugarCpp.g:391:1: lvalue : (a= lvalue_atom -> $a) ( '++' -> ^( Expr_Suffix '++' $lvalue) | '--' -> ^( Expr_Suffix '--' $lvalue) | '.' ident -> ^( Expr_Access '.' $lvalue ident ) | '->' ident -> ^( Expr_Access '->' $lvalue ident ) | '::' ident -> ^( Expr_Access '::' $lvalue ident ) | ( generic_parameter )? '(' ( expr_list )? ')' -> ^( Expr_Call $lvalue ( generic_parameter )? ( expr_list )? ) | '[' ( expr_list )? ']' -> ^( Expr_Dict $lvalue ( expr_list )? ) )* ;
+	// SugarCpp.g:401:1: lvalue : (a= lvalue_atom -> $a) ( '++' -> ^( Expr_Suffix '++' $lvalue) | '--' -> ^( Expr_Suffix '--' $lvalue) | '.' ident -> ^( Expr_Access '.' $lvalue ident ) | '->' ident -> ^( Expr_Access '->' $lvalue ident ) | '::' ident -> ^( Expr_Access '::' $lvalue ident ) | ( generic_parameter )? '(' ( expr_list )? ')' -> ^( Expr_Call $lvalue ( generic_parameter )? ( expr_list )? ) | '[' ( expr_list )? ']' -> ^( Expr_Dict $lvalue ( expr_list )? ) )* ;
 	[GrammarRule("lvalue")]
 	private AstParserRuleReturnScope<CommonTree, IToken> lvalue()
 	{
 		EnterRule_lvalue();
-		EnterRule("lvalue", 56);
-		TraceIn("lvalue", 56);
+		EnterRule("lvalue", 58);
+		TraceIn("lvalue", 58);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int lvalue_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken string_literal219 = default(IToken);
-		IToken string_literal220 = default(IToken);
-		IToken char_literal221 = default(IToken);
-		IToken string_literal223 = default(IToken);
-		IToken string_literal225 = default(IToken);
-		IToken char_literal228 = default(IToken);
+		IToken string_literal228 = default(IToken);
+		IToken string_literal229 = default(IToken);
 		IToken char_literal230 = default(IToken);
-		IToken char_literal231 = default(IToken);
-		IToken char_literal233 = default(IToken);
+		IToken string_literal232 = default(IToken);
+		IToken string_literal234 = default(IToken);
+		IToken char_literal237 = default(IToken);
+		IToken char_literal239 = default(IToken);
+		IToken char_literal240 = default(IToken);
+		IToken char_literal242 = default(IToken);
 		AstParserRuleReturnScope<CommonTree, IToken> a = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> ident222 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> ident224 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> ident226 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> generic_parameter227 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> expr_list229 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> expr_list232 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> ident231 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> ident233 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> ident235 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> generic_parameter236 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> expr_list238 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> expr_list241 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree string_literal219_tree = default(CommonTree);
-		CommonTree string_literal220_tree = default(CommonTree);
-		CommonTree char_literal221_tree = default(CommonTree);
-		CommonTree string_literal223_tree = default(CommonTree);
-		CommonTree string_literal225_tree = default(CommonTree);
-		CommonTree char_literal228_tree = default(CommonTree);
+		CommonTree string_literal228_tree = default(CommonTree);
+		CommonTree string_literal229_tree = default(CommonTree);
 		CommonTree char_literal230_tree = default(CommonTree);
-		CommonTree char_literal231_tree = default(CommonTree);
-		CommonTree char_literal233_tree = default(CommonTree);
+		CommonTree string_literal232_tree = default(CommonTree);
+		CommonTree string_literal234_tree = default(CommonTree);
+		CommonTree char_literal237_tree = default(CommonTree);
+		CommonTree char_literal239_tree = default(CommonTree);
+		CommonTree char_literal240_tree = default(CommonTree);
+		CommonTree char_literal242_tree = default(CommonTree);
 		RewriteRuleITokenStream stream_79=new RewriteRuleITokenStream(adaptor,"token 79");
 		RewriteRuleITokenStream stream_66=new RewriteRuleITokenStream(adaptor,"token 66");
 		RewriteRuleITokenStream stream_94=new RewriteRuleITokenStream(adaptor,"token 94");
@@ -10512,22 +10813,22 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		RewriteRuleSubtreeStream stream_generic_parameter=new RewriteRuleSubtreeStream(adaptor,"rule generic_parameter");
 		RewriteRuleSubtreeStream stream_expr_list=new RewriteRuleSubtreeStream(adaptor,"rule expr_list");
 		try { DebugEnterRule(GrammarFileName, "lvalue");
-		DebugLocation(391, 1);
+		DebugLocation(401, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 56)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 58)) { return retval; }
 
-			// SugarCpp.g:392:2: ( (a= lvalue_atom -> $a) ( '++' -> ^( Expr_Suffix '++' $lvalue) | '--' -> ^( Expr_Suffix '--' $lvalue) | '.' ident -> ^( Expr_Access '.' $lvalue ident ) | '->' ident -> ^( Expr_Access '->' $lvalue ident ) | '::' ident -> ^( Expr_Access '::' $lvalue ident ) | ( generic_parameter )? '(' ( expr_list )? ')' -> ^( Expr_Call $lvalue ( generic_parameter )? ( expr_list )? ) | '[' ( expr_list )? ']' -> ^( Expr_Dict $lvalue ( expr_list )? ) )* )
+			// SugarCpp.g:402:2: ( (a= lvalue_atom -> $a) ( '++' -> ^( Expr_Suffix '++' $lvalue) | '--' -> ^( Expr_Suffix '--' $lvalue) | '.' ident -> ^( Expr_Access '.' $lvalue ident ) | '->' ident -> ^( Expr_Access '->' $lvalue ident ) | '::' ident -> ^( Expr_Access '::' $lvalue ident ) | ( generic_parameter )? '(' ( expr_list )? ')' -> ^( Expr_Call $lvalue ( generic_parameter )? ( expr_list )? ) | '[' ( expr_list )? ']' -> ^( Expr_Dict $lvalue ( expr_list )? ) )* )
 			DebugEnterAlt(1);
-			// SugarCpp.g:392:4: (a= lvalue_atom -> $a) ( '++' -> ^( Expr_Suffix '++' $lvalue) | '--' -> ^( Expr_Suffix '--' $lvalue) | '.' ident -> ^( Expr_Access '.' $lvalue ident ) | '->' ident -> ^( Expr_Access '->' $lvalue ident ) | '::' ident -> ^( Expr_Access '::' $lvalue ident ) | ( generic_parameter )? '(' ( expr_list )? ')' -> ^( Expr_Call $lvalue ( generic_parameter )? ( expr_list )? ) | '[' ( expr_list )? ']' -> ^( Expr_Dict $lvalue ( expr_list )? ) )*
+			// SugarCpp.g:402:4: (a= lvalue_atom -> $a) ( '++' -> ^( Expr_Suffix '++' $lvalue) | '--' -> ^( Expr_Suffix '--' $lvalue) | '.' ident -> ^( Expr_Access '.' $lvalue ident ) | '->' ident -> ^( Expr_Access '->' $lvalue ident ) | '::' ident -> ^( Expr_Access '::' $lvalue ident ) | ( generic_parameter )? '(' ( expr_list )? ')' -> ^( Expr_Call $lvalue ( generic_parameter )? ( expr_list )? ) | '[' ( expr_list )? ']' -> ^( Expr_Dict $lvalue ( expr_list )? ) )*
 			{
-			DebugLocation(392, 4);
-			// SugarCpp.g:392:4: (a= lvalue_atom -> $a)
+			DebugLocation(402, 4);
+			// SugarCpp.g:402:4: (a= lvalue_atom -> $a)
 			DebugEnterAlt(1);
-			// SugarCpp.g:392:5: a= lvalue_atom
+			// SugarCpp.g:402:5: a= lvalue_atom
 			{
-			DebugLocation(392, 6);
-			PushFollow(Follow._lvalue_atom_in_lvalue2652);
+			DebugLocation(402, 6);
+			PushFollow(Follow._lvalue_atom_in_lvalue2702);
 			a=lvalue_atom();
 			PopFollow();
 			if (state.failed) return retval;
@@ -10548,9 +10849,9 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			RewriteRuleSubtreeStream stream_a=new RewriteRuleSubtreeStream(adaptor,"rule a",a!=null?a.Tree:null);
 
 			root_0 = (CommonTree)adaptor.Nil();
-			// 392:19: -> $a
+			// 402:19: -> $a
 			{
-				DebugLocation(392, 23);
+				DebugLocation(402, 23);
 				adaptor.AddChild(root_0, stream_a.NextTree());
 
 			}
@@ -10561,69 +10862,69 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			}
 
-			DebugLocation(392, 26);
-			// SugarCpp.g:392:26: ( '++' -> ^( Expr_Suffix '++' $lvalue) | '--' -> ^( Expr_Suffix '--' $lvalue) | '.' ident -> ^( Expr_Access '.' $lvalue ident ) | '->' ident -> ^( Expr_Access '->' $lvalue ident ) | '::' ident -> ^( Expr_Access '::' $lvalue ident ) | ( generic_parameter )? '(' ( expr_list )? ')' -> ^( Expr_Call $lvalue ( generic_parameter )? ( expr_list )? ) | '[' ( expr_list )? ']' -> ^( Expr_Dict $lvalue ( expr_list )? ) )*
-			try { DebugEnterSubRule(70);
+			DebugLocation(402, 26);
+			// SugarCpp.g:402:26: ( '++' -> ^( Expr_Suffix '++' $lvalue) | '--' -> ^( Expr_Suffix '--' $lvalue) | '.' ident -> ^( Expr_Access '.' $lvalue ident ) | '->' ident -> ^( Expr_Access '->' $lvalue ident ) | '::' ident -> ^( Expr_Access '::' $lvalue ident ) | ( generic_parameter )? '(' ( expr_list )? ')' -> ^( Expr_Call $lvalue ( generic_parameter )? ( expr_list )? ) | '[' ( expr_list )? ']' -> ^( Expr_Dict $lvalue ( expr_list )? ) )*
+			try { DebugEnterSubRule(73);
 			while (true)
 			{
-				int alt70=8;
-				try { DebugEnterDecision(70, false);
+				int alt73=8;
+				try { DebugEnterDecision(73, false);
 				switch (input.LA(1))
 				{
 				case 66:
 					{
-					alt70 = 1;
+					alt73 = 1;
 					}
 					break;
 				case 70:
 					{
-					alt70 = 2;
+					alt73 = 2;
 					}
 					break;
 				case 74:
 					{
-					alt70 = 3;
+					alt73 = 3;
 					}
 					break;
 				case 72:
 					{
-					alt70 = 4;
+					alt73 = 4;
 					}
 					break;
 				case 79:
 					{
-					alt70 = 5;
+					alt73 = 5;
 					}
 					break;
 				case 61:
 				case 82:
 					{
-					alt70 = 6;
+					alt73 = 6;
 					}
 					break;
 				case 93:
 					{
-					alt70 = 7;
+					alt73 = 7;
 					}
 					break;
 				}
 
-				} finally { DebugExitDecision(70); }
-				switch ( alt70 )
+				} finally { DebugExitDecision(73); }
+				switch ( alt73 )
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:392:28: '++'
+					// SugarCpp.g:402:28: '++'
 					{
-					DebugLocation(392, 28);
-					string_literal219=(IToken)Match(input,66,Follow._66_in_lvalue2662); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_66.Add(string_literal219);
+					DebugLocation(402, 28);
+					string_literal228=(IToken)Match(input,66,Follow._66_in_lvalue2712); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_66.Add(string_literal228);
 
 
 
 					{
 					// AST REWRITE
-					// elements: lvalue, 66
+					// elements: 66, lvalue
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -10634,18 +10935,18 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 					root_0 = (CommonTree)adaptor.Nil();
-					// 392:33: -> ^( Expr_Suffix '++' $lvalue)
+					// 402:33: -> ^( Expr_Suffix '++' $lvalue)
 					{
-						DebugLocation(392, 36);
-						// SugarCpp.g:392:36: ^( Expr_Suffix '++' $lvalue)
+						DebugLocation(402, 36);
+						// SugarCpp.g:402:36: ^( Expr_Suffix '++' $lvalue)
 						{
 						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(392, 38);
+						DebugLocation(402, 38);
 						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Suffix, "Expr_Suffix"), root_1);
 
-						DebugLocation(392, 50);
+						DebugLocation(402, 50);
 						adaptor.AddChild(root_1, stream_66.NextNode());
-						DebugLocation(392, 56);
+						DebugLocation(402, 56);
 						adaptor.AddChild(root_1, stream_retval.NextTree());
 
 						adaptor.AddChild(root_0, root_1);
@@ -10661,11 +10962,11 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					break;
 				case 2:
 					DebugEnterAlt(2);
-					// SugarCpp.g:393:16: '--'
+					// SugarCpp.g:403:16: '--'
 					{
-					DebugLocation(393, 16);
-					string_literal220=(IToken)Match(input,70,Follow._70_in_lvalue2690); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_70.Add(string_literal220);
+					DebugLocation(403, 16);
+					string_literal229=(IToken)Match(input,70,Follow._70_in_lvalue2740); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_70.Add(string_literal229);
 
 
 
@@ -10682,18 +10983,18 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 					root_0 = (CommonTree)adaptor.Nil();
-					// 393:21: -> ^( Expr_Suffix '--' $lvalue)
+					// 403:21: -> ^( Expr_Suffix '--' $lvalue)
 					{
-						DebugLocation(393, 24);
-						// SugarCpp.g:393:24: ^( Expr_Suffix '--' $lvalue)
+						DebugLocation(403, 24);
+						// SugarCpp.g:403:24: ^( Expr_Suffix '--' $lvalue)
 						{
 						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(393, 26);
+						DebugLocation(403, 26);
 						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Suffix, "Expr_Suffix"), root_1);
 
-						DebugLocation(393, 38);
+						DebugLocation(403, 38);
 						adaptor.AddChild(root_1, stream_70.NextNode());
-						DebugLocation(393, 44);
+						DebugLocation(403, 44);
 						adaptor.AddChild(root_1, stream_retval.NextTree());
 
 						adaptor.AddChild(root_0, root_1);
@@ -10709,23 +11010,23 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					break;
 				case 3:
 					DebugEnterAlt(3);
-					// SugarCpp.g:394:13: '.' ident
+					// SugarCpp.g:404:13: '.' ident
 					{
-					DebugLocation(394, 13);
-					char_literal221=(IToken)Match(input,74,Follow._74_in_lvalue2715); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_74.Add(char_literal221);
+					DebugLocation(404, 13);
+					char_literal230=(IToken)Match(input,74,Follow._74_in_lvalue2765); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_74.Add(char_literal230);
 
-					DebugLocation(394, 17);
-					PushFollow(Follow._ident_in_lvalue2717);
-					ident222=ident();
+					DebugLocation(404, 17);
+					PushFollow(Follow._ident_in_lvalue2767);
+					ident231=ident();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_ident.Add(ident222.Tree);
+					if (state.backtracking == 0) stream_ident.Add(ident231.Tree);
 
 
 					{
 					// AST REWRITE
-					// elements: lvalue, 74, ident
+					// elements: lvalue, ident, 74
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -10736,20 +11037,20 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 					root_0 = (CommonTree)adaptor.Nil();
-					// 394:23: -> ^( Expr_Access '.' $lvalue ident )
+					// 404:23: -> ^( Expr_Access '.' $lvalue ident )
 					{
-						DebugLocation(394, 26);
-						// SugarCpp.g:394:26: ^( Expr_Access '.' $lvalue ident )
+						DebugLocation(404, 26);
+						// SugarCpp.g:404:26: ^( Expr_Access '.' $lvalue ident )
 						{
 						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(394, 28);
+						DebugLocation(404, 28);
 						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Access, "Expr_Access"), root_1);
 
-						DebugLocation(394, 40);
+						DebugLocation(404, 40);
 						adaptor.AddChild(root_1, stream_74.NextNode());
-						DebugLocation(394, 45);
+						DebugLocation(404, 45);
 						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(394, 52);
+						DebugLocation(404, 52);
 						adaptor.AddChild(root_1, stream_ident.NextTree());
 
 						adaptor.AddChild(root_0, root_1);
@@ -10765,23 +11066,23 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					break;
 				case 4:
 					DebugEnterAlt(4);
-					// SugarCpp.g:395:13: '->' ident
+					// SugarCpp.g:405:13: '->' ident
 					{
-					DebugLocation(395, 13);
-					string_literal223=(IToken)Match(input,72,Follow._72_in_lvalue2744); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_72.Add(string_literal223);
+					DebugLocation(405, 13);
+					string_literal232=(IToken)Match(input,72,Follow._72_in_lvalue2794); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_72.Add(string_literal232);
 
-					DebugLocation(395, 18);
-					PushFollow(Follow._ident_in_lvalue2746);
-					ident224=ident();
+					DebugLocation(405, 18);
+					PushFollow(Follow._ident_in_lvalue2796);
+					ident233=ident();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_ident.Add(ident224.Tree);
+					if (state.backtracking == 0) stream_ident.Add(ident233.Tree);
 
 
 					{
 					// AST REWRITE
-					// elements: lvalue, 72, ident
+					// elements: 72, lvalue, ident
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -10792,20 +11093,20 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 					root_0 = (CommonTree)adaptor.Nil();
-					// 395:24: -> ^( Expr_Access '->' $lvalue ident )
+					// 405:24: -> ^( Expr_Access '->' $lvalue ident )
 					{
-						DebugLocation(395, 27);
-						// SugarCpp.g:395:27: ^( Expr_Access '->' $lvalue ident )
+						DebugLocation(405, 27);
+						// SugarCpp.g:405:27: ^( Expr_Access '->' $lvalue ident )
 						{
 						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(395, 29);
+						DebugLocation(405, 29);
 						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Access, "Expr_Access"), root_1);
 
-						DebugLocation(395, 41);
+						DebugLocation(405, 41);
 						adaptor.AddChild(root_1, stream_72.NextNode());
-						DebugLocation(395, 47);
+						DebugLocation(405, 47);
 						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(395, 54);
+						DebugLocation(405, 54);
 						adaptor.AddChild(root_1, stream_ident.NextTree());
 
 						adaptor.AddChild(root_0, root_1);
@@ -10821,23 +11122,23 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					break;
 				case 5:
 					DebugEnterAlt(5);
-					// SugarCpp.g:396:13: '::' ident
+					// SugarCpp.g:406:13: '::' ident
 					{
-					DebugLocation(396, 13);
-					string_literal225=(IToken)Match(input,79,Follow._79_in_lvalue2773); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_79.Add(string_literal225);
+					DebugLocation(406, 13);
+					string_literal234=(IToken)Match(input,79,Follow._79_in_lvalue2823); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_79.Add(string_literal234);
 
-					DebugLocation(396, 18);
-					PushFollow(Follow._ident_in_lvalue2775);
-					ident226=ident();
+					DebugLocation(406, 18);
+					PushFollow(Follow._ident_in_lvalue2825);
+					ident235=ident();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_ident.Add(ident226.Tree);
+					if (state.backtracking == 0) stream_ident.Add(ident235.Tree);
 
 
 					{
 					// AST REWRITE
-					// elements: ident, 79, lvalue
+					// elements: 79, ident, lvalue
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -10848,20 +11149,20 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 					root_0 = (CommonTree)adaptor.Nil();
-					// 396:24: -> ^( Expr_Access '::' $lvalue ident )
+					// 406:24: -> ^( Expr_Access '::' $lvalue ident )
 					{
-						DebugLocation(396, 27);
-						// SugarCpp.g:396:27: ^( Expr_Access '::' $lvalue ident )
+						DebugLocation(406, 27);
+						// SugarCpp.g:406:27: ^( Expr_Access '::' $lvalue ident )
 						{
 						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(396, 29);
+						DebugLocation(406, 29);
 						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Access, "Expr_Access"), root_1);
 
-						DebugLocation(396, 41);
+						DebugLocation(406, 41);
 						adaptor.AddChild(root_1, stream_79.NextNode());
-						DebugLocation(396, 47);
+						DebugLocation(406, 47);
 						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(396, 54);
+						DebugLocation(406, 54);
 						adaptor.AddChild(root_1, stream_ident.NextTree());
 
 						adaptor.AddChild(root_0, root_1);
@@ -10877,83 +11178,83 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					break;
 				case 6:
 					DebugEnterAlt(6);
-					// SugarCpp.g:397:13: ( generic_parameter )? '(' ( expr_list )? ')'
+					// SugarCpp.g:407:13: ( generic_parameter )? '(' ( expr_list )? ')'
 					{
-					DebugLocation(397, 13);
-					// SugarCpp.g:397:13: ( generic_parameter )?
-					int alt67=2;
-					try { DebugEnterSubRule(67);
-					try { DebugEnterDecision(67, false);
-					int LA67_0 = input.LA(1);
+					DebugLocation(407, 13);
+					// SugarCpp.g:407:13: ( generic_parameter )?
+					int alt70=2;
+					try { DebugEnterSubRule(70);
+					try { DebugEnterDecision(70, false);
+					int LA70_0 = input.LA(1);
 
-					if ((LA67_0==82))
+					if ((LA70_0==82))
 					{
-						alt67 = 1;
+						alt70 = 1;
 					}
-					} finally { DebugExitDecision(67); }
-					switch (alt67)
+					} finally { DebugExitDecision(70); }
+					switch (alt70)
 					{
 					case 1:
 						DebugEnterAlt(1);
-						// SugarCpp.g:397:13: generic_parameter
+						// SugarCpp.g:407:13: generic_parameter
 						{
-						DebugLocation(397, 13);
-						PushFollow(Follow._generic_parameter_in_lvalue2802);
-						generic_parameter227=generic_parameter();
+						DebugLocation(407, 13);
+						PushFollow(Follow._generic_parameter_in_lvalue2852);
+						generic_parameter236=generic_parameter();
 						PopFollow();
 						if (state.failed) return retval;
-						if (state.backtracking == 0) stream_generic_parameter.Add(generic_parameter227.Tree);
+						if (state.backtracking == 0) stream_generic_parameter.Add(generic_parameter236.Tree);
 
 						}
 						break;
 
 					}
-					} finally { DebugExitSubRule(67); }
+					} finally { DebugExitSubRule(70); }
 
-					DebugLocation(397, 32);
-					char_literal228=(IToken)Match(input,61,Follow._61_in_lvalue2805); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_61.Add(char_literal228);
+					DebugLocation(407, 32);
+					char_literal237=(IToken)Match(input,61,Follow._61_in_lvalue2855); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_61.Add(char_literal237);
 
-					DebugLocation(397, 36);
-					// SugarCpp.g:397:36: ( expr_list )?
-					int alt68=2;
-					try { DebugEnterSubRule(68);
-					try { DebugEnterDecision(68, false);
-					int LA68_0 = input.LA(1);
+					DebugLocation(407, 36);
+					// SugarCpp.g:407:36: ( expr_list )?
+					int alt71=2;
+					try { DebugEnterSubRule(71);
+					try { DebugEnterDecision(71, false);
+					int LA71_0 = input.LA(1);
 
-					if ((LA68_0==IDENT||LA68_0==NUMBER||LA68_0==STRING||LA68_0==54||LA68_0==59||LA68_0==61||LA68_0==63||(LA68_0>=65 && LA68_0<=66)||(LA68_0>=69 && LA68_0<=70)||LA68_0==107||LA68_0==116))
+					if ((LA71_0==IDENT||LA71_0==NUMBER||LA71_0==STRING||LA71_0==54||LA71_0==59||LA71_0==61||LA71_0==63||(LA71_0>=65 && LA71_0<=66)||(LA71_0>=69 && LA71_0<=70)||LA71_0==107||LA71_0==116))
 					{
-						alt68 = 1;
+						alt71 = 1;
 					}
-					} finally { DebugExitDecision(68); }
-					switch (alt68)
+					} finally { DebugExitDecision(71); }
+					switch (alt71)
 					{
 					case 1:
 						DebugEnterAlt(1);
-						// SugarCpp.g:397:36: expr_list
+						// SugarCpp.g:407:36: expr_list
 						{
-						DebugLocation(397, 36);
-						PushFollow(Follow._expr_list_in_lvalue2807);
-						expr_list229=expr_list();
+						DebugLocation(407, 36);
+						PushFollow(Follow._expr_list_in_lvalue2857);
+						expr_list238=expr_list();
 						PopFollow();
 						if (state.failed) return retval;
-						if (state.backtracking == 0) stream_expr_list.Add(expr_list229.Tree);
+						if (state.backtracking == 0) stream_expr_list.Add(expr_list238.Tree);
 
 						}
 						break;
 
 					}
-					} finally { DebugExitSubRule(68); }
+					} finally { DebugExitSubRule(71); }
 
-					DebugLocation(397, 47);
-					char_literal230=(IToken)Match(input,62,Follow._62_in_lvalue2810); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_62.Add(char_literal230);
+					DebugLocation(407, 47);
+					char_literal239=(IToken)Match(input,62,Follow._62_in_lvalue2860); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_62.Add(char_literal239);
 
 
 
 					{
 					// AST REWRITE
-					// elements: generic_parameter, lvalue, expr_list
+					// elements: expr_list, generic_parameter, lvalue
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -10964,31 +11265,31 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 					root_0 = (CommonTree)adaptor.Nil();
-					// 397:51: -> ^( Expr_Call $lvalue ( generic_parameter )? ( expr_list )? )
+					// 407:51: -> ^( Expr_Call $lvalue ( generic_parameter )? ( expr_list )? )
 					{
-						DebugLocation(397, 54);
-						// SugarCpp.g:397:54: ^( Expr_Call $lvalue ( generic_parameter )? ( expr_list )? )
+						DebugLocation(407, 54);
+						// SugarCpp.g:407:54: ^( Expr_Call $lvalue ( generic_parameter )? ( expr_list )? )
 						{
 						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(397, 56);
+						DebugLocation(407, 56);
 						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Call, "Expr_Call"), root_1);
 
-						DebugLocation(397, 67);
+						DebugLocation(407, 67);
 						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(397, 74);
-						// SugarCpp.g:397:74: ( generic_parameter )?
+						DebugLocation(407, 74);
+						// SugarCpp.g:407:74: ( generic_parameter )?
 						if (stream_generic_parameter.HasNext)
 						{
-							DebugLocation(397, 74);
+							DebugLocation(407, 74);
 							adaptor.AddChild(root_1, stream_generic_parameter.NextTree());
 
 						}
 						stream_generic_parameter.Reset();
-						DebugLocation(397, 93);
-						// SugarCpp.g:397:93: ( expr_list )?
+						DebugLocation(407, 93);
+						// SugarCpp.g:407:93: ( expr_list )?
 						if (stream_expr_list.HasNext)
 						{
-							DebugLocation(397, 93);
+							DebugLocation(407, 93);
 							adaptor.AddChild(root_1, stream_expr_list.NextTree());
 
 						}
@@ -11007,52 +11308,52 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					break;
 				case 7:
 					DebugEnterAlt(7);
-					// SugarCpp.g:398:13: '[' ( expr_list )? ']'
+					// SugarCpp.g:408:13: '[' ( expr_list )? ']'
 					{
-					DebugLocation(398, 13);
-					char_literal231=(IToken)Match(input,93,Follow._93_in_lvalue2839); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_93.Add(char_literal231);
+					DebugLocation(408, 13);
+					char_literal240=(IToken)Match(input,93,Follow._93_in_lvalue2889); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_93.Add(char_literal240);
 
-					DebugLocation(398, 17);
-					// SugarCpp.g:398:17: ( expr_list )?
-					int alt69=2;
-					try { DebugEnterSubRule(69);
-					try { DebugEnterDecision(69, false);
-					int LA69_0 = input.LA(1);
+					DebugLocation(408, 17);
+					// SugarCpp.g:408:17: ( expr_list )?
+					int alt72=2;
+					try { DebugEnterSubRule(72);
+					try { DebugEnterDecision(72, false);
+					int LA72_0 = input.LA(1);
 
-					if ((LA69_0==IDENT||LA69_0==NUMBER||LA69_0==STRING||LA69_0==54||LA69_0==59||LA69_0==61||LA69_0==63||(LA69_0>=65 && LA69_0<=66)||(LA69_0>=69 && LA69_0<=70)||LA69_0==107||LA69_0==116))
+					if ((LA72_0==IDENT||LA72_0==NUMBER||LA72_0==STRING||LA72_0==54||LA72_0==59||LA72_0==61||LA72_0==63||(LA72_0>=65 && LA72_0<=66)||(LA72_0>=69 && LA72_0<=70)||LA72_0==107||LA72_0==116))
 					{
-						alt69 = 1;
+						alt72 = 1;
 					}
-					} finally { DebugExitDecision(69); }
-					switch (alt69)
+					} finally { DebugExitDecision(72); }
+					switch (alt72)
 					{
 					case 1:
 						DebugEnterAlt(1);
-						// SugarCpp.g:398:17: expr_list
+						// SugarCpp.g:408:17: expr_list
 						{
-						DebugLocation(398, 17);
-						PushFollow(Follow._expr_list_in_lvalue2841);
-						expr_list232=expr_list();
+						DebugLocation(408, 17);
+						PushFollow(Follow._expr_list_in_lvalue2891);
+						expr_list241=expr_list();
 						PopFollow();
 						if (state.failed) return retval;
-						if (state.backtracking == 0) stream_expr_list.Add(expr_list232.Tree);
+						if (state.backtracking == 0) stream_expr_list.Add(expr_list241.Tree);
 
 						}
 						break;
 
 					}
-					} finally { DebugExitSubRule(69); }
+					} finally { DebugExitSubRule(72); }
 
-					DebugLocation(398, 28);
-					char_literal233=(IToken)Match(input,94,Follow._94_in_lvalue2844); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_94.Add(char_literal233);
+					DebugLocation(408, 28);
+					char_literal242=(IToken)Match(input,94,Follow._94_in_lvalue2894); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_94.Add(char_literal242);
 
 
 
 					{
 					// AST REWRITE
-					// elements: expr_list, lvalue
+					// elements: lvalue, expr_list
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -11063,22 +11364,22 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 					root_0 = (CommonTree)adaptor.Nil();
-					// 398:32: -> ^( Expr_Dict $lvalue ( expr_list )? )
+					// 408:32: -> ^( Expr_Dict $lvalue ( expr_list )? )
 					{
-						DebugLocation(398, 35);
-						// SugarCpp.g:398:35: ^( Expr_Dict $lvalue ( expr_list )? )
+						DebugLocation(408, 35);
+						// SugarCpp.g:408:35: ^( Expr_Dict $lvalue ( expr_list )? )
 						{
 						CommonTree root_1 = (CommonTree)adaptor.Nil();
-						DebugLocation(398, 37);
+						DebugLocation(408, 37);
 						root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Dict, "Expr_Dict"), root_1);
 
-						DebugLocation(398, 48);
+						DebugLocation(408, 48);
 						adaptor.AddChild(root_1, stream_retval.NextTree());
-						DebugLocation(398, 55);
-						// SugarCpp.g:398:55: ( expr_list )?
+						DebugLocation(408, 55);
+						// SugarCpp.g:408:55: ( expr_list )?
 						if (stream_expr_list.HasNext)
 						{
-							DebugLocation(398, 55);
+							DebugLocation(408, 55);
 							adaptor.AddChild(root_1, stream_expr_list.NextTree());
 
 						}
@@ -11097,14 +11398,14 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					break;
 
 				default:
-					goto loop70;
+					goto loop73;
 				}
 			}
 
-			loop70:
+			loop73:
 				;
 
-			} finally { DebugExitSubRule(70); }
+			} finally { DebugExitSubRule(73); }
 
 
 			}
@@ -11125,13 +11426,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("lvalue", 56);
-			LeaveRule("lvalue", 56);
+			TraceOut("lvalue", 58);
+			LeaveRule("lvalue", 58);
 			LeaveRule_lvalue();
-			if (state.backtracking > 0) { Memoize(input, 56, lvalue_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 58, lvalue_StartIndex); }
 
 		}
-		DebugLocation(400, 1);
+		DebugLocation(410, 1);
 		} finally { DebugExitRule(GrammarFileName, "lvalue"); }
 		return retval;
 
@@ -11142,150 +11443,150 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_lvalue_atom();
 
 	// $ANTLR start "lvalue_atom"
-	// SugarCpp.g:402:1: lvalue_atom : ( '(' ( lvalue ( ',' lvalue )* )? ')' -> ^( Match_Tuple ( lvalue )* ) | ident );
+	// SugarCpp.g:412:1: lvalue_atom : ( '(' ( lvalue ( ',' lvalue )* )? ')' -> ^( Match_Tuple ( lvalue )* ) | ident );
 	[GrammarRule("lvalue_atom")]
 	private AstParserRuleReturnScope<CommonTree, IToken> lvalue_atom()
 	{
 		EnterRule_lvalue_atom();
-		EnterRule("lvalue_atom", 57);
-		TraceIn("lvalue_atom", 57);
+		EnterRule("lvalue_atom", 59);
+		TraceIn("lvalue_atom", 59);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int lvalue_atom_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken char_literal234 = default(IToken);
-		IToken char_literal236 = default(IToken);
-		IToken char_literal238 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> lvalue235 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> lvalue237 = default(AstParserRuleReturnScope<CommonTree, IToken>);
-		AstParserRuleReturnScope<CommonTree, IToken> ident239 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		IToken char_literal243 = default(IToken);
+		IToken char_literal245 = default(IToken);
+		IToken char_literal247 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> lvalue244 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> lvalue246 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> ident248 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree char_literal234_tree = default(CommonTree);
-		CommonTree char_literal236_tree = default(CommonTree);
-		CommonTree char_literal238_tree = default(CommonTree);
+		CommonTree char_literal243_tree = default(CommonTree);
+		CommonTree char_literal245_tree = default(CommonTree);
+		CommonTree char_literal247_tree = default(CommonTree);
 		RewriteRuleITokenStream stream_68=new RewriteRuleITokenStream(adaptor,"token 68");
 		RewriteRuleITokenStream stream_62=new RewriteRuleITokenStream(adaptor,"token 62");
 		RewriteRuleITokenStream stream_61=new RewriteRuleITokenStream(adaptor,"token 61");
 		RewriteRuleSubtreeStream stream_lvalue=new RewriteRuleSubtreeStream(adaptor,"rule lvalue");
 		try { DebugEnterRule(GrammarFileName, "lvalue_atom");
-		DebugLocation(402, 1);
+		DebugLocation(412, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 57)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 59)) { return retval; }
 
-			// SugarCpp.g:403:2: ( '(' ( lvalue ( ',' lvalue )* )? ')' -> ^( Match_Tuple ( lvalue )* ) | ident )
-			int alt73=2;
-			try { DebugEnterDecision(73, false);
-			int LA73_0 = input.LA(1);
+			// SugarCpp.g:413:2: ( '(' ( lvalue ( ',' lvalue )* )? ')' -> ^( Match_Tuple ( lvalue )* ) | ident )
+			int alt76=2;
+			try { DebugEnterDecision(76, false);
+			int LA76_0 = input.LA(1);
 
-			if ((LA73_0==61))
+			if ((LA76_0==61))
 			{
-				alt73 = 1;
+				alt76 = 1;
 			}
-			else if ((LA73_0==IDENT))
+			else if ((LA76_0==IDENT))
 			{
-				alt73 = 2;
+				alt76 = 2;
 			}
 			else
 			{
 				if (state.backtracking>0) {state.failed=true; return retval;}
-				NoViableAltException nvae = new NoViableAltException("", 73, 0, input);
+				NoViableAltException nvae = new NoViableAltException("", 76, 0, input);
 				DebugRecognitionException(nvae);
 				throw nvae;
 			}
-			} finally { DebugExitDecision(73); }
-			switch (alt73)
+			} finally { DebugExitDecision(76); }
+			switch (alt76)
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:403:4: '(' ( lvalue ( ',' lvalue )* )? ')'
+				// SugarCpp.g:413:4: '(' ( lvalue ( ',' lvalue )* )? ')'
 				{
-				DebugLocation(403, 4);
-				char_literal234=(IToken)Match(input,61,Follow._61_in_lvalue_atom2883); if (state.failed) return retval; 
-				if (state.backtracking == 0) stream_61.Add(char_literal234);
+				DebugLocation(413, 4);
+				char_literal243=(IToken)Match(input,61,Follow._61_in_lvalue_atom2933); if (state.failed) return retval; 
+				if (state.backtracking == 0) stream_61.Add(char_literal243);
 
-				DebugLocation(403, 8);
-				// SugarCpp.g:403:8: ( lvalue ( ',' lvalue )* )?
-				int alt72=2;
-				try { DebugEnterSubRule(72);
-				try { DebugEnterDecision(72, false);
-				int LA72_0 = input.LA(1);
+				DebugLocation(413, 8);
+				// SugarCpp.g:413:8: ( lvalue ( ',' lvalue )* )?
+				int alt75=2;
+				try { DebugEnterSubRule(75);
+				try { DebugEnterDecision(75, false);
+				int LA75_0 = input.LA(1);
 
-				if ((LA72_0==IDENT||LA72_0==61))
+				if ((LA75_0==IDENT||LA75_0==61))
 				{
-					alt72 = 1;
+					alt75 = 1;
 				}
-				} finally { DebugExitDecision(72); }
-				switch (alt72)
+				} finally { DebugExitDecision(75); }
+				switch (alt75)
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:403:9: lvalue ( ',' lvalue )*
+					// SugarCpp.g:413:9: lvalue ( ',' lvalue )*
 					{
-					DebugLocation(403, 9);
-					PushFollow(Follow._lvalue_in_lvalue_atom2886);
-					lvalue235=lvalue();
+					DebugLocation(413, 9);
+					PushFollow(Follow._lvalue_in_lvalue_atom2936);
+					lvalue244=lvalue();
 					PopFollow();
 					if (state.failed) return retval;
-					if (state.backtracking == 0) stream_lvalue.Add(lvalue235.Tree);
-					DebugLocation(403, 16);
-					// SugarCpp.g:403:16: ( ',' lvalue )*
-					try { DebugEnterSubRule(71);
+					if (state.backtracking == 0) stream_lvalue.Add(lvalue244.Tree);
+					DebugLocation(413, 16);
+					// SugarCpp.g:413:16: ( ',' lvalue )*
+					try { DebugEnterSubRule(74);
 					while (true)
 					{
-						int alt71=2;
-						try { DebugEnterDecision(71, false);
-						int LA71_0 = input.LA(1);
+						int alt74=2;
+						try { DebugEnterDecision(74, false);
+						int LA74_0 = input.LA(1);
 
-						if ((LA71_0==68))
+						if ((LA74_0==68))
 						{
-							alt71 = 1;
+							alt74 = 1;
 						}
 
 
-						} finally { DebugExitDecision(71); }
-						switch ( alt71 )
+						} finally { DebugExitDecision(74); }
+						switch ( alt74 )
 						{
 						case 1:
 							DebugEnterAlt(1);
-							// SugarCpp.g:403:17: ',' lvalue
+							// SugarCpp.g:413:17: ',' lvalue
 							{
-							DebugLocation(403, 17);
-							char_literal236=(IToken)Match(input,68,Follow._68_in_lvalue_atom2889); if (state.failed) return retval; 
-							if (state.backtracking == 0) stream_68.Add(char_literal236);
+							DebugLocation(413, 17);
+							char_literal245=(IToken)Match(input,68,Follow._68_in_lvalue_atom2939); if (state.failed) return retval; 
+							if (state.backtracking == 0) stream_68.Add(char_literal245);
 
-							DebugLocation(403, 21);
-							PushFollow(Follow._lvalue_in_lvalue_atom2891);
-							lvalue237=lvalue();
+							DebugLocation(413, 21);
+							PushFollow(Follow._lvalue_in_lvalue_atom2941);
+							lvalue246=lvalue();
 							PopFollow();
 							if (state.failed) return retval;
-							if (state.backtracking == 0) stream_lvalue.Add(lvalue237.Tree);
+							if (state.backtracking == 0) stream_lvalue.Add(lvalue246.Tree);
 
 							}
 							break;
 
 						default:
-							goto loop71;
+							goto loop74;
 						}
 					}
 
-					loop71:
+					loop74:
 						;
 
-					} finally { DebugExitSubRule(71); }
+					} finally { DebugExitSubRule(74); }
 
 
 					}
 					break;
 
 				}
-				} finally { DebugExitSubRule(72); }
+				} finally { DebugExitSubRule(75); }
 
-				DebugLocation(403, 32);
-				char_literal238=(IToken)Match(input,62,Follow._62_in_lvalue_atom2897); if (state.failed) return retval; 
-				if (state.backtracking == 0) stream_62.Add(char_literal238);
+				DebugLocation(413, 32);
+				char_literal247=(IToken)Match(input,62,Follow._62_in_lvalue_atom2947); if (state.failed) return retval; 
+				if (state.backtracking == 0) stream_62.Add(char_literal247);
 
 
 
@@ -11302,20 +11603,20 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 				root_0 = (CommonTree)adaptor.Nil();
-				// 403:36: -> ^( Match_Tuple ( lvalue )* )
+				// 413:36: -> ^( Match_Tuple ( lvalue )* )
 				{
-					DebugLocation(403, 39);
-					// SugarCpp.g:403:39: ^( Match_Tuple ( lvalue )* )
+					DebugLocation(413, 39);
+					// SugarCpp.g:413:39: ^( Match_Tuple ( lvalue )* )
 					{
 					CommonTree root_1 = (CommonTree)adaptor.Nil();
-					DebugLocation(403, 41);
+					DebugLocation(413, 41);
 					root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Match_Tuple, "Match_Tuple"), root_1);
 
-					DebugLocation(403, 53);
-					// SugarCpp.g:403:53: ( lvalue )*
+					DebugLocation(413, 53);
+					// SugarCpp.g:413:53: ( lvalue )*
 					while ( stream_lvalue.HasNext )
 					{
-						DebugLocation(403, 53);
+						DebugLocation(413, 53);
 						adaptor.AddChild(root_1, stream_lvalue.NextTree());
 
 					}
@@ -11334,16 +11635,16 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				break;
 			case 2:
 				DebugEnterAlt(2);
-				// SugarCpp.g:404:4: ident
+				// SugarCpp.g:414:4: ident
 				{
 				root_0 = (CommonTree)adaptor.Nil();
 
-				DebugLocation(404, 4);
-				PushFollow(Follow._ident_in_lvalue_atom2911);
-				ident239=ident();
+				DebugLocation(414, 4);
+				PushFollow(Follow._ident_in_lvalue_atom2961);
+				ident248=ident();
 				PopFollow();
 				if (state.failed) return retval;
-				if (state.backtracking == 0) adaptor.AddChild(root_0, ident239.Tree);
+				if (state.backtracking == 0) adaptor.AddChild(root_0, ident248.Tree);
 
 				}
 				break;
@@ -11365,13 +11666,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("lvalue_atom", 57);
-			LeaveRule("lvalue_atom", 57);
+			TraceOut("lvalue_atom", 59);
+			LeaveRule("lvalue_atom", 59);
 			LeaveRule_lvalue_atom();
-			if (state.backtracking > 0) { Memoize(input, 57, lvalue_atom_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 59, lvalue_atom_StartIndex); }
 
 		}
-		DebugLocation(405, 1);
+		DebugLocation(415, 1);
 		} finally { DebugExitRule(GrammarFileName, "lvalue_atom"); }
 		return retval;
 
@@ -11382,64 +11683,64 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_ident();
 
 	// $ANTLR start "ident"
-	// SugarCpp.g:407:1: ident : IDENT ( '::' IDENT )* ;
+	// SugarCpp.g:417:1: ident : IDENT ( '::' IDENT )* ;
 	[GrammarRule("ident")]
 	private AstParserRuleReturnScope<CommonTree, IToken> ident()
 	{
 		EnterRule_ident();
-		EnterRule("ident", 58);
-		TraceIn("ident", 58);
+		EnterRule("ident", 60);
+		TraceIn("ident", 60);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int ident_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken IDENT240 = default(IToken);
-		IToken string_literal241 = default(IToken);
-		IToken IDENT242 = default(IToken);
+		IToken IDENT249 = default(IToken);
+		IToken string_literal250 = default(IToken);
+		IToken IDENT251 = default(IToken);
 
-		CommonTree IDENT240_tree = default(CommonTree);
-		CommonTree string_literal241_tree = default(CommonTree);
-		CommonTree IDENT242_tree = default(CommonTree);
+		CommonTree IDENT249_tree = default(CommonTree);
+		CommonTree string_literal250_tree = default(CommonTree);
+		CommonTree IDENT251_tree = default(CommonTree);
 		try { DebugEnterRule(GrammarFileName, "ident");
-		DebugLocation(407, 1);
+		DebugLocation(417, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 58)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 60)) { return retval; }
 
-			// SugarCpp.g:408:2: ( IDENT ( '::' IDENT )* )
+			// SugarCpp.g:418:2: ( IDENT ( '::' IDENT )* )
 			DebugEnterAlt(1);
-			// SugarCpp.g:408:4: IDENT ( '::' IDENT )*
+			// SugarCpp.g:418:4: IDENT ( '::' IDENT )*
 			{
 			root_0 = (CommonTree)adaptor.Nil();
 
-			DebugLocation(408, 4);
-			IDENT240=(IToken)Match(input,IDENT,Follow._IDENT_in_ident2922); if (state.failed) return retval;
+			DebugLocation(418, 4);
+			IDENT249=(IToken)Match(input,IDENT,Follow._IDENT_in_ident2972); if (state.failed) return retval;
 			if (state.backtracking == 0) {
-			IDENT240_tree = (CommonTree)adaptor.Create(IDENT240);
-			adaptor.AddChild(root_0, IDENT240_tree);
+			IDENT249_tree = (CommonTree)adaptor.Create(IDENT249);
+			adaptor.AddChild(root_0, IDENT249_tree);
 			}
-			DebugLocation(408, 10);
-			// SugarCpp.g:408:10: ( '::' IDENT )*
-			try { DebugEnterSubRule(74);
+			DebugLocation(418, 10);
+			// SugarCpp.g:418:10: ( '::' IDENT )*
+			try { DebugEnterSubRule(77);
 			while (true)
 			{
-				int alt74=2;
-				try { DebugEnterDecision(74, false);
-				int LA74_0 = input.LA(1);
+				int alt77=2;
+				try { DebugEnterDecision(77, false);
+				int LA77_0 = input.LA(1);
 
-				if ((LA74_0==79))
+				if ((LA77_0==79))
 				{
-					int LA74_2 = input.LA(2);
+					int LA77_2 = input.LA(2);
 
-					if ((LA74_2==IDENT))
+					if ((LA77_2==IDENT))
 					{
-						int LA74_3 = input.LA(3);
+						int LA77_3 = input.LA(3);
 
-						if ((EvaluatePredicate(synpred130_SugarCpp_fragment)))
+						if ((EvaluatePredicate(synpred134_SugarCpp_fragment)))
 						{
-							alt74 = 1;
+							alt77 = 1;
 						}
 
 
@@ -11449,38 +11750,38 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				}
 
 
-				} finally { DebugExitDecision(74); }
-				switch ( alt74 )
+				} finally { DebugExitDecision(77); }
+				switch ( alt77 )
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:408:11: '::' IDENT
+					// SugarCpp.g:418:11: '::' IDENT
 					{
-					DebugLocation(408, 11);
-					string_literal241=(IToken)Match(input,79,Follow._79_in_ident2925); if (state.failed) return retval;
+					DebugLocation(418, 11);
+					string_literal250=(IToken)Match(input,79,Follow._79_in_ident2975); if (state.failed) return retval;
 					if (state.backtracking == 0) {
-					string_literal241_tree = (CommonTree)adaptor.Create(string_literal241);
-					adaptor.AddChild(root_0, string_literal241_tree);
+					string_literal250_tree = (CommonTree)adaptor.Create(string_literal250);
+					adaptor.AddChild(root_0, string_literal250_tree);
 					}
-					DebugLocation(408, 16);
-					IDENT242=(IToken)Match(input,IDENT,Follow._IDENT_in_ident2927); if (state.failed) return retval;
+					DebugLocation(418, 16);
+					IDENT251=(IToken)Match(input,IDENT,Follow._IDENT_in_ident2977); if (state.failed) return retval;
 					if (state.backtracking == 0) {
-					IDENT242_tree = (CommonTree)adaptor.Create(IDENT242);
-					adaptor.AddChild(root_0, IDENT242_tree);
+					IDENT251_tree = (CommonTree)adaptor.Create(IDENT251);
+					adaptor.AddChild(root_0, IDENT251_tree);
 					}
 
 					}
 					break;
 
 				default:
-					goto loop74;
+					goto loop77;
 				}
 			}
 
-			loop74:
+			loop77:
 				;
 
-			} finally { DebugExitSubRule(74); }
+			} finally { DebugExitSubRule(77); }
 
 
 			}
@@ -11501,13 +11802,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("ident", 58);
-			LeaveRule("ident", 58);
+			TraceOut("ident", 60);
+			LeaveRule("ident", 60);
 			LeaveRule_ident();
-			if (state.backtracking > 0) { Memoize(input, 58, ident_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 60, ident_StartIndex); }
 
 		}
-		DebugLocation(409, 1);
+		DebugLocation(419, 1);
 		} finally { DebugExitRule(GrammarFileName, "ident"); }
 		return retval;
 
@@ -11518,47 +11819,47 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_infix_func();
 
 	// $ANTLR start "infix_func"
-	// SugarCpp.g:411:1: infix_func : '`' ! ident '`' !;
+	// SugarCpp.g:421:1: infix_func : '`' ! ident '`' !;
 	[GrammarRule("infix_func")]
 	private AstParserRuleReturnScope<CommonTree, IToken> infix_func()
 	{
 		EnterRule_infix_func();
-		EnterRule("infix_func", 59);
-		TraceIn("infix_func", 59);
+		EnterRule("infix_func", 61);
+		TraceIn("infix_func", 61);
 		AstParserRuleReturnScope<CommonTree, IToken> retval = new AstParserRuleReturnScope<CommonTree, IToken>();
 		retval.Start = (IToken)input.LT(1);
 		int infix_func_StartIndex = input.Index;
 
 		CommonTree root_0 = default(CommonTree);
 
-		IToken char_literal243 = default(IToken);
-		IToken char_literal245 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> ident244 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		IToken char_literal252 = default(IToken);
+		IToken char_literal254 = default(IToken);
+		AstParserRuleReturnScope<CommonTree, IToken> ident253 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
-		CommonTree char_literal243_tree = default(CommonTree);
-		CommonTree char_literal245_tree = default(CommonTree);
+		CommonTree char_literal252_tree = default(CommonTree);
+		CommonTree char_literal254_tree = default(CommonTree);
 		try { DebugEnterRule(GrammarFileName, "infix_func");
-		DebugLocation(411, 1);
+		DebugLocation(421, 1);
 		try
 		{
-			if (state.backtracking > 0 && AlreadyParsedRule(input, 59)) { return retval; }
+			if (state.backtracking > 0 && AlreadyParsedRule(input, 61)) { return retval; }
 
-			// SugarCpp.g:412:2: ( '`' ! ident '`' !)
+			// SugarCpp.g:422:2: ( '`' ! ident '`' !)
 			DebugEnterAlt(1);
-			// SugarCpp.g:412:4: '`' ! ident '`' !
+			// SugarCpp.g:422:4: '`' ! ident '`' !
 			{
 			root_0 = (CommonTree)adaptor.Nil();
 
-			DebugLocation(412, 7);
-			char_literal243=(IToken)Match(input,97,Follow._97_in_infix_func2940); if (state.failed) return retval;
-			DebugLocation(412, 9);
-			PushFollow(Follow._ident_in_infix_func2943);
-			ident244=ident();
+			DebugLocation(422, 7);
+			char_literal252=(IToken)Match(input,97,Follow._97_in_infix_func2990); if (state.failed) return retval;
+			DebugLocation(422, 9);
+			PushFollow(Follow._ident_in_infix_func2993);
+			ident253=ident();
 			PopFollow();
 			if (state.failed) return retval;
-			if (state.backtracking == 0) adaptor.AddChild(root_0, ident244.Tree);
-			DebugLocation(412, 18);
-			char_literal245=(IToken)Match(input,97,Follow._97_in_infix_func2945); if (state.failed) return retval;
+			if (state.backtracking == 0) adaptor.AddChild(root_0, ident253.Tree);
+			DebugLocation(422, 18);
+			char_literal254=(IToken)Match(input,97,Follow._97_in_infix_func2995); if (state.failed) return retval;
 
 			}
 
@@ -11578,54 +11879,54 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 		finally
 		{
-			TraceOut("infix_func", 59);
-			LeaveRule("infix_func", 59);
+			TraceOut("infix_func", 61);
+			LeaveRule("infix_func", 61);
 			LeaveRule_infix_func();
-			if (state.backtracking > 0) { Memoize(input, 59, infix_func_StartIndex); }
+			if (state.backtracking > 0) { Memoize(input, 61, infix_func_StartIndex); }
 
 		}
-		DebugLocation(413, 1);
+		DebugLocation(423, 1);
 		} finally { DebugExitRule(GrammarFileName, "infix_func"); }
 		return retval;
 
 	}
 	// $ANTLR end "infix_func"
 
-	partial void EnterRule_synpred108_SugarCpp_fragment();
-	partial void LeaveRule_synpred108_SugarCpp_fragment();
+	partial void EnterRule_synpred112_SugarCpp_fragment();
+	partial void LeaveRule_synpred112_SugarCpp_fragment();
 
-	// $ANTLR start synpred108_SugarCpp
-	public void synpred108_SugarCpp_fragment()
+	// $ANTLR start synpred112_SugarCpp
+	public void synpred112_SugarCpp_fragment()
 	{
-		EnterRule_synpred108_SugarCpp_fragment();
-		EnterRule("synpred108_SugarCpp_fragment", 167);
-		TraceIn("synpred108_SugarCpp_fragment", 167);
+		EnterRule_synpred112_SugarCpp_fragment();
+		EnterRule("synpred112_SugarCpp_fragment", 173);
+		TraceIn("synpred112_SugarCpp_fragment", 173);
 		try
 		{
-			// SugarCpp.g:372:11: ( ( generic_parameter )? '(' ( expr_list )? ')' )
+			// SugarCpp.g:382:11: ( ( generic_parameter )? '(' ( expr_list )? ')' )
 			DebugEnterAlt(1);
-			// SugarCpp.g:372:11: ( generic_parameter )? '(' ( expr_list )? ')'
+			// SugarCpp.g:382:11: ( generic_parameter )? '(' ( expr_list )? ')'
 			{
-			DebugLocation(372, 11);
-			// SugarCpp.g:372:11: ( generic_parameter )?
-			int alt89=2;
-			try { DebugEnterSubRule(89);
-			try { DebugEnterDecision(89, false);
-			int LA89_0 = input.LA(1);
+			DebugLocation(382, 11);
+			// SugarCpp.g:382:11: ( generic_parameter )?
+			int alt93=2;
+			try { DebugEnterSubRule(93);
+			try { DebugEnterDecision(93, false);
+			int LA93_0 = input.LA(1);
 
-			if ((LA89_0==82))
+			if ((LA93_0==82))
 			{
-				alt89 = 1;
+				alt93 = 1;
 			}
-			} finally { DebugExitDecision(89); }
-			switch (alt89)
+			} finally { DebugExitDecision(93); }
+			switch (alt93)
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:372:11: generic_parameter
+				// SugarCpp.g:382:11: generic_parameter
 				{
-				DebugLocation(372, 11);
-				PushFollow(Follow._generic_parameter_in_synpred108_SugarCpp2469);
+				DebugLocation(382, 11);
+				PushFollow(Follow._generic_parameter_in_synpred112_SugarCpp2519);
 				generic_parameter();
 				PopFollow();
 				if (state.failed) return;
@@ -11634,30 +11935,30 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				break;
 
 			}
-			} finally { DebugExitSubRule(89); }
+			} finally { DebugExitSubRule(93); }
 
-			DebugLocation(372, 30);
-			Match(input,61,Follow._61_in_synpred108_SugarCpp2472); if (state.failed) return;
-			DebugLocation(372, 34);
-			// SugarCpp.g:372:34: ( expr_list )?
-			int alt90=2;
-			try { DebugEnterSubRule(90);
-			try { DebugEnterDecision(90, false);
-			int LA90_0 = input.LA(1);
+			DebugLocation(382, 30);
+			Match(input,61,Follow._61_in_synpred112_SugarCpp2522); if (state.failed) return;
+			DebugLocation(382, 34);
+			// SugarCpp.g:382:34: ( expr_list )?
+			int alt94=2;
+			try { DebugEnterSubRule(94);
+			try { DebugEnterDecision(94, false);
+			int LA94_0 = input.LA(1);
 
-			if ((LA90_0==IDENT||LA90_0==NUMBER||LA90_0==STRING||LA90_0==54||LA90_0==59||LA90_0==61||LA90_0==63||(LA90_0>=65 && LA90_0<=66)||(LA90_0>=69 && LA90_0<=70)||LA90_0==107||LA90_0==116))
+			if ((LA94_0==IDENT||LA94_0==NUMBER||LA94_0==STRING||LA94_0==54||LA94_0==59||LA94_0==61||LA94_0==63||(LA94_0>=65 && LA94_0<=66)||(LA94_0>=69 && LA94_0<=70)||LA94_0==107||LA94_0==116))
 			{
-				alt90 = 1;
+				alt94 = 1;
 			}
-			} finally { DebugExitDecision(90); }
-			switch (alt90)
+			} finally { DebugExitDecision(94); }
+			switch (alt94)
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:372:34: expr_list
+				// SugarCpp.g:382:34: expr_list
 				{
-				DebugLocation(372, 34);
-				PushFollow(Follow._expr_list_in_synpred108_SugarCpp2474);
+				DebugLocation(382, 34);
+				PushFollow(Follow._expr_list_in_synpred112_SugarCpp2524);
 				expr_list();
 				PopFollow();
 				if (state.failed) return;
@@ -11666,60 +11967,60 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				break;
 
 			}
-			} finally { DebugExitSubRule(90); }
+			} finally { DebugExitSubRule(94); }
 
-			DebugLocation(372, 45);
-			Match(input,62,Follow._62_in_synpred108_SugarCpp2477); if (state.failed) return;
+			DebugLocation(382, 45);
+			Match(input,62,Follow._62_in_synpred112_SugarCpp2527); if (state.failed) return;
 
 			}
 
 		}
 		finally
 		{
-			TraceOut("synpred108_SugarCpp_fragment", 167);
-			LeaveRule("synpred108_SugarCpp_fragment", 167);
-			LeaveRule_synpred108_SugarCpp_fragment();
+			TraceOut("synpred112_SugarCpp_fragment", 173);
+			LeaveRule("synpred112_SugarCpp_fragment", 173);
+			LeaveRule_synpred112_SugarCpp_fragment();
 		}
 	}
-	// $ANTLR end synpred108_SugarCpp
+	// $ANTLR end synpred112_SugarCpp
 
-	partial void EnterRule_synpred110_SugarCpp_fragment();
-	partial void LeaveRule_synpred110_SugarCpp_fragment();
+	partial void EnterRule_synpred114_SugarCpp_fragment();
+	partial void LeaveRule_synpred114_SugarCpp_fragment();
 
-	// $ANTLR start synpred110_SugarCpp
-	public void synpred110_SugarCpp_fragment()
+	// $ANTLR start synpred114_SugarCpp
+	public void synpred114_SugarCpp_fragment()
 	{
-		EnterRule_synpred110_SugarCpp_fragment();
-		EnterRule("synpred110_SugarCpp_fragment", 169);
-		TraceIn("synpred110_SugarCpp_fragment", 169);
+		EnterRule_synpred114_SugarCpp_fragment();
+		EnterRule("synpred114_SugarCpp_fragment", 175);
+		TraceIn("synpred114_SugarCpp_fragment", 175);
 		try
 		{
-			// SugarCpp.g:373:11: ( '[' ( expr_list )? ']' )
+			// SugarCpp.g:383:11: ( '[' ( expr_list )? ']' )
 			DebugEnterAlt(1);
-			// SugarCpp.g:373:11: '[' ( expr_list )? ']'
+			// SugarCpp.g:383:11: '[' ( expr_list )? ']'
 			{
-			DebugLocation(373, 11);
-			Match(input,93,Follow._93_in_synpred110_SugarCpp2504); if (state.failed) return;
-			DebugLocation(373, 15);
-			// SugarCpp.g:373:15: ( expr_list )?
-			int alt91=2;
-			try { DebugEnterSubRule(91);
-			try { DebugEnterDecision(91, false);
-			int LA91_0 = input.LA(1);
+			DebugLocation(383, 11);
+			Match(input,93,Follow._93_in_synpred114_SugarCpp2554); if (state.failed) return;
+			DebugLocation(383, 15);
+			// SugarCpp.g:383:15: ( expr_list )?
+			int alt95=2;
+			try { DebugEnterSubRule(95);
+			try { DebugEnterDecision(95, false);
+			int LA95_0 = input.LA(1);
 
-			if ((LA91_0==IDENT||LA91_0==NUMBER||LA91_0==STRING||LA91_0==54||LA91_0==59||LA91_0==61||LA91_0==63||(LA91_0>=65 && LA91_0<=66)||(LA91_0>=69 && LA91_0<=70)||LA91_0==107||LA91_0==116))
+			if ((LA95_0==IDENT||LA95_0==NUMBER||LA95_0==STRING||LA95_0==54||LA95_0==59||LA95_0==61||LA95_0==63||(LA95_0>=65 && LA95_0<=66)||(LA95_0>=69 && LA95_0<=70)||LA95_0==107||LA95_0==116))
 			{
-				alt91 = 1;
+				alt95 = 1;
 			}
-			} finally { DebugExitDecision(91); }
-			switch (alt91)
+			} finally { DebugExitDecision(95); }
+			switch (alt95)
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:373:15: expr_list
+				// SugarCpp.g:383:15: expr_list
 				{
-				DebugLocation(373, 15);
-				PushFollow(Follow._expr_list_in_synpred110_SugarCpp2506);
+				DebugLocation(383, 15);
+				PushFollow(Follow._expr_list_in_synpred114_SugarCpp2556);
 				expr_list();
 				PopFollow();
 				if (state.failed) return;
@@ -11728,54 +12029,54 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				break;
 
 			}
-			} finally { DebugExitSubRule(91); }
+			} finally { DebugExitSubRule(95); }
 
-			DebugLocation(373, 26);
-			Match(input,94,Follow._94_in_synpred110_SugarCpp2509); if (state.failed) return;
+			DebugLocation(383, 26);
+			Match(input,94,Follow._94_in_synpred114_SugarCpp2559); if (state.failed) return;
 
 			}
 
 		}
 		finally
 		{
-			TraceOut("synpred110_SugarCpp_fragment", 169);
-			LeaveRule("synpred110_SugarCpp_fragment", 169);
-			LeaveRule_synpred110_SugarCpp_fragment();
+			TraceOut("synpred114_SugarCpp_fragment", 175);
+			LeaveRule("synpred114_SugarCpp_fragment", 175);
+			LeaveRule_synpred114_SugarCpp_fragment();
 		}
 	}
-	// $ANTLR end synpred110_SugarCpp
+	// $ANTLR end synpred114_SugarCpp
 
-	partial void EnterRule_synpred130_SugarCpp_fragment();
-	partial void LeaveRule_synpred130_SugarCpp_fragment();
+	partial void EnterRule_synpred134_SugarCpp_fragment();
+	partial void LeaveRule_synpred134_SugarCpp_fragment();
 
-	// $ANTLR start synpred130_SugarCpp
-	public void synpred130_SugarCpp_fragment()
+	// $ANTLR start synpred134_SugarCpp
+	public void synpred134_SugarCpp_fragment()
 	{
-		EnterRule_synpred130_SugarCpp_fragment();
-		EnterRule("synpred130_SugarCpp_fragment", 189);
-		TraceIn("synpred130_SugarCpp_fragment", 189);
+		EnterRule_synpred134_SugarCpp_fragment();
+		EnterRule("synpred134_SugarCpp_fragment", 195);
+		TraceIn("synpred134_SugarCpp_fragment", 195);
 		try
 		{
-			// SugarCpp.g:408:11: ( '::' IDENT )
+			// SugarCpp.g:418:11: ( '::' IDENT )
 			DebugEnterAlt(1);
-			// SugarCpp.g:408:11: '::' IDENT
+			// SugarCpp.g:418:11: '::' IDENT
 			{
-			DebugLocation(408, 11);
-			Match(input,79,Follow._79_in_synpred130_SugarCpp2925); if (state.failed) return;
-			DebugLocation(408, 16);
-			Match(input,IDENT,Follow._IDENT_in_synpred130_SugarCpp2927); if (state.failed) return;
+			DebugLocation(418, 11);
+			Match(input,79,Follow._79_in_synpred134_SugarCpp2975); if (state.failed) return;
+			DebugLocation(418, 16);
+			Match(input,IDENT,Follow._IDENT_in_synpred134_SugarCpp2977); if (state.failed) return;
 
 			}
 
 		}
 		finally
 		{
-			TraceOut("synpred130_SugarCpp_fragment", 189);
-			LeaveRule("synpred130_SugarCpp_fragment", 189);
-			LeaveRule_synpred130_SugarCpp_fragment();
+			TraceOut("synpred134_SugarCpp_fragment", 195);
+			LeaveRule("synpred134_SugarCpp_fragment", 195);
+			LeaveRule_synpred134_SugarCpp_fragment();
 		}
 	}
-	// $ANTLR end synpred130_SugarCpp
+	// $ANTLR end synpred134_SugarCpp
 	#endregion Rules
 
 	#region Synpreds
@@ -11808,10 +12109,10 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	private DFA4 dfa4;
 	private DFA7 dfa7;
 	private DFA14 dfa14;
-	private DFA29 dfa29;
 	private DFA32 dfa32;
-	private DFA34 dfa34;
-	private DFA41 dfa41;
+	private DFA35 dfa35;
+	private DFA37 dfa37;
+	private DFA44 dfa44;
 
 	protected override void InitDFAs()
 	{
@@ -11820,10 +12121,10 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		dfa4 = new DFA4( this );
 		dfa7 = new DFA7( this );
 		dfa14 = new DFA14( this );
-		dfa29 = new DFA29( this );
 		dfa32 = new DFA32( this );
-		dfa34 = new DFA34( this );
-		dfa41 = new DFA41( this );
+		dfa35 = new DFA35( this );
+		dfa37 = new DFA37( this );
+		dfa44 = new DFA44( this );
 	}
 
 	private class DFA3 : DFA
@@ -12086,104 +12387,27 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 	}
 
-	private class DFA29 : DFA
+	private class DFA32 : DFA
 	{
-		private const string DFA29_eotS =
+		private const string DFA32_eotS =
 			"\x4\xFFFF";
-		private const string DFA29_eofS =
+		private const string DFA32_eofS =
 			"\x4\xFFFF";
-		private const string DFA29_minS =
+		private const string DFA32_minS =
 			"\x2\x8\x2\xFFFF";
-		private const string DFA29_maxS =
+		private const string DFA32_maxS =
 			"\x1\x24\x1\x70\x2\xFFFF";
-		private const string DFA29_acceptS =
+		private const string DFA32_acceptS =
 			"\x2\xFFFF\x1\x2\x1\x1";
-		private const string DFA29_specialS =
+		private const string DFA32_specialS =
 			"\x4\xFFFF}>";
-		private static readonly string[] DFA29_transitionS =
+		private static readonly string[] DFA32_transitionS =
 			{
 				"\x1\x2\x1B\xFFFF\x1\x1",
 				"\x1\x2\x14\xFFFF\x1\x3\x6\xFFFF\x1\x1\x18\xFFFF\x1\x3\x28\xFFFF\x2"+
 				"\x3\x4\xFFFF\x5\x3",
 				"",
 				""
-			};
-
-		private static readonly short[] DFA29_eot = DFA.UnpackEncodedString(DFA29_eotS);
-		private static readonly short[] DFA29_eof = DFA.UnpackEncodedString(DFA29_eofS);
-		private static readonly char[] DFA29_min = DFA.UnpackEncodedStringToUnsignedChars(DFA29_minS);
-		private static readonly char[] DFA29_max = DFA.UnpackEncodedStringToUnsignedChars(DFA29_maxS);
-		private static readonly short[] DFA29_accept = DFA.UnpackEncodedString(DFA29_acceptS);
-		private static readonly short[] DFA29_special = DFA.UnpackEncodedString(DFA29_specialS);
-		private static readonly short[][] DFA29_transition;
-
-		static DFA29()
-		{
-			int numStates = DFA29_transitionS.Length;
-			DFA29_transition = new short[numStates][];
-			for ( int i=0; i < numStates; i++ )
-			{
-				DFA29_transition[i] = DFA.UnpackEncodedString(DFA29_transitionS[i]);
-			}
-		}
-
-		public DFA29( BaseRecognizer recognizer )
-		{
-			this.recognizer = recognizer;
-			this.decisionNumber = 29;
-			this.eot = DFA29_eot;
-			this.eof = DFA29_eof;
-			this.min = DFA29_min;
-			this.max = DFA29_max;
-			this.accept = DFA29_accept;
-			this.special = DFA29_special;
-			this.transition = DFA29_transition;
-		}
-
-		public override string Description { get { return "()* loopback of 211:11: ( ( NEWLINE )+ stmt )*"; } }
-
-		public override void Error(NoViableAltException nvae)
-		{
-			DebugRecognitionException(nvae);
-		}
-	}
-
-	private class DFA32 : DFA
-	{
-		private const string DFA32_eotS =
-			"\xB\xFFFF";
-		private const string DFA32_eofS =
-			"\x1\xFFFF\x1\x5\x6\xFFFF\x1\x5\x1\xFFFF\x1\x5";
-		private const string DFA32_minS =
-			"\x1\x1D\x1\x8\x4\xFFFF\x1\x1D\x1\xFFFF\x1\x8\x1\x1D\x1\x8";
-		private const string DFA32_maxS =
-			"\x1\x6F\x1\x72\x4\xFFFF\x1\x1D\x1\xFFFF\x1\x72\x1\x1D\x1\x72";
-		private const string DFA32_acceptS =
-			"\x2\xFFFF\x1\x2\x1\x3\x1\x4\x1\x5\x1\xFFFF\x1\x1\x3\xFFFF";
-		private const string DFA32_specialS =
-			"\xB\xFFFF}>";
-		private static readonly string[] DFA32_transitionS =
-			{
-				"\x1\x1\x1F\xFFFF\x1\x5\x2E\xFFFF\x1\x2\x1\xFFFF\x1\x4\x1\x3",
-				"\x1\x5\x1B\xFFFF\x1\x5\x14\xFFFF\x1\x5\x2\xFFFF\x2\x5\x2\xFFFF\x1\x5"+
-				"\x1\xFFFF\x2\x5\x1\x7\x1\xFFFF\x3\x5\x1\xFFFF\x1\x5\x2\xFFFF\x1\x5\x1"+
-				"\x7\x1\x6\x1\x5\x1\xFFFF\x1\x5\x1\xFFFF\x1\x5\x1\xFFFF\x1\x5\x5\xFFFF"+
-				"\x2\x5\x2\xFFFF\x1\x5\x11\xFFFF\x1\x5",
-				"",
-				"",
-				"",
-				"",
-				"\x1\x8",
-				"",
-				"\x1\x5\x1B\xFFFF\x1\x5\x14\xFFFF\x1\x5\x2\xFFFF\x2\x5\x2\xFFFF\x1\x5"+
-				"\x1\xFFFF\x2\x5\x1\x7\x1\xFFFF\x3\x5\x1\xFFFF\x1\x5\x2\xFFFF\x1\x5\x1"+
-				"\x7\x1\x9\x1\x5\x1\xFFFF\x1\x5\x1\xFFFF\x1\x5\x1\xFFFF\x1\x5\x5\xFFFF"+
-				"\x2\x5\x2\xFFFF\x1\x5\x11\xFFFF\x1\x5",
-				"\x1\xA",
-				"\x1\x5\x1B\xFFFF\x1\x5\x14\xFFFF\x1\x5\x2\xFFFF\x2\x5\x2\xFFFF\x1\x5"+
-				"\x1\xFFFF\x2\x5\x1\x7\x1\xFFFF\x3\x5\x1\xFFFF\x1\x5\x2\xFFFF\x1\x5\x1"+
-				"\x7\x1\x9\x1\x5\x1\xFFFF\x1\x5\x1\xFFFF\x1\x5\x1\xFFFF\x1\x5\x5\xFFFF"+
-				"\x2\x5\x2\xFFFF\x1\x5\x11\xFFFF\x1\x5"
 			};
 
 		private static readonly short[] DFA32_eot = DFA.UnpackEncodedString(DFA32_eotS);
@@ -12217,7 +12441,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			this.transition = DFA32_transition;
 		}
 
-		public override string Description { get { return "222:1: stmt_expr : ( stmt_alloc | stmt_return | stmt_using | stmt_typedef | stmt_modify );"; } }
+		public override string Description { get { return "()* loopback of 221:11: ( ( NEWLINE )+ stmt )*"; } }
 
 		public override void Error(NoViableAltException nvae)
 		{
@@ -12225,24 +12449,101 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 	}
 
-	private class DFA34 : DFA
+	private class DFA35 : DFA
 	{
-		private const string DFA34_eotS =
+		private const string DFA35_eotS =
+			"\xB\xFFFF";
+		private const string DFA35_eofS =
+			"\x1\xFFFF\x1\x5\x6\xFFFF\x1\x5\x1\xFFFF\x1\x5";
+		private const string DFA35_minS =
+			"\x1\x1D\x1\x8\x4\xFFFF\x1\x1D\x1\xFFFF\x1\x8\x1\x1D\x1\x8";
+		private const string DFA35_maxS =
+			"\x1\x6F\x1\x72\x4\xFFFF\x1\x1D\x1\xFFFF\x1\x72\x1\x1D\x1\x72";
+		private const string DFA35_acceptS =
+			"\x2\xFFFF\x1\x2\x1\x3\x1\x4\x1\x5\x1\xFFFF\x1\x1\x3\xFFFF";
+		private const string DFA35_specialS =
+			"\xB\xFFFF}>";
+		private static readonly string[] DFA35_transitionS =
+			{
+				"\x1\x1\x1F\xFFFF\x1\x5\x2E\xFFFF\x1\x2\x1\xFFFF\x1\x4\x1\x3",
+				"\x1\x5\x1B\xFFFF\x1\x5\x14\xFFFF\x1\x5\x2\xFFFF\x2\x5\x2\xFFFF\x1\x5"+
+				"\x1\xFFFF\x2\x5\x1\x7\x1\xFFFF\x3\x5\x1\xFFFF\x1\x5\x2\xFFFF\x1\x5\x1"+
+				"\x7\x1\x6\x1\x5\x1\xFFFF\x1\x5\x1\xFFFF\x1\x5\x1\xFFFF\x1\x5\x5\xFFFF"+
+				"\x2\x5\x2\xFFFF\x1\x5\x11\xFFFF\x1\x5",
+				"",
+				"",
+				"",
+				"",
+				"\x1\x8",
+				"",
+				"\x1\x5\x1B\xFFFF\x1\x5\x14\xFFFF\x1\x5\x2\xFFFF\x2\x5\x2\xFFFF\x1\x5"+
+				"\x1\xFFFF\x2\x5\x1\x7\x1\xFFFF\x3\x5\x1\xFFFF\x1\x5\x2\xFFFF\x1\x5\x1"+
+				"\x7\x1\x9\x1\x5\x1\xFFFF\x1\x5\x1\xFFFF\x1\x5\x1\xFFFF\x1\x5\x5\xFFFF"+
+				"\x2\x5\x2\xFFFF\x1\x5\x11\xFFFF\x1\x5",
+				"\x1\xA",
+				"\x1\x5\x1B\xFFFF\x1\x5\x14\xFFFF\x1\x5\x2\xFFFF\x2\x5\x2\xFFFF\x1\x5"+
+				"\x1\xFFFF\x2\x5\x1\x7\x1\xFFFF\x3\x5\x1\xFFFF\x1\x5\x2\xFFFF\x1\x5\x1"+
+				"\x7\x1\x9\x1\x5\x1\xFFFF\x1\x5\x1\xFFFF\x1\x5\x1\xFFFF\x1\x5\x5\xFFFF"+
+				"\x2\x5\x2\xFFFF\x1\x5\x11\xFFFF\x1\x5"
+			};
+
+		private static readonly short[] DFA35_eot = DFA.UnpackEncodedString(DFA35_eotS);
+		private static readonly short[] DFA35_eof = DFA.UnpackEncodedString(DFA35_eofS);
+		private static readonly char[] DFA35_min = DFA.UnpackEncodedStringToUnsignedChars(DFA35_minS);
+		private static readonly char[] DFA35_max = DFA.UnpackEncodedStringToUnsignedChars(DFA35_maxS);
+		private static readonly short[] DFA35_accept = DFA.UnpackEncodedString(DFA35_acceptS);
+		private static readonly short[] DFA35_special = DFA.UnpackEncodedString(DFA35_specialS);
+		private static readonly short[][] DFA35_transition;
+
+		static DFA35()
+		{
+			int numStates = DFA35_transitionS.Length;
+			DFA35_transition = new short[numStates][];
+			for ( int i=0; i < numStates; i++ )
+			{
+				DFA35_transition[i] = DFA.UnpackEncodedString(DFA35_transitionS[i]);
+			}
+		}
+
+		public DFA35( BaseRecognizer recognizer )
+		{
+			this.recognizer = recognizer;
+			this.decisionNumber = 35;
+			this.eot = DFA35_eot;
+			this.eof = DFA35_eof;
+			this.min = DFA35_min;
+			this.max = DFA35_max;
+			this.accept = DFA35_accept;
+			this.special = DFA35_special;
+			this.transition = DFA35_transition;
+		}
+
+		public override string Description { get { return "232:1: stmt_expr : ( stmt_alloc | stmt_return | stmt_using | stmt_typedef | stmt_modify );"; } }
+
+		public override void Error(NoViableAltException nvae)
+		{
+			DebugRecognitionException(nvae);
+		}
+	}
+
+	private class DFA37 : DFA
+	{
+		private const string DFA37_eotS =
 			"\x17\xFFFF";
-		private const string DFA34_eofS =
+		private const string DFA37_eofS =
 			"\x1\x1\x1\xFFFF\x2\x7\x2\xFFFF\x1\x7\x1\xFFFF\x2\x7\x3\xFFFF\x1\x7\x1"+
 			"\xFFFF\x1\x7\x7\xFFFF";
-		private const string DFA34_minS =
+		private const string DFA37_minS =
 			"\x1\x8\x1\xFFFF\x2\x8\x2\x1D\x1\x8\x1\xFFFF\x2\x8\x3\x1D\x1\x8\x1\x3B"+
 			"\x1\x8\x3\x1D\x2\x3B\x1\x1D\x1\x3B";
-		private const string DFA34_maxS =
+		private const string DFA37_maxS =
 			"\x1\x6F\x1\xFFFF\x2\x6F\x1\x1D\x1\x5E\x1\x6F\x1\xFFFF\x2\x6F\x1\x1D\x1"+
 			"\x59\x1\x1D\x1\x6F\x1\x5D\x1\x6F\x2\x1D\x3\x5D\x1\x1D\x1\x5D";
-		private const string DFA34_acceptS =
+		private const string DFA37_acceptS =
 			"\x1\xFFFF\x1\x2\x5\xFFFF\x1\x1\xF\xFFFF";
-		private const string DFA34_specialS =
+		private const string DFA37_specialS =
 			"\x17\xFFFF}>";
-		private static readonly string[] DFA34_transitionS =
+		private static readonly string[] DFA37_transitionS =
 			{
 				"\x1\x1\x14\xFFFF\x1\x2\x6\xFFFF\x1\x1\x38\xFFFF\x1\x1\x5\xFFFF\x1\x1"+
 				"\x1\xFFFF\x1\x1\x2\xFFFF\x1\x1\x1\xFFFF\x1\x3\x3\xFFFF\x2\x1",
@@ -12293,38 +12594,38 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				"\x6\xFFFF\x1\x12\x3\xFFFF\x1\x7"
 			};
 
-		private static readonly short[] DFA34_eot = DFA.UnpackEncodedString(DFA34_eotS);
-		private static readonly short[] DFA34_eof = DFA.UnpackEncodedString(DFA34_eofS);
-		private static readonly char[] DFA34_min = DFA.UnpackEncodedStringToUnsignedChars(DFA34_minS);
-		private static readonly char[] DFA34_max = DFA.UnpackEncodedStringToUnsignedChars(DFA34_maxS);
-		private static readonly short[] DFA34_accept = DFA.UnpackEncodedString(DFA34_acceptS);
-		private static readonly short[] DFA34_special = DFA.UnpackEncodedString(DFA34_specialS);
-		private static readonly short[][] DFA34_transition;
+		private static readonly short[] DFA37_eot = DFA.UnpackEncodedString(DFA37_eotS);
+		private static readonly short[] DFA37_eof = DFA.UnpackEncodedString(DFA37_eofS);
+		private static readonly char[] DFA37_min = DFA.UnpackEncodedStringToUnsignedChars(DFA37_minS);
+		private static readonly char[] DFA37_max = DFA.UnpackEncodedStringToUnsignedChars(DFA37_maxS);
+		private static readonly short[] DFA37_accept = DFA.UnpackEncodedString(DFA37_acceptS);
+		private static readonly short[] DFA37_special = DFA.UnpackEncodedString(DFA37_specialS);
+		private static readonly short[][] DFA37_transition;
 
-		static DFA34()
+		static DFA37()
 		{
-			int numStates = DFA34_transitionS.Length;
-			DFA34_transition = new short[numStates][];
+			int numStates = DFA37_transitionS.Length;
+			DFA37_transition = new short[numStates][];
 			for ( int i=0; i < numStates; i++ )
 			{
-				DFA34_transition[i] = DFA.UnpackEncodedString(DFA34_transitionS[i]);
+				DFA37_transition[i] = DFA.UnpackEncodedString(DFA37_transitionS[i]);
 			}
 		}
 
-		public DFA34( BaseRecognizer recognizer )
+		public DFA37( BaseRecognizer recognizer )
 		{
 			this.recognizer = recognizer;
-			this.decisionNumber = 34;
-			this.eot = DFA34_eot;
-			this.eof = DFA34_eof;
-			this.min = DFA34_min;
-			this.max = DFA34_max;
-			this.accept = DFA34_accept;
-			this.special = DFA34_special;
-			this.transition = DFA34_transition;
+			this.decisionNumber = 37;
+			this.eot = DFA37_eot;
+			this.eof = DFA37_eof;
+			this.min = DFA37_min;
+			this.max = DFA37_max;
+			this.accept = DFA37_accept;
+			this.special = DFA37_special;
+			this.transition = DFA37_transition;
 		}
 
-		public override string Description { get { return "()* loopback of 236:12: ( stmt_using_item )*"; } }
+		public override string Description { get { return "()* loopback of 246:12: ( stmt_using_item )*"; } }
 
 		public override void Error(NoViableAltException nvae)
 		{
@@ -12332,23 +12633,23 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		}
 	}
 
-	private class DFA41 : DFA
+	private class DFA44 : DFA
 	{
-		private const string DFA41_eotS =
+		private const string DFA44_eotS =
 			"\x17\xFFFF";
-		private const string DFA41_eofS =
+		private const string DFA44_eofS =
 			"\x17\xFFFF";
-		private const string DFA41_minS =
+		private const string DFA44_minS =
 			"\x2\x1D\x1\xFFFF\x1\x37\x3\x1D\x2\x37\x1\x3B\x4\x1D\x1\xFFFF\x2\x37\x2"+
 			"\x3B\x2\x1D\x1\x37\x1\x3B";
-		private const string DFA41_maxS =
+		private const string DFA44_maxS =
 			"\x2\x74\x1\xFFFF\x1\x73\x1\x1D\x1\x74\x1\x1D\x2\x73\x1\x5D\x4\x1D\x1"+
 			"\xFFFF\x2\x73\x2\x5D\x2\x1D\x1\x73\x1\x5D";
-		private const string DFA41_acceptS =
+		private const string DFA44_acceptS =
 			"\x2\xFFFF\x1\x2\xB\xFFFF\x1\x1\x8\xFFFF";
-		private const string DFA41_specialS =
+		private const string DFA44_specialS =
 			"\x17\xFFFF}>";
-		private static readonly string[] DFA41_transitionS =
+		private static readonly string[] DFA44_transitionS =
 			{
 				"\x1\x2\x7\xFFFF\x1\x2\x4\xFFFF\x1\x2\xB\xFFFF\x1\x2\x4\xFFFF\x1\x2\x1"+
 				"\xFFFF\x1\x1\x1\xFFFF\x1\x2\x1\xFFFF\x2\x2\x2\xFFFF\x2\x2\x24\xFFFF"+
@@ -12391,38 +12692,38 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				"\x1\xE\x3\xFFFF\x1\xE\x6\xFFFF\x1\xE"
 			};
 
-		private static readonly short[] DFA41_eot = DFA.UnpackEncodedString(DFA41_eotS);
-		private static readonly short[] DFA41_eof = DFA.UnpackEncodedString(DFA41_eofS);
-		private static readonly char[] DFA41_min = DFA.UnpackEncodedStringToUnsignedChars(DFA41_minS);
-		private static readonly char[] DFA41_max = DFA.UnpackEncodedStringToUnsignedChars(DFA41_maxS);
-		private static readonly short[] DFA41_accept = DFA.UnpackEncodedString(DFA41_acceptS);
-		private static readonly short[] DFA41_special = DFA.UnpackEncodedString(DFA41_specialS);
-		private static readonly short[][] DFA41_transition;
+		private static readonly short[] DFA44_eot = DFA.UnpackEncodedString(DFA44_eotS);
+		private static readonly short[] DFA44_eof = DFA.UnpackEncodedString(DFA44_eofS);
+		private static readonly char[] DFA44_min = DFA.UnpackEncodedStringToUnsignedChars(DFA44_minS);
+		private static readonly char[] DFA44_max = DFA.UnpackEncodedStringToUnsignedChars(DFA44_maxS);
+		private static readonly short[] DFA44_accept = DFA.UnpackEncodedString(DFA44_acceptS);
+		private static readonly short[] DFA44_special = DFA.UnpackEncodedString(DFA44_specialS);
+		private static readonly short[][] DFA44_transition;
 
-		static DFA41()
+		static DFA44()
 		{
-			int numStates = DFA41_transitionS.Length;
-			DFA41_transition = new short[numStates][];
+			int numStates = DFA44_transitionS.Length;
+			DFA44_transition = new short[numStates][];
 			for ( int i=0; i < numStates; i++ )
 			{
-				DFA41_transition[i] = DFA.UnpackEncodedString(DFA41_transitionS[i]);
+				DFA44_transition[i] = DFA.UnpackEncodedString(DFA44_transitionS[i]);
 			}
 		}
 
-		public DFA41( BaseRecognizer recognizer )
+		public DFA44( BaseRecognizer recognizer )
 		{
 			this.recognizer = recognizer;
-			this.decisionNumber = 41;
-			this.eot = DFA41_eot;
-			this.eof = DFA41_eof;
-			this.min = DFA41_min;
-			this.max = DFA41_max;
-			this.accept = DFA41_accept;
-			this.special = DFA41_special;
-			this.transition = DFA41_transition;
+			this.decisionNumber = 44;
+			this.eot = DFA44_eot;
+			this.eof = DFA44_eof;
+			this.min = DFA44_min;
+			this.max = DFA44_max;
+			this.accept = DFA44_accept;
+			this.special = DFA44_special;
+			this.transition = DFA44_transition;
 		}
 
-		public override string Description { get { return "281:1: lambda_expr : ( '(' func_args ')' '=>' modify_expr -> ^( Expr_Lambda func_args modify_expr ) | modify_expr );"; } }
+		public override string Description { get { return "291:1: lambda_expr : ( '(' func_args ')' '=>' modify_expr -> ^( Expr_Lambda func_args modify_expr ) | modify_expr );"; } }
 
 		public override void Error(NoViableAltException nvae)
 		{
@@ -12476,248 +12777,257 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		public static readonly BitSet _DEDENT_in_class_def597 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _NEWLINE_in_class_block619 = new BitSet(new ulong[]{0x1020000000UL,0xC52820000000UL});
 		public static readonly BitSet _class_node_in_class_block622 = new BitSet(new ulong[]{0x1020000002UL,0xC52820000000UL});
-		public static readonly BitSet _93_in_attribute634 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _ident_in_attribute636 = new BitSet(new ulong[]{0x0UL,0x40000010UL});
-		public static readonly BitSet _68_in_attribute639 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _ident_in_attribute641 = new BitSet(new ulong[]{0x0UL,0x40000010UL});
-		public static readonly BitSet _94_in_attribute645 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _attribute_in_class_node666 = new BitSet(new ulong[]{0x1000000000UL});
-		public static readonly BitSet _NEWLINE_in_class_node668 = new BitSet(new ulong[]{0x1020000000UL,0xC52820000000UL});
-		public static readonly BitSet _node_in_class_node674 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _63_in_type_name_op683 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _93_in_type_name_op687 = new BitSet(new ulong[]{0x0UL,0x40000000UL});
-		public static readonly BitSet _94_in_type_name_op689 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _59_in_type_name_op693 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _ident_in_type_name702 = new BitSet(new ulong[]{0x8800000000000002UL,0x20040000UL});
-		public static readonly BitSet _82_in_type_name705 = new BitSet(new ulong[]{0x20000000UL,0x2000000UL});
-		public static readonly BitSet _type_name_in_type_name708 = new BitSet(new ulong[]{0x0UL,0x2000010UL});
-		public static readonly BitSet _68_in_type_name711 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _type_name_in_type_name713 = new BitSet(new ulong[]{0x0UL,0x2000010UL});
-		public static readonly BitSet _89_in_type_name719 = new BitSet(new ulong[]{0x8800000000000002UL,0x20000000UL});
-		public static readonly BitSet _type_name_op_in_type_name723 = new BitSet(new ulong[]{0x8800000000000002UL,0x20000000UL});
-		public static readonly BitSet _82_in_generic_parameter757 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _ident_in_generic_parameter759 = new BitSet(new ulong[]{0x0UL,0x2000010UL});
-		public static readonly BitSet _68_in_generic_parameter762 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _ident_in_generic_parameter765 = new BitSet(new ulong[]{0x0UL,0x2000010UL});
-		public static readonly BitSet _89_in_generic_parameter769 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _stmt_alloc_in_func_args780 = new BitSet(new ulong[]{0x2UL,0x10UL});
-		public static readonly BitSet _68_in_func_args783 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _stmt_alloc_in_func_args785 = new BitSet(new ulong[]{0x2UL,0x10UL});
-		public static readonly BitSet _type_name_in_func_def807 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _ident_in_func_def809 = new BitSet(new ulong[]{0x2000000000000000UL,0x40000UL});
-		public static readonly BitSet _generic_parameter_in_func_def811 = new BitSet(new ulong[]{0x2000000000000000UL});
-		public static readonly BitSet _61_in_func_def814 = new BitSet(new ulong[]{0x4000000020000000UL});
-		public static readonly BitSet _func_args_in_func_def816 = new BitSet(new ulong[]{0x4000000000000000UL});
-		public static readonly BitSet _62_in_func_def819 = new BitSet(new ulong[]{0x40000000UL,0x400000UL});
-		public static readonly BitSet _stmt_block_in_func_def823 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _86_in_func_def827 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _expr_in_func_def829 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _INDENT_in_stmt_block845 = new BitSet(new ulong[]{0x1000000100UL});
-		public static readonly BitSet _NEWLINE_in_stmt_block848 = new BitSet(new ulong[]{0x2000001020000000UL,0x1F0C000000000UL});
-		public static readonly BitSet _stmt_in_stmt_block851 = new BitSet(new ulong[]{0x1000000100UL});
-		public static readonly BitSet _NEWLINE_in_stmt_block855 = new BitSet(new ulong[]{0x1000000100UL});
-		public static readonly BitSet _DEDENT_in_stmt_block858 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _stmt_expr_in_stmt878 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _stmt_if_in_stmt883 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _stmt_for_in_stmt888 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _stmt_while_in_stmt893 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _stmt_try_in_stmt898 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _stmt_alloc_in_stmt_expr909 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _stmt_return_in_stmt_expr914 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _stmt_using_in_stmt_expr919 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _stmt_typedef_in_stmt_expr924 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _stmt_modify_in_stmt_expr929 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _110_in_stmt_typedef940 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _ident_in_stmt_typedef942 = new BitSet(new ulong[]{0x0UL,0x400000UL});
-		public static readonly BitSet _86_in_stmt_typedef944 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _type_name_in_stmt_typedef946 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _ident_in_stmt_using_item965 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _106_in_stmt_using_item969 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _111_in_stmt_using977 = new BitSet(new ulong[]{0x20000002UL,0x40000000000UL});
-		public static readonly BitSet _stmt_using_item_in_stmt_using979 = new BitSet(new ulong[]{0x20000002UL,0x40000000000UL});
-		public static readonly BitSet _108_in_stmt_return1000 = new BitSet(new ulong[]{0xA840042020000002UL,0x10080000000066UL});
-		public static readonly BitSet _expr_in_stmt_return1002 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _103_in_stmt_if1023 = new BitSet(new ulong[]{0x2000000000000000UL});
-		public static readonly BitSet _61_in_stmt_if1025 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _expr_in_stmt_if1027 = new BitSet(new ulong[]{0x4000000000000000UL});
-		public static readonly BitSet _62_in_stmt_if1029 = new BitSet(new ulong[]{0x40000000UL});
-		public static readonly BitSet _stmt_block_in_stmt_if1031 = new BitSet(new ulong[]{0x2UL,0x1000000000UL});
-		public static readonly BitSet _100_in_stmt_if1034 = new BitSet(new ulong[]{0x40000000UL});
-		public static readonly BitSet _stmt_block_in_stmt_if1036 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _112_in_stmt_while1062 = new BitSet(new ulong[]{0x2000000000000000UL});
-		public static readonly BitSet _61_in_stmt_while1064 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _expr_in_stmt_while1066 = new BitSet(new ulong[]{0x4000000000000000UL});
-		public static readonly BitSet _62_in_stmt_while1068 = new BitSet(new ulong[]{0x40000000UL});
-		public static readonly BitSet _stmt_block_in_stmt_while1070 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _102_in_stmt_for1096 = new BitSet(new ulong[]{0x2000000000000000UL});
-		public static readonly BitSet _61_in_stmt_for1098 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _expr_in_stmt_for1100 = new BitSet(new ulong[]{0x0UL,0x20000020000UL});
-		public static readonly BitSet _81_in_stmt_for1103 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _expr_in_stmt_for1105 = new BitSet(new ulong[]{0x0UL,0x20000UL});
-		public static readonly BitSet _81_in_stmt_for1107 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _expr_in_stmt_for1109 = new BitSet(new ulong[]{0x4000000000000000UL});
-		public static readonly BitSet _105_in_stmt_for1115 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _expr_in_stmt_for1117 = new BitSet(new ulong[]{0x4000000000000000UL});
-		public static readonly BitSet _62_in_stmt_for1122 = new BitSet(new ulong[]{0x40000000UL});
-		public static readonly BitSet _stmt_block_in_stmt_for1124 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _109_in_stmt_try1169 = new BitSet(new ulong[]{0x40000000UL});
-		public static readonly BitSet _stmt_block_in_stmt_try1171 = new BitSet(new ulong[]{0x0UL,0x400000000UL});
-		public static readonly BitSet _98_in_stmt_try1173 = new BitSet(new ulong[]{0x2000000000000000UL});
-		public static readonly BitSet _61_in_stmt_try1175 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _expr_in_stmt_try1177 = new BitSet(new ulong[]{0x4000000000000000UL});
-		public static readonly BitSet _62_in_stmt_try1179 = new BitSet(new ulong[]{0x40000000UL});
-		public static readonly BitSet _stmt_block_in_stmt_try1181 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _ident_in_ident_list1204 = new BitSet(new ulong[]{0x2UL,0x10UL});
-		public static readonly BitSet _68_in_ident_list1207 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _ident_in_ident_list1209 = new BitSet(new ulong[]{0x2UL,0x10UL});
-		public static readonly BitSet _ident_list_in_stmt_alloc1231 = new BitSet(new ulong[]{0x0UL,0x4000UL});
-		public static readonly BitSet _78_in_stmt_alloc1233 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _type_name_in_stmt_alloc1235 = new BitSet(new ulong[]{0x2UL,0x400000UL});
-		public static readonly BitSet _86_in_stmt_alloc1238 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _expr_in_stmt_alloc1240 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _lvalue_in_stmt_modify1266 = new BitSet(new ulong[]{0x1200000000000002UL,0x4000110512089UL});
-		public static readonly BitSet _modify_expr_op_in_stmt_modify1269 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _cond_expr_in_stmt_modify1272 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _lambda_expr_in_expr1285 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _61_in_lambda_expr1296 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _func_args_in_lambda_expr1298 = new BitSet(new ulong[]{0x4000000000000000UL});
-		public static readonly BitSet _62_in_lambda_expr1300 = new BitSet(new ulong[]{0x0UL,0x1000000UL});
-		public static readonly BitSet _88_in_lambda_expr1302 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _modify_expr_in_lambda_expr1304 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _modify_expr_in_lambda_expr1319 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _cond_expr_in_modify_expr1381 = new BitSet(new ulong[]{0x1200000000000002UL,0x4000110512089UL});
-		public static readonly BitSet _modify_expr_op_in_modify_expr1384 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _modify_expr_in_modify_expr1387 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _cond_expr_in_cond_expr_item1398 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _or_expr_in_cond_expr1410 = new BitSet(new ulong[]{0x2UL,0x8000000000UL});
-		public static readonly BitSet _103_in_cond_expr1419 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _cond_expr_item_in_cond_expr1423 = new BitSet(new ulong[]{0x0UL,0x1000000000UL});
-		public static readonly BitSet _100_in_cond_expr1425 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _cond_expr_item_in_cond_expr1429 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _and_expr_in_or_expr1460 = new BitSet(new ulong[]{0x2UL,0x8000000000000UL});
-		public static readonly BitSet _115_in_or_expr1469 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _and_expr_in_or_expr1473 = new BitSet(new ulong[]{0x2UL,0x8000000000000UL});
-		public static readonly BitSet _bit_or_in_and_expr1503 = new BitSet(new ulong[]{0x400000000000002UL});
-		public static readonly BitSet _58_in_and_expr1512 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _bit_or_in_and_expr1516 = new BitSet(new ulong[]{0x400000000000002UL});
-		public static readonly BitSet _bit_xor_in_bit_or1546 = new BitSet(new ulong[]{0x2UL,0x2000000000000UL});
-		public static readonly BitSet _113_in_bit_or1555 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _bit_xor_in_bit_or1559 = new BitSet(new ulong[]{0x2UL,0x2000000000000UL});
-		public static readonly BitSet _bit_and_in_bit_xor1589 = new BitSet(new ulong[]{0x2UL,0x80000000UL});
-		public static readonly BitSet _95_in_bit_xor1598 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _bit_and_in_bit_xor1602 = new BitSet(new ulong[]{0x2UL,0x80000000UL});
-		public static readonly BitSet _cmp_equ_expr_in_bit_and1632 = new BitSet(new ulong[]{0x800000000000002UL});
-		public static readonly BitSet _59_in_bit_and1641 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _cmp_equ_expr_in_bit_and1645 = new BitSet(new ulong[]{0x800000000000002UL});
-		public static readonly BitSet _cmp_expr_in_cmp_equ_expr1686 = new BitSet(new ulong[]{0x80000000000002UL,0x800000UL});
-		public static readonly BitSet _cmp_equ_expr_op_in_cmp_equ_expr1695 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _cmp_expr_in_cmp_equ_expr1699 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _shift_expr_in_cmp_expr1749 = new BitSet(new ulong[]{0x2UL,0x6240000UL});
-		public static readonly BitSet _cmp_expr_op_in_cmp_expr1758 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _shift_expr_in_cmp_expr1762 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _add_expr_in_shift_expr1803 = new BitSet(new ulong[]{0x2UL,0x8080000UL});
-		public static readonly BitSet _shift_expr_op_in_shift_expr1812 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _add_expr_in_shift_expr1816 = new BitSet(new ulong[]{0x2UL,0x8080000UL});
-		public static readonly BitSet _infix_expr_in_add_expr1846 = new BitSet(new ulong[]{0x2UL,0x22UL});
-		public static readonly BitSet _65_in_add_expr1856 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _infix_expr_in_add_expr1860 = new BitSet(new ulong[]{0x2UL,0x22UL});
-		public static readonly BitSet _69_in_add_expr1887 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _infix_expr_in_add_expr1891 = new BitSet(new ulong[]{0x2UL,0x22UL});
-		public static readonly BitSet _mul_expr_in_infix_expr1931 = new BitSet(new ulong[]{0x2UL,0x200000000UL});
-		public static readonly BitSet _infix_func_in_infix_expr1941 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _mul_expr_in_infix_expr1945 = new BitSet(new ulong[]{0x2UL,0x200000000UL});
-		public static readonly BitSet _selector_expr_in_mul_expr1977 = new BitSet(new ulong[]{0x8100000000000002UL,0x1000UL});
-		public static readonly BitSet _63_in_mul_expr1987 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _selector_expr_in_mul_expr1991 = new BitSet(new ulong[]{0x8100000000000002UL,0x1000UL});
-		public static readonly BitSet _76_in_mul_expr2021 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _selector_expr_in_mul_expr2025 = new BitSet(new ulong[]{0x8100000000000002UL,0x1000UL});
-		public static readonly BitSet _56_in_mul_expr2055 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _selector_expr_in_mul_expr2059 = new BitSet(new ulong[]{0x8100000000000002UL,0x1000UL});
-		public static readonly BitSet _prefix_expr_in_selector_expr2102 = new BitSet(new ulong[]{0x2UL,0xA00UL});
-		public static readonly BitSet _73_in_selector_expr2112 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _ident_in_selector_expr2116 = new BitSet(new ulong[]{0x2UL,0xA00UL});
-		public static readonly BitSet _75_in_selector_expr2144 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _ident_in_selector_expr2149 = new BitSet(new ulong[]{0x2UL,0xA00UL});
-		public static readonly BitSet _prefix_expr_op_in_prefix_expr2224 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _prefix_expr_in_prefix_expr2226 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _107_in_prefix_expr2242 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _type_name_in_prefix_expr2244 = new BitSet(new ulong[]{0x2000000000000000UL,0x20000000UL});
-		public static readonly BitSet _61_in_prefix_expr2248 = new BitSet(new ulong[]{0xE840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _expr_list_in_prefix_expr2250 = new BitSet(new ulong[]{0x4000000000000000UL});
-		public static readonly BitSet _62_in_prefix_expr2253 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _93_in_prefix_expr2275 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _expr_list_in_prefix_expr2277 = new BitSet(new ulong[]{0x0UL,0x40000000UL});
-		public static readonly BitSet _94_in_prefix_expr2279 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _suffix_expr_in_prefix_expr2295 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _expr_in_expr_list2307 = new BitSet(new ulong[]{0x2UL,0x10UL});
-		public static readonly BitSet _68_in_expr_list2310 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _expr_in_expr_list2313 = new BitSet(new ulong[]{0x2UL,0x10UL});
-		public static readonly BitSet _atom_expr_in_suffix_expr2329 = new BitSet(new ulong[]{0x2000000000000002UL,0x2004C544UL});
-		public static readonly BitSet _66_in_suffix_expr2339 = new BitSet(new ulong[]{0x2000000000000002UL,0x2004C544UL});
-		public static readonly BitSet _70_in_suffix_expr2365 = new BitSet(new ulong[]{0x2000000000000002UL,0x2004C544UL});
-		public static readonly BitSet _74_in_suffix_expr2388 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _ident_in_suffix_expr2390 = new BitSet(new ulong[]{0x2000000000000002UL,0x2004C544UL});
-		public static readonly BitSet _72_in_suffix_expr2415 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _ident_in_suffix_expr2417 = new BitSet(new ulong[]{0x2000000000000002UL,0x2004C544UL});
-		public static readonly BitSet _79_in_suffix_expr2442 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _ident_in_suffix_expr2444 = new BitSet(new ulong[]{0x2000000000000002UL,0x2004C544UL});
-		public static readonly BitSet _generic_parameter_in_suffix_expr2469 = new BitSet(new ulong[]{0x2000000000000000UL});
-		public static readonly BitSet _61_in_suffix_expr2472 = new BitSet(new ulong[]{0xE840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _expr_list_in_suffix_expr2474 = new BitSet(new ulong[]{0x4000000000000000UL});
-		public static readonly BitSet _62_in_suffix_expr2477 = new BitSet(new ulong[]{0x2000000000000002UL,0x2004C544UL});
-		public static readonly BitSet _93_in_suffix_expr2504 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080040000066UL});
-		public static readonly BitSet _expr_list_in_suffix_expr2506 = new BitSet(new ulong[]{0x0UL,0x40000000UL});
-		public static readonly BitSet _94_in_suffix_expr2509 = new BitSet(new ulong[]{0x2000000000000002UL,0x2004C544UL});
-		public static readonly BitSet _78_in_suffix_expr2533 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _ident_in_suffix_expr2535 = new BitSet(new ulong[]{0x2000000000000000UL});
-		public static readonly BitSet _61_in_suffix_expr2537 = new BitSet(new ulong[]{0xE840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _expr_list_in_suffix_expr2539 = new BitSet(new ulong[]{0x4000000000000000UL});
-		public static readonly BitSet _62_in_suffix_expr2542 = new BitSet(new ulong[]{0x2000000000000002UL,0x2004C544UL});
-		public static readonly BitSet _NUMBER_in_atom_expr2586 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _ident_in_atom_expr2591 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _STRING_in_atom_expr2596 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _61_in_atom_expr2601 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _expr_in_atom_expr2603 = new BitSet(new ulong[]{0x4000000000000000UL,0x10UL});
-		public static readonly BitSet _68_in_atom_expr2606 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _expr_in_atom_expr2608 = new BitSet(new ulong[]{0x4000000000000000UL,0x10UL});
-		public static readonly BitSet _62_in_atom_expr2615 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _lvalue_atom_in_lvalue2652 = new BitSet(new ulong[]{0x2000000000000002UL,0x20048544UL});
-		public static readonly BitSet _66_in_lvalue2662 = new BitSet(new ulong[]{0x2000000000000002UL,0x20048544UL});
-		public static readonly BitSet _70_in_lvalue2690 = new BitSet(new ulong[]{0x2000000000000002UL,0x20048544UL});
-		public static readonly BitSet _74_in_lvalue2715 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _ident_in_lvalue2717 = new BitSet(new ulong[]{0x2000000000000002UL,0x20048544UL});
-		public static readonly BitSet _72_in_lvalue2744 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _ident_in_lvalue2746 = new BitSet(new ulong[]{0x2000000000000002UL,0x20048544UL});
-		public static readonly BitSet _79_in_lvalue2773 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _ident_in_lvalue2775 = new BitSet(new ulong[]{0x2000000000000002UL,0x20048544UL});
-		public static readonly BitSet _generic_parameter_in_lvalue2802 = new BitSet(new ulong[]{0x2000000000000000UL});
-		public static readonly BitSet _61_in_lvalue2805 = new BitSet(new ulong[]{0xE840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _expr_list_in_lvalue2807 = new BitSet(new ulong[]{0x4000000000000000UL});
-		public static readonly BitSet _62_in_lvalue2810 = new BitSet(new ulong[]{0x2000000000000002UL,0x20048544UL});
-		public static readonly BitSet _93_in_lvalue2839 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080040000066UL});
-		public static readonly BitSet _expr_list_in_lvalue2841 = new BitSet(new ulong[]{0x0UL,0x40000000UL});
-		public static readonly BitSet _94_in_lvalue2844 = new BitSet(new ulong[]{0x2000000000000002UL,0x20048544UL});
-		public static readonly BitSet _61_in_lvalue_atom2883 = new BitSet(new ulong[]{0x6000000020000000UL});
-		public static readonly BitSet _lvalue_in_lvalue_atom2886 = new BitSet(new ulong[]{0x4000000000000000UL,0x10UL});
-		public static readonly BitSet _68_in_lvalue_atom2889 = new BitSet(new ulong[]{0x2000000020000000UL});
-		public static readonly BitSet _lvalue_in_lvalue_atom2891 = new BitSet(new ulong[]{0x4000000000000000UL,0x10UL});
-		public static readonly BitSet _62_in_lvalue_atom2897 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _ident_in_lvalue_atom2911 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _IDENT_in_ident2922 = new BitSet(new ulong[]{0x2UL,0x8000UL});
-		public static readonly BitSet _79_in_ident2925 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _IDENT_in_ident2927 = new BitSet(new ulong[]{0x2UL,0x8000UL});
-		public static readonly BitSet _97_in_infix_func2940 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _ident_in_infix_func2943 = new BitSet(new ulong[]{0x0UL,0x200000000UL});
-		public static readonly BitSet _97_in_infix_func2945 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _generic_parameter_in_synpred108_SugarCpp2469 = new BitSet(new ulong[]{0x2000000000000000UL});
-		public static readonly BitSet _61_in_synpred108_SugarCpp2472 = new BitSet(new ulong[]{0xE840042020000000UL,0x10080000000066UL});
-		public static readonly BitSet _expr_list_in_synpred108_SugarCpp2474 = new BitSet(new ulong[]{0x4000000000000000UL});
-		public static readonly BitSet _62_in_synpred108_SugarCpp2477 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _93_in_synpred110_SugarCpp2504 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080040000066UL});
-		public static readonly BitSet _expr_list_in_synpred110_SugarCpp2506 = new BitSet(new ulong[]{0x0UL,0x40000000UL});
-		public static readonly BitSet _94_in_synpred110_SugarCpp2509 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _79_in_synpred130_SugarCpp2925 = new BitSet(new ulong[]{0x20000000UL});
-		public static readonly BitSet _IDENT_in_synpred130_SugarCpp2927 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _NUMBER_in_attribute_args636 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _STRING_in_attribute_args641 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _ident_in_attribute_args646 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _ident_in_attribute_item657 = new BitSet(new ulong[]{0x2000000000000002UL});
+		public static readonly BitSet _61_in_attribute_item660 = new BitSet(new ulong[]{0x42020000000UL});
+		public static readonly BitSet _attribute_args_in_attribute_item662 = new BitSet(new ulong[]{0x4000000000000000UL,0x10UL});
+		public static readonly BitSet _68_in_attribute_item665 = new BitSet(new ulong[]{0x42020000000UL});
+		public static readonly BitSet _attribute_args_in_attribute_item668 = new BitSet(new ulong[]{0x4000000000000000UL,0x10UL});
+		public static readonly BitSet _62_in_attribute_item672 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _93_in_attribute684 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _attribute_item_in_attribute686 = new BitSet(new ulong[]{0x0UL,0x40000010UL});
+		public static readonly BitSet _68_in_attribute689 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _attribute_item_in_attribute691 = new BitSet(new ulong[]{0x0UL,0x40000010UL});
+		public static readonly BitSet _94_in_attribute695 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _attribute_in_class_node716 = new BitSet(new ulong[]{0x1000000000UL});
+		public static readonly BitSet _NEWLINE_in_class_node718 = new BitSet(new ulong[]{0x1020000000UL,0xC52820000000UL});
+		public static readonly BitSet _node_in_class_node724 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _63_in_type_name_op733 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _93_in_type_name_op737 = new BitSet(new ulong[]{0x0UL,0x40000000UL});
+		public static readonly BitSet _94_in_type_name_op739 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _59_in_type_name_op743 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _ident_in_type_name752 = new BitSet(new ulong[]{0x8800000000000002UL,0x20040000UL});
+		public static readonly BitSet _82_in_type_name755 = new BitSet(new ulong[]{0x20000000UL,0x2000000UL});
+		public static readonly BitSet _type_name_in_type_name758 = new BitSet(new ulong[]{0x0UL,0x2000010UL});
+		public static readonly BitSet _68_in_type_name761 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _type_name_in_type_name763 = new BitSet(new ulong[]{0x0UL,0x2000010UL});
+		public static readonly BitSet _89_in_type_name769 = new BitSet(new ulong[]{0x8800000000000002UL,0x20000000UL});
+		public static readonly BitSet _type_name_op_in_type_name773 = new BitSet(new ulong[]{0x8800000000000002UL,0x20000000UL});
+		public static readonly BitSet _82_in_generic_parameter807 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _ident_in_generic_parameter809 = new BitSet(new ulong[]{0x0UL,0x2000010UL});
+		public static readonly BitSet _68_in_generic_parameter812 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _ident_in_generic_parameter815 = new BitSet(new ulong[]{0x0UL,0x2000010UL});
+		public static readonly BitSet _89_in_generic_parameter819 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _stmt_alloc_in_func_args830 = new BitSet(new ulong[]{0x2UL,0x10UL});
+		public static readonly BitSet _68_in_func_args833 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _stmt_alloc_in_func_args835 = new BitSet(new ulong[]{0x2UL,0x10UL});
+		public static readonly BitSet _type_name_in_func_def857 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _ident_in_func_def859 = new BitSet(new ulong[]{0x2000000000000000UL,0x40000UL});
+		public static readonly BitSet _generic_parameter_in_func_def861 = new BitSet(new ulong[]{0x2000000000000000UL});
+		public static readonly BitSet _61_in_func_def864 = new BitSet(new ulong[]{0x4000000020000000UL});
+		public static readonly BitSet _func_args_in_func_def866 = new BitSet(new ulong[]{0x4000000000000000UL});
+		public static readonly BitSet _62_in_func_def869 = new BitSet(new ulong[]{0x40000000UL,0x400000UL});
+		public static readonly BitSet _stmt_block_in_func_def873 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _86_in_func_def877 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _expr_in_func_def879 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _INDENT_in_stmt_block895 = new BitSet(new ulong[]{0x1000000100UL});
+		public static readonly BitSet _NEWLINE_in_stmt_block898 = new BitSet(new ulong[]{0x2000001020000000UL,0x1F0C000000000UL});
+		public static readonly BitSet _stmt_in_stmt_block901 = new BitSet(new ulong[]{0x1000000100UL});
+		public static readonly BitSet _NEWLINE_in_stmt_block905 = new BitSet(new ulong[]{0x1000000100UL});
+		public static readonly BitSet _DEDENT_in_stmt_block908 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _stmt_expr_in_stmt928 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _stmt_if_in_stmt933 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _stmt_for_in_stmt938 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _stmt_while_in_stmt943 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _stmt_try_in_stmt948 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _stmt_alloc_in_stmt_expr959 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _stmt_return_in_stmt_expr964 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _stmt_using_in_stmt_expr969 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _stmt_typedef_in_stmt_expr974 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _stmt_modify_in_stmt_expr979 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _110_in_stmt_typedef990 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _ident_in_stmt_typedef992 = new BitSet(new ulong[]{0x0UL,0x400000UL});
+		public static readonly BitSet _86_in_stmt_typedef994 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _type_name_in_stmt_typedef996 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _ident_in_stmt_using_item1015 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _106_in_stmt_using_item1019 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _111_in_stmt_using1027 = new BitSet(new ulong[]{0x20000002UL,0x40000000000UL});
+		public static readonly BitSet _stmt_using_item_in_stmt_using1029 = new BitSet(new ulong[]{0x20000002UL,0x40000000000UL});
+		public static readonly BitSet _108_in_stmt_return1050 = new BitSet(new ulong[]{0xA840042020000002UL,0x10080000000066UL});
+		public static readonly BitSet _expr_in_stmt_return1052 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _103_in_stmt_if1073 = new BitSet(new ulong[]{0x2000000000000000UL});
+		public static readonly BitSet _61_in_stmt_if1075 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _expr_in_stmt_if1077 = new BitSet(new ulong[]{0x4000000000000000UL});
+		public static readonly BitSet _62_in_stmt_if1079 = new BitSet(new ulong[]{0x40000000UL});
+		public static readonly BitSet _stmt_block_in_stmt_if1081 = new BitSet(new ulong[]{0x2UL,0x1000000000UL});
+		public static readonly BitSet _100_in_stmt_if1084 = new BitSet(new ulong[]{0x40000000UL});
+		public static readonly BitSet _stmt_block_in_stmt_if1086 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _112_in_stmt_while1112 = new BitSet(new ulong[]{0x2000000000000000UL});
+		public static readonly BitSet _61_in_stmt_while1114 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _expr_in_stmt_while1116 = new BitSet(new ulong[]{0x4000000000000000UL});
+		public static readonly BitSet _62_in_stmt_while1118 = new BitSet(new ulong[]{0x40000000UL});
+		public static readonly BitSet _stmt_block_in_stmt_while1120 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _102_in_stmt_for1146 = new BitSet(new ulong[]{0x2000000000000000UL});
+		public static readonly BitSet _61_in_stmt_for1148 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _expr_in_stmt_for1150 = new BitSet(new ulong[]{0x0UL,0x20000020000UL});
+		public static readonly BitSet _81_in_stmt_for1153 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _expr_in_stmt_for1155 = new BitSet(new ulong[]{0x0UL,0x20000UL});
+		public static readonly BitSet _81_in_stmt_for1157 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _expr_in_stmt_for1159 = new BitSet(new ulong[]{0x4000000000000000UL});
+		public static readonly BitSet _105_in_stmt_for1165 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _expr_in_stmt_for1167 = new BitSet(new ulong[]{0x4000000000000000UL});
+		public static readonly BitSet _62_in_stmt_for1172 = new BitSet(new ulong[]{0x40000000UL});
+		public static readonly BitSet _stmt_block_in_stmt_for1174 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _109_in_stmt_try1219 = new BitSet(new ulong[]{0x40000000UL});
+		public static readonly BitSet _stmt_block_in_stmt_try1221 = new BitSet(new ulong[]{0x0UL,0x400000000UL});
+		public static readonly BitSet _98_in_stmt_try1223 = new BitSet(new ulong[]{0x2000000000000000UL});
+		public static readonly BitSet _61_in_stmt_try1225 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _expr_in_stmt_try1227 = new BitSet(new ulong[]{0x4000000000000000UL});
+		public static readonly BitSet _62_in_stmt_try1229 = new BitSet(new ulong[]{0x40000000UL});
+		public static readonly BitSet _stmt_block_in_stmt_try1231 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _ident_in_ident_list1254 = new BitSet(new ulong[]{0x2UL,0x10UL});
+		public static readonly BitSet _68_in_ident_list1257 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _ident_in_ident_list1259 = new BitSet(new ulong[]{0x2UL,0x10UL});
+		public static readonly BitSet _ident_list_in_stmt_alloc1281 = new BitSet(new ulong[]{0x0UL,0x4000UL});
+		public static readonly BitSet _78_in_stmt_alloc1283 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _type_name_in_stmt_alloc1285 = new BitSet(new ulong[]{0x2UL,0x400000UL});
+		public static readonly BitSet _86_in_stmt_alloc1288 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _expr_in_stmt_alloc1290 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _lvalue_in_stmt_modify1316 = new BitSet(new ulong[]{0x1200000000000002UL,0x4000110512089UL});
+		public static readonly BitSet _modify_expr_op_in_stmt_modify1319 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _cond_expr_in_stmt_modify1322 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _lambda_expr_in_expr1335 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _61_in_lambda_expr1346 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _func_args_in_lambda_expr1348 = new BitSet(new ulong[]{0x4000000000000000UL});
+		public static readonly BitSet _62_in_lambda_expr1350 = new BitSet(new ulong[]{0x0UL,0x1000000UL});
+		public static readonly BitSet _88_in_lambda_expr1352 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _modify_expr_in_lambda_expr1354 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _modify_expr_in_lambda_expr1369 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _cond_expr_in_modify_expr1431 = new BitSet(new ulong[]{0x1200000000000002UL,0x4000110512089UL});
+		public static readonly BitSet _modify_expr_op_in_modify_expr1434 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _modify_expr_in_modify_expr1437 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _cond_expr_in_cond_expr_item1448 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _or_expr_in_cond_expr1460 = new BitSet(new ulong[]{0x2UL,0x8000000000UL});
+		public static readonly BitSet _103_in_cond_expr1469 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _cond_expr_item_in_cond_expr1473 = new BitSet(new ulong[]{0x0UL,0x1000000000UL});
+		public static readonly BitSet _100_in_cond_expr1475 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _cond_expr_item_in_cond_expr1479 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _and_expr_in_or_expr1510 = new BitSet(new ulong[]{0x2UL,0x8000000000000UL});
+		public static readonly BitSet _115_in_or_expr1519 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _and_expr_in_or_expr1523 = new BitSet(new ulong[]{0x2UL,0x8000000000000UL});
+		public static readonly BitSet _bit_or_in_and_expr1553 = new BitSet(new ulong[]{0x400000000000002UL});
+		public static readonly BitSet _58_in_and_expr1562 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _bit_or_in_and_expr1566 = new BitSet(new ulong[]{0x400000000000002UL});
+		public static readonly BitSet _bit_xor_in_bit_or1596 = new BitSet(new ulong[]{0x2UL,0x2000000000000UL});
+		public static readonly BitSet _113_in_bit_or1605 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _bit_xor_in_bit_or1609 = new BitSet(new ulong[]{0x2UL,0x2000000000000UL});
+		public static readonly BitSet _bit_and_in_bit_xor1639 = new BitSet(new ulong[]{0x2UL,0x80000000UL});
+		public static readonly BitSet _95_in_bit_xor1648 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _bit_and_in_bit_xor1652 = new BitSet(new ulong[]{0x2UL,0x80000000UL});
+		public static readonly BitSet _cmp_equ_expr_in_bit_and1682 = new BitSet(new ulong[]{0x800000000000002UL});
+		public static readonly BitSet _59_in_bit_and1691 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _cmp_equ_expr_in_bit_and1695 = new BitSet(new ulong[]{0x800000000000002UL});
+		public static readonly BitSet _cmp_expr_in_cmp_equ_expr1736 = new BitSet(new ulong[]{0x80000000000002UL,0x800000UL});
+		public static readonly BitSet _cmp_equ_expr_op_in_cmp_equ_expr1745 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _cmp_expr_in_cmp_equ_expr1749 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _shift_expr_in_cmp_expr1799 = new BitSet(new ulong[]{0x2UL,0x6240000UL});
+		public static readonly BitSet _cmp_expr_op_in_cmp_expr1808 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _shift_expr_in_cmp_expr1812 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _add_expr_in_shift_expr1853 = new BitSet(new ulong[]{0x2UL,0x8080000UL});
+		public static readonly BitSet _shift_expr_op_in_shift_expr1862 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _add_expr_in_shift_expr1866 = new BitSet(new ulong[]{0x2UL,0x8080000UL});
+		public static readonly BitSet _infix_expr_in_add_expr1896 = new BitSet(new ulong[]{0x2UL,0x22UL});
+		public static readonly BitSet _65_in_add_expr1906 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _infix_expr_in_add_expr1910 = new BitSet(new ulong[]{0x2UL,0x22UL});
+		public static readonly BitSet _69_in_add_expr1937 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _infix_expr_in_add_expr1941 = new BitSet(new ulong[]{0x2UL,0x22UL});
+		public static readonly BitSet _mul_expr_in_infix_expr1981 = new BitSet(new ulong[]{0x2UL,0x200000000UL});
+		public static readonly BitSet _infix_func_in_infix_expr1991 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _mul_expr_in_infix_expr1995 = new BitSet(new ulong[]{0x2UL,0x200000000UL});
+		public static readonly BitSet _selector_expr_in_mul_expr2027 = new BitSet(new ulong[]{0x8100000000000002UL,0x1000UL});
+		public static readonly BitSet _63_in_mul_expr2037 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _selector_expr_in_mul_expr2041 = new BitSet(new ulong[]{0x8100000000000002UL,0x1000UL});
+		public static readonly BitSet _76_in_mul_expr2071 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _selector_expr_in_mul_expr2075 = new BitSet(new ulong[]{0x8100000000000002UL,0x1000UL});
+		public static readonly BitSet _56_in_mul_expr2105 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _selector_expr_in_mul_expr2109 = new BitSet(new ulong[]{0x8100000000000002UL,0x1000UL});
+		public static readonly BitSet _prefix_expr_in_selector_expr2152 = new BitSet(new ulong[]{0x2UL,0xA00UL});
+		public static readonly BitSet _73_in_selector_expr2162 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _ident_in_selector_expr2166 = new BitSet(new ulong[]{0x2UL,0xA00UL});
+		public static readonly BitSet _75_in_selector_expr2194 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _ident_in_selector_expr2199 = new BitSet(new ulong[]{0x2UL,0xA00UL});
+		public static readonly BitSet _prefix_expr_op_in_prefix_expr2274 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _prefix_expr_in_prefix_expr2276 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _107_in_prefix_expr2292 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _type_name_in_prefix_expr2294 = new BitSet(new ulong[]{0x2000000000000000UL,0x20000000UL});
+		public static readonly BitSet _61_in_prefix_expr2298 = new BitSet(new ulong[]{0xE840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _expr_list_in_prefix_expr2300 = new BitSet(new ulong[]{0x4000000000000000UL});
+		public static readonly BitSet _62_in_prefix_expr2303 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _93_in_prefix_expr2325 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _expr_list_in_prefix_expr2327 = new BitSet(new ulong[]{0x0UL,0x40000000UL});
+		public static readonly BitSet _94_in_prefix_expr2329 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _suffix_expr_in_prefix_expr2345 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _expr_in_expr_list2357 = new BitSet(new ulong[]{0x2UL,0x10UL});
+		public static readonly BitSet _68_in_expr_list2360 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _expr_in_expr_list2363 = new BitSet(new ulong[]{0x2UL,0x10UL});
+		public static readonly BitSet _atom_expr_in_suffix_expr2379 = new BitSet(new ulong[]{0x2000000000000002UL,0x2004C544UL});
+		public static readonly BitSet _66_in_suffix_expr2389 = new BitSet(new ulong[]{0x2000000000000002UL,0x2004C544UL});
+		public static readonly BitSet _70_in_suffix_expr2415 = new BitSet(new ulong[]{0x2000000000000002UL,0x2004C544UL});
+		public static readonly BitSet _74_in_suffix_expr2438 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _ident_in_suffix_expr2440 = new BitSet(new ulong[]{0x2000000000000002UL,0x2004C544UL});
+		public static readonly BitSet _72_in_suffix_expr2465 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _ident_in_suffix_expr2467 = new BitSet(new ulong[]{0x2000000000000002UL,0x2004C544UL});
+		public static readonly BitSet _79_in_suffix_expr2492 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _ident_in_suffix_expr2494 = new BitSet(new ulong[]{0x2000000000000002UL,0x2004C544UL});
+		public static readonly BitSet _generic_parameter_in_suffix_expr2519 = new BitSet(new ulong[]{0x2000000000000000UL});
+		public static readonly BitSet _61_in_suffix_expr2522 = new BitSet(new ulong[]{0xE840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _expr_list_in_suffix_expr2524 = new BitSet(new ulong[]{0x4000000000000000UL});
+		public static readonly BitSet _62_in_suffix_expr2527 = new BitSet(new ulong[]{0x2000000000000002UL,0x2004C544UL});
+		public static readonly BitSet _93_in_suffix_expr2554 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080040000066UL});
+		public static readonly BitSet _expr_list_in_suffix_expr2556 = new BitSet(new ulong[]{0x0UL,0x40000000UL});
+		public static readonly BitSet _94_in_suffix_expr2559 = new BitSet(new ulong[]{0x2000000000000002UL,0x2004C544UL});
+		public static readonly BitSet _78_in_suffix_expr2583 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _ident_in_suffix_expr2585 = new BitSet(new ulong[]{0x2000000000000000UL});
+		public static readonly BitSet _61_in_suffix_expr2587 = new BitSet(new ulong[]{0xE840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _expr_list_in_suffix_expr2589 = new BitSet(new ulong[]{0x4000000000000000UL});
+		public static readonly BitSet _62_in_suffix_expr2592 = new BitSet(new ulong[]{0x2000000000000002UL,0x2004C544UL});
+		public static readonly BitSet _NUMBER_in_atom_expr2636 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _ident_in_atom_expr2641 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _STRING_in_atom_expr2646 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _61_in_atom_expr2651 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _expr_in_atom_expr2653 = new BitSet(new ulong[]{0x4000000000000000UL,0x10UL});
+		public static readonly BitSet _68_in_atom_expr2656 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _expr_in_atom_expr2658 = new BitSet(new ulong[]{0x4000000000000000UL,0x10UL});
+		public static readonly BitSet _62_in_atom_expr2665 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _lvalue_atom_in_lvalue2702 = new BitSet(new ulong[]{0x2000000000000002UL,0x20048544UL});
+		public static readonly BitSet _66_in_lvalue2712 = new BitSet(new ulong[]{0x2000000000000002UL,0x20048544UL});
+		public static readonly BitSet _70_in_lvalue2740 = new BitSet(new ulong[]{0x2000000000000002UL,0x20048544UL});
+		public static readonly BitSet _74_in_lvalue2765 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _ident_in_lvalue2767 = new BitSet(new ulong[]{0x2000000000000002UL,0x20048544UL});
+		public static readonly BitSet _72_in_lvalue2794 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _ident_in_lvalue2796 = new BitSet(new ulong[]{0x2000000000000002UL,0x20048544UL});
+		public static readonly BitSet _79_in_lvalue2823 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _ident_in_lvalue2825 = new BitSet(new ulong[]{0x2000000000000002UL,0x20048544UL});
+		public static readonly BitSet _generic_parameter_in_lvalue2852 = new BitSet(new ulong[]{0x2000000000000000UL});
+		public static readonly BitSet _61_in_lvalue2855 = new BitSet(new ulong[]{0xE840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _expr_list_in_lvalue2857 = new BitSet(new ulong[]{0x4000000000000000UL});
+		public static readonly BitSet _62_in_lvalue2860 = new BitSet(new ulong[]{0x2000000000000002UL,0x20048544UL});
+		public static readonly BitSet _93_in_lvalue2889 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080040000066UL});
+		public static readonly BitSet _expr_list_in_lvalue2891 = new BitSet(new ulong[]{0x0UL,0x40000000UL});
+		public static readonly BitSet _94_in_lvalue2894 = new BitSet(new ulong[]{0x2000000000000002UL,0x20048544UL});
+		public static readonly BitSet _61_in_lvalue_atom2933 = new BitSet(new ulong[]{0x6000000020000000UL});
+		public static readonly BitSet _lvalue_in_lvalue_atom2936 = new BitSet(new ulong[]{0x4000000000000000UL,0x10UL});
+		public static readonly BitSet _68_in_lvalue_atom2939 = new BitSet(new ulong[]{0x2000000020000000UL});
+		public static readonly BitSet _lvalue_in_lvalue_atom2941 = new BitSet(new ulong[]{0x4000000000000000UL,0x10UL});
+		public static readonly BitSet _62_in_lvalue_atom2947 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _ident_in_lvalue_atom2961 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _IDENT_in_ident2972 = new BitSet(new ulong[]{0x2UL,0x8000UL});
+		public static readonly BitSet _79_in_ident2975 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _IDENT_in_ident2977 = new BitSet(new ulong[]{0x2UL,0x8000UL});
+		public static readonly BitSet _97_in_infix_func2990 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _ident_in_infix_func2993 = new BitSet(new ulong[]{0x0UL,0x200000000UL});
+		public static readonly BitSet _97_in_infix_func2995 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _generic_parameter_in_synpred112_SugarCpp2519 = new BitSet(new ulong[]{0x2000000000000000UL});
+		public static readonly BitSet _61_in_synpred112_SugarCpp2522 = new BitSet(new ulong[]{0xE840042020000000UL,0x10080000000066UL});
+		public static readonly BitSet _expr_list_in_synpred112_SugarCpp2524 = new BitSet(new ulong[]{0x4000000000000000UL});
+		public static readonly BitSet _62_in_synpred112_SugarCpp2527 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _93_in_synpred114_SugarCpp2554 = new BitSet(new ulong[]{0xA840042020000000UL,0x10080040000066UL});
+		public static readonly BitSet _expr_list_in_synpred114_SugarCpp2556 = new BitSet(new ulong[]{0x0UL,0x40000000UL});
+		public static readonly BitSet _94_in_synpred114_SugarCpp2559 = new BitSet(new ulong[]{0x2UL});
+		public static readonly BitSet _79_in_synpred134_SugarCpp2975 = new BitSet(new ulong[]{0x20000000UL});
+		public static readonly BitSet _IDENT_in_synpred134_SugarCpp2977 = new BitSet(new ulong[]{0x2UL});
 	}
 	#endregion Follow sets
 }

@@ -86,7 +86,7 @@ namespace SugarCpp.Compiler
             string last = "private";
             foreach (var node in class_def.List)
             {
-                string modifier = node.Attribute.Contains("public") ? "public" : "private";
+                string modifier = node.Attribute.Find(x => x.Name == "public") != null ? "public" : "private";
                 if (modifier != last)
                 {
                     Template member = new Template("<modifier>:\n    <expr>");
@@ -109,11 +109,11 @@ namespace SugarCpp.Compiler
         public override Template Visit(ClassMember class_member)
         {
             string prefix = "";
-            if (class_member.Attribute.Contains("static"))
+            if (class_member.Attribute.Find(x => x.Name == "static") != null)
             {
                 prefix += "static ";
             }
-            if (class_member.Attribute.Contains("const"))
+            if (class_member.Attribute.Find(x => x.Name == "const") != null)
             {
                 prefix += "const ";
             }

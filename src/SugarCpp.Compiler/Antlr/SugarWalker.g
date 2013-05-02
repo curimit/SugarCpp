@@ -84,18 +84,41 @@ class_block returns [List<ClassMember> value]
 	: (NEWLINE* a=class_node { $value.Add(a); } )+
 	;
 
-attribute returns [List<string> value]
+attribute_args returns [string value]
+	: a=(NUMBER)
+	{
+		$value = a.Text;
+	}
+	| a=STRING
+	{
+		$value = a.Text.Substring(1, a.Text.Length - 2);
+	}
+	| b=ident
+	{
+		$value = b;
+	}
+	;
+
+attribute_item returns [Attr value]
 @init
 {
-	value = new List<string>();
+	value = new Attr();
 }
-	: ^(Attribute (a=ident { $value.Add(a); })+)
+	: a=ident { $value.Name = a; } ('(' (b=attribute_args { $value.Args.Add(b) ; } )* ')')?
+	;
+
+attribute returns [List<Attr> value]
+@init
+{
+	value = new List<Attr>();
+}
+	: ^(Attribute (a=attribute_item { $value.Add(a); })+)
 	;
 
 class_node returns [ClassMember value]
 @init
 {
-	HashSet<string> set = new HashSet<string>();
+	List<Attr> set = new List<Attr>();
 }
 	: (a=attribute { foreach (var x in a) set.Add(x); } NEWLINE+)* b=node
 	{

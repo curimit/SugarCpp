@@ -28,10 +28,10 @@ namespace SugarCpp.Compiler
 
     public class ClassMember : AstNode
     {
-        public HashSet<string> Attribute = new HashSet<string>();
+        public List<Attr> Attribute = new List<Attr>();
         public AstNode Node;
 
-        public ClassMember(AstNode node, HashSet<string> set)
+        public ClassMember(AstNode node, List<Attr> set)
         {
             this.Node = node;
             if (set != null)
