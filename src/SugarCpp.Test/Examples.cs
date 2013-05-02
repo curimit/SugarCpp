@@ -39,7 +39,37 @@ namespace SugarCpp.Test
             string input = source[caseName].Input;
             string result = source[caseName].Result;
             string output = this.Compile(input);
-            Assert.AreEqual(output, result, "Compile Result Error!");
+            Assert.AreEqual(output, result, string.Format("Compile Result Error!\nInput: \n{0}\n\nResult: \n{1}\n\n\nOutput: \n{2}", input, result, output));
+        }
+
+        [Test]
+        public void AttributeFriend()
+        {
+            Test();
+        }
+
+        [Test]
+        public void CaculateSum()
+        {
+            Test();
+        }
+
+        [Test]
+        public void DefVar()
+        {
+            Test();
+        }
+
+        [Test]
+        public void Enum()
+        {
+            Test();
+        }
+
+        [Test]
+        public void ExtensionMethod()
+        {
+            Test();
         }
 
         [Test]
@@ -49,7 +79,31 @@ namespace SugarCpp.Test
         }
 
         [Test]
-        public void CaculateSum()
+        public void InfixFunction()
+        {
+            Test();
+        }
+
+        [Test]
+        public void Namespace()
+        {
+            Test();
+        }
+
+        [Test]
+        public void Template()
+        {
+            Test();
+        }
+
+        [Test]
+        public void Tuple()
+        {
+            Test();
+        }
+
+        [Test]
+        public void Typedef()
         {
             Test();
         }
