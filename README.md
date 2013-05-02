@@ -59,9 +59,12 @@ T max(T x, T y) {
 }
 ```
 
-#### Enumerated type
+#### Enumerated type and FlagAttribute
 ```c++
 enum Color = RED | GREEN | BLUE
+
+[FlagAttribute]
+enum MyFlags = Flag1 | Flag2 | Flag3 | Flag4
 ```
 
 ```c++
@@ -69,6 +72,13 @@ enum Color {
     RED = 0,
     GREEN,
     BLUE
+};
+
+enum MyFlags {
+    Flag1 = 0,
+    Flag2 = 1,
+    Flag3 = 2,
+    Flag4 = 4
 };
 ```
 
