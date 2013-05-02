@@ -425,6 +425,14 @@ STRING
 	: '"' (~'"')* '"'
 	;
 
+Comment
+	: '/*' ( options { greedy = false; } : . )* '*/' { $channel = Hidden; }
+	;
+
+LineComment
+	: '//' ~ ('\n'|'\r')* '\r'? '\n' { $channel = Hidden; }
+	;
+
 fragment
 EXPONENT :
     ('e'|'E') ('+'|'-')? ('0'..'9')+
