@@ -89,10 +89,12 @@ namespace SugarCpp.Compiler
             {
                 if (attr.Name == "friend")
                 {
-                    string class_name = attr.Args.First();
-                    Template friend = new Template("    friend class <name>;");
-                    friend.Add("name", class_name);
-                    list.Add(friend);
+                    foreach (var name in attr.Args)
+                    {
+                        Template friend = new Template("    friend class <name>;");
+                        friend.Add("name", name);
+                        list.Add(friend);
+                    }
                 }
             }
 
