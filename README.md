@@ -1,7 +1,10 @@
 # SugarCpp
-SugarCpp is a language which can compile to C++.
+SugarCpp is a language which can compile C++11.
 
-SugarCpp is still under development.If you have any idea, you can open an issue.
+The generated code is of very high quality and can be comparable with the handwritten code.
+
+SugarCpp is still under development.
+If you have any idea, please open the issue.
 
 Try SugarCpp in browser: http://curimit.com/project/SugarCpp/
 
@@ -63,7 +66,7 @@ enum Color = RED | GREEN | BLUE
 
 ```c++
 enum Color {
-    RED,
+    RED = 0,
     GREEN,
     BLUE
 };
@@ -74,6 +77,12 @@ enum Color {
 a := 1
 b : int
 c : int = 0
+```
+
+```c++
+auto a = 1;
+int b;
+int c = 0;
 ```
 
 #### Multiple return values && Parallel assignment
@@ -172,7 +181,7 @@ int main() {
 ```
 
 #### Attributes
-```haskell
+```c++
 import "stdio.h"
 
 [friend(Print)]
@@ -209,7 +218,7 @@ private:
 
 class Print {
 public:
-    static void print(Test& a) {
+    void print(Test& a) {
         printf("%d", a.x);
     }
 };
