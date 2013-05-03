@@ -24,8 +24,10 @@ namespace SugarCpp.CommandLine
                 case "run":
                     DoRun(args);
                     break;
+                default:
+                    Translate.Main(args);
+                    break;
             }
-            Translate.Main(args);
         }
 
         private static void DoRun(string[] args)
