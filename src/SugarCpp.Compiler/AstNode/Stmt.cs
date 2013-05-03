@@ -107,6 +107,34 @@ namespace SugarCpp.Compiler
         }
     }
 
+    public class StmtSwitchItem : Stmt
+    {
+        public Expr Expr;
+        public StmtBlock Block;
+
+        public StmtSwitchItem(Expr expr, StmtBlock block)
+        {
+            this.Expr = expr;
+            this.Block = block;
+        }
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
+    public class StmtSwitch : Stmt
+    {
+        public List<StmtSwitchItem> List = new List<StmtSwitchItem>();
+        public Expr Expr;
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
     public class StmtUsing : Stmt
     {
         public List<string> List = new List<string>();

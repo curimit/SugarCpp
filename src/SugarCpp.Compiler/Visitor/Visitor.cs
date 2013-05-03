@@ -31,6 +31,8 @@ namespace SugarCpp.Compiler
         public abstract Template Visit(StmtTry stmt_try);
         public abstract Template Visit(StmtTypeDef stmt_typedef);
         public abstract Template Visit(StmtUsing stmt_using);
+        public abstract Template Visit(StmtSwitch stmt_switch);
+        public abstract Template Visit(StmtSwitchItem stmt_switch_item);
 
         public abstract Template Visit(StmtExpr stmt_expr);
 

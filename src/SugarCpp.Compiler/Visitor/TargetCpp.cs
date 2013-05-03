@@ -109,7 +109,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(Enum enum_def)
         {
-            Template template = new Template("enum <name> {\n    <list; separator=\",\n\">\n};");
+            Template template = new Template("enum <name> {\n    <list; separator=\",\n\">\n};<tostring>");
             template.Add("name", enum_def.Name);
             List<Template> list = new List<Template>();
             bool hasFlagAttribute = enum_def.Attribute.Find(x => x.Name == "FlagAttribute") != null;
@@ -137,6 +137,34 @@ namespace SugarCpp.Compiler
                 }
             }
             template.Add("list", list);
+
+            if (enum_def.Attribute.Find(x => x.Name == "ToString") != null)
+            {
+                Attr attr = enum_def.Attribute.Find(x => x.Name == "ToString");
+
+                FuncDef func = new FuncDef();
+                func.Type = "const char*";
+                func.Name = attr.Args.Count() == 0 ? "ToString" : attr.Args.First();
+                func.Args.Add(new ExprAlloc("const " + enum_def.Name + "&", new List<string> {"a"}, null));
+                StmtBlock body = new StmtBlock();
+                StmtSwitch stmt_switch = new StmtSwitch();
+                stmt_switch.Expr = new ExprConst("a");
+                foreach (var item in enum_def.Values)
+                {
+                    StmtBlock block = new StmtBlock();
+                    block.StmtList.Add(new StmtExpr(new ExprReturn(new ExprConst("\"" + item + "\""))));
+                    stmt_switch.List.Add(new StmtSwitchItem(new ExprConst(item), block));
+                }
+                body.StmtList.Add(stmt_switch);
+                func.Body = body;
+                Template node = new Template("\n\n<stmt>");
+                node.Add("stmt", func.Accept(this));
+                template.Add("tostring", node);
+            }
+            else
+            {
+                template.Add("tostring", "");
+            }
             return template;
         }
 
@@ -166,6 +194,22 @@ namespace SugarCpp.Compiler
             Template template = new Template("typedef <type> <name>");
             template.Add("type", stmt_typedef.Type);
             template.Add("name", stmt_typedef.Name);
+            return template;
+        }
+
+        public override Template Visit(StmtSwitchItem stmt_switch_item)
+        {
+            Template template = new Template("case <expr>:\n    <block>");
+            template.Add("expr", stmt_switch_item.Expr.Accept(this));
+            template.Add("block", stmt_switch_item.Block.Accept(this));
+            return template;
+        }
+
+        public override Template Visit(StmtSwitch stmt_switch)
+        {
+            Template template = new Template("switch (<expr>) {\n<list; separator=\"\n\n\">\n}");
+            template.Add("expr", stmt_switch.Expr.Accept(this));
+            template.Add("list", stmt_switch.List.Select(x => x.Accept(this)));
             return template;
         }
 
