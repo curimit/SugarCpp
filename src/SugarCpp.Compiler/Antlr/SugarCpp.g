@@ -186,7 +186,7 @@ attribute
 	;
 
 global_alloc
-	: attribute? ident_list ':' type_name ('=' expr)? -> ^(Expr_Alloc attribute? type_name ident_list expr?)
+	: attribute? ident_list ':' type_name (':=' expr)? -> ^(Expr_Alloc attribute? type_name ident_list expr?)
 	| attribute? ident ':=' modify_expr -> ^(':=' attribute? ident modify_expr)
 	;
 
@@ -292,7 +292,7 @@ ident_list
 	;
 
 stmt_alloc
-	: ident_list ':' type_name ('=' expr)? -> ^(Expr_Alloc type_name ident_list expr?)
+	: ident_list ':' type_name (':=' expr)? -> ^(Expr_Alloc type_name ident_list expr?)
 	| ident ':='^ modify_expr
 	;
 

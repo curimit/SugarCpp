@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// $ANTLR 3.4 SugarCpp.g 2013-05-02 20:59:17
+// $ANTLR 3.4 SugarCpp.g 2013-05-03 23:35:51
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219
@@ -1024,7 +1024,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: ident, attribute_args
+			// elements: attribute_args, ident
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -1360,7 +1360,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_global_alloc();
 
 	// $ANTLR start "global_alloc"
-	// SugarCpp.g:188:1: global_alloc : ( ( attribute )? ident_list ':' type_name ( '=' expr )? -> ^( Expr_Alloc ( attribute )? type_name ident_list ( expr )? ) | ( attribute )? ident ':=' modify_expr -> ^( ':=' ( attribute )? ident modify_expr ) );
+	// SugarCpp.g:188:1: global_alloc : ( ( attribute )? ident_list ':' type_name ( ':=' expr )? -> ^( Expr_Alloc ( attribute )? type_name ident_list ( expr )? ) | ( attribute )? ident ':=' modify_expr -> ^( ':=' ( attribute )? ident modify_expr ) );
 	[GrammarRule("global_alloc")]
 	private AstParserRuleReturnScope<CommonTree, IToken> global_alloc()
 	{
@@ -1374,7 +1374,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		CommonTree root_0 = default(CommonTree);
 
 		IToken char_literal31 = default(IToken);
-		IToken char_literal33 = default(IToken);
+		IToken string_literal33 = default(IToken);
 		IToken string_literal37 = default(IToken);
 		AstParserRuleReturnScope<CommonTree, IToken> attribute29 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 		AstParserRuleReturnScope<CommonTree, IToken> ident_list30 = default(AstParserRuleReturnScope<CommonTree, IToken>);
@@ -1385,11 +1385,10 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		AstParserRuleReturnScope<CommonTree, IToken> modify_expr38 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
 		CommonTree char_literal31_tree = default(CommonTree);
-		CommonTree char_literal33_tree = default(CommonTree);
+		CommonTree string_literal33_tree = default(CommonTree);
 		CommonTree string_literal37_tree = default(CommonTree);
 		RewriteRuleITokenStream stream_82=new RewriteRuleITokenStream(adaptor,"token 82");
 		RewriteRuleITokenStream stream_80=new RewriteRuleITokenStream(adaptor,"token 80");
-		RewriteRuleITokenStream stream_88=new RewriteRuleITokenStream(adaptor,"token 88");
 		RewriteRuleSubtreeStream stream_modify_expr=new RewriteRuleSubtreeStream(adaptor,"rule modify_expr");
 		RewriteRuleSubtreeStream stream_ident=new RewriteRuleSubtreeStream(adaptor,"rule ident");
 		RewriteRuleSubtreeStream stream_type_name=new RewriteRuleSubtreeStream(adaptor,"rule type_name");
@@ -1402,7 +1401,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		{
 			if (state.backtracking > 0 && AlreadyParsedRule(input, 7)) { return retval; }
 
-			// SugarCpp.g:189:2: ( ( attribute )? ident_list ':' type_name ( '=' expr )? -> ^( Expr_Alloc ( attribute )? type_name ident_list ( expr )? ) | ( attribute )? ident ':=' modify_expr -> ^( ':=' ( attribute )? ident modify_expr ) )
+			// SugarCpp.g:189:2: ( ( attribute )? ident_list ':' type_name ( ':=' expr )? -> ^( Expr_Alloc ( attribute )? type_name ident_list ( expr )? ) | ( attribute )? ident ':=' modify_expr -> ^( ':=' ( attribute )? ident modify_expr ) )
 			int alt14=2;
 			try { DebugEnterDecision(14, false);
 			try
@@ -1419,7 +1418,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:189:4: ( attribute )? ident_list ':' type_name ( '=' expr )?
+				// SugarCpp.g:189:4: ( attribute )? ident_list ':' type_name ( ':=' expr )?
 				{
 				DebugLocation(189, 4);
 				// SugarCpp.g:189:4: ( attribute )?
@@ -1469,13 +1468,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				if (state.failed) return retval;
 				if (state.backtracking == 0) stream_type_name.Add(type_name32.Tree);
 				DebugLocation(189, 40);
-				// SugarCpp.g:189:40: ( '=' expr )?
+				// SugarCpp.g:189:40: ( ':=' expr )?
 				int alt12=2;
 				try { DebugEnterSubRule(12);
 				try { DebugEnterDecision(12, false);
 				int LA12_0 = input.LA(1);
 
-				if ((LA12_0==88))
+				if ((LA12_0==82))
 				{
 					alt12 = 1;
 				}
@@ -1484,13 +1483,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:189:41: '=' expr
+					// SugarCpp.g:189:41: ':=' expr
 					{
 					DebugLocation(189, 41);
-					char_literal33=(IToken)Match(input,88,Follow._88_in_global_alloc612); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_88.Add(char_literal33);
+					string_literal33=(IToken)Match(input,82,Follow._82_in_global_alloc612); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_82.Add(string_literal33);
 
-					DebugLocation(189, 45);
+					DebugLocation(189, 46);
 					PushFollow(Follow._expr_in_global_alloc614);
 					expr34=expr();
 					PopFollow();
@@ -1507,7 +1506,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: type_name, expr, ident_list, attribute
+				// elements: ident_list, attribute, expr, type_name
 				// token labels: 
 				// rule labels: retval
 				// token list labels: 
@@ -1518,33 +1517,33 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 				root_0 = (CommonTree)adaptor.Nil();
-				// 189:52: -> ^( Expr_Alloc ( attribute )? type_name ident_list ( expr )? )
+				// 189:53: -> ^( Expr_Alloc ( attribute )? type_name ident_list ( expr )? )
 				{
-					DebugLocation(189, 55);
-					// SugarCpp.g:189:55: ^( Expr_Alloc ( attribute )? type_name ident_list ( expr )? )
+					DebugLocation(189, 56);
+					// SugarCpp.g:189:56: ^( Expr_Alloc ( attribute )? type_name ident_list ( expr )? )
 					{
 					CommonTree root_1 = (CommonTree)adaptor.Nil();
-					DebugLocation(189, 57);
+					DebugLocation(189, 58);
 					root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Alloc, "Expr_Alloc"), root_1);
 
-					DebugLocation(189, 68);
-					// SugarCpp.g:189:68: ( attribute )?
+					DebugLocation(189, 69);
+					// SugarCpp.g:189:69: ( attribute )?
 					if (stream_attribute.HasNext)
 					{
-						DebugLocation(189, 68);
+						DebugLocation(189, 69);
 						adaptor.AddChild(root_1, stream_attribute.NextTree());
 
 					}
 					stream_attribute.Reset();
-					DebugLocation(189, 79);
+					DebugLocation(189, 80);
 					adaptor.AddChild(root_1, stream_type_name.NextTree());
-					DebugLocation(189, 89);
+					DebugLocation(189, 90);
 					adaptor.AddChild(root_1, stream_ident_list.NextTree());
-					DebugLocation(189, 100);
-					// SugarCpp.g:189:100: ( expr )?
+					DebugLocation(189, 101);
+					// SugarCpp.g:189:101: ( expr )?
 					if (stream_expr.HasNext)
 					{
-						DebugLocation(189, 100);
+						DebugLocation(189, 101);
 						adaptor.AddChild(root_1, stream_expr.NextTree());
 
 					}
@@ -1616,7 +1615,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: ident, 82, attribute, modify_expr
+				// elements: 82, modify_expr, attribute, ident
 				// token labels: 
 				// rule labels: retval
 				// token list labels: 
@@ -2365,7 +2364,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: ident, ident, attribute
+			// elements: ident, attribute, ident
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -2617,7 +2616,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: ident, global_block
+			// elements: global_block, ident
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -2876,7 +2875,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: attribute, ident, global_block
+			// elements: ident, global_block, attribute
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -3313,7 +3312,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: type_name_op, 91, type_name, ident, 84
+			// elements: type_name_op, 91, 84, type_name, ident
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -3337,7 +3336,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				adaptor.AddChild(root_1, stream_ident.NextTree());
 				DebugLocation(219, 87);
 				// SugarCpp.g:219:87: ( '<' ( type_name )* '>' )?
-				if (stream_91.HasNext||stream_type_name.HasNext||stream_84.HasNext)
+				if (stream_91.HasNext||stream_84.HasNext||stream_type_name.HasNext)
 				{
 					DebugLocation(219, 88);
 					adaptor.AddChild(root_1, stream_84.NextNode());
@@ -3355,8 +3354,8 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				}
 				stream_91.Reset();
-				stream_type_name.Reset();
 				stream_84.Reset();
+				stream_type_name.Reset();
 				DebugLocation(219, 110);
 				// SugarCpp.g:219:110: ( type_name_op )*
 				while ( stream_type_name_op.HasNext )
@@ -4054,7 +4053,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: attribute, stmt_block, type_name, ident, 119, generic_parameter, func_args
+				// elements: type_name, attribute, 119, generic_parameter, ident, func_args, stmt_block
 				// token labels: 
 				// rule labels: retval
 				// token list labels: 
@@ -4153,7 +4152,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: type_name, ident, generic_parameter, expr, func_args, 119, attribute
+				// elements: 119, attribute, generic_parameter, func_args, expr, ident, type_name
 				// token labels: 
 				// rule labels: retval
 				// token list labels: 
@@ -4915,7 +4914,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: ident, type_name
+			// elements: type_name, ident
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -5494,7 +5493,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: expr, stmt_block, stmt_block
+			// elements: stmt_block, expr, stmt_block
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -5637,7 +5636,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: stmt_block, expr
+			// elements: expr, stmt_block
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -5868,7 +5867,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: expr, expr, stmt_block, expr, expr, stmt_block, expr
+			// elements: expr, expr, expr, expr, stmt_block, stmt_block, expr
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -6041,7 +6040,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: expr, stmt_block, stmt_block
+			// elements: stmt_block, expr, stmt_block
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -6275,7 +6274,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_stmt_alloc();
 
 	// $ANTLR start "stmt_alloc"
-	// SugarCpp.g:294:1: stmt_alloc : ( ident_list ':' type_name ( '=' expr )? -> ^( Expr_Alloc type_name ident_list ( expr )? ) | ident ':=' ^ modify_expr );
+	// SugarCpp.g:294:1: stmt_alloc : ( ident_list ':' type_name ( ':=' expr )? -> ^( Expr_Alloc type_name ident_list ( expr )? ) | ident ':=' ^ modify_expr );
 	[GrammarRule("stmt_alloc")]
 	private AstParserRuleReturnScope<CommonTree, IToken> stmt_alloc()
 	{
@@ -6289,7 +6288,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		CommonTree root_0 = default(CommonTree);
 
 		IToken char_literal161 = default(IToken);
-		IToken char_literal163 = default(IToken);
+		IToken string_literal163 = default(IToken);
 		IToken string_literal166 = default(IToken);
 		AstParserRuleReturnScope<CommonTree, IToken> ident_list160 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 		AstParserRuleReturnScope<CommonTree, IToken> type_name162 = default(AstParserRuleReturnScope<CommonTree, IToken>);
@@ -6298,10 +6297,10 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		AstParserRuleReturnScope<CommonTree, IToken> modify_expr167 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 
 		CommonTree char_literal161_tree = default(CommonTree);
-		CommonTree char_literal163_tree = default(CommonTree);
+		CommonTree string_literal163_tree = default(CommonTree);
 		CommonTree string_literal166_tree = default(CommonTree);
+		RewriteRuleITokenStream stream_82=new RewriteRuleITokenStream(adaptor,"token 82");
 		RewriteRuleITokenStream stream_80=new RewriteRuleITokenStream(adaptor,"token 80");
-		RewriteRuleITokenStream stream_88=new RewriteRuleITokenStream(adaptor,"token 88");
 		RewriteRuleSubtreeStream stream_type_name=new RewriteRuleSubtreeStream(adaptor,"rule type_name");
 		RewriteRuleSubtreeStream stream_ident_list=new RewriteRuleSubtreeStream(adaptor,"rule ident_list");
 		RewriteRuleSubtreeStream stream_expr=new RewriteRuleSubtreeStream(adaptor,"rule expr");
@@ -6311,7 +6310,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		{
 			if (state.backtracking > 0 && AlreadyParsedRule(input, 31)) { return retval; }
 
-			// SugarCpp.g:295:2: ( ident_list ':' type_name ( '=' expr )? -> ^( Expr_Alloc type_name ident_list ( expr )? ) | ident ':=' ^ modify_expr )
+			// SugarCpp.g:295:2: ( ident_list ':' type_name ( ':=' expr )? -> ^( Expr_Alloc type_name ident_list ( expr )? ) | ident ':=' ^ modify_expr )
 			int alt55=2;
 			try { DebugEnterDecision(55, false);
 			try
@@ -6328,7 +6327,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:295:4: ident_list ':' type_name ( '=' expr )?
+				// SugarCpp.g:295:4: ident_list ':' type_name ( ':=' expr )?
 				{
 				DebugLocation(295, 4);
 				PushFollow(Follow._ident_list_in_stmt_alloc1494);
@@ -6347,13 +6346,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				if (state.failed) return retval;
 				if (state.backtracking == 0) stream_type_name.Add(type_name162.Tree);
 				DebugLocation(295, 29);
-				// SugarCpp.g:295:29: ( '=' expr )?
+				// SugarCpp.g:295:29: ( ':=' expr )?
 				int alt54=2;
 				try { DebugEnterSubRule(54);
 				try { DebugEnterDecision(54, false);
 				int LA54_0 = input.LA(1);
 
-				if ((LA54_0==88))
+				if ((LA54_0==82))
 				{
 					alt54 = 1;
 				}
@@ -6362,13 +6361,13 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:295:30: '=' expr
+					// SugarCpp.g:295:30: ':=' expr
 					{
 					DebugLocation(295, 30);
-					char_literal163=(IToken)Match(input,88,Follow._88_in_stmt_alloc1501); if (state.failed) return retval; 
-					if (state.backtracking == 0) stream_88.Add(char_literal163);
+					string_literal163=(IToken)Match(input,82,Follow._82_in_stmt_alloc1501); if (state.failed) return retval; 
+					if (state.backtracking == 0) stream_82.Add(string_literal163);
 
-					DebugLocation(295, 34);
+					DebugLocation(295, 35);
 					PushFollow(Follow._expr_in_stmt_alloc1503);
 					expr164=expr();
 					PopFollow();
@@ -6385,7 +6384,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: type_name, expr, ident_list
+				// elements: ident_list, expr, type_name
 				// token labels: 
 				// rule labels: retval
 				// token list labels: 
@@ -6396,24 +6395,24 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 				root_0 = (CommonTree)adaptor.Nil();
-				// 295:41: -> ^( Expr_Alloc type_name ident_list ( expr )? )
+				// 295:42: -> ^( Expr_Alloc type_name ident_list ( expr )? )
 				{
-					DebugLocation(295, 44);
-					// SugarCpp.g:295:44: ^( Expr_Alloc type_name ident_list ( expr )? )
+					DebugLocation(295, 45);
+					// SugarCpp.g:295:45: ^( Expr_Alloc type_name ident_list ( expr )? )
 					{
 					CommonTree root_1 = (CommonTree)adaptor.Nil();
-					DebugLocation(295, 46);
+					DebugLocation(295, 47);
 					root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Expr_Alloc, "Expr_Alloc"), root_1);
 
-					DebugLocation(295, 57);
+					DebugLocation(295, 58);
 					adaptor.AddChild(root_1, stream_type_name.NextTree());
-					DebugLocation(295, 67);
+					DebugLocation(295, 68);
 					adaptor.AddChild(root_1, stream_ident_list.NextTree());
-					DebugLocation(295, 78);
-					// SugarCpp.g:295:78: ( expr )?
+					DebugLocation(295, 79);
+					// SugarCpp.g:295:79: ( expr )?
 					if (stream_expr.HasNext)
 					{
-						DebugLocation(295, 78);
+						DebugLocation(295, 79);
 						adaptor.AddChild(root_1, stream_expr.NextTree());
 
 					}
@@ -7456,7 +7455,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: 118, b, or_expr
+					// elements: or_expr, 118, b
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -7648,7 +7647,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: b, 60, and_expr
+					// elements: 60, and_expr, b
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -7840,7 +7839,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: 116, b, bit_or
+					// elements: 116, bit_or, b
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -8032,7 +8031,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: b, bit_xor, 98
+					// elements: b, 98, bit_xor
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -8757,7 +8756,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: b, cmp_expr, cmp_expr_op
+				// elements: cmp_expr_op, b, cmp_expr
 				// token labels: 
 				// rule labels: retval, b
 				// token list labels: 
@@ -9024,7 +9023,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: b, shift_expr_op, shift_expr
+					// elements: shift_expr, b, shift_expr_op
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -9223,7 +9222,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: 67, b, add_expr
+					// elements: 67, add_expr, b
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -9280,7 +9279,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: add_expr, 71, b
+					// elements: b, add_expr, 71
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -9473,7 +9472,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: infix_expr, b, infix_func
+					// elements: infix_func, b, infix_expr
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -9682,7 +9681,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: mul_expr, 65, b
+					// elements: 65, b, mul_expr
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -9739,7 +9738,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: mul_expr, b, 78
+					// elements: b, mul_expr, 78
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -9796,7 +9795,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: mul_expr, 58, b
+					// elements: 58, b, mul_expr
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -9996,7 +9995,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: b, 75, selector_expr
+					// elements: selector_expr, 75, b
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -10053,7 +10052,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: 77, b, selector_expr
+					// elements: selector_expr, 77, b
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -10335,7 +10334,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: prefix_expr_op, prefix_expr
+				// elements: prefix_expr, prefix_expr_op
 				// token labels: 
 				// rule labels: retval
 				// token list labels: 
@@ -10457,7 +10456,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: type_name, expr_list
+					// elements: expr_list, type_name
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -10522,7 +10521,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: expr_list, type_name
+					// elements: type_name, expr_list
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -10911,7 +10910,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: suffix_expr, 68
+					// elements: 68, suffix_expr
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -10959,7 +10958,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: 72, suffix_expr
+					// elements: suffix_expr, 72
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -11013,7 +11012,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: ident, suffix_expr, 76
+					// elements: ident, 76, suffix_expr
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -11069,7 +11068,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: ident, suffix_expr, 74
+					// elements: 74, ident, suffix_expr
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -11284,7 +11283,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: expr_list, suffix_expr
+					// elements: suffix_expr, expr_list
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -11384,7 +11383,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: ident, expr_list, suffix_expr
+					// elements: expr_list, ident, suffix_expr
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -11922,7 +11921,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: 68, lvalue
+					// elements: lvalue, 68
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -11970,7 +11969,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: lvalue, 72
+					// elements: 72, lvalue
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -12024,7 +12023,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: 76, ident, lvalue
+					// elements: 76, lvalue, ident
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -12080,7 +12079,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: lvalue, ident, 74
+					// elements: 74, ident, lvalue
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -12196,7 +12195,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: expr_list, generic_parameter, lvalue
+					// elements: expr_list, lvalue, generic_parameter
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -13170,7 +13169,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			this.transition = DFA14_transition;
 		}
 
-		public override string Description { get { return "188:1: global_alloc : ( ( attribute )? ident_list ':' type_name ( '=' expr )? -> ^( Expr_Alloc ( attribute )? type_name ident_list ( expr )? ) | ( attribute )? ident ':=' modify_expr -> ^( ':=' ( attribute )? ident modify_expr ) );"; } }
+		public override string Description { get { return "188:1: global_alloc : ( ( attribute )? ident_list ':' type_name ( ':=' expr )? -> ^( Expr_Alloc ( attribute )? type_name ident_list ( expr )? ) | ( attribute )? ident ':=' modify_expr -> ^( ':=' ( attribute )? ident modify_expr ) );"; } }
 
 		public override void Error(NoViableAltException nvae)
 		{
@@ -13449,7 +13448,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			this.transition = DFA55_transition;
 		}
 
-		public override string Description { get { return "294:1: stmt_alloc : ( ident_list ':' type_name ( '=' expr )? -> ^( Expr_Alloc type_name ident_list ( expr )? ) | ident ':=' ^ modify_expr );"; } }
+		public override string Description { get { return "294:1: stmt_alloc : ( ident_list ':' type_name ( ':=' expr )? -> ^( Expr_Alloc type_name ident_list ( expr )? ) | ident ':=' ^ modify_expr );"; } }
 
 		public override void Error(NoViableAltException nvae)
 		{
@@ -13494,8 +13493,8 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		public static readonly BitSet _attribute_in_global_alloc602 = new BitSet(new ulong[]{0x80000000UL});
 		public static readonly BitSet _ident_list_in_global_alloc605 = new BitSet(new ulong[]{0x0UL,0x10000UL});
 		public static readonly BitSet _80_in_global_alloc607 = new BitSet(new ulong[]{0x80000000UL});
-		public static readonly BitSet _type_name_in_global_alloc609 = new BitSet(new ulong[]{0x2UL,0x1000000UL});
-		public static readonly BitSet _88_in_global_alloc612 = new BitSet(new ulong[]{0xA100108080000000UL,0x8040010000019AUL});
+		public static readonly BitSet _type_name_in_global_alloc609 = new BitSet(new ulong[]{0x2UL,0x40000UL});
+		public static readonly BitSet _82_in_global_alloc612 = new BitSet(new ulong[]{0xA100108080000000UL,0x8040010000019AUL});
 		public static readonly BitSet _expr_in_global_alloc614 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _attribute_in_global_alloc637 = new BitSet(new ulong[]{0x80000000UL});
 		public static readonly BitSet _ident_in_global_alloc640 = new BitSet(new ulong[]{0x0UL,0x40000UL});
@@ -13624,8 +13623,8 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		public static readonly BitSet _ident_in_ident_list1472 = new BitSet(new ulong[]{0x2UL,0x40UL});
 		public static readonly BitSet _ident_list_in_stmt_alloc1494 = new BitSet(new ulong[]{0x0UL,0x10000UL});
 		public static readonly BitSet _80_in_stmt_alloc1496 = new BitSet(new ulong[]{0x80000000UL});
-		public static readonly BitSet _type_name_in_stmt_alloc1498 = new BitSet(new ulong[]{0x2UL,0x1000000UL});
-		public static readonly BitSet _88_in_stmt_alloc1501 = new BitSet(new ulong[]{0xA100108080000000UL,0x8040010000019AUL});
+		public static readonly BitSet _type_name_in_stmt_alloc1498 = new BitSet(new ulong[]{0x2UL,0x40000UL});
+		public static readonly BitSet _82_in_stmt_alloc1501 = new BitSet(new ulong[]{0xA100108080000000UL,0x8040010000019AUL});
 		public static readonly BitSet _expr_in_stmt_alloc1503 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _ident_in_stmt_alloc1523 = new BitSet(new ulong[]{0x0UL,0x40000UL});
 		public static readonly BitSet _82_in_stmt_alloc1525 = new BitSet(new ulong[]{0xA100108080000000UL,0x8040000000019AUL});

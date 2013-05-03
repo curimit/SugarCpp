@@ -76,7 +76,7 @@ enum Color {
 ```c++
 a := 1
 b : int
-c : int = 0
+c : int := 0
 ```
 
 ```c++
