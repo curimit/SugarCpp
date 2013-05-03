@@ -59,12 +59,9 @@ T max(T x, T y) {
 }
 ```
 
-#### Enumerated type and FlagAttribute
+#### Enumerated type
 ```c++
 enum Color = RED | GREEN | BLUE
-
-[FlagAttribute]
-enum MyFlags = Flag1 | Flag2 | Flag3 | Flag4
 ```
 
 ```c++
@@ -72,13 +69,6 @@ enum Color {
     RED = 0,
     GREEN,
     BLUE
-};
-
-enum MyFlags {
-    Flag1 = 0,
-    Flag2 = 1,
-    Flag3 = 2,
-    Flag4 = 4
 };
 ```
 
@@ -191,6 +181,7 @@ int main() {
 ```
 
 #### Attributes
+##### 1. friend, public, private, static
 ```c++
 import "stdio.h"
 
@@ -236,6 +227,79 @@ public:
 int main() {
     auto a = Test(123);
     Print::print(a);
+}
+```
+
+##### 2. FlagAttribute
+```c++
+[FlagAttribute]
+enum MyFlags = Flag1 | Flag2 | Flag3 | Flag4
+```
+
+```c++
+enum MyFlags {
+    Flag1 = 0,
+    Flag2 = 1,
+    Flag3 = 2,
+    Flag4 = 4
+};
+```
+
+##### 3. ToString
+```c++
+import "stdio.h"
+
+[ToString]
+enum Day = Sunday | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday
+
+int main()
+    day := Sunday
+    name := day:ToString()
+    printf("%s\n", name)
+```
+
+```c++
+#include "stdio.h"
+
+enum Day {
+    Sunday = 0,
+    Monday,
+    Tuesday,
+    Wednesday,
+    Thursday,
+    Friday,
+    Saturday
+};
+
+const char* ToString(const Day& a) {
+    switch (a) {
+    case Sunday:
+        return "Sunday";
+
+    case Monday:
+        return "Monday";
+
+    case Tuesday:
+        return "Tuesday";
+
+    case Wednesday:
+        return "Wednesday";
+
+    case Thursday:
+        return "Thursday";
+
+    case Friday:
+        return "Friday";
+
+    case Saturday:
+        return "Saturday";
+    }
+}
+
+int main() {
+    auto day = Sunday;
+    auto name = ToString(day);
+    printf("%s\n", name);
 }
 ```
 
