@@ -124,6 +124,41 @@ int main() {
 }
 ```
 
+#### Scala style case class
+```c++
+class Expr
+class Number<T>(value:T): Expr
+class ExprBin(op:string, l:Expr, r:Expr): Expr
+```
+
+```
+class Expr {
+};
+
+template <typename T>
+class Number: public Expr {
+public:
+    T value;
+
+    Number(T value) {
+        this->value = value;
+    }
+};
+
+class ExprBin: public Expr {
+public:
+    string op;
+    Expr l;
+    Expr r;
+
+    ExprBin(string op, Expr l, Expr r) {
+        this->op = op;
+        this->l = l;
+        this->r = r;
+    }
+};
+```
+
 #### Haskell style infix function
 ```C#
 import "stdio.h"
@@ -155,28 +190,39 @@ int main() {
 #### C# style extension method
 ```c++
 import "stdio.h"
-       "math.h"
+       "string"
 
-float sqr(x: float) = x * x
+using namespace std
+
+string ToString(n: int, base:=10)
+    a:string := "0"
+    a[0] = n % base + 48
+    return a if n < base else ToString(n / base, base) + a
 
 int main()
     a := 100
-    x := a :sqrt() :sqr()
-    printf("%f\n", x)
+    base10 := a:ToString()
+    base2 := a:ToString(2)
+    printf("%s %s\n", base10.c_str(), base2.c_str())
 ```
 
 ```c++
 #include "stdio.h"
-#include "math.h"
+#include "string"
 
-float sqr(float x) {
-    return x * x;
+using namespace std;
+
+string ToString(int n, decltype(10) base = 10) {
+    string a = "0";
+    a[0] = n % base + 48;
+    return n < base ? a : ToString(n / base, base) + a;
 }
 
 int main() {
     auto a = 100;
-    auto x = sqr(sqrt(a));
-    printf("%f\n", x);
+    auto base10 = ToString(a);
+    auto base2 = ToString(a, 2);
+    printf("%s %s\n", base10.c_str(), base2.c_str());
 }
 ```
 
