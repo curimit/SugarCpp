@@ -211,7 +211,7 @@ namespace_def
 	;
 
 class_def
-	:  attribute? 'class' ident NEWLINE+ INDENT NEWLINE* global_block DEDENT -> ^(Class attribute? ident global_block)
+	:  attribute? 'class' ident (generic_parameter)? ('(' func_args ')')? (':' ident (',' ident)*)? (NEWLINE+ INDENT NEWLINE* global_block DEDENT)? -> ^(Class attribute? ident generic_parameter? func_args? (^(Ident_List ident*))? global_block?)
 	;
 
 type_name_op: '*' | '[' ']' | '&' ;

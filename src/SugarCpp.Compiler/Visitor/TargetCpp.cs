@@ -145,7 +145,7 @@ namespace SugarCpp.Compiler
                 FuncDef func = new FuncDef();
                 func.Type = "const char*";
                 func.Name = attr.Args.Count() == 0 ? "ToString" : attr.Args.First();
-                func.Args.Add(new ExprAlloc("const " + enum_def.Name + "&", new List<string> {"a"}, null));
+                func.Args.Add(new ExprAlloc("const " + enum_def.Name + "&", new List<string> { "a" }, null));
                 StmtBlock body = new StmtBlock();
                 StmtSwitch stmt_switch = new StmtSwitch();
                 stmt_switch.Expr = new ExprConst("a");
@@ -215,9 +215,28 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(Class class_def)
         {
-            Template template = new Template("class <name> {\n<list; separator=\"\n\">\n};");
+            Template template = null;
+            if (class_def.GenericParameter.Count() == 0)
+            {
+                template = new Template("class <name><inherit> {\n<list; separator=\"\n\">\n};");
+            }
+            else
+            {
+                template = new Template("template \\<<generics; separator=\", \">>\nclass <name><inherit> {\n<list; separator=\"\n\">\n};");
+                template.Add("generics", class_def.GenericParameter.Select(x => string.Format("typename {0}", x)));
+            }
             template.Add("name", class_def.Name);
+            if (class_def.Inherit.Count() > 0)
+            {
+                Template tmp = new Template(": <inherit; separator=\", \">");
+                tmp.Add("inherit", class_def.Inherit.Select(x => string.Format("public {0}", x)));
+                template.Add("inherit", tmp);
+            }
             List<Template> list = new List<Template>();
+
+            string last = "private";
+            bool last_flag = false;
+            AstNode last_node = null;
 
             // friend class
             foreach (var attr in class_def.Attribute)
@@ -233,45 +252,76 @@ namespace SugarCpp.Compiler
                 }
             }
 
-            bool last_flag = false;
-            AstNode last_node = null;
-
-            string last = "private";
-            foreach (var node in class_def.Block.List)
+            // Args
+            if (class_def.Args.Count() > 0)
             {
-                bool current = node is FuncDef || node is Class || node is Enum || node is Import || node is GlobalUsing || node is Namespace;
-                string modifier = node.Attribute.Find(x => x.Name == "public") != null ? "public" : "private";
-
-                
-
-                if (modifier != last)
+                Template tmp = new Template("\npublic:\n    <nodes; separator=\"\n\">\n\n    <constructor>");
+                List<Template> nodes = new List<Template>();
+                foreach (var item in class_def.Args)
                 {
-                    Template member = new Template("\n<modifier>:\n    <expr>");
-                    member.Add("modifier", modifier);
-                    member.Add("expr", node.Accept(this));
-                    list.Add(member);
+                    GlobalAlloc alloc = new GlobalAlloc(item.Type, item.Name, null, null);
+                    nodes.Add(alloc.Accept(this));
                 }
-                else
+                tmp.Add("nodes", nodes);
+                list.Add(tmp);
+
+                FuncDef func = new FuncDef();
+                func.Type = null;
+                func.Name = class_def.Name;
+                func.Args = class_def.Args;
+                func.Body = new StmtBlock();
+                foreach (var item in class_def.Args)
                 {
-                    if ((last_flag || current) && !(last_node is Import && node is Import))
+                    string name = item.Name.First();
+                    ExprAssign assign = new ExprAssign(new ExprAccess(new ExprConst("this"), "->", name), new ExprConst(name));
+                    func.Body.StmtList.Add(new StmtExpr(assign));
+                }
+
+                tmp.Add("constructor", func.Accept(this));
+
+                last = "public";
+                last_flag = true;
+            }
+
+            if (class_def.Block != null)
+            {
+
+
+                foreach (var node in class_def.Block.List)
+                {
+                    bool current = node is FuncDef || node is Class || node is Enum || node is Import || node is GlobalUsing || node is Namespace;
+                    string modifier = node.Attribute.Find(x => x.Name == "public") != null ? "public" : "private";
+
+                    if (modifier != last)
                     {
-                        Template member = new Template("\n    <expr>");
+                        Template member = new Template("\n<modifier>:\n    <expr>");
+                        member.Add("modifier", modifier);
                         member.Add("expr", node.Accept(this));
                         list.Add(member);
                     }
                     else
                     {
-                        Template member = new Template("    <expr>");
-                        member.Add("expr", node.Accept(this));
-                        list.Add(member);
-                    }
-                    
-                }
+                        if ((last_flag || current) && !(last_node is Import && node is Import))
+                        {
+                            Template member = new Template("\n    <expr>");
+                            member.Add("expr", node.Accept(this));
+                            list.Add(member);
+                        }
+                        else
+                        {
+                            Template member = new Template("    <expr>");
+                            member.Add("expr", node.Accept(this));
+                            list.Add(member);
+                        }
 
-                last = modifier;
-                last_flag = current;
-                last_node = node;
+                    }
+
+                    last = modifier;
+                    last_flag = current;
+                    last_node = node;
+                }
             }
+
             template.Add("list", list);
             return template;
         }

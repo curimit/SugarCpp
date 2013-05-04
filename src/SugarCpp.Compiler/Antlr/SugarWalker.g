@@ -125,9 +125,9 @@ enum_def returns [Enum value]
 	;
 
 class_def returns [Class value]
-	: ^(Class (attr=attribute)? a=ident b=global_block)
+	: ^(Class (attr=attribute)? a=ident (b=generic_parameter)? (c=func_args)? (d=ident_list)? (e=global_block)?)
 	{
-		$value = new Class(a, b, attr);
+		$value = new Class(a, b, c, d, e, attr);
 	}
 	;
 
@@ -151,10 +151,10 @@ type_name returns [string value]
 	  )*)
 	;
 
-func_args returns [List<Stmt> value]
+func_args returns [List<ExprAlloc> value]
 @init
 {
-	$value = new List<Stmt>();
+	$value = new List<ExprAlloc>();
 }
 	: ^(Func_Args (a=stmt_alloc
 	{
@@ -319,7 +319,7 @@ ident_list returns [List<string> value]
 {
 	$value = new List<string>();
 }
-	: ^(Ident_List (a=ident { $value.Add(a); })+)
+	: ^(Ident_List (a=ident { $value.Add(a); })*)
 	;
 	
 alloc_expr returns [ExprAlloc value]

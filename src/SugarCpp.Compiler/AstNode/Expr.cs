@@ -165,9 +165,9 @@ namespace SugarCpp.Compiler
     public class ExprLambda : Expr
     {
         public Expr Expr;
-        public List<Stmt> Args = new List<Stmt>();
+        public List<ExprAlloc> Args = new List<ExprAlloc>();
 
-        public ExprLambda(Expr expr, List<Stmt> args)
+        public ExprLambda(Expr expr, List<ExprAlloc> args)
         {
             this.Expr = expr;
             if (args != null)
