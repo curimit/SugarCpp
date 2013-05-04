@@ -449,7 +449,7 @@ expr returns [Expr value]
 	{
 		$value = new ExprAccess(a, op.Text, ident_text);
 	}
-	| ^(Expr_Bin op=( '+' | '-' | '*' | '/'
+	| ^(Expr_Bin op=( '+' | '-' | '*' | '/' | '%'
 					| '<' | '<=' | '>' | '>=' | '==' | '!='
 					| '<<' | '>>'
 					| '&' | '^' | '|'
