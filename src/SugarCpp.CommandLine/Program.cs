@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
 
@@ -19,15 +20,22 @@ namespace SugarCpp.CommandLine
             switch (args[0])
             {
                 case "compile":
-                    Compile.Main(args);
+                    Compile.Main(TrimArg(args));
                     break;
                 case "run":
-                    DoRun(args);
+                    DoRun(TrimArg(args));
                     break;
                 default:
                     Translate.Main(args);
                     break;
             }
+        }
+
+        private static string[] TrimArg(string[] args)
+        {
+            string[] trimmedArgs = new string[args.Length - 1];
+            Array.Copy(args, 1, trimmedArgs, 0, args.Length - 1);
+            return trimmedArgs;
         }
 
         private static void DoRun(string[] args)
@@ -47,7 +55,7 @@ namespace SugarCpp.CommandLine
         }
 
         /// <summary>
-        /// Print help text.
+        /// Print help text and exit program.
         /// </summary>
         internal static void PrintHelp()
         {

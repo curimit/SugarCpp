@@ -10,12 +10,8 @@ namespace SugarCpp.CommandLine
     {
         internal static void Main(string[] args)
         {
-            if (args[0] != "compile")
-            {
-                Program.Panic("First argument should be 'compile'.");
-            }
             GetCompiler();
-            DoCompile(args[1]);
+            DoCompile(args[0]);
         }
 
         private static void GetCompiler()

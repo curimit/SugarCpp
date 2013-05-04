@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Antlr.Runtime;
@@ -11,64 +12,35 @@ namespace SugarCpp.CommandLine
     {
         internal static void Main(string[] args)
         {
-            for (int i = 0; i < args.Length; i++)
-            {
-                string arg = args[i];
-                string nextArg = null;
-                if (i < args.Length - 1)
-                {
-                    nextArg = args[i + 1];
-                }
+            Arguments arguments = new Arguments(args, new Dictionary<string, bool> {
+                {"output", true},
+                {"o", true},
+                {"token", false},
+                {"ast", false},
+                {"nocode", false},
+                {"help", false},
+                {"h", false},
+                {"?", false},
+            });
 
-                switch (arg)
-                {
-                    case "--output":
-                    case "-o":
-                    case "/output":
-                    case "/o":
-                        if (nextArg == null)
-                        {
-                            Program.Panic("No file specified after " + arg);
-                        }
-                        if (outputFileName != null)
-                        {
-                            Program.Panic("You can not specify more than one output file");
-                        }
-                        outputFileName = nextArg;
-                        i++;
-                        break;
-                    case "--token":
-                    case "/token":
-                        printTokens = true;
-                        break;
-                    case "--ast":
-                    case "/ast":
-                        printAST = true;
-                        break;
-                    case "--nocode":
-                    case "/nocode":
-                        printCode = false;
-                        break;
-                    case "--help":
-                    case "-h":
-                    case "/help":
-                    case "/h":
-                    case "/?":
-                        Program.PrintHelp();
-                        break;
-                    default:
-                        if (inputFileName != null)
-                        {
-                            Program.Panic("Multiple input file is not supported");
-                        }
-                        inputFileName = arg;
-                        break;
-                }
+            if (arguments.HasOption("help") || arguments.HasOption("h") || arguments.HasOption("?"))
+            {
+                Program.PrintHelp();
             }
-            if (inputFileName == null)
+
+            printTokens = arguments.HasOption("token");
+            printAST = arguments.HasOption("ast");
+            printCode = !arguments.HasOption("nocode");
+            outputFileName = arguments.GetOption("o");
+            outputFileName = arguments.GetOption("output");
+
+            if (arguments.DirectArguments.Count == 0)
             {
                 Program.Panic("No input file is specified. Use --help for more information.");
             }
+            // TODO support multiple input
+            inputFileName = arguments.DirectArguments[0];
+
             if (outputFileName != null)
             {
                 outputFile = new StreamWriter(outputFileName);
