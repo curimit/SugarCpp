@@ -109,6 +109,12 @@ namespace SugarCpp.Test
         }
 
         [Test]
+        public void Class()
+        {
+            Test();
+        }
+
+        [Test]
         public void Typedef()
         {
             Test();

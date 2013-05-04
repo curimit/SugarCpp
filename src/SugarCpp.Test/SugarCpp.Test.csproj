@@ -48,6 +48,9 @@
     <Compile Include="TestCase.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Input\Class.sc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Input\FriendAttribute.sc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -96,6 +99,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Result\Class.cpp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Result\FlagAttribute.cpp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
