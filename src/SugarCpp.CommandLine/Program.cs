@@ -20,10 +20,10 @@ namespace SugarCpp.CommandLine
             switch (args[0])
             {
                 case "compile":
-                    Compile.Main(TrimArg(args));
+                    Compile.CompileSource(TrimArg(args));
                     break;
                 case "run":
-                    DoRun(TrimArg(args));
+					Compile.RunSource(TrimArg(args));
                     break;
                 default:
                     Translate.Main(args);
@@ -37,12 +37,6 @@ namespace SugarCpp.CommandLine
             Array.Copy(args, 1, trimmedArgs, 0, args.Length - 1);
             return trimmedArgs;
         }
-
-        private static void DoRun(string[] args)
-        {
-            throw new NotImplementedException();
-        }
-
 
         /// <summary>
         /// Raise a panic and exit program.

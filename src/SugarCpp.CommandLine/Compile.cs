@@ -7,30 +7,61 @@ using SugarCpp.Compiler;
 namespace SugarCpp.CommandLine
 {
     class Compile
-    {
-        internal static void Main(string[] args)
-        {
-            if (args.Length == 0)
-            {
-                Program.Panic("You should specify a source file.");
-            }
-            string inputFileName = args[0];
-            string compilerArgs = String.Empty;
-            if (args.Length > 1)
-            {
-                Arguments arguments = new Arguments(Program.TrimArg(args), null);
-                compilerArgs = arguments.ToString();
-            }
-            DetectCompiler();
-            DoCompile(inputFileName, compilerArgs);
-        }
+	{
+		internal static void CompileSource(string[] args)
+		{
+			if (args.Length == 0)
+			{
+				Program.Panic("You should specify a source file.");
+			}
+			string inputFileName = args[0];
+			string compilerArgs = string.Empty;
+			if (args.Length > 1)
+			{
+				Arguments arguments = new Arguments(Program.TrimArg(args), null);
+				compilerArgs = arguments.ToString();
+			}
+			DetectCompiler();
+			DoCompile(inputFileName, compilerArgs);
+		}
+		
+		internal static void RunSource(string[] args)
+		{
+			if (args.Length == 0)
+			{
+				Program.Panic("You should specify a source file.");
+			}
+			string inputFileName = args[0];
+			string runArgs = string.Empty;
+			if (args.Length > 1)
+			{
+				Arguments arguments = new Arguments(Program.TrimArg(args), null);
+				runArgs = arguments.ToString();
+			}
+			DetectCompiler();
+			string exeFileName = Path.GetTempFileName();
+			File.Delete(exeFileName);
+			exeFileName += ".exe";
+			DoCompile(inputFileName, compiler.OutputArg + " " + exeFileName);
+			RunCommand(exeFileName, runArgs);
+		}
 
         private static void DetectCompiler()
         {
             // Detect CXX from environment varibles
-            compilerCommand = Environment.GetEnvironmentVariable("CXX");
+            string compilerCommand = Environment.GetEnvironmentVariable("CXX");
             if (compilerCommand != null)
             {
+				string outputArg = Environment.GetEnvironmentVariable("OUTPUTARG");
+				if (outputArg == null)
+				{
+					outputArg = "-o";
+				}
+				compiler = new CompilerInfo {
+					Command=compilerCommand,
+					AdditionalArgs="",
+					OutputArg=outputArg
+				};
                 return;
             }
             // Try clang++ g++ and cl
@@ -39,29 +70,19 @@ namespace SugarCpp.CommandLine
             {
                 suffix = string.Empty;
             }
-            // clang++
-            compilerCommand = GetFullPath("clang++" + suffix);
-            if (compilerCommand != null)
-            {
-                return;
-            }
-            // g++
-            compilerCommand = GetFullPath("g++" + suffix);
-            if (compilerCommand != null)
-            {
-                compilerAdditionalArgs = "-std=c++0x";
-                return;
-            }
-            // cl
-            compilerCommand = GetFullPath("cl.exe");
-            if (compilerCommand != null)
-            {
-                return;
-            }
+			foreach (var compilerInfo in compilers)
+			{
+				compilerCommand = GetFullPath(compilerInfo.Command + suffix);
+				if (compilerCommand != null)
+				{
+					compiler = compilerInfo;
+					return;
+				}
+			}
             Program.Panic("No compiler detected on your system. You should specify one by using environment varible CXX.");
         }
 
-        public static string GetFullPath(string fileName)
+        internal static string GetFullPath(string fileName)
         {
             if (File.Exists(fileName))
             {
@@ -79,7 +100,7 @@ namespace SugarCpp.CommandLine
             return null;
         }
 
-        private static void DoCompile(string inputFileName, string arguments)
+		internal static void DoCompile(string inputFileName, string arguments)
         {
             string input = File.ReadAllText(inputFileName);
             string output = String.Empty;
@@ -98,18 +119,34 @@ namespace SugarCpp.CommandLine
             cppFileName += ".cpp";
             File.WriteAllText(cppFileName, output);
             // Execute compiler
-            Process proc = new Process();
-            // Redirect the output stream of the child process.
-            proc.StartInfo.UseShellExecute = false;
-            proc.StartInfo.FileName = compilerCommand;
-            proc.StartInfo.Arguments = cppFileName + " " + arguments + " " + compilerAdditionalArgs;
-            proc.OutputDataReceived += (sender, args) => Console.WriteLine(args.Data);
-            proc.ErrorDataReceived += (sender, args) => Console.Error.WriteLine(args.Data);
-            proc.Start();
-            proc.WaitForExit();
+			RunCommand(compiler.Command, cppFileName + " " + arguments + " " + compiler.AdditionalArgs);
         }
 
-        private static string compilerCommand = null;
-        private static string compilerAdditionalArgs = String.Empty;
+		private static void RunCommand(string command, string arguments)
+		{
+			Process proc = new Process();
+			proc.StartInfo.UseShellExecute = false;
+			proc.StartInfo.FileName = command;
+			proc.StartInfo.Arguments = arguments;
+			proc.OutputDataReceived += (sender, args) => Console.WriteLine(args.Data);
+			proc.ErrorDataReceived += (sender, args) => Console.Error.WriteLine(args.Data);
+			proc.Start();
+			proc.WaitForExit();
+		}
+
+		private class CompilerInfo
+		{
+			public string Command;
+			public string AdditionalArgs;
+			public string OutputArg;
+		}
+
+		private static CompilerInfo[] compilers = new CompilerInfo[]{
+			new CompilerInfo{Command="clang++", AdditionalArgs="-std=c++11", OutputArg="-o"},
+			new CompilerInfo{Command="g++", AdditionalArgs="-std=c++0x", OutputArg="-o"},
+			new CompilerInfo{Command="cl", AdditionalArgs="", OutputArg="/o"}
+		};
+
+		private static CompilerInfo compiler = null;
     }
 }
