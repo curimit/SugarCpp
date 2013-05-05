@@ -68,6 +68,7 @@
     <Compile Include="AstNode\Stmt.cs" />
     <Compile Include="AstNode\StmtBlock.cs" />
     <Compile Include="AstNode\Class.cs" />
+    <Compile Include="AstNode\StmtLinq.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Visitor\TargetCpp.cs" />
     <Compile Include="Visitor\Visitor.cs" />

@@ -34,6 +34,8 @@ namespace SugarCpp.Compiler
         public abstract Template Visit(StmtSwitch stmt_switch);
         public abstract Template Visit(StmtSwitchItem stmt_switch_item);
 
+        public abstract Template Visit(StmtLinq stmt_linq);
+
         public abstract Template Visit(StmtExpr stmt_expr);
 
         public abstract Template Visit(MatchTuple match);

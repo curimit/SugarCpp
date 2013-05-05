@@ -466,6 +466,57 @@ namespace SugarCpp.Compiler
             return template;
         }
 
+        public override Template Visit(StmtLinq stmt_linq)
+        {
+            StmtBlock block = stmt_linq.Block;
+            Stmt stmt = null;
+
+            bool isBlock = true;
+
+            // reverse list
+            Stack<LinqItem> stack = new Stack<LinqItem>();
+            foreach (var item in stmt_linq.List)
+            {
+                stack.Push(item);
+            }
+
+            foreach (var item in stack)
+            {
+                if (item is LinqFrom)
+                {
+                    LinqFrom linq_from = (LinqFrom) item;
+                    stmt = new StmtForEach(new ExprConst(linq_from.Var), linq_from.Expr, block);
+                    block = new StmtBlock();
+                    block.StmtList.Add(stmt);
+                    isBlock = false;
+                }
+                if (item is LinqLet)
+                {
+                    LinqLet linq_let = (LinqLet) item;
+                    block.StmtList.Insert(0, new StmtExpr(new ExprAlloc("auto", new List<string> { linq_let.Var }, linq_let.Expr)));
+                    isBlock = true;
+                }
+                if (item is LinqWhere)
+                {
+                    LinqWhere linq_where = (LinqWhere) item;
+                    stmt = new StmtIf(linq_where.Expr, block, null);
+                    block = new StmtBlock();
+                    block.StmtList.Add(stmt);
+                    isBlock = false;    
+                }
+            }
+            if (isBlock)
+            {
+                Template template = new Template("{\n    <block>\n}");
+                template.Add("block", block.Accept(this));
+                return template;
+            }
+            else
+            {
+                return stmt.Accept(this);
+            }
+        }
+
         public override Template Visit(StmtExpr stmt)
         {
             Template template = new Template("<stmt>;");

@@ -39,6 +39,12 @@ tokens
    Stmt_ForEach;
    Stmt_Try;
 
+   Stmt_Linq;
+   Linq_Prefix;
+   Linq_From;
+   Linq_Let;
+   Linq_Where;
+
    Type_IDENT;
    Type_Ref;
    Type_Tuple;
@@ -242,6 +248,7 @@ stmt
 	| stmt_for
 	| stmt_while
 	| stmt_try
+	| stmt_linq
 	;
 
 stmt_expr
@@ -285,6 +292,20 @@ stmt_for
 
 stmt_try
 	:	'try' stmt_block 'catch' '(' expr ')' stmt_block -> ^(Stmt_Try stmt_block expr stmt_block)
+	;
+
+linq_item
+	: 'from' ident 'in' expr -> ^(Linq_From ident expr)
+	| 'let' ident '=' expr -> ^(Linq_Let ident expr)
+	| 'where' expr -> ^(Linq_Where expr)
+	;
+
+linq_prefix
+	: (linq_item NEWLINE+)+ -> ^(Linq_Prefix linq_item+)
+	;
+
+stmt_linq
+	: linq_prefix stmt_block -> ^(Stmt_Linq linq_prefix stmt_block)
 	;
 
 ident_list

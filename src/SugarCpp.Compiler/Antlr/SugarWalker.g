@@ -237,6 +237,7 @@ stmt returns [Stmt value]
 	| a=stmt_while { $value = a; }
 	| a=stmt_for { $value = a; }
 	| a=stmt_try { $value = a; }
+	| a=stmt_linq { $value = a; }
 	;
 
 stmt_expr returns [Stmt value]
@@ -303,6 +304,36 @@ stmt_return returns [Stmt value]
 	: ^(Expr_Return (a=expr)?)
 	{
 		$value = new ExprReturn(a);
+	}
+	;
+
+linq_item returns [LinqItem value]
+	: ^(Linq_From a=ident b=expr)
+	{
+		$value = new LinqFrom(a, b);
+	}
+	| ^(Linq_Let a=ident b=expr)
+	{
+		$value = new LinqLet(a, b);
+	}
+	| ^(Linq_Where b=expr)
+	{
+		$value = new LinqWhere(b);
+	}
+	;
+
+linq_prefix returns [List<LinqItem> value]
+@init
+{
+	$value = new List<LinqItem>();
+}
+	: ^(Linq_Prefix (a=linq_item { $value.Add(a); })+)
+	;
+
+stmt_linq returns [Stmt value]
+	: ^(Stmt_Linq a=linq_prefix b=stmt_block)
+	{
+		$value = new StmtLinq(a, b);
 	}
 	;
 
