@@ -23,6 +23,7 @@ namespace SugarCpp.Compiler
         public abstract Template Visit(FuncDef func_def);
 
         public abstract Template Visit(StmtBlock block);
+        public abstract Template Visit(StmtDefer stmt_defer);
 
         public abstract Template Visit(StmtIf stmt_if);
         public abstract Template Visit(StmtWhile stmt_while);
@@ -33,6 +34,7 @@ namespace SugarCpp.Compiler
         public abstract Template Visit(StmtUsing stmt_using);
         public abstract Template Visit(StmtSwitch stmt_switch);
         public abstract Template Visit(StmtSwitchItem stmt_switch_item);
+        public abstract Template Visit(StmtReturn stmt);
 
         public abstract Template Visit(StmtLinq stmt_linq);
 
@@ -48,7 +50,6 @@ namespace SugarCpp.Compiler
         public abstract Template Visit(ExprPrefix expr);
         public abstract Template Visit(ExprSuffix expr);
         public abstract Template Visit(ExprAlloc expr);
-        public abstract Template Visit(ExprReturn expr);
         public abstract Template Visit(ExprCall expr);
         public abstract Template Visit(ExprNewType expr);
         public abstract Template Visit(ExprNewArray expr);

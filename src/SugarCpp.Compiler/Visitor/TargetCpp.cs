@@ -10,6 +10,8 @@ namespace SugarCpp.Compiler
 {
     public class TargetCpp : Visitor
     {
+        private Stack<Template> defer_stack = new Stack<Template>();
+
         public string Compile(string input)
         {
             input = input.Replace("\r", "");
@@ -152,7 +154,7 @@ namespace SugarCpp.Compiler
                 foreach (var item in enum_def.Values)
                 {
                     StmtBlock block = new StmtBlock();
-                    block.StmtList.Add(new StmtExpr(new ExprReturn(new ExprConst("\"" + item + "\""))));
+                    block.StmtList.Add(new StmtReturn(new ExprConst("\"" + item + "\"")));
                     stmt_switch.List.Add(new StmtSwitchItem(new ExprConst(item), block));
                 }
                 body.StmtList.Add(stmt_switch);
@@ -401,14 +403,54 @@ namespace SugarCpp.Compiler
         {
             Template template = new Template("<list; separator=\"\n\">");
             List<Template> list = new List<Template>();
+
+            int defer_count = 0;
+
             foreach (var node in block.StmtList)
             {
-                Template expr = new Template("<expr>");
-                expr.Add("expr", node.Accept(this));
-                list.Add(expr);
+                if (node is StmtDefer)
+                {
+                    defer_count++;
+                    defer_stack.Push(node.Accept(this));
+                    continue;
+                }
+
+                if (node is StmtReturn)
+                {
+                    var stmt_return = (StmtReturn) node;
+                    if (stmt_return.Expr == null)
+                    {
+                        foreach (var item in defer_stack)
+                        {
+                            list.Add(item);
+                        }
+                        list.Add(node.Accept(this));
+                    }
+                    else
+                    {
+                        Template expr = new Template("return ({defer=<expr>; <list; separator=\" \"> defer;})");
+                        expr.Add("expr", stmt_return.Expr.Accept(this));
+                        expr.Add("list", defer_stack.ToList());
+                        list.Add(expr);
+                    }
+                    continue;
+                }
+                
+                list.Add(node.Accept(this));
             }
+
+            for (int i = 0; i < defer_count; i++)
+            {
+                list.Add(defer_stack.Pop());
+            }
+
             template.Add("list", list);
             return template;
+        }
+
+        public override Template Visit(StmtDefer stmt_defer)
+        {
+            return stmt_defer.Stmt.Accept(this);
         }
 
         public override Template Visit(StmtIf stmt_if)
@@ -618,17 +660,17 @@ namespace SugarCpp.Compiler
             return template;
         }
 
-        public override Template Visit(ExprReturn expr)
+        public override Template Visit(StmtReturn expr)
         {
             if (expr.Expr != null)
             {
-                Template template = new Template("return <expr>");
+                Template template = new Template("return <expr>;");
                 template.Add("expr", expr.Expr.Accept(this));
                 return template;
             }
             else
             {
-                Template template = new Template("return");
+                Template template = new Template("return;");
                 return template;
             }
         }

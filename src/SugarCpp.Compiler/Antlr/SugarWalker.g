@@ -212,7 +212,7 @@ func_def returns [FuncDef value]
 		}
 		else
 		{
-			block.StmtList.Add(new StmtExpr(new ExprReturn(f)));
+			block.StmtList.Add(new StmtReturn(f));
 		}
 		if (x != null)
 		{
@@ -233,18 +233,26 @@ stmt_block returns [StmtBlock value]
 
 stmt returns [Stmt value]
 	: a=stmt_expr { $value = new StmtExpr(a); }
+	| a=stmt_return { $value = a; }
 	| a=stmt_if { $value = a; }
 	| a=stmt_while { $value = a; }
 	| a=stmt_for { $value = a; }
 	| a=stmt_try { $value = a; }
 	| a=stmt_linq { $value = a; }
+	| a=stmt_defer { $value = a; }
+	;
+
+stmt_defer returns [Stmt value]
+	: ^(Stmt_Defer a=stmt)
+	{
+		$value = new StmtDefer(a);
+	}
 	;
 
 stmt_expr returns [Stmt value]
-	: a=stmt_return { $value = a; }
-	| b=stmt_using { $value = b; }
-	| c=expr { $value = c; }
-	| d=stmt_typedef { $value = d; }
+	: a=stmt_using { $value = a; }
+	| b=expr { $value = b; }
+	| c=stmt_typedef { $value = c; }
 	;
 
 stmt_using returns [StmtUsing value]
@@ -301,9 +309,9 @@ stmt_try returns [Stmt value]
 	;
 
 stmt_return returns [Stmt value]
-	: ^(Expr_Return (a=expr)?)
+	: ^(Stmt_Return (a=expr)?)
 	{
-		$value = new ExprReturn(a);
+		$value = new StmtReturn(a);
 	}
 	;
 

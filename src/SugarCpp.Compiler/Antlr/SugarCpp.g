@@ -29,6 +29,8 @@ tokens
    Global_Block;
    
    Stmt_Block;
+
+   Stmt_Defer;
    
    Stmt_Using;
    Stmt_Typedef;
@@ -38,6 +40,8 @@ tokens
    Stmt_For;
    Stmt_ForEach;
    Stmt_Try;
+
+   Stmt_Return;
 
    Stmt_Linq;
    Linq_Prefix;
@@ -59,7 +63,6 @@ tokens
    Expr_New_Type;
    Expr_New_Array;
    Expr_Bin;
-   Expr_Return;
    
    Expr_Bin;
    Expr_Suffix;
@@ -249,6 +252,7 @@ stmt
 	| stmt_while
 	| stmt_try
 	| stmt_linq
+	| stmt_defer
 	;
 
 stmt_expr
@@ -257,6 +261,10 @@ stmt_expr
 	| stmt_using
 	| stmt_typedef
 	| stmt_modify
+	;
+
+stmt_defer
+	: 'defer' stmt -> ^(Stmt_Defer stmt)
 	;
 
 stmt_typedef
@@ -269,7 +277,7 @@ stmt_using
 	;
 
 stmt_return
-	: 'return' expr? -> ^(Expr_Return expr?)
+	: 'return' expr? -> ^(Stmt_Return expr?)
 	;
 
 stmt_if
