@@ -125,5 +125,11 @@ namespace SugarCpp.Test
         {
             Test();
         }
+
+        [Test]
+        public void Linq()
+        {
+            Test();
+        }
     }
 }
