@@ -428,7 +428,7 @@ namespace SugarCpp.Compiler
                     }
                     else
                     {
-                        Template expr = new Template("return ({defer=<expr>; <list; separator=\" \"> defer;})");
+                        Template expr = new Template("return ({auto defer=<expr>; <list; separator=\" \"> defer;});");
                         expr.Add("expr", stmt_return.Expr.Accept(this));
                         expr.Add("list", defer_stack.ToList());
                         list.Add(expr);
