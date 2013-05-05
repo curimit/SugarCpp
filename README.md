@@ -141,8 +141,8 @@ int main()
     b.push_back(6)
     b.push_back(2)
     
-    from x in a
-    from y in b
+    select x from a
+    select y from b
     where x + 1 == y
     let sum = x + y
         printf("%d + %d = %d\n", x, y, sum)

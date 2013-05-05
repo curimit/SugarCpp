@@ -295,13 +295,13 @@ stmt_try
 	;
 
 linq_item
-	: 'from' ident 'in' expr -> ^(Linq_From ident expr)
+	: 'select' ident 'from' expr -> ^(Linq_From ident expr)
 	| 'let' ident '=' expr -> ^(Linq_Let ident expr)
 	| 'where' expr -> ^(Linq_Where expr)
 	;
 
 linq_prefix
-	: (linq_item NEWLINE+)+ -> ^(Linq_Prefix linq_item+)
+	: (linq_item (NEWLINE* linq_item)* NEWLINE+)+ -> ^(Linq_Prefix linq_item+)
 	;
 
 stmt_linq
