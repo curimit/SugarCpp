@@ -8,6 +8,36 @@ If you have any idea, please open the issue.
 
 Try SugarCpp in browser: http://curimit.com/project/SugarCpp/
 
+## Command Line Usage
+
+    SugarCpp
+    Compiler Version 1.0.0
+    Command Line Interface Version 1.0.2
+
+    Project website: https://github.com/curimit/SugarCpp
+
+    Usage:
+        sugarcpp [filename] <options>
+        sugarcpp compile [filename] <compiler arguments>
+        sugarcpp run [filename] <arguments>
+
+    Options:
+        --ast /ast                  Output the abstract syntax tree.
+        --help -h /help /h /?       Output this help text.
+        --nocode /nocode            Do not print the generated code.
+        --output -o /output /o [filename]
+                                    Filename of output. If not specified, output
+                                    will be printed to standard output.
+        --token /token              Output the tokens.
+
+    Examples:
+        Translate into C++ code
+            sugarcpp code.sc -o code.cpp
+        Compile to binary by calling the default compiler
+            sugarcpp compule code.sc -o code.exe
+        Compile and run
+            sugarcpp run code.sc
+
 ## Examples
 
 #### Hello world
