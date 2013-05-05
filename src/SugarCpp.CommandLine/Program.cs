@@ -31,7 +31,7 @@ namespace SugarCpp.CommandLine
             }
         }
 
-        private static string[] TrimArg(string[] args)
+        public static string[] TrimArg(string[] args)
         {
             string[] trimmedArgs = new string[args.Length - 1];
             Array.Copy(args, 1, trimmedArgs, 0, args.Length - 1);

@@ -9,8 +9,13 @@ namespace SugarCpp.CommandLine
     {
         internal Arguments(string[] args, Dictionary<string, bool> options)
         {
+            this.args = args;
             this.Options = new Dictionary<string,string>();
             this.DirectArguments = new List<string>();
+            if (options == null)
+            {
+                options = new Dictionary<string, bool>();
+            }
             for (int i = 0; i < args.Length; i++)
             {
                 string arg = args[i];
@@ -95,7 +100,6 @@ namespace SugarCpp.CommandLine
                     }
                 }
             }
-            Print();
         }
 
         public bool HasOption(string option)
@@ -110,6 +114,22 @@ namespace SugarCpp.CommandLine
                 return this.Options[option];
             }
             return null;
+        }
+
+        public override string ToString()
+        {
+            StringBuilder buffer = new StringBuilder();
+            for (int i = 0; i < args.Length; i++)
+            {
+                buffer.Append('"');
+                buffer.Append(args[i]);
+                buffer.Append('"');
+                if (i != args.Length - 1)
+                {
+                    buffer.Append(' ');
+                }
+            }
+            return buffer.ToString();
         }
 
         public void Print()
@@ -127,5 +147,7 @@ namespace SugarCpp.CommandLine
         public List<string> DirectArguments { get; private set; }
 
         public Dictionary<string, string> Options { get; private set; }
+
+        private string[] args;
     }
 }
