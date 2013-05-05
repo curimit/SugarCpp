@@ -15,4 +15,4 @@ using System.Runtime.InteropServices;
 
 // Version of Command Line Interface
 // Only first 3 sections of version should be used.
-[assembly: AssemblyVersion("1.0.1")]
+[assembly: AssemblyVersion("1.0.2")]

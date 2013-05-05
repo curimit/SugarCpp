@@ -65,20 +65,27 @@ namespace SugarCpp.CommandLine
             Console.WriteLine();
             Console.WriteLine("Project website: https://github.com/curimit/SugarCpp");
             Console.WriteLine();
-            Console.WriteLine("Usage:");
-            Console.WriteLine(indent + "sugarcpp [filename] <options>");
+			Console.WriteLine("Usage:");
+			Console.WriteLine(indent + "sugarcpp [filename] <options>");
+			Console.WriteLine(indent + "sugarcpp compile [filename] <compiler arguments>");
+			Console.WriteLine(indent + "sugarcpp run [filename] <arguments>");
             Console.WriteLine();
             Console.WriteLine("Options:");
-            Console.WriteLine(indent + "--ast /ast               Output the abstract syntax tree.");
-            Console.WriteLine(indent + "--help -h /help /h /?    Output this help text.");
-            Console.WriteLine(indent + "--nocode /nocode         Do not print the generated code.");
+            Console.WriteLine(indent + "--ast /ast                  Output the abstract syntax tree.");
+            Console.WriteLine(indent + "--help -h /help /h /?       Output this help text.");
+            Console.WriteLine(indent + "--nocode /nocode            Do not print the generated code.");
             Console.WriteLine(indent + "--output -o /output /o [filename]");
-            Console.WriteLine(indent + "                         Filename of output. If not specified, output");
-            Console.WriteLine(indent + "                         will be printed to standard output.");
-            Console.WriteLine(indent + "--token /token           Output the tokens.");
+            Console.WriteLine(indent + "                            Filename of output. If not specified, output");
+            Console.WriteLine(indent + "                            will be printed to standard output.");
+            Console.WriteLine(indent + "--token /token              Output the tokens.");
             Console.WriteLine();
-            Console.WriteLine("Example:");
-            Console.WriteLine(indent + "sugarcpp code.sc -o code.cpp");
+			Console.WriteLine("Examples:");
+			Console.WriteLine(indent + "Translate into C++ code");
+			Console.WriteLine(indent + indent + "sugarcpp code.sc -o code.cpp");
+			Console.WriteLine(indent + "Compile to binary by calling the default compiler");
+			Console.WriteLine(indent + indent + "sugarcpp compule code.sc -o code.exe");
+			Console.WriteLine(indent + "Compile and run");
+			Console.WriteLine(indent + indent + "sugarcpp run code.sc");
             Environment.Exit(0);
         }
 
