@@ -77,6 +77,43 @@ int main() {
 }
 ```
 
+#### Go style defer
+```c++
+import "fstream"
+
+using namespace std
+
+void foo()
+    fout: ofstream("output.txt")
+    defer fout.close()
+    fout.write("Hello World!", 12)
+    if (1==2)
+        return
+
+int main()
+    foo()
+```
+
+```c++
+#include "fstream"
+
+using namespace std;
+
+void foo() {
+    ofstream fout("output.txt");
+    fout.write("Hello World!", 12);
+    if (1 == 2) {
+        fout.close();
+        return;
+    }
+    fout.close();
+}
+
+int main() {
+    foo();
+}
+```
+
 #### Generic Programming
 ```c++
 T max<T>(x: T, y: T) = x if x > y else y
