@@ -1,42 +1,23 @@
 # SugarCpp
-SugarCpp is a language which can compile to C++11.
-
-The generated code is of very high quality and can be comparable with the handwritten code.
+SugarCpp is a programming language which compiles to C++11.
+It adds lots of syntax sugar in to C++ and is 100% equivalent C++ code.
+The generated code is readable by human and of such high quality that can be comparable with the handwritten code.
 
 SugarCpp is still under development.
-If you have any idea, please open the issue.
+If you have any idea, please open a issue.
 
-Try SugarCpp in browser: http://curimit.com/project/SugarCpp/
+Try SugarCpp in your browser: http://curimit.com/project/SugarCpp/
 
-## Command Line Usage
+## Features
 
-    SugarCpp
-    Compiler Version 1.0.0
-    Command Line Interface Version 1.0.2
-
-    Project website: https://github.com/curimit/SugarCpp
-
-    Usage:
-        sugarcpp [filename] <options>
-        sugarcpp compile [filename] <compiler arguments>
-        sugarcpp run [filename] <arguments>
-
-    Options:
-        --ast /ast                  Output the abstract syntax tree.
-        --help -h /help /h /?       Output this help text.
-        --nocode /nocode            Do not print the generated code.
-        --output -o /output /o [filename]
-                                    Filename of output. If not specified, output
-                                    will be printed to standard output.
-        --token /token              Output the tokens.
-
-    Examples:
-        Translate into C++ code
-            sugarcpp code.sc -o code.cpp
-        Compile to binary by calling the default compiler
-            sugarcpp compule code.sc -o code.exe
-        Compile and run
-            sugarcpp run code.sc
+* Indent-based code block.
+* Inline function defination.
+* Multiple return values & parallel assignment.
+* Haskell style infix function.
+* C# style extension method.
+* Go style defer statement.
+* Scala style case class.
+* Pattern matching.
 
 ## Examples
 
@@ -555,3 +536,34 @@ typedef u_int32 = unsigned int
 ```c++
 typedef unsigned int u_int32;
 ```
+
+## Command Line Usage
+
+    SugarCpp
+    Compiler Version 1.0.0
+    Command Line Interface Version 1.0.2
+
+    Project website: https://github.com/curimit/SugarCpp
+
+    Usage:
+        sugarcpp [filename] <options>
+        sugarcpp compile [filename] <compiler arguments>
+        sugarcpp run [filename] <arguments>
+
+    Options:
+        --ast /ast                  Output the abstract syntax tree.
+        --help -h /help /h /?       Output this help text.
+        --nocode /nocode            Do not print the generated code.
+        --output -o /output /o [filename]
+                                    Filename of output. If not specified, output
+                                    will be printed to standard output.
+        --token /token              Output the tokens.
+
+    Examples:
+        Translate into C++ code
+            sugarcpp code.sc -o code.cpp
+        Compile to binary by calling the default compiler
+            sugarcpp compule code.sc -o code.exe
+        Compile and run
+            sugarcpp run code.sc
+
