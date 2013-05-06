@@ -39,8 +39,9 @@ namespace SugarCpp.Compiler
         public List<string> Name = new List<string>();
         public string Type;
         public Expr Expr;
+        public bool IsEqualSign;
 
-        public GlobalAlloc(string type, List<string> name, Expr expr, List<Attr> attr)
+        public GlobalAlloc(string type, List<string> name, Expr expr, List<Attr> attr, bool isEqualSign)
         {
             this.Type = type;
             this.Name = name;
@@ -49,6 +50,7 @@ namespace SugarCpp.Compiler
             {
                 this.Attribute = attr;
             }
+            this.IsEqualSign = isEqualSign;
         }
 
         public override Template Accept(Visitor visitor)

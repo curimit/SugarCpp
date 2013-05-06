@@ -54,8 +54,9 @@ tokens
    Type_Tuple;
 
    Func_Args;
-
-   Expr_Alloc;
+   
+   Expr_Alloc_Equal;
+   Expr_Alloc_Bracket;
 
    Expr_Bracket;
 
@@ -195,7 +196,9 @@ attribute
 	;
 
 global_alloc
-	: attribute? ident_list ':' type_name (':=' expr)? -> ^(Expr_Alloc attribute? type_name ident_list expr?)
+	: attribute? ident_list ':' type_name ( ('=' | ':=') expr -> ^(Expr_Alloc_Equal attribute? type_name ident_list expr?)
+	                                      | '(' expr ')' -> ^(Expr_Alloc_Bracket attribute? type_name ident_list expr?)
+										  |  -> ^(Expr_Alloc_Equal attribute? type_name ident_list))?
 	| attribute? ident ':=' modify_expr -> ^(':=' attribute? ident modify_expr)
 	;
 
@@ -321,7 +324,9 @@ ident_list
 	;
 
 stmt_alloc
-	: ident_list ':' type_name (':=' expr)? -> ^(Expr_Alloc type_name ident_list expr?)
+	: ident_list ':' type_name ( ('=' | ':=') expr  -> ^(Expr_Alloc_Equal type_name ident_list expr?)
+	                           | '(' expr ')'  -> ^(Expr_Alloc_Bracket type_name ident_list expr?)
+							   | -> ^(Expr_Alloc_Equal type_name ident_list))?
 	| ident ':='^ modify_expr
 	;
 

@@ -54,13 +54,17 @@ global_using returns[GlobalUsing value]
 	;
 
 global_alloc returns [GlobalAlloc value]
-	: ^(Expr_Alloc (attr=attribute)? a=type_name b=ident_list (c=expr)?)
+	: ^(Expr_Alloc_Equal (attr=attribute)? a=type_name b=ident_list (c=expr)?)
 	{
-		$value = new GlobalAlloc(a, b, c, attr);
+		$value = new GlobalAlloc(a, b, c, attr, true);
+	}
+	| ^(Expr_Alloc_Bracket (attr=attribute)? a=type_name b=ident_list (c=expr)?)
+	{
+		$value = new GlobalAlloc(a, b, c, attr, false);
 	}
 	| ^(':=' (attr=attribute)? a=ident c=expr)
 	{
-		$value = new GlobalAlloc("auto", new List<string> { a }, c, attr);
+		$value = new GlobalAlloc("auto", new List<string> { a }, c, attr, true);
 	}
 	;
 
@@ -362,9 +366,13 @@ ident_list returns [List<string> value]
 	;
 	
 alloc_expr returns [ExprAlloc value]
-	: ^(Expr_Alloc a=type_name b=ident_list (c=expr)?)
+	: ^(Expr_Alloc_Equal a=type_name b=ident_list (c=expr)?)
 	{
-		$value = new ExprAlloc(a, b, c);
+		$value = new ExprAlloc(a, b, c, true);
+	}
+	| ^(Expr_Alloc_Bracket a=type_name b=ident_list (c=expr)?)
+	{
+		$value = new ExprAlloc(a, b, c, false);
 	}
 	;
 
@@ -504,7 +512,7 @@ expr returns [Expr value]
 	| ^(':=' a=expr b=expr)
 	{
 		System.Diagnostics.Debug.Assert(a is ExprConst);
-		$value = new ExprAlloc("auto", new List<string> { ((ExprConst)a).Text }, b);
+		$value = new ExprAlloc("auto", new List<string> { ((ExprConst)a).Text }, b, true);
 	}
 	| ^(Expr_Bracket a=expr)
 	{

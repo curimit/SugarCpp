@@ -92,7 +92,15 @@ namespace SugarCpp.Compiler
 
             if (global_alloc.Expr != null)
             {
-                Template template = new Template("<prefix><type> <name; separator=\", \"> = <expr>;");
+                Template template = null;
+                if (global_alloc.IsEqualSign)
+                {
+                    template = new Template("<prefix><type> <name; separator=\", \"> = <expr>;");
+                }
+                else
+                {
+                    template = new Template("<prefix><type> <name; separator=\", \">(<expr>);");
+                }
                 template.Add("prefix", prefix);
                 template.Add("type", global_alloc.Type);
                 template.Add("name", global_alloc.Name);
@@ -147,7 +155,7 @@ namespace SugarCpp.Compiler
                 FuncDef func = new FuncDef();
                 func.Type = "const char*";
                 func.Name = attr.Args.Count() == 0 ? "ToString" : attr.Args.First();
-                func.Args.Add(new ExprAlloc("const " + enum_def.Name + "&", new List<string> { "a" }, null));
+                func.Args.Add(new ExprAlloc("const " + enum_def.Name + "&", new List<string> { "a" }, null, true));
                 StmtBlock body = new StmtBlock();
                 StmtSwitch stmt_switch = new StmtSwitch();
                 stmt_switch.Expr = new ExprConst("a");
@@ -261,7 +269,7 @@ namespace SugarCpp.Compiler
                 List<Template> nodes = new List<Template>();
                 foreach (var item in class_def.Args)
                 {
-                    GlobalAlloc alloc = new GlobalAlloc(item.Type, item.Name, null, null);
+                    GlobalAlloc alloc = new GlobalAlloc(item.Type, item.Name, null, null, true);
                     nodes.Add(alloc.Accept(this));
                 }
                 tmp.Add("nodes", nodes);
@@ -415,7 +423,7 @@ namespace SugarCpp.Compiler
                     continue;
                 }
 
-                if (node is StmtReturn)
+                if (defer_stack.Count() > 0 && node is StmtReturn)
                 {
                     var stmt_return = (StmtReturn) node;
                     if (stmt_return.Expr == null)
@@ -428,7 +436,7 @@ namespace SugarCpp.Compiler
                     }
                     else
                     {
-                        Template expr = new Template("return ({auto defer=<expr>; <list; separator=\" \"> defer;});");
+                        Template expr = new Template("{ auto defer=<expr>; <list; separator=\" \"> return defer; }");
                         expr.Add("expr", stmt_return.Expr.Accept(this));
                         expr.Add("list", defer_stack.ToList());
                         list.Add(expr);
@@ -535,7 +543,7 @@ namespace SugarCpp.Compiler
                 if (item is LinqLet)
                 {
                     LinqLet linq_let = (LinqLet) item;
-                    block.StmtList.Insert(0, new StmtExpr(new ExprAlloc("auto", new List<string> { linq_let.Var }, linq_let.Expr)));
+                    block.StmtList.Insert(0, new StmtExpr(new ExprAlloc("auto", new List<string> { linq_let.Var }, linq_let.Expr, true)));
                     isBlock = true;
                 }
                 if (item is LinqWhere)
@@ -579,7 +587,15 @@ namespace SugarCpp.Compiler
             {
                 if (expr.Type != "decltype")
                 {
-                    Template template = new Template("<type> <name; separator=\", \"> = <expr>");
+                    Template template = null;
+                    if (expr.IsEqualSign)
+                    {
+                        template = new Template("<type> <name; separator=\", \"> = <expr>");
+                    }
+                    else
+                    {
+                        template = new Template("<type> <name; separator=\", \">(<expr>)");
+                    }
                     template.Add("type", expr.Type);
                     template.Add("name", expr.Name);
                     template.Add("expr", expr.Expr.Accept(this));
