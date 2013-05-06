@@ -1,5 +1,5 @@
 # SugarCpp
-SugarCpp is a language which can compile C++11.
+SugarCpp is a language which can compile to C++11.
 
 The generated code is of very high quality and can be comparable with the handwritten code.
 
@@ -87,11 +87,24 @@ void foo()
     fout: ofstream("output.txt")
     defer fout.close()
     fout.write("Hello World!", 12)
-    if (1==2)
+    if (false)
         return
 
-int main()
-    foo()
+// A more complex example to show the execution order of defer
+void bar()
+    print("1")
+    defer print("defer1")
+    if (true)
+        print("2")
+        defer print("defer2")
+        if (true)
+            print("3")
+            defer print("defer3")
+            print("4")
+            return
+        print("5")
+    print("6")
+    return
 ```
 
 ```c++
@@ -102,15 +115,31 @@ using namespace std;
 void foo() {
     ofstream fout("output.txt");
     fout.write("Hello World!", 12);
-    if (1 == 2) {
+    if (false) {
         fout.close();
         return;
     }
     fout.close();
 }
 
-int main() {
-    foo();
+void bar() {
+    print("1");
+    if (true) {
+        print("2");
+        if (true) {
+            print("3");
+            print("4");
+            print("defer3");
+            print("defer2");
+            print("defer1");
+            return;
+        }
+        print("5");
+        print("defer2");
+    }
+    print("6");
+    print("defer1");
+    return;
 }
 ```
 
@@ -143,13 +172,44 @@ enum Color {
 ```c++
 a := 1
 b : int
-c : int := 0
+c : int = 0
+d : int := 0
+e : vector<int>(10)
+list1, list2, list3: vector<int>(100)
+f, g: int*&
+
+int test(a:=123, b:int)
+    a := 1
+    b : int
+    c : int = 0
+    d : int := 0
+    e : vector<int>(10)
+    list1, list2, list3: vector<int>(100)
+    f, g: int*&
 ```
 
 ```c++
 auto a = 1;
 int b;
 int c = 0;
+int d = 0;
+vector<int> e(10);
+vector<int> list1(100);
+vector<int> list2(100);
+vector<int> list3(100);
+int *&f, *&g;
+
+int test(decltype(123) a = 123, int b) {
+    auto a = 1;
+    int b;
+    int c = 0;
+    int d = 0;
+    vector<int> e(10);
+    vector<int> list1(100)
+    vector<int> list2(100)
+    vector<int> list3(100);
+    int *&f, *&g;
+}
 ```
 
 #### Multiple return values && Parallel assignment
@@ -489,9 +549,9 @@ namespace SugarCpp {
 
 #### Typedef
 ```c++
-typedef int_ptr = int*
+typedef u_int32 = unsigned int
 ```
 
 ```c++
-typedef int* int_ptr;
+typedef unsigned int u_int32;
 ```
