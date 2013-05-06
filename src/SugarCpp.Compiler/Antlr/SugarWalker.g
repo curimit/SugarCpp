@@ -95,7 +95,7 @@ attribute_item returns [Attr value]
 {
 	$value = new Attr();
 }
-	: ^(Attribute a=ident { $value.Name = a; } (b=attribute_args { $value.Args.Add(b) ; })*)
+	: ^(Attribute (a=ident { $value.Name = a; } | c='const' { $value.Name = "const"; }) (b=attribute_args { $value.Args.Add(b) ; })*)
 	;
 
 attribute returns [List<Attr> value]

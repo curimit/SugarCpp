@@ -188,6 +188,7 @@ attribute_args
 
 attribute_item
 	: ident ('(' attribute_args (',' attribute_args)* ')')? -> ^(Attribute ident attribute_args*)
+	| 'const' ('(' attribute_args (',' attribute_args)* ')')? -> ^(Attribute 'const' attribute_args*)
 	;
 
 attribute

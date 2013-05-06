@@ -446,7 +446,7 @@ namespace SugarCpp.Compiler
             List<Template> list = new List<Template>();
 
             int defer_count = 0;
-
+            bool contains_return = false;
             foreach (var node in block.StmtList)
             {
                 if (node is StmtDefer)
@@ -455,6 +455,8 @@ namespace SugarCpp.Compiler
                     defer_stack.Push(node.Accept(this));
                     continue;
                 }
+                
+                contains_return = contains_return || node is StmtReturn;
 
                 if (defer_stack.Count() > 0 && node is StmtReturn)
                 {
@@ -482,7 +484,14 @@ namespace SugarCpp.Compiler
 
             for (int i = 0; i < defer_count; i++)
             {
-                list.Add(defer_stack.Pop());
+                if (contains_return)
+                {
+                    defer_stack.Pop();
+                }
+                else
+                {
+                    list.Add(defer_stack.Pop());
+                }
             }
 
             template.Add("list", list);
