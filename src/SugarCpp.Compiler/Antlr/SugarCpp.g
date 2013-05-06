@@ -37,6 +37,7 @@ tokens
 
    Stmt_If;
    Stmt_While;
+   Stmt_Loop;
    Stmt_For;
    Stmt_ForEach;
    Stmt_Try;
@@ -289,6 +290,7 @@ stmt_if
 
 stmt_while
 	: 'while' '(' expr ')' stmt_block -> ^(Stmt_While expr stmt_block)
+	| 'loop' stmt_block -> ^(Stmt_Loop stmt_block)
 	;
 
 stmt_for

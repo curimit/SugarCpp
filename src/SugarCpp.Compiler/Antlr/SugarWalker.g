@@ -291,6 +291,10 @@ stmt_while returns [Stmt value]
 	{
 		$value = new StmtWhile(a, b);
 	}
+	| ^(Stmt_Loop b=stmt_block)
+	{
+		$value = new StmtWhile(new ExprConst("true"), b);
+	}
 	;
 
 stmt_for returns [Stmt value]
