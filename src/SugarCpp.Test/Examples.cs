@@ -131,5 +131,11 @@ namespace SugarCpp.Test
         {
             Test();
         }
+
+        [Test]
+        public void Defer()
+        {
+            Test();
+        }
     }
 }
