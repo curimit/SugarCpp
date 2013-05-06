@@ -8,7 +8,7 @@
     Saturday
 };
 
-const char* ToString(const Day& a) {
+const char* ToString(const Day &a) {
     switch (a) {
     case Sunday:
         return "Sunday";

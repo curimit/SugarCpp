@@ -14,7 +14,7 @@ private:
 
 class Print {
 public:
-    static void print(Test& a) {
+    static void print(Test &a) {
         printf("%d", a.x);
     }
 };
