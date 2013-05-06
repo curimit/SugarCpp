@@ -196,7 +196,7 @@ attribute
 
 global_alloc
 	: attribute? ident_list ':' type_name ( ('=' | ':=') expr -> ^(Expr_Alloc_Equal attribute? type_name ident_list expr?)
-	                                      | '(' expr ')' -> ^(Expr_Alloc_Bracket attribute? type_name ident_list expr?)
+	                                      | '(' expr_list? ')' -> ^(Expr_Alloc_Bracket attribute? type_name ident_list expr_list?)
 										  | -> ^(Expr_Alloc_Equal attribute? type_name ident_list)
 										  )
 	| attribute? ident ':=' modify_expr -> ^(':=' attribute? ident modify_expr)
@@ -228,7 +228,7 @@ class_def
 
 type_name_op: '*' | '[' ']' | '&' ;
 type_name
-	: ident ('<' (type_name (',' type_name)*)? '>')? type_name_op* -> ^(Type_IDENT ident ('<' type_name* '>')?  type_name_op*)
+	: 'const'? 'unsigned'? ident ('<' (type_name (',' type_name)*)? '>')? type_name_op* -> ^(Type_IDENT 'const'? 'unsigned'? ident ('<' type_name* '>')?  type_name_op*)
 	;
 
 generic_parameter_inside
@@ -330,7 +330,7 @@ ident_list
 
 stmt_alloc
 	: ident_list ':' type_name ( ('=' | ':=') expr  -> ^(Expr_Alloc_Equal type_name ident_list expr?)
-	                           | '(' expr ')'  -> ^(Expr_Alloc_Bracket type_name ident_list expr?)
+	                           | '(' expr_list? ')'  -> ^(Expr_Alloc_Bracket type_name ident_list expr_list?)
 							   | -> ^(Expr_Alloc_Equal type_name ident_list)
 							   )
 	| ident ':='^ modify_expr
@@ -389,7 +389,7 @@ cmp_expr
 	                                          | -> ^(Expr_Bin '<' $cmp_expr $b))
 	                       | '<=' b=shift_expr -> ^(Expr_Bin '<=' $cmp_expr $b)
 						   | '>' b=shift_expr -> ^(Expr_Bin '>' $cmp_expr $b)
-						   | '>=' b=shift_expr -> ^(Expr_Bin '>=' $cmp_expr $b))?
+						   | '>=' b=shift_expr -> ^(Expr_Bin '>=' $cmp_expr $b))*
 	;
 
 shift_expr_op: '<<' | '>>' ;

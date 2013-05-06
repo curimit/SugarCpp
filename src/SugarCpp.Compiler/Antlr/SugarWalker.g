@@ -54,15 +54,15 @@ global_using returns[GlobalUsing value]
 	;
 
 global_alloc returns [GlobalAlloc value]
-	: ^(Expr_Alloc_Equal (attr=attribute)? a=type_name b=ident_list (c=expr)?)
+	: ^(Expr_Alloc_Equal (attr=attribute)? a=type_name b=ident_list (c=expr_list)?)
 	{
 		$value = new GlobalAlloc(a, b, c, attr, true);
 	}
-	| ^(Expr_Alloc_Bracket (attr=attribute)? a=type_name b=ident_list (c=expr)?)
+	| ^(Expr_Alloc_Bracket (attr=attribute)? a=type_name b=ident_list (c=expr_list)?)
 	{
 		$value = new GlobalAlloc(a, b, c, attr, false);
 	}
-	| ^(':=' (attr=attribute)? a=ident c=expr)
+	| ^(':=' (attr=attribute)? a=ident c=expr_list)
 	{
 		$value = new GlobalAlloc("auto", new List<string> { a }, c, attr, true);
 	}
@@ -140,7 +140,10 @@ type_name returns [string value]
 {
 	$value = "";
 }
-	: ^( Type_IDENT a=ident { $value+=a; }
+	: ^( Type_IDENT
+	     ('const' { $value += "const "; })?
+		 ('unsigned' { $value += "unsigned "; })?
+	     a=ident { $value+=a; }
 	   ( '<' { $value+="<"; bool isFirst = true; }
 	    (b=type_name
 		{
@@ -370,11 +373,11 @@ ident_list returns [List<string> value]
 	;
 	
 alloc_expr returns [ExprAlloc value]
-	: ^(Expr_Alloc_Equal a=type_name b=ident_list (c=expr)?)
+	: ^(Expr_Alloc_Equal a=type_name b=ident_list (c=expr_list)?)
 	{
 		$value = new ExprAlloc(a, b, c, true);
 	}
-	| ^(Expr_Alloc_Bracket a=type_name b=ident_list (c=expr)?)
+	| ^(Expr_Alloc_Bracket a=type_name b=ident_list (c=expr_list)?)
 	{
 		$value = new ExprAlloc(a, b, c, false);
 	}
@@ -510,10 +513,10 @@ expr returns [Expr value]
 	{
 		$value = new ExprBin(op.Text, a, b);
 	}
-	| ^(':=' a=expr b=expr)
+	| ^(':=' a=expr list=expr_list)
 	{
 		System.Diagnostics.Debug.Assert(a is ExprConst);
-		$value = new ExprAlloc("auto", new List<string> { ((ExprConst)a).Text }, b, true);
+		$value = new ExprAlloc("auto", new List<string> { ((ExprConst)a).Text }, list, true);
 	}
 	| ^(Expr_Bracket a=expr)
 	{

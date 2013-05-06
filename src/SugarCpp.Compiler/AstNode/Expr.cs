@@ -45,14 +45,17 @@ namespace SugarCpp.Compiler
     {
         public List<string> Name = new List<string>();
         public string Type;
-        public Expr Expr;
+        public List<Expr> ExprList = new List<Expr>();
         public bool IsEqualSign;
 
-        public ExprAlloc(string type, List<string> name, Expr expr, bool isEqualSign)
+        public ExprAlloc(string type, List<string> name, List<Expr> expr_list, bool isEqualSign)
         {
             this.Type = type;
             this.Name = name;
-            this.Expr = expr;
+            if (expr_list != null)
+            {
+                this.ExprList = expr_list;
+                }
             this.IsEqualSign = isEqualSign;
         }
 
