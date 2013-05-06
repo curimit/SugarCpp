@@ -1,7 +1,7 @@
 # SugarCpp
 SugarCpp is a programming language which compiles to C++11.
 It adds lots of syntax sugar in to C++ and is 100% equivalent C++ code.
-The generated code is readable by human and of such high quality that can be comparable with the handwritten code.
+The generated code is readable by human and of such high quality that can be comparable with handwritten code.
 
 SugarCpp is still under development.
 If you have any idea, please open a issue.
