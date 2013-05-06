@@ -158,6 +158,19 @@ namespace SugarCpp.Compiler
         public List<Expr> Args = new List<Expr>();
         public List<string> GenericParameter = new List<string>();
 
+        public ExprCall(Expr expr, List<string> generic, List<Expr> args)
+        {
+            this.Expr = expr;
+            if (generic != null)
+            {
+                this.GenericParameter = generic;
+            }
+            if (args != null)
+            {
+                this.Args = args;
+            }
+        }
+
         public override Template Accept(Visitor visitor)
         {
             return visitor.Visit(this);

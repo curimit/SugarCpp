@@ -5,8 +5,6 @@ options
     output=AST;  
     ASTLabelType=CommonTree;  
     language=CSharp3;
-	backtrack=true;
-	memoize=true;
 }
 
 tokens
@@ -199,7 +197,8 @@ attribute
 global_alloc
 	: attribute? ident_list ':' type_name ( ('=' | ':=') expr -> ^(Expr_Alloc_Equal attribute? type_name ident_list expr?)
 	                                      | '(' expr ')' -> ^(Expr_Alloc_Bracket attribute? type_name ident_list expr?)
-										  |  -> ^(Expr_Alloc_Equal attribute? type_name ident_list))?
+										  | -> ^(Expr_Alloc_Equal attribute? type_name ident_list)
+										  )
 	| attribute? ident ':=' modify_expr -> ^(':=' attribute? ident modify_expr)
 	;
 
@@ -232,8 +231,12 @@ type_name
 	: ident ('<' (type_name (',' type_name)*)? '>')? type_name_op* -> ^(Type_IDENT ident ('<' type_name* '>')?  type_name_op*)
 	;
 
+generic_parameter_inside
+	: ident (',' ident)* -> ^(Generic_Patameters ident*)
+	;
+
 generic_parameter
-	: '<' ident (',' ident)* '>' -> ^(Generic_Patameters ident*)
+	: '<' generic_parameter_inside '>' -> generic_parameter_inside
 	;
 
 func_args
@@ -314,7 +317,7 @@ linq_item
 	;
 
 linq_prefix
-	: (linq_item (NEWLINE* linq_item)* NEWLINE+)+ -> ^(Linq_Prefix linq_item+)
+	: (linq_item linq_item* NEWLINE+)+ -> ^(Linq_Prefix linq_item+)
 	;
 
 stmt_linq
@@ -328,7 +331,8 @@ ident_list
 stmt_alloc
 	: ident_list ':' type_name ( ('=' | ':=') expr  -> ^(Expr_Alloc_Equal type_name ident_list expr?)
 	                           | '(' expr ')'  -> ^(Expr_Alloc_Bracket type_name ident_list expr?)
-							   | -> ^(Expr_Alloc_Equal type_name ident_list))?
+							   | -> ^(Expr_Alloc_Equal type_name ident_list)
+							   )
 	| ident ':='^ modify_expr
 	;
 
@@ -380,9 +384,12 @@ cmp_equ_expr
 	: (a=cmp_expr -> $a) (cmp_equ_expr_op b=cmp_expr -> ^(Expr_Bin cmp_equ_expr_op $cmp_equ_expr $b))?
 	;
 	
-cmp_expr_op: '<' | '<=' | '>' | '>=' ;
 cmp_expr
-	: (a=shift_expr -> $a) (cmp_expr_op b=shift_expr -> ^(Expr_Bin cmp_expr_op $cmp_expr $b))?
+	: (a=shift_expr -> $a) ( '<' b=shift_expr ( {b.Tree.Token.Type == IDENT}? ident* '>' '(' expr_list? ')' -> ^(Expr_Call $cmp_expr ^(Generic_Patameters $b ident*) expr_list?)
+	                                          | -> ^(Expr_Bin '<' $cmp_expr $b))
+	                       | '<=' b=shift_expr -> ^(Expr_Bin '<=' $cmp_expr $b)
+						   | '>' b=shift_expr -> ^(Expr_Bin '>' $cmp_expr $b)
+						   | '>=' b=shift_expr -> ^(Expr_Bin '>=' $cmp_expr $b))?
 	;
 
 shift_expr_op: '<<' | '>>' ;
@@ -430,38 +437,38 @@ suffix_expr
 					      | '--' -> ^(Expr_Suffix '--' $suffix_expr)
 						  | '.' ident -> ^(Expr_Access '.' $suffix_expr ident)
 						  | '->' ident -> ^(Expr_Access '->' $suffix_expr ident)
-						  | generic_parameter? '(' expr_list? ')' -> ^(Expr_Call $suffix_expr generic_parameter? expr_list?)
+						  | '(' expr_list? ')' -> ^(Expr_Call $suffix_expr expr_list?)
 						  | '[' expr_list? ']' -> ^(Expr_Dict $suffix_expr expr_list?)
 						  | ':' ident '(' expr_list? ')' -> ^(Expr_Call_With $suffix_expr ident expr_list?)
 					      )*
 	;
 
 atom_expr
-@init
-{
-	bool more_than_one = false;
-}
 	: NUMBER
 	| ident
 	| STRING
-	| '(' expr (',' expr { more_than_one = true; } )* ')'
-	 -> { more_than_one }? ^(Expr_Tuple expr+)
-	 -> ^(Expr_Bracket expr)
+	| '(' expr ( (',' expr)+ ')' -> ^(Expr_Tuple expr+)
+	           | ')' -> ^(Expr_Bracket expr)
+			   )
 	;
 
-lvalue
-	: (a=lvalue_atom -> $a) ( '++' -> ^(Expr_Suffix '++' $lvalue)
-					        | '--' -> ^(Expr_Suffix '--' $lvalue)
-						    | '.' ident -> ^(Expr_Access '.' $lvalue ident)
-						    | '->' ident -> ^(Expr_Access '->' $lvalue ident)
-						    | generic_parameter? '(' expr_list? ')' -> ^(Expr_Call $lvalue generic_parameter? expr_list?)
-						    | '[' expr_list? ']' -> ^(Expr_Dict $lvalue expr_list?)
+lvalue_item
+	: (a=lvalue_atom -> $a) ( '++' -> ^(Expr_Suffix '++' $lvalue_item)
+					        | '--' -> ^(Expr_Suffix '--' $lvalue_item)
+						    | '.' ident -> ^(Expr_Access '.' $lvalue_item ident)
+						    | '->' ident -> ^(Expr_Access '->' $lvalue_item ident)
+						    | generic_parameter? '(' expr_list? ')' -> ^(Expr_Call $lvalue_item generic_parameter? expr_list?)
+						    | '[' expr_list? ']' -> ^(Expr_Dict $lvalue_item expr_list?)
 					        )*
 	;
 
 lvalue_atom
-	: '(' (lvalue (',' lvalue)*)? ')' -> ^(Match_Tuple lvalue*)
-	| ident
+	: ident
+	;
+
+lvalue
+	: '(' lvalue_item (',' lvalue_item)+ ')' -> ^(Match_Tuple lvalue_item*)
+	| lvalue_item
 	;
 
 ident

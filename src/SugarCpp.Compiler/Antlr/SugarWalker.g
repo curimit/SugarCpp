@@ -405,11 +405,10 @@ expr_list returns [List<Expr> value]
 	;
 
 call_expr returns [ExprCall value]
-@init
-{
-	$value = new ExprCall();
-}
-	: ^(Expr_Call a=expr { $value.Expr=a; } ('<' (x=ident { $value.GenericParameter.Add(x); })* '>')? (b=expr_list { $value.Args=b; })?)
+	: ^(Expr_Call a=expr (b=generic_parameter)? (c=expr_list)?)
+	{
+		$value = new ExprCall(a, b, c);
+	}
 	;
 
 dict_expr returns [Expr value]
@@ -449,9 +448,7 @@ call_with_expr returns [ExprCall value]
 				Args.Add(item);
 			}
 		}
-		$value = new ExprCall();
-		$value.Expr = new ExprConst(b);
-		$value.Args = Args;
+		$value = new ExprCall(new ExprConst(b), null, Args);
 	}
 	;
 
