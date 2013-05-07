@@ -312,7 +312,7 @@ stmt_try
 	;
 
 linq_item
-	: 'select' expr 'from' expr -> ^(Linq_From expr expr)
+	: 'from' expr 'in' expr -> ^(Linq_From expr expr)
 	| 'let' ident '=' expr -> ^(Linq_Let ident expr)
 	| 'where' expr -> ^(Linq_Where expr)
 	;

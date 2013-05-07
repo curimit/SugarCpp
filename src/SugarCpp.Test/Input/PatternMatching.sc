@@ -20,7 +20,7 @@ int main()
     friends.push_back(("a", "d"))
     friends.push_back(("a", "e"))
     
-    select (a, b) from friends
-    select Family(@a, f, _) from family
-    select Family(@b, @f, _) from family
+    from (a, b) in friends
+    from Family(@a, f, _) in family
+    from Family(@b, @f, _) in family
         printf("%s and %s has same father %s\n", a.c_str(), b.c_str(), f.c_str())
