@@ -1,5 +1,6 @@
 # SugarCpp
 SugarCpp is a programming language which compiles to C++11.
+
 It adds lots of syntax sugar in to C++ and is 100% equivalent C++ code.
 
 SugarCpp is still under development.
@@ -83,9 +84,9 @@ int main()
     friends.push_back(("a", "e"))
     
     // @ means not define new variable
-    select (a, b) from friends
-    select Family(@a, f, _) from family
-    select Family(@b, @f, _) from family
+    from (a, b) in friends
+    from Family(@a, f, _) in family
+    from Family(@b, @f, _) in family
         printf("%s and %s has same father %s\n", a.c_str(), b.c_str(), f.c_str())
 ```
 
