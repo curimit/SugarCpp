@@ -1,7 +1,6 @@
 # SugarCpp
 SugarCpp is a programming language which compiles to C++11.
 It adds lots of syntax sugar in to C++ and is 100% equivalent C++ code.
-The generated code is readable by human and of such high quality that can be comparable with handwritten code.
 
 SugarCpp is still under development.
 If you have any idea, please open a issue.
@@ -14,6 +13,7 @@ Try SugarCpp in your browser: http://curimit.com/project/SugarCpp/
 * Inline function defination.
 * Multiple return values & parallel assignment.
 * Haskell style infix function.
+* Prolog style query with C# LINQ syntax.
 * C# style extension method.
 * Go style defer statement.
 * Scala style case class.
@@ -55,6 +55,89 @@ int main() {
         sum = sum + i;
     }
     printf("sum = %d\n", sum);
+}
+```
+
+#### Prolog style query with C# LINQ syntax
+```c++
+import "stdio.h"
+       "iostream"
+       "tuple"
+       "vector"
+
+using namespace std
+
+class Family(child: string, father: string, mother: string)
+
+int main()
+    // Two way to unpacking object
+    // 1. Using case class
+    family: vector<Family>
+    family.push_back(Family("a", "b", "c"))
+    family.push_back(Family("d", "b", "f"))
+    family.push_back(Family("e", "g", "h"))
+    
+    // 2. Using tuple
+    friends: vector<tuple<string, string> >
+    friends.push_back(("a", "d"))
+    friends.push_back(("a", "e"))
+    
+    // @ means not define new variable
+    select (a, b) from friends
+    select Family(@a, f, _) from family
+    select Family(@b, @f, _) from family
+        printf("%s and %s has same father %s\n", a.c_str(), b.c_str(), f.c_str())
+```
+
+```c++
+#include "stdio.h"
+#include "iostream"
+#include "tuple"
+#include "vector"
+
+using namespace std;
+
+class Family {
+public:
+    string child;
+    string father;
+    string mother;
+
+    Family(string child, string father, string mother) {
+        this->child = child;
+        this->father = father;
+        this->mother = mother;
+    }
+
+    inline tuple<string, string, string> Unapply() {
+        return std::make_tuple(child, father, mother);
+    }
+};
+
+int main() {
+    vector<Family> family;
+    family.push_back(Family("a", "b", "c"));
+    family.push_back(Family("d", "b", "f"));
+    family.push_back(Family("e", "g", "h"));
+    vector<tuple<string, string>> friends;
+    friends.push_back(std::make_tuple("a", "d"));
+    friends.push_back(std::make_tuple("a", "e"));
+    for (auto _t_match : friends) {
+        auto a = get<0>(_t_match);
+        auto b = get<1>(_t_match);
+        for (auto _t_iterator : family) {
+            auto &&_t_match = _t_iterator.Unapply();
+            if (std::get<0>(_t_match) == a) {
+                auto f = std::get<1>(_t_match);
+                for (auto _t_iterator : family) {
+                    auto &&_t_match = _t_iterator.Unapply();
+                    if ((std::get<0>(_t_match) == b) && (std::get<1>(_t_match) == f)) {
+                        printf("%s and %s has same father %s\n", a.c_str(), b.c_str(), f.c_str());
+                    }
+                }
+            }
+        }
+    }
 }
 ```
 
@@ -231,56 +314,6 @@ int main() {
     printf("%d %d\n", a, b);
 }
 ```
-
-#### LINQ
-```c++
-import "stdio.h"
-       "vector"
-
-using namespace std
-
-int main()
-    a, b : vector<int>
-    a.push_back(4)
-    a.push_back(1)
-    a.push_back(3)
-    
-    b.push_back(5)
-    b.push_back(6)
-    b.push_back(2)
-    
-    select x from a
-    select y from b
-    where x + 1 == y
-    let sum = x + y
-        printf("%d + %d = %d\n", x, y, sum)
-```
-
-```c++
-#include "stdio.h"
-#include "vector"
-
-using namespace std;
-
-int main() {
-    vector<int> a, b;
-    a.push_back(4);
-    a.push_back(1);
-    a.push_back(3);
-    b.push_back(5);
-    b.push_back(6);
-    b.push_back(2);
-    for (auto x : a) {
-        for (auto y : b) {
-            if (x + 1 == y) {
-                auto sum = x + y;
-                printf("%d + %d = %d\n", x, y, sum);
-            }
-        }
-    }
-}
-```
-
 
 #### Scala style case class
 ```c++
