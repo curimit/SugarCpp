@@ -137,5 +137,11 @@ namespace SugarCpp.Test
         {
             Test();
         }
+
+        [Test]
+        public void PatternMatching()
+        {
+            Test();
+        }
     }
 }

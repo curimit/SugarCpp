@@ -78,6 +78,9 @@
     <None Include="Input\Namespace.sc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Input\PatternMatching.sc">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="Input\ToStringAttribute.sc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -136,6 +139,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Result\Namespace.cpp">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Result\PatternMatching.cpp">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Result\Template.cpp">

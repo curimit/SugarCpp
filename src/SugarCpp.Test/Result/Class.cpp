@@ -9,6 +9,10 @@ public:
     Number(T value) {
         this->value = value;
     }
+
+    inline tuple<T> Unapply() {
+        return std::make_tuple(value);
+    }
 };
 
 class ExprBin: public Expr {
@@ -21,5 +25,9 @@ public:
         this->op = op;
         this->l = l;
         this->r = r;
+    }
+
+    inline tuple<string, Expr, Expr> Unapply() {
+        return std::make_tuple(op, l, r);
     }
 };
