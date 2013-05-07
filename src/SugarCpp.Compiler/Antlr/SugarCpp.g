@@ -473,7 +473,7 @@ lvalue
 	;
 
 ident
-	: IDENT ('::' IDENT)*
+	: '@'? IDENT ('::' IDENT)*
 	;
 
 infix_func

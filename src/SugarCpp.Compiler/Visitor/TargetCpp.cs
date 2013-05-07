@@ -603,7 +603,7 @@ namespace SugarCpp.Compiler
                     ExprCall get = new ExprCall(new ExprConst("std::get", ConstType.Ident), new List<string> {i.ToString()},
                                                 new List<Expr> {new ExprConst("_t_match", ConstType.Ident)});
                     i++;
-                    if (argument is ExprConst && ((ExprConst)argument).Type == ConstType.Ident)
+                    if (argument is ExprConst && ((ExprConst)argument).Type == ConstType.Ident && !((ExprConst)argument).Text.StartsWith("@"))
                     {
                         ExprConst const_expr = (ExprConst)argument;
                         if (const_expr.Text == "_")
@@ -614,6 +614,10 @@ namespace SugarCpp.Compiler
                     }
                     else
                     {
+                        if (((ExprConst)argument).Text.StartsWith("@"))
+                        {
+                            ((ExprConst)argument).Text = ((ExprConst)argument).Text.Substring(1);
+                        }
                         condition_list.Add(new ExprBin("==", get, argument));
                     }
                 }
@@ -742,6 +746,7 @@ namespace SugarCpp.Compiler
                 if (item is LinqFrom)
                 {
                     LinqFrom linq_from = (LinqFrom) item;
+                    stmt = new StmtForEach(linq_from.Var, linq_from.Expr, block);
                     stmt = new StmtForEach(linq_from.Var, linq_from.Expr, block);
                     block = new StmtBlock();
                     block.StmtList.Add(stmt);

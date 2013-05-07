@@ -361,7 +361,7 @@ ident returns [string value]
 {
 	$value = "";
 }
-	: a=IDENT { $value = a.Text; } ('::' a=IDENT { $value += "::" + a.Text; })*
+	: ('@' { $value += "@"; })? a=IDENT { $value += a.Text; } ('::' a=IDENT { $value += "::" + a.Text; })*
 	;
 
 ident_list returns [List<string> value]
