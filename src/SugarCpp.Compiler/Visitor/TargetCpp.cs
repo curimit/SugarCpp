@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MS.Internal.Xml.XPath;
 
 namespace SugarCpp.Compiler
 {
@@ -191,12 +192,12 @@ namespace SugarCpp.Compiler
                 func.Args.Add(new ExprAlloc("const " + enum_def.Name + "&", new List<string> { "a" }, null, true));
                 StmtBlock body = new StmtBlock();
                 StmtSwitch stmt_switch = new StmtSwitch();
-                stmt_switch.Expr = new ExprConst("a");
+                stmt_switch.Expr = new ExprConst("a", ConstType.Ident);
                 foreach (var item in enum_def.Values)
                 {
                     StmtBlock block = new StmtBlock();
-                    block.StmtList.Add(new StmtReturn(new ExprConst("\"" + item + "\"")));
-                    stmt_switch.List.Add(new StmtSwitchItem(new ExprConst(item), block));
+                    block.StmtList.Add(new StmtReturn(new ExprConst("\"" + item + "\"", ConstType.String)));
+                    stmt_switch.List.Add(new StmtSwitchItem(new ExprConst(item, ConstType.Ident), block));
                 }
                 body.StmtList.Add(stmt_switch);
                 func.Body = body;
@@ -298,29 +299,60 @@ namespace SugarCpp.Compiler
             // Args
             if (class_def.Args.Count() > 0)
             {
-                Template tmp = new Template("\npublic:\n    <nodes; separator=\"\n\">\n\n    <constructor>");
-                List<Template> nodes = new List<Template>();
-                foreach (var item in class_def.Args)
                 {
-                    GlobalAlloc alloc = new GlobalAlloc(item.Type, item.Name, null, null, true);
-                    nodes.Add(alloc.Accept(this));
-                }
-                tmp.Add("nodes", nodes);
-                list.Add(tmp);
+                    Template tmp = new Template("\npublic:\n    <nodes; separator=\"\n\">\n\n    <constructor>");
+                    List<Template> nodes = new List<Template>();
+                    foreach (var item in class_def.Args)
+                    {
+                        GlobalAlloc alloc = new GlobalAlloc(item.Type, item.Name, null, null, true);
+                        nodes.Add(alloc.Accept(this));
+                    }
+                    tmp.Add("nodes", nodes);
+                    list.Add(tmp);
 
-                FuncDef func = new FuncDef();
-                func.Type = null;
-                func.Name = class_def.Name;
-                func.Args = class_def.Args;
-                func.Body = new StmtBlock();
-                foreach (var item in class_def.Args)
+                    FuncDef func = new FuncDef();
+                    func.Type = null;
+                    func.Name = class_def.Name;
+                    func.Args = class_def.Args;
+                    func.Body = new StmtBlock();
+                    foreach (var item in class_def.Args)
+                    {
+                        string name = item.Name.First();
+                        ExprAssign assign = new ExprAssign(new ExprAccess(new ExprConst("this", ConstType.Ident), "->", name),
+                                                           new ExprConst(name, ConstType.Ident));
+                        func.Body.StmtList.Add(new StmtExpr(assign));
+                    }
+
+                    tmp.Add("constructor", func.Accept(this));
+                }
+
                 {
-                    string name = item.Name.First();
-                    ExprAssign assign = new ExprAssign(new ExprAccess(new ExprConst("this"), "->", name), new ExprConst(name));
-                    func.Body.StmtList.Add(new StmtExpr(assign));
-                }
+                    Template tmp = new Template("\n    <unapply>");
+                    List<Template> nodes = new List<Template>();
+                    foreach (var item in class_def.Args)
+                    {
+                        GlobalAlloc alloc = new GlobalAlloc(item.Type, item.Name, null, null, true);
+                        nodes.Add(alloc.Accept(this));
+                    }
+                    tmp.Add("nodes", nodes);
+                    list.Add(tmp);
 
-                tmp.Add("constructor", func.Accept(this));
+                    FuncDef func = new FuncDef();
+                    Template type = new Template("tuple\\<<types; separator=\", \">>");
+                    type.Add("types", class_def.Args.Select(x => x.Type));
+                    func.Attribute = new List<Attr>{new Attr{Name = "inline"}};
+                    func.Type = type.Render();
+                    func.Name = "Unapply";
+                    func.Body = new StmtBlock();
+                    ExprTuple tuple = new ExprTuple();
+                    foreach (var item in class_def.Args)
+                    {
+                        string name = item.Name.First();
+                        tuple.ExprList.Add(new ExprConst(name, ConstType.Ident));
+                    }
+                    func.Body.StmtList.Add(new StmtReturn(tuple));
+                    tmp.Add("unapply", func.Accept(this));
+                }
 
                 last = "public";
                 last_flag = true;
@@ -551,11 +583,144 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(StmtForEach stmt_for_each)
         {
-            Template template = new Template("for (auto <var> : <expr>) {\n    <body>\n}");
-            template.Add("var", stmt_for_each.Var);
-            template.Add("expr", stmt_for_each.Target.Accept(this));
-            template.Add("body", stmt_for_each.Body.Accept(this));
-            return template;
+            if (stmt_for_each.Var is ExprConst)
+            {
+                ExprConst expr = (ExprConst) stmt_for_each.Var;
+                Template template = new Template("for (auto <var> : <expr>) {\n    <body>\n}");
+                template.Add("var", expr.Text);
+                template.Add("expr", stmt_for_each.Target.Accept(this));
+                template.Add("body", stmt_for_each.Body.Accept(this));
+                return template;
+            }
+            else if (stmt_for_each.Var is ExprCall)
+            {
+                ExprCall expr = (ExprCall)stmt_for_each.Var;
+                List<Stmt> stmt_list = new List<Stmt>();
+                List<Expr> condition_list = new List<Expr>();
+                int i = 0;
+                foreach (var argument in expr.Args)
+                {
+                    ExprCall get = new ExprCall(new ExprConst("std::get", ConstType.Ident), new List<string> {i.ToString()},
+                                                new List<Expr> {new ExprConst("_t_match", ConstType.Ident)});
+                    i++;
+                    if (argument is ExprConst && ((ExprConst)argument).Type == ConstType.Ident)
+                    {
+                        ExprConst const_expr = (ExprConst)argument;
+                        if (const_expr.Text == "_")
+                        {
+                            continue;
+                        }
+                        stmt_list.Add(new StmtExpr(new ExprAlloc("auto", new List<string> { const_expr.Text }, new List<Expr>{ get }, true)));
+                    }
+                    else
+                    {
+                        condition_list.Add(new ExprBin("==", get, argument));
+                    }
+                }
+                StmtBlock block = new StmtBlock();
+                foreach (var item in stmt_list)
+                {
+                    block.StmtList.Add(item);
+                }
+                foreach (var item in stmt_for_each.Body.StmtList)
+                {
+                    block.StmtList.Add(item);
+                }
+                if (condition_list.Count() > 0)
+                {
+                    StmtBlock if_body = new StmtBlock();
+                    if_body.StmtList.Add(new StmtExpr(new ExprAlloc("auto&&", new List<string> { "_t_match" }, new List<Expr> { new ExprCall(new ExprAccess(new ExprConst("_t_iterator", ConstType.Ident), ".", "Unapply"), null, null) }, true)));
+                    Expr condition = null;
+                    foreach (var item in condition_list)
+                    {
+                        if (condition == null)
+                        {
+                            condition = item;
+                            if (condition_list.Count() > 1)
+                            {
+                                condition = new ExprBracket(condition);
+                            }
+                        }
+                        else
+                        {
+                            condition = new ExprBin("&&", condition, new ExprBracket(item));
+                        }
+                    }
+                    StmtIf stmt_if = new StmtIf(condition, block, null);
+                    if_body.StmtList.Add(stmt_if);
+                    block = if_body;
+                }
+                else
+                {
+                    block.StmtList.Insert(0, new StmtExpr(new ExprAlloc("auto&&", new List<string> { "_t_match" }, new List<Expr> { new ExprCall(new ExprAccess(new ExprConst("_t_iterator", ConstType.Ident), ".", "Unapply"), null, null) }, true)));
+                }
+                StmtForEach for_each = new StmtForEach(new ExprConst("_t_iterator", ConstType.Ident), stmt_for_each.Target, block);
+                return for_each.Accept(this);
+            }
+            else if (stmt_for_each.Var is ExprTuple)
+            {
+                ExprTuple expr = (ExprTuple)stmt_for_each.Var;
+                List<Stmt> stmt_list = new List<Stmt>();
+                List<Expr> condition_list = new List<Expr>();
+                int i = 0;
+                foreach (var argument in expr.ExprList)
+                {
+                    ExprCall get = new ExprCall(new ExprConst("get", ConstType.Ident), new List<string> { i.ToString() },
+                                                new List<Expr> { new ExprConst("_t_match", ConstType.Ident) });
+                    i++;
+                    if (argument is ExprConst && ((ExprConst)argument).Type == ConstType.Ident)
+                    {
+                        ExprConst const_expr = (ExprConst)argument;
+                        if (const_expr.Text == "_")
+                        {
+                            continue;
+                        }
+                        stmt_list.Add(new StmtExpr(new ExprAlloc("auto", new List<string> { const_expr.Text }, new List<Expr> { get }, true)));
+                    }
+                    else
+                    {
+                        condition_list.Add(new ExprBin("==", get, argument));
+                    }
+                }
+                StmtBlock block = new StmtBlock();
+                foreach (var item in stmt_list)
+                {
+                    block.StmtList.Add(item);
+                }
+                foreach (var item in stmt_for_each.Body.StmtList)
+                {
+                    block.StmtList.Add(item);
+                }
+                if (condition_list.Count() > 0)
+                {
+                    StmtBlock if_body = new StmtBlock();
+                    Expr condition = null;
+                    foreach (var item in condition_list)
+                    {
+                        if (condition == null)
+                        {
+                            condition = item;
+                            if (condition_list.Count() > 1)
+                            {
+                                condition = new ExprBracket(condition);
+                            }
+                        }
+                        else
+                        {
+                            condition = new ExprBin("&&", condition, new ExprBracket(item));
+                        }
+                    }
+                    StmtIf stmt_if = new StmtIf(condition, block, null);
+                    if_body.StmtList.Add(stmt_if);
+                    block = if_body;
+                }
+                StmtForEach for_each = new StmtForEach(new ExprConst("_t_match", ConstType.Ident), stmt_for_each.Target, block);
+                return for_each.Accept(this);
+            }
+            else
+            {
+                throw new Exception(string.Format("Iterators in foreach must be either variable or pattern matching"));
+            }
         }
 
         public override Template Visit(StmtLinq stmt_linq)
@@ -577,7 +742,7 @@ namespace SugarCpp.Compiler
                 if (item is LinqFrom)
                 {
                     LinqFrom linq_from = (LinqFrom) item;
-                    stmt = new StmtForEach(new ExprConst(linq_from.Var), linq_from.Expr, block);
+                    stmt = new StmtForEach(linq_from.Var, linq_from.Expr, block);
                     block = new StmtBlock();
                     block.StmtList.Add(stmt);
                     isBlock = false;

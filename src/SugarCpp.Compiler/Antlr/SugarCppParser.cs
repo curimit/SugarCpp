@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// $ANTLR 3.4 SugarCpp.g 2013-05-06 20:33:03
+// $ANTLR 3.4 SugarCpp.g 2013-05-07 10:25:31
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219
@@ -6908,7 +6908,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 	partial void LeaveRule_linq_item();
 
 	// $ANTLR start "linq_item"
-	// SugarCpp.g:314:1: linq_item : ( 'select' ident 'from' expr -> ^( Linq_From ident expr ) | 'let' ident '=' expr -> ^( Linq_Let ident expr ) | 'where' expr -> ^( Linq_Where expr ) );
+	// SugarCpp.g:314:1: linq_item : ( 'select' expr 'from' expr -> ^( Linq_From expr expr ) | 'let' ident '=' expr -> ^( Linq_Let ident expr ) | 'where' expr -> ^( Linq_Where expr ) );
 	[GrammarRule("linq_item")]
 	private AstParserRuleReturnScope<CommonTree, IToken> linq_item()
 	{
@@ -6925,7 +6925,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		IToken string_literal188 = default(IToken);
 		IToken char_literal190 = default(IToken);
 		IToken string_literal192 = default(IToken);
-		AstParserRuleReturnScope<CommonTree, IToken> ident185 = default(AstParserRuleReturnScope<CommonTree, IToken>);
+		AstParserRuleReturnScope<CommonTree, IToken> expr185 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 		AstParserRuleReturnScope<CommonTree, IToken> expr187 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 		AstParserRuleReturnScope<CommonTree, IToken> ident189 = default(AstParserRuleReturnScope<CommonTree, IToken>);
 		AstParserRuleReturnScope<CommonTree, IToken> expr191 = default(AstParserRuleReturnScope<CommonTree, IToken>);
@@ -6947,7 +6947,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		DebugLocation(314, 1);
 		try
 		{
-			// SugarCpp.g:315:2: ( 'select' ident 'from' expr -> ^( Linq_From ident expr ) | 'let' ident '=' expr -> ^( Linq_Let ident expr ) | 'where' expr -> ^( Linq_Where expr ) )
+			// SugarCpp.g:315:2: ( 'select' expr 'from' expr -> ^( Linq_From expr expr ) | 'let' ident '=' expr -> ^( Linq_Let ident expr ) | 'where' expr -> ^( Linq_Where expr ) )
 			int alt66=3;
 			try { DebugEnterDecision(66, false);
 			switch (input.LA(1))
@@ -6980,23 +6980,23 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:315:4: 'select' ident 'from' expr
+				// SugarCpp.g:315:4: 'select' expr 'from' expr
 				{
 				DebugLocation(315, 4);
 				string_literal184=(IToken)Match(input,125,Follow._125_in_linq_item1772);  
 				stream_125.Add(string_literal184);
 
 				DebugLocation(315, 13);
-				PushFollow(Follow._ident_in_linq_item1774);
-				ident185=ident();
+				PushFollow(Follow._expr_in_linq_item1774);
+				expr185=expr();
 				PopFollow();
 
-				stream_ident.Add(ident185.Tree);
-				DebugLocation(315, 19);
+				stream_expr.Add(expr185.Tree);
+				DebugLocation(315, 18);
 				string_literal186=(IToken)Match(input,116,Follow._116_in_linq_item1776);  
 				stream_116.Add(string_literal186);
 
-				DebugLocation(315, 26);
+				DebugLocation(315, 25);
 				PushFollow(Follow._expr_in_linq_item1778);
 				expr187=expr();
 				PopFollow();
@@ -7006,7 +7006,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: ident, expr
+				// elements: expr, expr
 				// token labels: 
 				// rule labels: retval
 				// token list labels: 
@@ -7016,18 +7016,18 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 				RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
 
 				root_0 = (CommonTree)adaptor.Nil();
-				// 315:31: -> ^( Linq_From ident expr )
+				// 315:30: -> ^( Linq_From expr expr )
 				{
-					DebugLocation(315, 34);
-					// SugarCpp.g:315:34: ^( Linq_From ident expr )
+					DebugLocation(315, 33);
+					// SugarCpp.g:315:33: ^( Linq_From expr expr )
 					{
 					CommonTree root_1 = (CommonTree)adaptor.Nil();
-					DebugLocation(315, 36);
+					DebugLocation(315, 35);
 					root_1 = (CommonTree)adaptor.BecomeRoot((CommonTree)adaptor.Create(Linq_From, "Linq_From"), root_1);
 
-					DebugLocation(315, 46);
-					adaptor.AddChild(root_1, stream_ident.NextTree());
-					DebugLocation(315, 52);
+					DebugLocation(315, 45);
+					adaptor.AddChild(root_1, stream_expr.NextTree());
+					DebugLocation(315, 50);
 					adaptor.AddChild(root_1, stream_expr.NextTree());
 
 					adaptor.AddChild(root_0, root_1);
@@ -10254,6 +10254,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 					case 106:
 					case 107:
 					case 113:
+					case 116:
 					case 117:
 					case 119:
 					case 120:
@@ -15396,8 +15397,8 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 		public static readonly BitSet _expr_in_stmt_try1745 = new BitSet(new ulong[]{0x0UL,0x100UL});
 		public static readonly BitSet _72_in_stmt_try1747 = new BitSet(new ulong[]{0x100000000UL});
 		public static readonly BitSet _stmt_block_in_stmt_try1749 = new BitSet(new ulong[]{0x2UL});
-		public static readonly BitSet _125_in_linq_item1772 = new BitSet(new ulong[]{0x80000000UL});
-		public static readonly BitSet _ident_in_linq_item1774 = new BitSet(new ulong[]{0x0UL,0x10000000000000UL});
+		public static readonly BitSet _125_in_linq_item1772 = new BitSet(new ulong[]{0x1080080000000UL,0x800010000019AA1UL,0x80UL});
+		public static readonly BitSet _expr_in_linq_item1774 = new BitSet(new ulong[]{0x0UL,0x10000000000000UL});
 		public static readonly BitSet _116_in_linq_item1776 = new BitSet(new ulong[]{0x1080080000000UL,0x800010000019AA1UL,0x80UL});
 		public static readonly BitSet _expr_in_linq_item1778 = new BitSet(new ulong[]{0x2UL});
 		public static readonly BitSet _120_in_linq_item1793 = new BitSet(new ulong[]{0x80000000UL});

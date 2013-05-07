@@ -70,14 +70,13 @@ namespace SugarCpp.Compiler
 
     public class StmtForEach : Stmt
     {
-        public string Var;
+        public Expr Var;
         public Expr Target;
         public StmtBlock Body;
 
         public StmtForEach(Expr expr, Expr target, StmtBlock body)
         {
-            Debug.Assert(expr is ExprConst);
-            this.Var = ((ExprConst)expr).Text;
+            this.Var = expr;
             this.Target = target;
             this.Body = body;
         }

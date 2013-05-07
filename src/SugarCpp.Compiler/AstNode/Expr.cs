@@ -55,7 +55,7 @@ namespace SugarCpp.Compiler
             if (expr_list != null)
             {
                 this.ExprList = expr_list;
-                }
+            }
             this.IsEqualSign = isEqualSign;
         }
 
@@ -298,13 +298,20 @@ namespace SugarCpp.Compiler
         }
     }
 
+    public enum ConstType
+    {
+        Ident, String, Number
+    }
+
     public class ExprConst : Expr
     {
         public string Text;
+        public ConstType Type;
 
-        public ExprConst(string text)
+        public ExprConst(string text, ConstType type)
         {
             this.Text = text;
+            this.Type = type;
         }
 
         public override Template Accept(Visitor visitor)

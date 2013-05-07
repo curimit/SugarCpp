@@ -13,10 +13,10 @@ namespace SugarCpp.Compiler
 
     public class LinqFrom : LinqItem
     {
-        public string Var;
+        public Expr Var;
         public Expr Expr;
 
-        public LinqFrom(string var, Expr expr)
+        public LinqFrom(Expr var, Expr expr)
         {
             this.Var = var;
             this.Expr = expr;

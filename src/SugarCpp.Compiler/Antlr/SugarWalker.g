@@ -296,7 +296,7 @@ stmt_while returns [Stmt value]
 	}
 	| ^(Stmt_Loop b=stmt_block)
 	{
-		$value = new StmtWhile(new ExprConst("true"), b);
+		$value = new StmtWhile(new ExprConst("true", ConstType.Ident), b);
 	}
 	;
 
@@ -327,9 +327,9 @@ stmt_return returns [Stmt value]
 	;
 
 linq_item returns [LinqItem value]
-	: ^(Linq_From a=ident b=expr)
+	: ^(Linq_From x=expr b=expr)
 	{
-		$value = new LinqFrom(a, b);
+		$value = new LinqFrom(x, b);
 	}
 	| ^(Linq_Let a=ident b=expr)
 	{
@@ -451,7 +451,7 @@ call_with_expr returns [ExprCall value]
 				Args.Add(item);
 			}
 		}
-		$value = new ExprCall(new ExprConst(b), null, Args);
+		$value = new ExprCall(new ExprConst(b, ConstType.Ident), null, Args);
 	}
 	;
 
@@ -532,10 +532,14 @@ expr returns [Expr value]
 	}
 	| text_ident = ident
 	{
-		$value = new ExprConst(text_ident);
+		$value = new ExprConst(text_ident, ConstType.Ident);
 	}
-	| text=(NUMBER | DOUBLE | STRING)
+	| text=(NUMBER | DOUBLE)
     {
-        $value = new ExprConst(text.Text);
+        $value = new ExprConst(text.Text, ConstType.Number);
     }
+	| text = STRING
+	{
+        $value = new ExprConst(text.Text, ConstType.String);
+	}
 	;
