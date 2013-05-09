@@ -338,7 +338,7 @@ stmt_alloc
 	;
 
 stmt_modify
-	: lvalue (modify_expr_op^ cond_expr)?
+	: lvalue (modify_expr_op^ modify_expr)?
 	;
 
 expr
@@ -352,8 +352,8 @@ lambda_expr
 
 modify_expr_op: '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=' ;
 modify_expr
-	: cond_expr ( (':=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=')^ modify_expr
-				| ('='^ modify_expr))?
+	: cond_expr ( (':=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=')^ cond_expr
+				| ('='^ cond_expr)+)?
 	;
 
 cond_expr_item: cond_expr ;
