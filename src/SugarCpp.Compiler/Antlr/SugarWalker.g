@@ -537,6 +537,14 @@ expr returns [Expr value]
 	{
 		$value = new ExprCond(a, b, c);
 	}
+	| ^(Expr_Cond_Not_Null a=expr b=expr)
+	{
+		$value = new ExprCond(new ExprBin("!=", a, new ExprConst("nullptr", ConstType.Ident)), a, b);
+	}
+	| ^(Expr_Not_Null a=expr)
+	{
+		$value = new ExprBin("!=", a, new ExprConst("nullptr", ConstType.Ident));
+	}
 	| ^(Expr_Access op=('.' | '::' | '->' | '->*' | '.*') a=expr ident_text=ident)
 	{
 		$value = new ExprAccess(a, op.Text, ident_text);

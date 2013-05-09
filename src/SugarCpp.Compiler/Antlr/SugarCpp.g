@@ -59,6 +59,9 @@ tokens
 
    Expr_Bracket;
 
+   Expr_Not_Null;
+   Expr_Cond_Not_Null;
+
    Expr_Cond;
    Expr_New_Type;
    Expr_New_Array;
@@ -366,9 +369,13 @@ modify_expr
 				| ('='^ cond_expr)+)?
 	;
 
-cond_expr_item: cond_expr ;
+cond_expr_item: or_expr ;
 cond_expr
-	: (a=or_expr -> $a) ('?' a=cond_expr_item ':' b=cond_expr_item -> ^(Expr_Cond $a $cond_expr $b))?
+	: (a=or_expr -> $a) ('?' ( a=cond_expr_item ( ':' b=cond_expr_item -> ^(Expr_Cond $a $cond_expr $b)
+											   | -> ^(Expr_Cond_Not_Null $cond_expr $a)
+											  )
+							 | -> ^(Expr_Not_Null $cond_expr)
+							 ))?
 	;
 
 or_expr
