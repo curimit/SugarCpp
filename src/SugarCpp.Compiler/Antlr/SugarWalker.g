@@ -32,18 +32,22 @@ global_block returns [GlobalBlock value]
 {
 	$value = new GlobalBlock();
 }
-	: ^(Global_Block (a=node { $value.List.Add(a); })*)
+	: ^(Global_Block (a=node { foreach (var x in a) $value.List.Add(x); })*)
 	;
 
-node returns [AttrAstNode value]
-	: a = func_def { $value = a; }
-	| b = import_def { $value = b; }
-	| c = enum_def { $value = c; }
-	| d = class_def { $value = d; }
-	| e = global_alloc { $value = e; }
-	| f = global_using { $value = f; }
-	| g = global_typedef { $value = g; }
-	| h = namespace_def { $value = h; }
+node returns [List<AttrAstNode> value]
+@init
+{
+	$value = new List<AttrAstNode>();
+}
+	: a = func_def { $value.Add(a); }
+	| b = import_def { $value.Add(b); }
+	| c = enum_def { $value.Add(c); }
+	| d = class_def { $value.Add(d); }
+	| e = global_alloc { foreach (var x in e) $value.Add(x); }
+	| f = global_using { $value.Add(f); }
+	| g = global_typedef { $value.Add(g); }
+	| h = namespace_def { $value.Add(h); }
 	;
 
 global_using returns[GlobalUsing value]
@@ -53,18 +57,27 @@ global_using returns[GlobalUsing value]
 	}
 	;
 
-global_alloc returns [GlobalAlloc value]
+global_alloc returns [List<GlobalAlloc> value]
+@init
+{
+	$value = new List<GlobalAlloc>();
+}
 	: ^(Expr_Alloc_Equal (attr=attribute)? a=type_name b=ident_list (c=expr_list)?)
 	{
-		$value = new GlobalAlloc(a, b, c, attr, true);
+		$value.Add(new GlobalAlloc(a, b, c, attr, true));
 	}
 	| ^(Expr_Alloc_Bracket (attr=attribute)? a=type_name b=ident_list (c=expr_list)?)
 	{
-		$value = new GlobalAlloc(a, b, c, attr, false);
+		$value.Add(new GlobalAlloc(a, b, c, attr, false));
 	}
-	| ^(':=' (attr=attribute)? a=ident c=expr_list)
+	| ^(':=' (attr=attribute)? d=ident_list e=expr_list)
 	{
-		$value = new GlobalAlloc("auto", new List<string> { a }, c, attr, true);
+		int k = 0;
+		for (int i = 0; i < d.Count(); i++)
+		{
+			$value.Add(new GlobalAlloc("auto", new List<string> { d[i] }, new List<Expr>{ e[k] }, attr, true));
+			k = (k + 1) \% e.Count();
+		}
 	}
 	;
 
@@ -235,24 +248,52 @@ stmt_block returns [StmtBlock value]
 {
 	$value = new StmtBlock();
 }
-	: ^(Stmt_Block (a=stmt { $value.StmtList.Add(a); })*)
+	: ^(Stmt_Block (a=stmt { foreach (var x in a ) $value.StmtList.Add(x); })*)
     ; 
 
-stmt returns [Stmt value]
-	: a=stmt_expr { $value = new StmtExpr(a); }
-	| a=stmt_return { $value = a; }
-	| a=stmt_if { $value = a; }
-	| a=stmt_while { $value = a; }
-	| a=stmt_for { $value = a; }
-	| a=stmt_try { $value = a; }
-	| a=stmt_linq { $value = a; }
-	| a=stmt_defer { $value = a; }
+stmt returns [List<Stmt> value]
+@init
+{
+	$value = new List<Stmt>();
+}
+	: a=stmt_expr { $value.Add(new StmtExpr(a)); }
+	| a=stmt_return { $value.Add(a); }
+	| a=stmt_if { $value.Add(a); }
+	| a=stmt_while { $value.Add(a); }
+	| a=stmt_for { $value.Add(a); }
+	| a=stmt_try { $value.Add(a); }
+	| a=stmt_linq { $value.Add(a); }
+	| a=stmt_defer { $value.Add(a); }
+	| b=stmt_translate { foreach (var x in b) $value.Add(x); }
+	;
+
+stmt_translate returns [List<Stmt> value]
+@init
+{
+	$value = new List<Stmt>();
+}
+	: ^('?=' a=expr b=expr)
+	{
+		StmtBlock block = new StmtBlock();
+		block.StmtList.Add(new StmtExpr(new ExprAssign(a, b)));
+		StmtIf stmt_if = new StmtIf(new ExprBin("==", a, new ExprConst("nullptr", ConstType.Ident)), block, null);
+		$value.Add(stmt_if);
+	}
+	| ^(':=' d=ident_list e=expr_list)
+	{
+		int k = 0;
+		for (int i = 0; i < d.Count(); i++)
+		{
+			$value.Add(new StmtExpr(new ExprAlloc("auto", new List<string> { d[i] }, new List<Expr>{ e[k] }, true)));
+			k = (k + 1) \% e.Count();
+		}
+	}
 	;
 
 stmt_defer returns [Stmt value]
 	: ^(Stmt_Defer a=stmt)
 	{
-		$value = new StmtDefer(a);
+		$value = new StmtDefer(a[0]);
 	}
 	;
 
@@ -505,18 +546,30 @@ expr returns [Expr value]
 					| '<<' | '>>'
 					| '&' | '^' | '|'
 					| '&&' | '||'
+					| 'and' | 'or' | 'is' | 'isnt'
 					) a=expr b=expr)
 	{
 		$value = new ExprBin(op.Text, a, b);
 	}
+	| ^('and' a=expr b=expr)
+	{
+		$value = new ExprBin("&&", a, b);
+	}
+	| ^('or' a=expr b=expr)
+	{
+		$value = new ExprBin("||", a, b);
+	}
+	| ^('is' a=expr b=expr)
+	{
+		$value = new ExprBin("==", a, b);
+	}
+	| ^('isnt' a=expr b=expr)
+	{
+		$value = new ExprBin("!=", a, b);
+	}
 	| ^(op=('=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=') a=expr b=expr)
 	{
 		$value = new ExprBin(op.Text, a, b);
-	}
-	| ^(':=' a=expr list=expr_list)
-	{
-		System.Diagnostics.Debug.Assert(a is ExprConst);
-		$value = new ExprAlloc("auto", new List<string> { ((ExprConst)a).Text }, list, true);
 	}
 	| ^(Expr_Bracket a=expr)
 	{
@@ -530,8 +583,17 @@ expr returns [Expr value]
 	{
 		$value = new ExprPrefix(op.Text, a);
 	}
+	| ^(':=' a=expr b=expr)
+	{
+		if (!(a is ExprConst))
+		{
+			throw new Exception("Assert failed.");
+		}
+		$value = new ExprAlloc("auto", new List<string> { ((ExprConst)a).Text }, new List<Expr> { b }, true);
+	}
 	| text_ident = ident
 	{
+		if (text_ident == "nil") text_ident = "nullptr";
 		$value = new ExprConst(text_ident, ConstType.Ident);
 	}
 	| text=(NUMBER | DOUBLE)

@@ -196,11 +196,12 @@ attribute
 	;
 
 global_alloc
-	: attribute? ident_list ':' type_name ( ('=' | ':=') expr -> ^(Expr_Alloc_Equal attribute? type_name ident_list expr?)
-	                                      | '(' expr_list? ')' -> ^(Expr_Alloc_Bracket attribute? type_name ident_list expr_list?)
-										  | -> ^(Expr_Alloc_Equal attribute? type_name ident_list)
-										  )
-	| attribute? ident ':=' modify_expr -> ^(':=' attribute? ident modify_expr)
+	: attribute? ident_list ( ':' type_name ( ('=' | ':=') expr -> ^(Expr_Alloc_Equal attribute? type_name ident_list expr?)
+	                                       | '(' expr_list? ')' -> ^(Expr_Alloc_Bracket attribute? type_name ident_list expr_list?)
+								 		   | -> ^(Expr_Alloc_Equal attribute? type_name ident_list)
+								  		   )
+							| ':=' (modify_expr (',' modify_expr)*) -> ^(':=' attribute? ident_list modify_expr+)
+							)
 	;
 
 global_using
@@ -241,7 +242,15 @@ generic_parameter
 	;
 
 func_args
-	: stmt_alloc (',' stmt_alloc)* -> ^(Func_Args stmt_alloc*)
+	: func_args_item (',' func_args_item)* -> ^(Func_Args func_args_item*)
+	;
+
+func_args_item
+	: ident_list ':' type_name ( ('=' | ':=') expr  -> ^(Expr_Alloc_Equal type_name ident_list expr?)
+	                             | '(' expr_list? ')'  -> ^(Expr_Alloc_Bracket type_name ident_list expr_list?)
+							     | -> ^(Expr_Alloc_Equal type_name ident_list)
+							     )
+	| ':='^  modify_expr
 	;
 
 func_def
@@ -330,15 +339,16 @@ ident_list
 	;
 
 stmt_alloc
-	: ident_list ':' type_name ( ('=' | ':=') expr  -> ^(Expr_Alloc_Equal type_name ident_list expr?)
-	                           | '(' expr_list? ')'  -> ^(Expr_Alloc_Bracket type_name ident_list expr_list?)
-							   | -> ^(Expr_Alloc_Equal type_name ident_list)
-							   )
-	| ident ':='^ modify_expr
+	: ident_list ( ':' type_name ( ('=' | ':=') expr  -> ^(Expr_Alloc_Equal type_name ident_list expr?)
+	                             | '(' expr_list? ')'  -> ^(Expr_Alloc_Bracket type_name ident_list expr_list?)
+							     | -> ^(Expr_Alloc_Equal type_name ident_list)
+							     )
+				 | ':='  (modify_expr (',' modify_expr)*) -> ^(':=' ident_list modify_expr+))
 	;
 
 stmt_modify
-	: lvalue (modify_expr_op^ modify_expr)?
+	: lvalue ( modify_expr_op^ modify_expr
+	         | '?='^ modify_expr)?
 	;
 
 expr
@@ -350,7 +360,7 @@ lambda_expr
 	| modify_expr
 	;
 
-modify_expr_op: '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=' ;
+modify_expr_op: '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=';
 modify_expr
 	: cond_expr ( (':=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=')^ cond_expr
 				| ('='^ cond_expr)+)?
@@ -358,15 +368,17 @@ modify_expr
 
 cond_expr_item: cond_expr ;
 cond_expr
-	: (a=or_expr -> $a) ('if' a=cond_expr_item 'else' b=cond_expr_item -> ^(Expr_Cond $a $cond_expr $b))?
+	: (a=or_expr -> $a) ('?' a=cond_expr_item ':' b=cond_expr_item -> ^(Expr_Cond $a $cond_expr $b))?
 	;
 
 or_expr
-	: (a=and_expr -> $a) ('||' b=and_expr -> ^(Expr_Bin '||' $or_expr $b))*
+	: (a=and_expr -> $a) ( '||' b=and_expr -> ^(Expr_Bin '||' $or_expr $b)
+	                     | 'or' b=and_expr -> ^('or' $or_expr $b))*
 	;
 
 and_expr
-	: (a=bit_or -> $a) ('&&' b=bit_or -> ^(Expr_Bin '&&' $and_expr $b))*
+	: (a=bit_or -> $a) ( '&&' b=bit_or -> ^(Expr_Bin '&&' $and_expr $b)
+					   | 'and' b=bit_or -> ^(Expr_Bin 'and' $and_expr $b))*
 	;
 
 bit_or
@@ -381,9 +393,9 @@ bit_and
 	: (a=cmp_equ_expr -> $a) ('&' b=cmp_equ_expr -> ^(Expr_Bin '&' $bit_and $b))*
 	;
 
-cmp_equ_expr_op: '==' | '!=' ;
+cmp_equ_expr_op: '==' | 'is' | '!=' | 'isnt' ;
 cmp_equ_expr
-	: (a=cmp_expr -> $a) (cmp_equ_expr_op b=cmp_expr -> ^(Expr_Bin cmp_equ_expr_op $cmp_equ_expr $b))?
+	: (a=cmp_expr -> $a) ( op=cmp_equ_expr_op b=cmp_expr -> ^(Expr_Bin $op $cmp_equ_expr $b) )?
 	;
 	
 cmp_expr
@@ -441,7 +453,7 @@ suffix_expr
 						  | '->' ident -> ^(Expr_Access '->' $suffix_expr ident)
 						  | '(' expr_list? ')' -> ^(Expr_Call $suffix_expr expr_list?)
 						  | '[' expr_list? ']' -> ^(Expr_Dict $suffix_expr expr_list?)
-						  | ':' ident '(' expr_list? ')' -> ^(Expr_Call_With $suffix_expr ident expr_list?)
+						  //| ':' ident '(' expr_list? ')' -> ^(Expr_Call_With $suffix_expr ident expr_list?)
 					      )*
 	;
 
