@@ -342,14 +342,32 @@ stmt_while returns [Stmt value]
 	;
 
 stmt_for returns [Stmt value]
-	: ^(Stmt_For a=expr b=expr c=expr d=stmt_block)
+	: ^(Stmt_For_To a=ident b=expr c=expr (d=expr)? e=stmt_block)
 	{
-		
-		$value = new StmtFor(a, b, c, d);
+		ExprConst variable = new ExprConst(a, ConstType.Ident);
+		ExprAlloc start = new ExprAlloc("auto", new List<string>{ a }, new List<Expr> { b }, true);
+		ExprBin condition = new ExprBin("<=", variable, c);
+		Expr next = null;
+		if (d == null)
+			next = new ExprPrefix("++", variable);
+		else next = new ExprAssign(variable, new ExprBin("+", variable, d));
+		$value = new StmtFor(start, condition, next, e);
 	}
-	| ^(Stmt_ForEach a=expr b=expr d=stmt_block)
+	| ^(Stmt_For_Down_To a=ident b=expr c=expr (d=expr)? e=stmt_block)
 	{
-		$value = new StmtForEach(a, b, d);
+		ExprConst variable = new ExprConst(a, ConstType.Ident);
+		ExprAlloc start = new ExprAlloc("auto", new List<string>{ a }, new List<Expr> { b }, true);
+		ExprBin condition = new ExprBin(">=", variable, c);
+		Expr next = null;
+		if (d == null)
+			next = new ExprPrefix("--", variable);
+		else next = new ExprAssign(variable, new ExprBin("+", variable, d));
+		$value = new StmtFor(start, condition, next, e);
+	}
+	| ^(Stmt_ForEach (own='&')? a=ident b=expr e=stmt_block)
+	{
+		if (own != null) a = "&" + a;
+		$value = new StmtForEach(new ExprConst(a, ConstType.Ident), b, e);
 	}
 	;
 
@@ -558,7 +576,6 @@ expr returns [Expr value]
 					| '<<' | '>>'
 					| '&' | '^' | '|'
 					| '&&' | '||'
-					| 'and' | 'or' | 'is' | 'isnt'
 					) a=expr b=expr)
 	{
 		$value = new ExprBin(op.Text, a, b);

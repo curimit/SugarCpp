@@ -36,7 +36,8 @@ tokens
    Stmt_If;
    Stmt_While;
    Stmt_Loop;
-   Stmt_For;
+   Stmt_For_To;
+   Stmt_For_Down_To;
    Stmt_ForEach;
    Stmt_Try;
 
@@ -307,22 +308,23 @@ stmt_return
 	;
 
 stmt_if
-	: 'if' expr stmt_block (NEWLINE* 'else' stmt_block)? -> ^(Stmt_If expr stmt_block stmt_block?)
+	: 'if' expr (NEWLINE+ stmt_block (NEWLINE* 'else' stmt_block)? -> ^(Stmt_If expr stmt_block stmt_block?)
+	            | 'then' stmt -> ^(Stmt_If expr ^(Stmt_Block stmt))
+				)
 	;
 
 stmt_while
-	: 'while' expr stmt_block -> ^(Stmt_While expr stmt_block)
-	| 'loop' stmt_block -> ^(Stmt_Loop stmt_block)
+	: 'while' expr ( NEWLINE+ stmt_block -> ^(Stmt_While expr stmt_block)
+			       | 'do' stmt -> ^(Stmt_While expr ^(Stmt_Block stmt))
+				   )
+	| 'loop' NEWLINE+ stmt_block -> ^(Stmt_Loop stmt_block)
 	;
 
 stmt_for
-@init
-{
-	int type = 0;
-}
-	: 'for' '(' expr (';' expr ';' expr {type=0;} | 'in' expr {type=1;}) ')' stmt_block
-	  -> {type==0}? ^(Stmt_For expr expr expr stmt_block)
-	  -> ^(Stmt_ForEach expr expr stmt_block)
+	: 'for' '&'? ident '<-' expr ( 'to' expr ('by' expr)? NEWLINE+ stmt_block -> ^(Stmt_For_To ident expr expr expr? stmt_block)
+	                             | 'downto' expr ('by' expr)? NEWLINE+ stmt_block -> ^(Stmt_For_Down_To ident expr expr expr? stmt_block)
+	                             | NEWLINE+ stmt_block -> ^(Stmt_ForEach '&' ident expr stmt_block)
+							     )
 	;
 
 stmt_try
@@ -392,7 +394,7 @@ or_expr
 
 and_expr
 	: (a=bit_or -> $a) ( '&&' b=bit_or -> ^(Expr_Bin '&&' $and_expr $b)
-					   | 'and' b=bit_or -> ^(Expr_Bin 'and' $and_expr $b))*
+					   | 'and' b=bit_or -> ^('and' $and_expr $b))*
 	;
 
 bit_or
@@ -407,9 +409,12 @@ bit_and
 	: (a=cmp_equ_expr -> $a) ('&' b=cmp_equ_expr -> ^(Expr_Bin '&' $bit_and $b))*
 	;
 
-cmp_equ_expr_op: '==' | 'is' | '!=' | 'isnt' ;
+cmp_equ_expr_op: '==' | '!=' ;
 cmp_equ_expr
-	: (a=cmp_expr -> $a) ( op=cmp_equ_expr_op b=cmp_expr -> ^(Expr_Bin $op $cmp_equ_expr $b) )?
+	: (a=cmp_expr -> $a) ( op=cmp_equ_expr_op b=cmp_expr -> ^(Expr_Bin $op $cmp_equ_expr $b)
+	                     | 'is' b=cmp_expr -> ^('is' $cmp_equ_expr $b) 
+	                     | 'isnt' b=cmp_expr -> ^('isnt' $cmp_equ_expr $b) 
+						 )?
 	;
 	
 cmp_expr
@@ -510,6 +515,8 @@ infix_func
 	;
 
 // Lexer Rules
+
+DOT_DOT: '..' ;
 
 IDENT: ('a'..'z' | 'A'..'Z' | '_')+ ('0'..'9')*;
 
