@@ -276,6 +276,12 @@ stmt
 	;
 
 stmt_expr
+	: (a=stmt_expr_item -> $a) ( 'if' expr -> ^(Stmt_If expr ^(Stmt_Block $stmt_expr))
+							   | 'while' expr -> ^(Stmt_While expr ^(Stmt_Block $stmt_expr))
+							   )?
+	;
+
+stmt_expr_item
 	: stmt_alloc
 	| stmt_return
 	| stmt_using
@@ -441,7 +447,7 @@ selector_expr
 						    )*
 	;
 
-prefix_expr_op: '!' | '~' | '++' | '--' | '-' | '+' | '*' | '&' ;
+prefix_expr_op: '!' | '~' | '++' | '--' | '-' | '+' | '*' | '&';
 prefix_expr
 	: (prefix_expr_op prefix_expr) -> ^(Expr_Prefix prefix_expr_op prefix_expr)
 	| 'new' type_name ( '(' expr_list? ')' -> ^(Expr_New_Type type_name expr_list?)
@@ -493,7 +499,7 @@ lvalue
 	;
 
 ident
-	: '@'? IDENT ('::' IDENT)*
+	: IDENT ('::' IDENT)*
 	;
 
 infix_func

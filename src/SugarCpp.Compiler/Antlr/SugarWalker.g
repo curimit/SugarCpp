@@ -402,7 +402,7 @@ ident returns [string value]
 {
 	$value = "";
 }
-	: ('@' { $value += "@"; })? a=IDENT { $value += a.Text; } ('::' a=IDENT { $value += "::" + a.Text; })*
+	: a=IDENT { $value += a.Text; } ('::' a=IDENT { $value += "::" + a.Text; })*
 	;
 
 ident_list returns [List<string> value]
