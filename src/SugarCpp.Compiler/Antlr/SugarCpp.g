@@ -289,11 +289,11 @@ stmt_return
 	;
 
 stmt_if
-	: 'if' '(' expr ')' stmt_block ('else' stmt_block)? -> ^(Stmt_If expr stmt_block stmt_block?)
+	: 'if' expr stmt_block (NEWLINE* 'else' stmt_block)? -> ^(Stmt_If expr stmt_block stmt_block?)
 	;
 
 stmt_while
-	: 'while' '(' expr ')' stmt_block -> ^(Stmt_While expr stmt_block)
+	: 'while' expr stmt_block -> ^(Stmt_While expr stmt_block)
 	| 'loop' stmt_block -> ^(Stmt_Loop stmt_block)
 	;
 
@@ -308,7 +308,7 @@ stmt_for
 	;
 
 stmt_try
-	:	'try' stmt_block 'catch' '(' expr ')' stmt_block -> ^(Stmt_Try stmt_block expr stmt_block)
+	:	'try' stmt_block 'catch' expr stmt_block -> ^(Stmt_Try stmt_block expr stmt_block)
 	;
 
 linq_item
@@ -352,7 +352,8 @@ lambda_expr
 
 modify_expr_op: '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=' ;
 modify_expr
-	: cond_expr ((':=' | '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=')^ modify_expr)?
+	: cond_expr ( (':=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=')^ modify_expr
+				| ('='^ modify_expr))?
 	;
 
 cond_expr_item: cond_expr ;
@@ -386,11 +387,15 @@ cmp_equ_expr
 	;
 	
 cmp_expr
-	: (a=shift_expr -> $a) ( '<' b=shift_expr ( {b.Tree.Token.Type == IDENT}? ident* '>' '(' expr_list? ')' -> ^(Expr_Call $cmp_expr ^(Generic_Patameters $b ident*) expr_list?)
+	: (a=infix_expr -> $a) ( '<' b=infix_expr ( {b.Tree.Token.Type == IDENT}? ident* '>' '(' expr_list? ')' -> ^(Expr_Call $cmp_expr ^(Generic_Patameters $b ident*) expr_list?)
 	                                          | -> ^(Expr_Bin '<' $cmp_expr $b))
-	                       | '<=' b=shift_expr -> ^(Expr_Bin '<=' $cmp_expr $b)
-						   | '>' b=shift_expr -> ^(Expr_Bin '>' $cmp_expr $b)
-						   | '>=' b=shift_expr -> ^(Expr_Bin '>=' $cmp_expr $b))*
+	                       | '<=' b=infix_expr -> ^(Expr_Bin '<=' $cmp_expr $b)
+						   | '>' b=infix_expr -> ^(Expr_Bin '>' $cmp_expr $b)
+						   | '>=' b=infix_expr -> ^(Expr_Bin '>=' $cmp_expr $b))*
+	;
+
+infix_expr
+	: (a=shift_expr -> $a) ( infix_func b=shift_expr  -> ^(Expr_Infix infix_func $infix_expr $b) )*
 	;
 
 shift_expr_op: '<<' | '>>' ;
@@ -399,13 +404,9 @@ shift_expr
 	;
 
 add_expr
-	: (a=infix_expr -> $a) ( '+' b=infix_expr -> ^(Expr_Bin '+' $add_expr $b)
-						   | '-' b=infix_expr -> ^(Expr_Bin '-' $add_expr $b)
-						   )*
-	;
-
-infix_expr
-	: (a=mul_expr -> $a) ( infix_func b=mul_expr  -> ^(Expr_Infix infix_func $infix_expr $b) )*
+	: (a=mul_expr -> $a) ( '+' b=mul_expr -> ^(Expr_Bin '+' $add_expr $b)
+						 | '-' b=mul_expr -> ^(Expr_Bin '-' $add_expr $b)
+						 )*
 	;
 
 mul_expr
@@ -491,6 +492,7 @@ NUMBER: ( '0'..'9'+ ('.' '0'..'9'+)? ('e' '-'? '0'..'9'+)? ('ll' | 'f')?
 
 STRING
 	: '"' (~'"')* '"'
+	| '\'' (~'\'') '\''
 	;
 
 Comment
@@ -531,7 +533,7 @@ Right_Bracket
 	;
 
 NEWLINE
-	: ('r'? '\n')+ SP?
+	: ('\r'? '\n')+ SP?
 	{
 		int indent = $SP.text == null ? 0 : $SP.text.Length;
 		if (indent > CurrentIndent)
@@ -561,7 +563,7 @@ NEWLINE
 	}
 	;
 
-fragment SP: ' '+ ;
+fragment SP: (' ' | '\t')+ ;
 
 INDENT: {0==1}?=> ('\n') ;
 DEDENT: {0==1}?=> ('\n') ;

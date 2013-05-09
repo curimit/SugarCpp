@@ -49,7 +49,7 @@
             // splitContainer.Panel2
             // 
             this.splitContainer.Panel2.Controls.Add(this.Result);
-            this.splitContainer.Size = new System.Drawing.Size(877, 577);
+            this.splitContainer.Size = new System.Drawing.Size(877, 533);
             this.splitContainer.SplitterDistance = 373;
             this.splitContainer.TabIndex = 0;
             // 
@@ -64,7 +64,7 @@
             this.Source.Location = new System.Drawing.Point(3, 3);
             this.Source.Multiline = true;
             this.Source.Name = "Source";
-            this.Source.Size = new System.Drawing.Size(367, 571);
+            this.Source.Size = new System.Drawing.Size(367, 527);
             this.Source.TabIndex = 0;
             this.Source.TextChanged += new System.EventHandler(this.SourceTextChanged);
             // 
@@ -79,14 +79,14 @@
             this.Result.Location = new System.Drawing.Point(3, 3);
             this.Result.Multiline = true;
             this.Result.Name = "Result";
-            this.Result.Size = new System.Drawing.Size(494, 571);
+            this.Result.Size = new System.Drawing.Size(494, 527);
             this.Result.TabIndex = 0;
             // 
             // MainWindow
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(877, 577);
+            this.ClientSize = new System.Drawing.Size(877, 533);
             this.Controls.Add(this.splitContainer);
             this.Name = "MainWindow";
             this.Text = "SugarCpp";

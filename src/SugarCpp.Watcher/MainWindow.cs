@@ -51,7 +51,7 @@ namespace SugarCpp.Watcher
 
             this.TaskList.Items.Add(path);
 
-            this.TaskTextBox = "";
+            this.TaskTextBox.Text = "";
         }
 
         private void OnWatcherEvent(object sender, FileSystemEventArgs e)
