@@ -378,7 +378,7 @@ modify_expr
 
 cond_expr_item: or_expr ;
 cond_expr
-	: (a=or_expr -> $a) ('?' ( a=cond_expr_item ( ':' b=cond_expr_item -> ^(Expr_Cond $a $cond_expr $b)
+	: (a=or_expr -> $a) ('?' ( a=cond_expr_item ( ':' b=cond_expr_item -> ^(Expr_Cond $cond_expr $a $b)
 											   | -> ^(Expr_Cond_Not_Null $cond_expr $a)
 											  )
 							 | -> ^(Expr_Not_Null $cond_expr)
