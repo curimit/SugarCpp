@@ -474,6 +474,7 @@ atom_expr
 	: NUMBER
 	| ident
 	| STRING
+	| '@' ident -> ^('@' ident)
 	| '(' expr ( (',' expr)+ ')' -> ^(Expr_Tuple expr+)
 	           | ')' -> ^(Expr_Bracket expr)
 			   )
@@ -491,6 +492,7 @@ lvalue_item
 
 lvalue_atom
 	: ident
+	| '@' ident -> ^('@' ident)
 	;
 
 lvalue

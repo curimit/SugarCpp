@@ -579,6 +579,10 @@ expr returns [Expr value]
 	{
 		$value = new ExprBin(op.Text, a, b);
 	}
+	| ^('@' text_ident=ident)
+	{
+		$value = new ExprAccess(new ExprConst("this", ConstType.Ident), "->", text_ident);
+	}
 	| ^(Expr_Bracket a=expr)
 	{
 		$value = new ExprBracket(a);
