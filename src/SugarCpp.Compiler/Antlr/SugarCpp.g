@@ -352,7 +352,7 @@ stmt_alloc
 	                             | '(' expr_list? ')'  -> ^(Expr_Alloc_Bracket type_name ident_list expr_list?)
 							     | -> ^(Expr_Alloc_Equal type_name ident_list)
 							     )
-				 | ':='  (modify_expr (',' modify_expr)*) -> ^(':=' ident_list modify_expr+))
+				 | ':='  (expr (',' modify_expr)*) -> ^(':=' ident_list expr modify_expr*))
 	;
 
 stmt_modify
@@ -365,7 +365,8 @@ expr
 	;
 
 lambda_expr
-	: '\\' '(' func_args? ')' '=>' lambda_expr -> ^(Expr_Lambda func_args? lambda_expr)
+	: '(' func_args? ')' ( '->' expr  -> ^(Expr_Lambda '->' func_args? expr)
+	                     | '=>' expr  -> ^(Expr_Lambda '=>' func_args? expr))
 	| modify_expr
 	;
 

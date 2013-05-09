@@ -184,14 +184,16 @@ namespace SugarCpp.Compiler
     {
         public Expr Expr;
         public List<ExprAlloc> Args = new List<ExprAlloc>();
+        public bool IsRef;
 
-        public ExprLambda(Expr expr, List<ExprAlloc> args)
+        public ExprLambda(Expr expr, List<ExprAlloc> args, bool isRef)
         {
             this.Expr = expr;
             if (args != null)
             {
                 this.Args = args;
             }
+            this.IsRef = isRef;
         }
 
         public override Template Accept(Visitor visitor)

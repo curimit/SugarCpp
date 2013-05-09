@@ -463,9 +463,13 @@ dict_expr returns [Expr value]
 	;
 
 lambda_expr returns [ExprLambda value]
-	: ^(Expr_Lambda (b=func_args)? a=expr)
+	: ^(Expr_Lambda '->' (b=func_args)? a=expr)
 	{
-		$value = new ExprLambda(a, b);
+		$value = new ExprLambda(a, b, true);
+	}
+	| ^(Expr_Lambda '=>' (b=func_args)? a=expr)
+	{
+		$value = new ExprLambda(a, b, false);
 	}
 	;
 
