@@ -29,6 +29,7 @@ tokens
    Stmt_Block;
 
    Stmt_Defer;
+   Stmt_Finally;
    
    Stmt_Using;
    Stmt_Typedef;
@@ -294,6 +295,7 @@ stmt_expr_item
 
 stmt_defer
 	: 'defer' stmt -> ^(Stmt_Defer stmt)
+	| 'finally' stmt -> ^(Stmt_Finally stmt)
 	;
 
 stmt_typedef
@@ -330,7 +332,7 @@ stmt_for
 	;
 
 stmt_try
-	:	'try' stmt_block 'catch' expr stmt_block -> ^(Stmt_Try stmt_block expr stmt_block)
+	:	'try' stmt_block 'catch' stmt_alloc stmt_block -> ^(Stmt_Try stmt_block stmt_alloc stmt_block)
 	;
 
 linq_item

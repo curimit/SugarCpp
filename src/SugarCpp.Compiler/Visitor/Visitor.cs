@@ -24,6 +24,7 @@ namespace SugarCpp.Compiler
 
         public abstract Template Visit(StmtBlock block);
         public abstract Template Visit(StmtDefer stmt_defer);
+        public abstract Template Visit(StmtFinally stmt_finally);
 
         public abstract Template Visit(StmtIf stmt_if);
         public abstract Template Visit(StmtWhile stmt_while);

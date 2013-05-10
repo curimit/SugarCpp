@@ -12,6 +12,7 @@ namespace SugarCpp.Compiler
     public class TargetCpp : Visitor
     {
         private Stack<Template> defer_stack = new Stack<Template>();
+        private int stmt_finally_count = 0;
 
         public string Compile(string input)
         {
@@ -478,13 +479,15 @@ namespace SugarCpp.Compiler
             List<Template> list = new List<Template>();
 
             int defer_count = 0;
+            int scoped_finally_count = 0;
             bool contains_break = false;
             foreach (var node in block.StmtList)
             {
                 if (node is StmtDefer)
                 {
+                    var stmt_defer = (StmtDefer)node;
                     defer_count++;
-                    defer_stack.Push(node.Accept(this));
+                    defer_stack.Push(stmt_defer.Stmt.Accept(this));
                     continue;
                 }
 
@@ -508,6 +511,21 @@ namespace SugarCpp.Compiler
                         expr.Add("list", defer_stack.ToList());
                         list.Add(expr);
                     }
+                    continue;
+                }
+
+                if (node is StmtFinally)
+                {
+                    var stmt_finally = (StmtFinally)node;
+                    string name = string.Format("_t_finally_{0}", stmt_finally_count);
+                    stmt_finally_count++;
+                    scoped_finally_count++;
+                    Template stmt =
+                        new Template(
+                            "class <name> {\npublic:\n    std::function\\<void()> finally;\n    ~<name>() { finally(); }\n} <name> = { [&]() { <expr> } };");
+                    stmt.Add("name", name);
+                    stmt.Add("expr", stmt_finally.Stmt.Accept(this));
+                    list.Add(stmt);
                     continue;
                 }
 
@@ -543,13 +561,22 @@ namespace SugarCpp.Compiler
                 }
             }
 
+            stmt_finally_count -= scoped_finally_count;
+
             template.Add("list", list);
             return template;
         }
 
         public override Template Visit(StmtDefer stmt_defer)
         {
-            return stmt_defer.Stmt.Accept(this);
+            throw new Exception(string.Format("It's impossible to run this code."));
+            return null;
+        }
+
+        public override Template Visit(StmtFinally stmt_finally)
+        {
+            throw new Exception(string.Format("It's impossible to run this code."));
+            return null;
         }
 
         public override Template Visit(StmtIf stmt_if)
@@ -581,9 +608,9 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(StmtTry stmt_try)
         {
-            Template template = new Template("try {\n    <body>\n} catch (<expr>) {\n    <catch>\n}");
+            Template template = new Template("try {\n    <body>\n} catch (<stmt>) {\n    <catch>\n}");
             template.Add("body", stmt_try.Body.Accept(this));
-            template.Add("expr", stmt_try.Expr.Accept(this));
+            template.Add("stmt", stmt_try.Stmt.Accept(this));
             template.Add("catch", stmt_try.Catch.Accept(this));
             return template;
         }

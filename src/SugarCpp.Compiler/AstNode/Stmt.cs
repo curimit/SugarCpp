@@ -90,13 +90,13 @@ namespace SugarCpp.Compiler
     public class StmtTry : Stmt
     {
         public StmtBlock Body;
-        public Expr Expr;
+        public Stmt Stmt;
         public StmtBlock Catch;
 
-        public StmtTry(StmtBlock body_block, Expr expr, StmtBlock catch_block)
+        public StmtTry(StmtBlock body_block, Stmt stmt, StmtBlock catch_block)
         {
             this.Body = body_block;
-            this.Expr = expr;
+            this.Stmt = stmt;
             this.Catch = catch_block;
         }
 
@@ -196,6 +196,21 @@ namespace SugarCpp.Compiler
         public Stmt Stmt;
 
         public StmtDefer(Stmt stmt)
+        {
+            this.Stmt = stmt;
+        }
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
+    public class StmtFinally : Stmt
+    {
+        public Stmt Stmt;
+
+        public StmtFinally(Stmt stmt)
         {
             this.Stmt = stmt;
         }

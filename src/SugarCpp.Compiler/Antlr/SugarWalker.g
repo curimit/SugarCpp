@@ -295,6 +295,10 @@ stmt_defer returns [Stmt value]
 	{
 		$value = new StmtDefer(a[0]);
 	}
+	| ^(Stmt_Finally a=stmt)
+	{
+		$value = new StmtFinally(a[0]);
+	}
 	;
 
 stmt_expr returns [Stmt value]
@@ -372,7 +376,7 @@ stmt_for returns [Stmt value]
 	;
 
 stmt_try returns [Stmt value]
-	: ^(Stmt_Try a=stmt_block b=expr c=stmt_block)
+	: ^(Stmt_Try a=stmt_block b=stmt_alloc c=stmt_block)
 	{
 		$value = new StmtTry(a, b, c);
 	}
