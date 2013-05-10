@@ -54,7 +54,9 @@ tokens
    Type_Tuple;
 
    Func_Args;
-   
+
+   Expr_Cast;
+
    Expr_Alloc_Equal;
    Expr_Alloc_Bracket;
 
@@ -448,9 +450,13 @@ mul_expr
 	;
 
 selector_expr
-	: (a=prefix_expr -> $a) ( '->*' b=ident -> ^(Expr_Access '->*' $selector_expr $b)
-						    | '.*'  b=ident -> ^(Expr_Access '.*'  $selector_expr $b)
-						    )*
+	: (a=cast_expr -> $a) ( '->*' b=ident -> ^(Expr_Access '->*' $selector_expr $b)
+						  | '.*'  b=ident -> ^(Expr_Access '.*'  $selector_expr $b)
+						  )*
+	;
+
+cast_expr
+	: (a=prefix_expr -> $a) ('as' '(' type_name ')' -> ^(Expr_Cast type_name prefix_expr))?
 	;
 
 prefix_expr_op: '!' | '~' | '++' | '--' | '-' | '+' | '*' | '&';

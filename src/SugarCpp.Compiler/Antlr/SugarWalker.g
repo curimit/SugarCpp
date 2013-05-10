@@ -518,6 +518,13 @@ call_with_expr returns [ExprCall value]
 	}
 	;
 
+cast_expr returns [ExprCast value]
+	: ^(Expr_Cast a=type_name b=expr)
+	{
+		$value = new ExprCast(a, b);
+	}
+	;
+
 expr returns [Expr value]
     : tuple=expr_tuple
 	{
@@ -546,6 +553,10 @@ expr returns [Expr value]
 	| lambda=lambda_expr
 	{
 		$value = lambda;
+	}
+	| cast=cast_expr
+	{
+		$value = cast;
 	}
 	| expr_new=new_expr
 	{

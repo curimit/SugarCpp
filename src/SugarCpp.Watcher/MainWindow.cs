@@ -93,6 +93,8 @@ namespace SugarCpp.Watcher
             try
             {
                 string name = e.Name.Substring(0, e.Name.Length - 3) + ".cpp";
+                name = name.Substring(name.LastIndexOf("/") + 1);
+                name = name.Substring(name.LastIndexOf("\\") + 1);
                 File.WriteAllText(root + "/" + name, result);
             }
             catch (Exception)

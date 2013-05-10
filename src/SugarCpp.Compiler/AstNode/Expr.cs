@@ -290,6 +290,23 @@ namespace SugarCpp.Compiler
         }
     }
 
+    public class ExprCast : Expr
+    {
+        public string Type;
+        public Expr Expr;
+
+        public ExprCast(string type, Expr expr)
+        {
+            this.Type = type;
+            this.Expr = expr;
+        }
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
     public class ExprBlock : Expr
     {
         public List<Stmt> StmtList = new List<Stmt>();
