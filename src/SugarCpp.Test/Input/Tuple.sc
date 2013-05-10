@@ -3,7 +3,8 @@
 
 using std::tuple
 
-tuple<T, T> sort<T>(a: T, b: T) = (a,b) if a < b else (b,a)
+tuple<T, T> sort<T>(a: T, b: T)
+    return a < b ? (a, b) : (b, a)
 
 int main()
     a := 10
