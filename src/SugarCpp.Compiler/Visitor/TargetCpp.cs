@@ -478,7 +478,7 @@ namespace SugarCpp.Compiler
             List<Template> list = new List<Template>();
 
             int defer_count = 0;
-            bool contains_return = false;
+            bool contains_break = false;
             foreach (var node in block.StmtList)
             {
                 if (node is StmtDefer)
@@ -487,8 +487,8 @@ namespace SugarCpp.Compiler
                     defer_stack.Push(node.Accept(this));
                     continue;
                 }
-                
-                contains_return = contains_return || node is StmtReturn;
+
+                contains_break = contains_break || node is StmtReturn;
 
                 if (defer_stack.Count() > 0 && node is StmtReturn)
                 {
@@ -510,13 +510,30 @@ namespace SugarCpp.Compiler
                     }
                     continue;
                 }
-                
+
+                if (node is StmtExpr)
+                {
+                    StmtExpr stmt = (StmtExpr)node;
+                    if (stmt.Stmt is ExprConst)
+                    {
+                        string text = ((ExprConst)stmt.Stmt).Text;
+                        if (text == "break" || text == "continue")
+                        {
+                            contains_break = true;
+                            for (int i = 0; i < defer_count; i++)
+                            {
+                                list.Add(defer_stack.ElementAt(i));
+                            }
+                        }
+                    }
+                }
+
                 list.Add(node.Accept(this));
             }
 
             for (int i = 0; i < defer_count; i++)
             {
-                if (contains_return)
+                if (contains_break)
                 {
                     defer_stack.Pop();
                 }
