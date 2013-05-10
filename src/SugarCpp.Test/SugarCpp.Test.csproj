@@ -99,7 +99,9 @@
     <None Include="Input\Typedef.sc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Input\CaculateSum.sc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
