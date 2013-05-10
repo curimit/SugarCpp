@@ -146,14 +146,23 @@ This syntax behaved like `finally` in Java or C# and even easier to use.
 import "stdio.h"
        "functional"
 
+using namespace std
+
 void test()
-    finally printf("Finally!\n")
+    x := new int[100]
+    finally delete(x)
+
+    x[0] = 1
+    // maybe open file failed
+    // maybe divided by zero
+    // anyway, an exception occurs
+    // we want to avoid memory leak
     throw(0)
 
 int main()
     try
         test()
-    catch x: int
+    catch x:int
         printf("catch: %d\n", x)
 ```
 
@@ -161,12 +170,16 @@ int main()
 #include "stdio.h"
 #include "functional"
 
+using namespace std;
+
 void test() {
+    auto x = new int[100];
     class _t_finally_0 {
     public:
         std::function<void()> finally;
         ~_t_finally_0() { finally(); }
-    } _t_finally_0 = { [&]() { printf("Finally!\n"); } };
+    } _t_finally_0 = { [&]() { delete(x); } };
+    x[0] = 1;
     throw(0);
 }
 
