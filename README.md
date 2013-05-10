@@ -11,12 +11,12 @@ Try SugarCpp in your browser: http://curimit.com/project/SugarCpp/
 ## Features
 
 * Indent-based code block.
-* Inline function defination.
+* Go style defer/finally statement, easier way to handle exceptions.
 * Multiple return values & parallel assignment.
+* Inline function defination.
 * Haskell style infix function.
 * Prolog style query with C# LINQ syntax.
 * C# style extension method.
-* Go style defer statement.
 * Scala style case class.
 * Pattern matching.
 
@@ -25,13 +25,15 @@ Try SugarCpp in your browser: http://curimit.com/project/SugarCpp/
 #### Hello world
 ```c++
 import "stdio.h"
-void main() = printf("Hello world!") 
+
+int main()
+    printf("Hello world!") 
 ``` 
 
 ```c++
 #include "stdio.h"
 
-void main() {
+int main() {
     printf("Hello world!");
 }
 ```
@@ -42,7 +44,7 @@ import "stdio.h"
 
 int main()
     sum := 0
-    for (i := 1; i < 10; i++)
+    for i <- 1 to 10
         sum = sum + i
     printf("sum = %d\n", sum)
 ```
@@ -52,97 +54,27 @@ int main()
 
 int main() {
     auto sum = 0;
-    for (auto i = 1; i < 10; i++) {
+    for (auto i = 1; i <= 10; ++i) {
         sum = sum + i;
     }
     printf("sum = %d\n", sum);
 }
 ```
 
-#### Prolog style query with C# LINQ syntax
-```c++
-import "stdio.h"
-       "iostream"
-       "tuple"
-       "vector"
+#### Defer and Finally
+Due to C++11 does not support C# style Finally syntax, it's difficult to guarantee resource be closed or pointer be deleted while exception happens.
 
-using namespace std
+SugarCpp provide two syntax: defer/finally
++ `defer` is fast, lightweight, the generate C++ code is highly readable.
+It simply insert code before `return`/`continue`/`break` statements.
+So when exception happens, the codes decleared by `defer` are **not** guarantee to be run.
 
-class Family(child: string, father: string, mother: string)
++ `finally` is little heavier than `defer`.
+It is behaved just like the finally syntax in C# or Java.
+It use deconstructor to guarantee when exception happens, the codes decleared by `finally` will still be run.
 
-int main()
-    // Two way to unpacking object
-    // 1. Using case class
-    family: vector<Family>
-    family.push_back(Family("a", "b", "c"))
-    family.push_back(Family("d", "b", "f"))
-    family.push_back(Family("e", "g", "h"))
-    
-    // 2. Using tuple
-    friends: vector<tuple<string, string> >
-    friends.push_back(("a", "d"))
-    friends.push_back(("a", "e"))
-    
-    // @ means not define new variable
-    from (a, b) in friends
-    from Family(@a, f, _) in family
-    from Family(@b, @f, _) in family
-        printf("%s and %s has same father %s\n", a.c_str(), b.c_str(), f.c_str())
-```
-
-```c++
-#include "stdio.h"
-#include "iostream"
-#include "tuple"
-#include "vector"
-
-using namespace std;
-
-class Family {
-public:
-    string child;
-    string father;
-    string mother;
-
-    Family(string child, string father, string mother) {
-        this->child = child;
-        this->father = father;
-        this->mother = mother;
-    }
-
-    inline tuple<string, string, string> Unapply() {
-        return std::make_tuple(child, father, mother);
-    }
-};
-
-int main() {
-    vector<Family> family;
-    family.push_back(Family("a", "b", "c"));
-    family.push_back(Family("d", "b", "f"));
-    family.push_back(Family("e", "g", "h"));
-    vector<tuple<string, string>> friends;
-    friends.push_back(std::make_tuple("a", "d"));
-    friends.push_back(std::make_tuple("a", "e"));
-    for (auto _t_match : friends) {
-        auto a = get<0>(_t_match);
-        auto b = get<1>(_t_match);
-        for (auto _t_iterator : family) {
-            auto &&_t_match = _t_iterator.Unapply();
-            if (std::get<0>(_t_match) == a) {
-                auto f = std::get<1>(_t_match);
-                for (auto _t_iterator : family) {
-                    auto &&_t_match = _t_iterator.Unapply();
-                    if ((std::get<0>(_t_match) == b) && (std::get<1>(_t_match) == f)) {
-                        printf("%s and %s has same father %s\n", a.c_str(), b.c_str(), f.c_str());
-                    }
-                }
-            }
-        }
-    }
-}
-```
-
-#### Go style defer
+##### This is an example of defer
+Notice it has no extra cost and does not handle exceptions.
 ```c++
 import "fstream"
 
@@ -159,10 +91,10 @@ void foo()
 void bar()
     print("1")
     defer print("defer1")
-    if (true)
+    if true
         print("2")
         defer print("defer2")
-        if (true)
+        if true
             print("3")
             defer print("defer3")
             print("4")
@@ -180,7 +112,7 @@ using namespace std;
 void foo() {
     ofstream fout("output.txt");
     fout.write("Hello World!", 12);
-    if (false) {
+    if ((false)) {
         fout.close();
         return;
     }
@@ -208,9 +140,48 @@ void bar() {
 }
 ```
 
+##### This is an example of finally
+This syntax behaved like `finally` in Java or C# and even easier to use.
+```c++
+import "stdio.h"
+       "functional"
+
+void test()
+    finally printf("Finally!\n")
+    throw(0)
+
+int main()
+    try
+        test()
+    catch x: int
+        printf("catch: %d\n", x)
+```
+
+```c++
+#include "stdio.h"
+#include "functional"
+
+void test() {
+    class _t_finally_0 {
+    public:
+        std::function<void()> finally;
+        ~_t_finally_0() { finally(); }
+    } _t_finally_0 = { [&]() { printf("Finally!\n"); } };
+    throw(0);
+}
+
+int main() {
+    try {
+        test();
+    } catch (int x) {
+        printf("catch: %d\n", x);
+    }
+}
+```
+
 #### Generic Programming
 ```c++
-T max<T>(x: T, y: T) = x if x > y else y
+T max<T>(x: T, y: T) = x > y ? x : y
 ```
 
 ```c++
@@ -235,46 +206,25 @@ enum Color {
 
 #### Define new variable
 ```c++
+// basic syntax
 a := 1
-b : int
-c : int = 0
-d : int := 0
-e : vector<int>(10)
-list1, list2, list3: vector<int>(100)
-f, g: int*&
+a, b : int
 
-int test(a:=123, b:int)
-    a := 1
-    b : int
-    c : int = 0
-    d : int := 0
-    e : vector<int>(10)
-    list1, list2, list3: vector<int>(100)
-    f, g: int*&
+// advanced syntax
+a, b: int(1)
+a, b := 1, 2
+a, b := 1
 ```
 
 ```c++
 auto a = 1;
-int b;
-int c = 0;
-int d = 0;
-vector<int> e(10);
-vector<int> list1(100);
-vector<int> list2(100);
-vector<int> list3(100);
-int *&f, *&g;
-
-int test(decltype(123) a = 123, int b) {
-    auto a = 1;
-    int b;
-    int c = 0;
-    int d = 0;
-    vector<int> e(10);
-    vector<int> list1(100)
-    vector<int> list2(100)
-    vector<int> list3(100);
-    int *&f, *&g;
-}
+int a, b;
+int a(1);
+int b(1);
+auto a = 1;
+auto b = 2;
+auto a = 1;
+auto b = 1;
 ```
 
 #### Multiple return values && Parallel assignment
@@ -284,11 +234,12 @@ import "stdio.h"
 
 using std::tuple
 
-tuple<T, T> sort<T>(a: T, b: T) = (a,b) if a < b else (b,a)
+tuple<T, T> sort<T>(a: T, b: T)
+    return a < b ? (a, b) : (b, a)
 
 int main()
-	a := 10
-	b := 1
+    a := 10
+    b := 1
     (a, b) = sort(a, b)
     printf("%d %d\n", a, b)
     (a, b) = (b, a)
@@ -335,6 +286,10 @@ public:
     Number(T value) {
         this->value = value;
     }
+
+    inline tuple<T> Unapply() {
+        return std::make_tuple(value);
+    }
 };
 
 class ExprBin: public Expr {
@@ -348,6 +303,10 @@ public:
         this->l = l;
         this->r = r;
     }
+
+    inline tuple<string, Expr, Expr> Unapply() {
+        return std::make_tuple(op, l, r);
+    }
 };
 ```
 
@@ -359,9 +318,8 @@ import "stdio.h"
 using std::max
 
 int main()
-    a := 1
-    b := 2
-    x := a `max` b
+    a, b, c := 1, 2, 3
+    x := a `max` b `max` c
     printf("%d\n", x)
 ``` 
 
@@ -374,47 +332,9 @@ using std::max;
 int main() {
     auto a = 1;
     auto b = 2;
-    auto x = max(a, b);
+    auto c = 3;
+    auto x = max(max(a, b), c);
     printf("%d\n", x);
-}
-```
-
-#### C# style extension method
-```c++
-import "stdio.h"
-       "string"
-
-using namespace std
-
-string ToString(n: int, base:=10)
-    a:string := "0"
-    a[0] = n % base + 48
-    return a if n < base else ToString(n / base, base) + a
-
-int main()
-    a := 100
-    base10 := a:ToString()
-    base2 := a:ToString(2)
-    printf("%s %s\n", base10.c_str(), base2.c_str())
-```
-
-```c++
-#include "stdio.h"
-#include "string"
-
-using namespace std;
-
-string ToString(int n, decltype(10) base = 10) {
-    string a = "0";
-    a[0] = n % base + 48;
-    return n < base ? a : ToString(n / base, base) + a;
-}
-
-int main() {
-    auto a = 100;
-    auto base10 = ToString(a);
-    auto base2 = ToString(a, 2);
-    printf("%s %s\n", base10.c_str(), base2.c_str());
 }
 ```
 
@@ -471,15 +391,16 @@ int main() {
 ##### 2. FlagAttribute
 ```c++
 [FlagAttribute]
-enum MyFlags = Flag1 | Flag2 | Flag3 | Flag4
+enum MyFlags = None | Flag1 | Flag2 | Flag3 | Flag4
 ```
 
 ```c++
 enum MyFlags {
-    Flag1 = 0,
-    Flag2 = 1,
-    Flag3 = 2,
-    Flag4 = 4
+    None = 0,
+    Flag1 = 1,
+    Flag2 = 2,
+    Flag3 = 4,
+    Flag4 = 8
 };
 ```
 
@@ -569,6 +490,130 @@ typedef u_int32 = unsigned int
 
 ```c++
 typedef unsigned int u_int32;
+```
+
+#### C# style extension method
+This feature currently not available.
+```c++
+import "stdio.h"
+       "string"
+
+using namespace std
+
+string ToString(n: int, base:=10)
+    a:string := "0"
+    a[0] = n % base + 48
+    return a if n < base else ToString(n / base, base) + a
+
+int main()
+    a := 100
+    base10 := a:ToString()
+    base2 := a:ToString(2)
+    printf("%s %s\n", base10.c_str(), base2.c_str())
+```
+
+```c++
+#include "stdio.h"
+#include "string"
+
+using namespace std;
+
+string ToString(int n, decltype(10) base = 10) {
+    string a = "0";
+    a[0] = n % base + 48;
+    return n < base ? a : ToString(n / base, base) + a;
+}
+
+int main() {
+    auto a = 100;
+    auto base10 = ToString(a);
+    auto base2 = ToString(a, 2);
+    printf("%s %s\n", base10.c_str(), base2.c_str());
+}
+```
+
+#### Prolog style query with C# LINQ syntax
+This feature currently not available.
+```c++
+import "stdio.h"
+       "iostream"
+       "tuple"
+       "vector"
+
+using namespace std
+
+class Family(child: string, father: string, mother: string)
+
+int main()
+    // Two way to unpacking object
+    // 1. Using case class
+    family: vector<Family>
+    family.push_back(Family("a", "b", "c"))
+    family.push_back(Family("d", "b", "f"))
+    family.push_back(Family("e", "g", "h"))
+    
+    // 2. Using tuple
+    friends: vector<tuple<string, string> >
+    friends.push_back(("a", "d"))
+    friends.push_back(("a", "e"))
+    
+    // @ means not define new variable
+    from (a, b) in friends
+    from Family(@a, f, _) in family
+    from Family(@b, @f, _) in family
+        printf("%s and %s has same father %s\n", a.c_str(), b.c_str(), f.c_str())
+```
+
+```c++
+#include "stdio.h"
+#include "iostream"
+#include "tuple"
+#include "vector"
+
+using namespace std;
+
+class Family {
+public:
+    string child;
+    string father;
+    string mother;
+
+    Family(string child, string father, string mother) {
+        this->child = child;
+        this->father = father;
+        this->mother = mother;
+    }
+
+    inline tuple<string, string, string> Unapply() {
+        return std::make_tuple(child, father, mother);
+    }
+};
+
+int main() {
+    vector<Family> family;
+    family.push_back(Family("a", "b", "c"));
+    family.push_back(Family("d", "b", "f"));
+    family.push_back(Family("e", "g", "h"));
+    vector<tuple<string, string>> friends;
+    friends.push_back(std::make_tuple("a", "d"));
+    friends.push_back(std::make_tuple("a", "e"));
+    for (auto _t_match : friends) {
+        auto a = get<0>(_t_match);
+        auto b = get<1>(_t_match);
+        for (auto _t_iterator : family) {
+            auto &&_t_match = _t_iterator.Unapply();
+            if (std::get<0>(_t_match) == a) {
+                auto f = std::get<1>(_t_match);
+                for (auto _t_iterator : family) {
+                    auto &&_t_match = _t_iterator.Unapply();
+                    if ((std::get<0>(_t_match) == b) && (std::get<1>(_t_match) == f)) {
+                        printf("%s and %s has same father %s\n", a.c_str(), b.c_str(), f.c_str());
+                    }
+                }
+            }
+        }
+    }
+}
 ```
 
 ## Command Line Usage
