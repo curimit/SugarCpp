@@ -845,6 +845,13 @@ namespace SugarCpp.Compiler
             return template;
         }
 
+        public override Template Visit(ExprList expr)
+        {
+            Template template = new Template("{ <list; separator=\", \"> }");
+            template.Add("list", expr.List.Select(x => x.Accept(this)));
+            return template;
+        }
+
         public override Template Visit(ExprAlloc expr)
         {
             string type = expr.Type;

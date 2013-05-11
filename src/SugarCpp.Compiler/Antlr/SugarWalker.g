@@ -533,6 +533,13 @@ cast_expr returns [ExprCast value]
 	}
 	;
 
+list_expr returns [ExprList value]
+	: ^(Expr_List a=expr_list?)
+	{
+		$value = new ExprList(a);
+	}
+	;
+
 expr returns [Expr value]
     : tuple=expr_tuple
 	{
@@ -565,6 +572,10 @@ expr returns [Expr value]
 	| cast=cast_expr
 	{
 		$value = cast;
+	}
+	| list=list_expr
+	{
+		$value = list;
 	}
 	| expr_new=new_expr
 	{

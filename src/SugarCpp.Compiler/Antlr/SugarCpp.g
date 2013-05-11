@@ -57,6 +57,8 @@ tokens
 
    Func_Args;
 
+   Expr_List;
+
    Expr_Cast;
 
    Expr_Alloc_Equal;
@@ -365,12 +367,17 @@ stmt_alloc
 	;
 
 stmt_modify
-	: lvalue ( modify_expr_op^ modify_expr
+	: lvalue ( modify_expr_op^ expr
 	         | '?='^ modify_expr)?
 	;
 
 expr
-	: lambda_expr
+	: list_expr
+	;
+
+list_expr
+	: '[' ((',' | NEWLINE | INDENT | DEDENT)* list_expr ((',' | NEWLINE | INDENT | DEDENT)+ list_expr)*)? (',' | NEWLINE | INDENT | DEDENT)* ']' -> ^(Expr_List list_expr*)
+	| lambda_expr
 	;
 
 lambda_expr

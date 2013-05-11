@@ -317,6 +317,24 @@ namespace SugarCpp.Compiler
         }
     }
 
+    public class ExprList : Expr
+    {
+        public List<Expr> List = new List<Expr>();
+
+        public ExprList(List<Expr> list)
+        {
+            if (list != null)
+            {
+                this.List = list;
+            }
+        }
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
     public enum ConstType
     {
         Ident, String, Number
