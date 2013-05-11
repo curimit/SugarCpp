@@ -213,7 +213,7 @@ global_alloc
 	                                       | '(' expr_list? ')' -> ^(Expr_Alloc_Bracket attribute? type_name ident_list expr_list?)
 								 		   | -> ^(Expr_Alloc_Equal attribute? type_name ident_list)
 								  		   )
-							| ':=' (modify_expr (',' modify_expr)*) -> ^(':=' attribute? ident_list modify_expr+)
+							| ':=' (expr (',' expr)*) -> ^(':=' attribute? ident_list expr+)
 							)
 	;
 
@@ -290,7 +290,12 @@ stmt_expr
 							   | 'unless' expr -> ^(Stmt_Unless expr ^(Stmt_Block $stmt_expr))
 							   | 'while' expr -> ^(Stmt_While expr ^(Stmt_Block $stmt_expr))
 							   | 'until' expr -> ^(Stmt_Until expr ^(Stmt_Block $stmt_expr))
-							   )?
+							   | 'for' ( '&'? ident '<-' expr ( 'to' expr ('by' expr)? -> ^(Stmt_For_To ident expr expr expr? ^(Stmt_Block $stmt_expr))
+												              | 'downto' expr ('by' expr)? -> ^(Stmt_For_Down_To ident expr expr expr? ^(Stmt_Block $stmt_expr))
+							                                  )
+									   | '(' expr ';' expr ';' expr ')' NEWLINE+ stmt_block -> ^(Stmt_For expr expr expr ^(Stmt_Block $stmt_expr))
+			                           )
+							   )*
 	;
 
 stmt_expr_item
@@ -374,7 +379,7 @@ stmt_alloc
 	                             | '(' expr_list? ')'  -> ^(Expr_Alloc_Bracket type_name ident_list expr_list?)
 							     | -> ^(Expr_Alloc_Equal type_name ident_list)
 							     )
-				 | ':='  (expr (',' modify_expr)*) -> ^(':=' ident_list expr modify_expr*))
+				 | ':='  (expr (',' expr)*) -> ^(':=' ident_list expr*))
 	;
 
 stmt_modify
