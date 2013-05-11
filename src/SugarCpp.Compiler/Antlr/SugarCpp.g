@@ -37,6 +37,7 @@ tokens
    Stmt_If;
    Stmt_While;
    Stmt_Loop;
+   Stmt_For;
    Stmt_For_To;
    Stmt_For_Down_To;
    Stmt_ForEach;
@@ -325,10 +326,12 @@ stmt_while
 	;
 
 stmt_for
-	: 'for' '&'? ident '<-' expr ( 'to' expr ('by' expr)? NEWLINE+ stmt_block -> ^(Stmt_For_To ident expr expr expr? stmt_block)
-	                             | 'downto' expr ('by' expr)? NEWLINE+ stmt_block -> ^(Stmt_For_Down_To ident expr expr expr? stmt_block)
-	                             | NEWLINE+ stmt_block -> ^(Stmt_ForEach '&' ident expr stmt_block)
-							     )
+	: 'for' ( '&'? ident '<-' expr ( 'to' expr ('by' expr)? NEWLINE+ stmt_block -> ^(Stmt_For_To ident expr expr expr? stmt_block)
+	                               | 'downto' expr ('by' expr)? NEWLINE+ stmt_block -> ^(Stmt_For_Down_To ident expr expr expr? stmt_block)
+	                               | NEWLINE+ stmt_block -> ^(Stmt_ForEach '&' ident expr stmt_block)
+							       )
+			| '(' expr ';' expr ';' expr ')' NEWLINE+ stmt_block -> ^(Stmt_For expr expr expr stmt_block)
+			)
 	;
 
 stmt_try

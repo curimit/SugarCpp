@@ -346,7 +346,11 @@ stmt_while returns [Stmt value]
 	;
 
 stmt_for returns [Stmt value]
-	: ^(Stmt_For_To a=ident b=expr c=expr (d=expr)? e=stmt_block)
+	: ^(Stmt_For e1=expr e2=expr e3=expr block=stmt_block)
+	{
+		$value = new StmtFor(e1, e2, e3, block);
+	}
+	| ^(Stmt_For_To a=ident b=expr c=expr (d=expr)? e=stmt_block)
 	{
 		ExprConst variable = new ExprConst(a, ConstType.Ident);
 		ExprAlloc start = new ExprAlloc("auto", new List<string>{ a }, new List<Expr> { b }, true);
