@@ -335,10 +335,10 @@ stmt_if
 
 stmt_while
 	: 'while' expr ( NEWLINE+ stmt_block -> ^(Stmt_While expr stmt_block)
-			       | 'do' stmt -> ^(Stmt_While expr ^(Stmt_Block stmt))
+			       | 'then' stmt -> ^(Stmt_While expr ^(Stmt_Block stmt))
 				   )
 	| 'until' expr ( NEWLINE+ stmt_block -> ^(Stmt_Until expr stmt_block)
-			       | 'do' stmt -> ^(Stmt_Until expr ^(Stmt_Block stmt))
+			       | 'then' stmt -> ^(Stmt_Until expr ^(Stmt_Block stmt))
 				   )
 	| 'loop' NEWLINE+ stmt_block -> ^(Stmt_Loop stmt_block)
 	;
