@@ -138,8 +138,8 @@ tokens
 		{
 			if (Indents != null && Indents.Count > 0)
 			{
-				Emit(new CommonToken(NEWLINE, "NEWLINE"));
-				Emit(new CommonToken(DEDENT, "DEDENT"));
+				Emit(this.CreateToken(NEWLINE, "NEWLINE"));
+				Emit(this.CreateToken(DEDENT, "DEDENT"));
 				Indents.Pop();
 				CurrentIndent = Indents.Count == 0 ? 0 : Indents.First().Level;
 				base.NextToken();
@@ -148,13 +148,23 @@ tokens
 			if (Indents != null)
 			{
 				Indents = null;
-				return new CommonToken(NEWLINE, "NEWLINE");
+				return this.CreateToken(NEWLINE, "NEWLINE");
 			}
-            return new CommonToken(EOF, "EOF");
+            return this.CreateToken(EOF, "EOF");
 		}
         return tokens.Dequeue();
     }
-} 
+
+	public CommonToken CreateToken(int type, string text)
+	{
+		var x = new CommonToken(type, text);
+		x.Line = this.Line;
+		x.CharPositionInLine = this.CharPositionInLine;
+		x.StartIndex = this.CharIndex;
+		x.StopIndex = this.CharIndex;
+		return x;
+	}
+}
 
 @lexer::init {
 	CurrentIndent = 0;
@@ -162,6 +172,17 @@ tokens
 	Bracket[1] = Stack<int>();
 	Bracket[2] = Stack<int>();
 	Console.WriteLine("Init!");
+}
+
+@parser::members
+{
+	public List<string> errors = new List<string>();
+    public override void ReportError(RecognitionException e)
+    {
+        String hdr = GetErrorHeader(e);
+        String msg = GetErrorMessage(e, tokenNames);
+		errors.Add(hdr + " " + msg);
+    }
 }
 
 @parser::header
@@ -596,7 +617,7 @@ Right_Bracket
 		int pos = Bracket[k].Pop();
 		while (Indents.Count > 0 && pos < Indents.First().CharIndex)
 		{
-			Emit(new CommonToken(DEDENT, "DEDENT"));
+			Emit(this.CreateToken(DEDENT, "DEDENT"));
 			Indents.Pop();
 			CurrentIndent = Indents.Count == 0 ? 0 : Indents.First().Level;
 		}
@@ -609,9 +630,9 @@ NEWLINE
 		int indent = $SP.text == null ? 0 : $SP.text.Length;
 		if (indent > CurrentIndent)
 		{
-			Emit(new CommonToken(NEWLINE, "NEWLINE"));
-			Emit(new CommonToken(INDENT, "INDENT"));
-			Emit(new CommonToken(NEWLINE, "NEWLINE"));
+			Emit(this.CreateToken(NEWLINE, "NEWLINE"));
+			Emit(this.CreateToken(INDENT, "INDENT"));
+			Emit(this.CreateToken(NEWLINE, "NEWLINE"));
 			Indents.Push(new Indentation(indent, CharIndex));
 			CurrentIndent = indent;
 		}
@@ -619,22 +640,24 @@ NEWLINE
 		{
 			while (Indents.Count > 0 && indent < CurrentIndent)
 			{
-				Emit(new CommonToken(NEWLINE, "NEWLINE"));
-				Emit(new CommonToken(DEDENT, "DEDENT"));
+				Emit(this.CreateToken(NEWLINE, "NEWLINE"));
+				Emit(this.CreateToken(DEDENT, "DEDENT"));
 				Indents.Pop();
 				CurrentIndent = Indents.Count == 0 ? 0 : Indents.First().Level;
 			}
-			Emit(new CommonToken(NEWLINE, "NEWLINE"));
+			Emit(this.CreateToken(NEWLINE, "NEWLINE"));
 		}
 		else
 		{
-			Emit(new CommonToken(NEWLINE, "NEWLINE"));
+			Emit(this.CreateToken(NEWLINE, "NEWLINE"));
 			Skip();
 		}
 	}
 	;
 
 fragment SP: (' ' | '\t')+ ;
+
+White_Space: ' ' { Skip(); } ;
 
 INDENT: {0==1}?=> ('\n') ;
 DEDENT: {0==1}?=> ('\n') ;

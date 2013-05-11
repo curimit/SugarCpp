@@ -26,6 +26,17 @@ namespace SugarCpp.Compiler
             AstParserRuleReturnScope<CommonTree, IToken> t = parser.root();
             CommonTree ct = (CommonTree)t.Tree;
 
+            if (parser.errors.Count() > 0)
+            {
+                StringBuilder sb = new StringBuilder();
+                foreach (var error in parser.errors)
+                {
+                    sb.Append(error);
+                    sb.Append("\n");
+                }
+                throw new Exception(sb.ToString());
+            }
+
             CommonTreeNodeStream nodes = new CommonTreeNodeStream(ct);
             SugarWalker walker = new SugarWalker(nodes);
 
