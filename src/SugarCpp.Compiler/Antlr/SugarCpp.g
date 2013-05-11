@@ -345,8 +345,12 @@ stmt_while
 	;
 
 stmt_for
-	: 'for' ( '&'? ident '<-' expr ( 'to' expr ('by' expr)? NEWLINE+ stmt_block -> ^(Stmt_For_To ident expr expr expr? stmt_block)
-	                               | 'downto' expr ('by' expr)? NEWLINE+ stmt_block -> ^(Stmt_For_Down_To ident expr expr expr? stmt_block)
+	: 'for' ( '&'? ident '<-' a=expr ( 'to' b=expr ('by' c=expr)? ( 'when' d=expr NEWLINE+ stmt_block -> ^(Stmt_For_To ident $a $b ($c)? ^(Stmt_Block ^(Stmt_If $d stmt_block)))
+															      | NEWLINE+ stmt_block -> ^(Stmt_For_To ident expr expr expr? stmt_block)
+															      )
+	                               | 'downto' b=expr ('by' c=expr)? ( 'when' d=expr NEWLINE+ stmt_block -> ^(Stmt_For_Down_To ident $a $b ($c)? ^(Stmt_Block ^(Stmt_If $d stmt_block)))
+																	| NEWLINE+ stmt_block -> ^(Stmt_For_Down_To ident expr expr expr? stmt_block)
+																	)
 	                               | NEWLINE+ stmt_block -> ^(Stmt_ForEach '&' ident expr stmt_block)
 							       )
 			| '(' expr ';' expr ';' expr ')' NEWLINE+ stmt_block -> ^(Stmt_For expr expr expr stmt_block)
