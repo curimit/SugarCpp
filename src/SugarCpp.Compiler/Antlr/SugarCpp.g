@@ -450,7 +450,7 @@ cmp_expr
 	                       | op=no_less_op b=infix_expr ( chain_list -> ^(Expr_Chain  $cmp_expr $op $b chain_list)
 														| -> ^(Expr_Bin $op $cmp_expr $b)
 														)
-						   )
+						   )?
 	;
 
 infix_expr
