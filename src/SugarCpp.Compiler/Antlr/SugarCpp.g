@@ -72,6 +72,7 @@ tokens
    Expr_Not_Null;
    Expr_Cond_Not_Null;
 
+   Expr_Chain;
    Expr_Cond;
    Expr_New_Type;
    Expr_New_Array;
@@ -417,14 +418,14 @@ cond_expr
 							 ))?
 	;
 
+or_op: '||' | 'or' ;
 or_expr
-	: (a=and_expr -> $a) ( '||' b=and_expr -> ^(Expr_Bin '||' $or_expr $b)
-	                     | 'or' b=and_expr -> ^('or' $or_expr $b))*
+	: (a=and_expr -> $a) (op=or_op b=and_expr -> ^(Expr_Bin $op $or_expr $b))*
 	;
 
+and_op: '&&' | 'and' ;
 and_expr
-	: (a=bit_or -> $a) ( '&&' b=bit_or -> ^(Expr_Bin '&&' $and_expr $b)
-					   | 'and' b=bit_or -> ^('and' $and_expr $b))*
+	: (a=bit_or -> $a) (op=and_op b=bit_or -> ^(Expr_Bin $op $and_expr $b))*
 	;
 
 bit_or
@@ -436,23 +437,20 @@ bit_xor
 	;
 
 bit_and
-	: (a=cmp_equ_expr -> $a) ('&' b=cmp_equ_expr -> ^(Expr_Bin '&' $bit_and $b))*
+	: (a=cmp_expr -> $a) ('&' b=cmp_expr -> ^(Expr_Bin '&' $bit_and $b))*
 	;
 
-cmp_equ_expr_op: '==' | '!=' ;
-cmp_equ_expr
-	: (a=cmp_expr -> $a) ( op=cmp_equ_expr_op b=cmp_expr -> ^(Expr_Bin $op $cmp_equ_expr $b)
-	                     | 'is' b=cmp_expr -> ^('is' $cmp_equ_expr $b) 
-	                     | 'isnt' b=cmp_expr -> ^('isnt' $cmp_equ_expr $b) 
-						 )?
-	;
-	
+chain_op: '<' | '<=' | '>' | '>=' | '!=' | '==' | 'is' | 'isnt' ;
+no_less_op: '<=' | '>' | '>=' | '!=' | '==' | 'is' | 'isnt' ;
+chain_list: (chain_op infix_expr)+ ;
 cmp_expr
 	: (a=infix_expr -> $a) ( '<' b=infix_expr ( {b.Tree.Token.Type == IDENT}? ident* '>' '(' expr_list? ')' -> ^(Expr_Call $cmp_expr ^(Generic_Patameters $b ident*) expr_list?)
-	                                          | -> ^(Expr_Bin '<' $cmp_expr $b))
-	                       | '<=' b=infix_expr -> ^(Expr_Bin '<=' $cmp_expr $b)
-						   | '>' b=infix_expr -> ^(Expr_Bin '>' $cmp_expr $b)
-						   | '>=' b=infix_expr -> ^(Expr_Bin '>=' $cmp_expr $b))*
+	                                          | chain_list -> ^(Expr_Chain  $cmp_expr '<' $b chain_list)
+											  | -> ^(Expr_Bin '<' $cmp_expr $b))
+	                       | op=no_less_op b=infix_expr ( chain_list -> ^(Expr_Chain  $cmp_expr $op $b chain_list)
+														| -> ^(Expr_Bin $op $cmp_expr $b)
+														)
+						   )
 	;
 
 infix_expr

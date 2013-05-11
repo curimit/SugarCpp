@@ -16,6 +16,15 @@ options
 
 @members
 {
+    public string Alias(string op) 
+    {
+		if (op == "is") return "==";
+		if (op == "isnt") return "!=";
+		if (op == "not") return "!";
+		if (op == "and") return "&&";
+		if (op == "or") return "||";
+		return op;
+    }
 }
 
 @namespace { SugarCpp.Compiler }
@@ -548,6 +557,29 @@ list_expr returns [ExprList value]
 	}
 	;
 
+chain_expr returns [Expr value]
+@init
+{
+	Expr last;
+}
+	: ^(Expr_Chain
+			a=expr
+			{
+				last=a;
+			}
+			op=('<' | '<=' | '>' | '>=' | '!=' | '==' | 'is' | 'isnt') a=expr
+			{
+				$value = new ExprBin(Alias(op.Text), last, a);
+				last = a;
+			}
+			(
+				op=('<' | '<=' | '>' | '>=' | '!=' | '==' | 'is' | 'isnt') a=expr
+			{
+				$value = new ExprBin("&&", $value, new ExprBin(Alias(op.Text), last, a));
+				last = a;
+			})*
+	   )
+	;
 expr returns [Expr value]
     : tuple=expr_tuple
 	{
@@ -609,30 +641,20 @@ expr returns [Expr value]
 	{
 		$value = new ExprAccess(a, op.Text, ident_text);
 	}
+	| chain = chain_expr
+	{
+		$value = chain;
+	}
 	| ^(Expr_Bin op=( '+' | '-' | '*' | '/' | '%'
 					| '<' | '<=' | '>' | '>=' | '==' | '!='
 					| '<<' | '>>'
 					| '&' | '^' | '|'
 					| '&&' | '||'
+					| 'is' | 'isnt'
+					| 'and' | 'or'
 					) a=expr b=expr)
 	{
-		$value = new ExprBin(op.Text, a, b);
-	}
-	| ^('and' a=expr b=expr)
-	{
-		$value = new ExprBin("&&", a, b);
-	}
-	| ^('or' a=expr b=expr)
-	{
-		$value = new ExprBin("||", a, b);
-	}
-	| ^('is' a=expr b=expr)
-	{
-		$value = new ExprBin("==", a, b);
-	}
-	| ^('isnt' a=expr b=expr)
-	{
-		$value = new ExprBin("!=", a, b);
+		$value = new ExprBin(Alias(op.Text), a, b);
 	}
 	| ^(op=('=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=') a=expr b=expr)
 	{
