@@ -279,7 +279,10 @@ namespace SugarCpp.Compiler
             }
             List<Template> list = new List<Template>();
 
+            bool default_public = class_def.Attribute.Find(x => x.Name == "public") != null;
+
             string last = "private";
+
             bool last_flag = false;
             AstNode last_node = null;
 
@@ -361,12 +364,18 @@ namespace SugarCpp.Compiler
 
             if (class_def.Block != null)
             {
-
-
                 foreach (var node in class_def.Block.List)
                 {
                     bool current = node is FuncDef || node is Class || node is Enum || node is Import || node is GlobalUsing || node is Namespace;
-                    string modifier = node.Attribute.Find(x => x.Name == "public") != null ? "public" : "private";
+                    string modifier = null;
+                    if (!default_public)
+                    {
+                        modifier = node.Attribute.Find(x => x.Name == "public") != null ? "public" : "private";
+                    }
+                    else
+                    {
+                        modifier = node.Attribute.Find(x => x.Name == "private") != null ? "private" : "public";
+                    }
 
                     if (modifier != last)
                     {
