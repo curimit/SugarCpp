@@ -58,6 +58,13 @@ namespace SugarCpp.Compiler
             }
             this.IsEqualSign = isEqualSign;
         }
+        public ExprAlloc(string type, string name, Expr expr, bool isEqualSign)
+        {
+            this.Type = type;
+            this.Name = new List<string> { name };
+            this.ExprList = new List<Expr> { expr };
+            this.IsEqualSign = isEqualSign;
+        }
 
         public override Template Accept(Visitor visitor)
         {

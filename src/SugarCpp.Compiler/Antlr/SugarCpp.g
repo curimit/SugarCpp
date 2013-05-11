@@ -341,7 +341,7 @@ stmt_while
 	| 'until' expr ( NEWLINE+ stmt_block -> ^(Stmt_Until expr stmt_block)
 			       | 'then' stmt -> ^(Stmt_Until expr ^(Stmt_Block stmt))
 				   )
-	| 'loop' NEWLINE+ stmt_block -> ^(Stmt_Loop stmt_block)
+	| 'loop' expr? NEWLINE+ stmt_block -> ^(Stmt_Loop expr? stmt_block)
 	;
 
 stmt_for

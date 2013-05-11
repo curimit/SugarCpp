@@ -356,9 +356,20 @@ stmt_while returns [Stmt value]
 	{
 		$value = new StmtWhile(new ExprPrefix("!", new ExprBracket(a)), b);
 	}
-	| ^(Stmt_Loop b=stmt_block)
+	| ^(Stmt_Loop (a=expr)? b=stmt_block)
 	{
-		$value = new StmtWhile(new ExprConst("true", ConstType.Ident), b);
+		if (a == null)
+		{
+			$value = new StmtWhile(new ExprConst("true", ConstType.Ident), b);
+		}
+		else
+		{
+			Expr iter = new ExprConst("_t_loop_iterator", ConstType.Ident);
+			Expr start = new ExprAlloc("auto", "_t_loop_iterator", a, true);
+			Expr condition = new ExprBin("!=", iter, new ExprConst("0", ConstType.Number));
+			Expr next = new ExprPrefix("--", iter);
+			$value = new StmtFor(start, condition, next, b);
+		}
 	}
 	;
 
