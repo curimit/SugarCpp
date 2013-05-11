@@ -35,7 +35,10 @@ tokens
    Stmt_Typedef;
 
    Stmt_If;
+   Stmt_Unless;
+
    Stmt_While;
+   Stmt_Until;
    Stmt_Loop;
    Stmt_For;
    Stmt_For_To;
@@ -284,7 +287,9 @@ stmt
 
 stmt_expr
 	: (a=stmt_expr_item -> $a) ( 'if' expr -> ^(Stmt_If expr ^(Stmt_Block $stmt_expr))
+							   | 'unless' expr -> ^(Stmt_Unless expr ^(Stmt_Block $stmt_expr))
 							   | 'while' expr -> ^(Stmt_While expr ^(Stmt_Block $stmt_expr))
+							   | 'until' expr -> ^(Stmt_Until expr ^(Stmt_Block $stmt_expr))
 							   )?
 	;
 
@@ -318,11 +323,17 @@ stmt_if
 	: 'if' expr (NEWLINE+ stmt_block (NEWLINE* 'else' stmt_block)? -> ^(Stmt_If expr stmt_block stmt_block?)
 	            | 'then' stmt -> ^(Stmt_If expr ^(Stmt_Block stmt))
 				)
+	| 'unless' expr (NEWLINE+ stmt_block (NEWLINE* 'else' stmt_block)? -> ^(Stmt_Unless expr stmt_block stmt_block?)
+	                | 'then' stmt -> ^(Stmt_Unless expr ^(Stmt_Block stmt))
+				    )
 	;
 
 stmt_while
 	: 'while' expr ( NEWLINE+ stmt_block -> ^(Stmt_While expr stmt_block)
 			       | 'do' stmt -> ^(Stmt_While expr ^(Stmt_Block stmt))
+				   )
+	| 'until' expr ( NEWLINE+ stmt_block -> ^(Stmt_Until expr stmt_block)
+			       | 'do' stmt -> ^(Stmt_Until expr ^(Stmt_Block stmt))
 				   )
 	| 'loop' NEWLINE+ stmt_block -> ^(Stmt_Loop stmt_block)
 	;

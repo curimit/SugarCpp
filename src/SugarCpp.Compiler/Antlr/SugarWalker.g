@@ -332,12 +332,20 @@ stmt_if returns [Stmt value]
 	{
 		$value = new StmtIf(a, b, c);
 	}
+	| ^(Stmt_Unless a=expr b=stmt_block (c=stmt_block)?)
+	{
+		$value = new StmtIf(new ExprPrefix("!", new ExprBracket(a)), b, c);
+	}
 	;
 
 stmt_while returns [Stmt value]
 	: ^(Stmt_While a=expr b=stmt_block)
 	{
 		$value = new StmtWhile(a, b);
+	}
+	| ^(Stmt_Until a=expr b=stmt_block)
+	{
+		$value = new StmtWhile(new ExprPrefix("!", new ExprBracket(a)), b);
 	}
 	| ^(Stmt_Loop b=stmt_block)
 	{
