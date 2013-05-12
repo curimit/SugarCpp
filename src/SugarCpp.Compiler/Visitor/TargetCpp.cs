@@ -986,7 +986,7 @@ namespace SugarCpp.Compiler
             Template template = new Template("([<ref>](<args; separator=\",\">) { return <expr>; })");
             template.Add("args", expr.Args.Select(x => x.Accept(this)));
             template.Add("expr", expr.Expr.Accept(this));
-            template.Add("ref", expr.IsRef ? "&" : "");
+            template.Add("ref", expr.IsRef ? "&" : "=");
             return template;
         }
         public override Template Visit(ExprTuple expr)
