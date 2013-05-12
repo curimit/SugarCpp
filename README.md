@@ -11,14 +11,14 @@ Try SugarCpp in your browser: http://curimit.com/project/SugarCpp/
 ## Features
 
 * Indent-based code block.
-* Go style defer/finally statement, easier way to handle exceptions.
+* Borrow lots of syntax sugar from CoffeeScript.
+* Go style defer/finally statement, be able to handle exceptions.
+* (Prolog? Haskell? Scala?) style for loop.
 * Multiple return values & parallel assignment.
+* C# style lambda expression.
 * Inline function defination.
 * Haskell style infix function.
-* Prolog style query with C# LINQ syntax.
-* C# style extension method.
 * Scala style case class.
-* Pattern matching.
 
 ## Examples
 
@@ -192,15 +192,280 @@ int main() {
 }
 ```
 
-#### Generic Programming
+#### Multiple return values && Parallel assignment
 ```c++
-T max<T>(x: T, y: T) = x > y ? x : y
+import "stdio.h"
+       "tuple"
+
+using std::tuple
+
+tuple<T, T> sort<T>(a: T, b: T)
+    return a < b ? (a, b) : (b, a)
+
+int main()
+    a := 10
+    b := 1
+    (a, b) = sort(a, b)
+    printf("%d %d\n", a, b)
+    (a, b) = (b, a)
+    printf("%d %d\n", a, b)
 ```
 
 ```c++
+#include "stdio.h"
+#include "tuple"
+
+using std::tuple;
+
 template <typename T>
-T max(T x, T y) {
-    return x > y ? x : y;
+tuple<T, T> sort(T a, T b) {
+    return a < b ? std::make_tuple(a, b) : std::make_tuple(b, a);
+}
+
+int main() {
+    auto a = 10;
+    auto b = 1;
+    std::tie(a, b) = sort(a, b);
+    printf("%d %d\n", a, b);
+    std::tie(a, b) = std::make_tuple(b, a);
+    printf("%d %d\n", a, b);
+}
+```
+
+#### (Prolog? Haskell? Scala?) style for loop
+```c++
+import "stdio.h"
+
+int main()
+    for i <- 1 to 10, j <- 1 to 10, i + j == 10
+        printf("%d + %d = %d")
+    
+    sum := 0
+    for i <- 10 downto 1 by -1, i != 5, x <- a[i]
+        sum += x
+```
+
+```c++
+#include "stdio.h"
+
+int main() {
+    for (auto i = 1; i <= 10; ++i) {
+        for (auto j = 1; j <= 10; ++j) {
+            if (i + j == 10) {
+                printf("%d + %d = %d");
+            }
+        }
+    }
+    auto sum = 0;
+    for (auto i = 10; i >= 1; i = i + -1) {
+        if (i != 5) {
+            for (auto x : a[i]) {
+                sum += x;
+            }
+        }
+    }
+}
+```
+
+#### Syntax sugar borrow from CoffeeScript
+
+##### Existential Operator
+```c++
+int main()
+    // ?= operator
+    tree->left ?= new Node()
+    
+    // ? operator
+    footprints = yeti ? "bear"
+```
+
+```c++
+int main() {
+    if (tree->left == nullptr) {
+        tree->left = new Node();
+    }
+    footprints = yeti != nullptr ? yeti : "bear";
+}
+```
+
+##### Chained Comparisons
+```c++
+int main()
+    a = 1 <= x <= y <= 10
+    
+    b = 1 < x != 10
+```
+
+```c++
+int main() {
+    a = 1 <= x && x <= y && y <= 10;
+    b = 1 < x && x != 10;
+}
+```
+
+##### @ syntax represent this ponter
+```coffeescript
+[public]
+class Point
+    x, y := 0
+    
+    void set(x: int, y: int)
+        @x = x
+        @y = y
+```
+
+```c++
+class Point {
+public:
+    auto x = 0;
+    auto y = 0;
+
+    void set(int x, int y) {
+        this->x = x;
+        this->y = y;
+    }
+};
+```
+
+##### Suffix If/While/Until/For
+```c++
+import "stdio.h"
+       "initializer_list"
+
+int main()
+    // suffix if
+    printf("haha!") if score > 90
+    return 0 if score == 0
+    
+    // suffix while/until
+    buy()  while supply > demand
+    sell() until supply > demand
+    
+    // suffix for
+    a[i] = 0 for i <- 1 to 10, i % 2 == 0
+    printf("%s\n", food) for food <- ["toast", "cheese", "wine"]
+    
+    // combine together
+    a[i] = i for i <- list if i % 2== 0
+```
+
+```c++
+#include "stdio.h"
+#include "initializer_list"
+
+int main() {
+    if (score > 90) {
+        printf("haha!");
+    }
+    if (score == 0) {
+        return 0;
+    }
+    while (supply > demand) {
+        buy();
+    }
+    while (!(supply > demand)) {
+        sell();
+    }
+    for (auto i = 1; i <= 10; ++i) {
+        if (i % 2 == 0) {
+            a[i] = 0;
+        }
+    }
+    for (auto food : { "toast", "cheese", "wine" }) {
+        printf("%s\n", food);
+    }
+    if (i % 2 == 0) {
+        for (auto i : list) {
+            a[i] = i;
+        }
+    }
+}
+```
+
+```c++
+class Point {
+public:
+    auto x = 0;
+    auto y = 0;
+
+    void set(int x, int y) {
+        this->x = x;
+        this->y = y;
+    }
+};
+```
+
+##### Arrays Initialization
+```c++
+grid:int[][] = [
+    [1, 2, 3]
+    [4, 5, 6]
+    [7, 8, 0]
+]
+
+list: int[] = [
+    1, 2, 3
+    4, 5, 6
+    7, 8, 9
+]
+
+line: int[] = [1, 2, 3]
+```
+
+```c++
+int grid[][] = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 0 } };
+int list[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+int line[] = { 1, 2, 3 };
+```
+
+##### Operators and Aliases
+<table>
+    <tr>
+        <th>SugarCpp</th>
+        <th>C++</td>
+    </tr>
+    <tr>
+        <td>is</td>
+        <td>==</td>
+    </tr>
+    
+    <tr>
+        <td>isnt</td>
+        <td>!=</td>
+    </tr>
+    
+    <tr>
+        <td>and</td>
+        <td>&&</td>
+    </tr>
+    
+    <tr>
+        <td>or</td>
+        <td>||</td>
+    </tr>
+</table>
+
+#### C# style lambda expression
+```c++
+import "stdio.h"
+
+int main()
+    x := 1
+    
+    // capture by reference
+    f := () -> ++x
+    
+    // capture by value
+    f := () => ++x
+```
+
+```c++
+#include "stdio.h"
+
+int main() {
+    auto x = 1;
+    auto f = ([&]() { return ++x; });
+    auto f = ([=]() { return ++x; });
 }
 ```
 
@@ -240,43 +505,15 @@ auto a = 1;
 auto b = 1;
 ```
 
-#### Multiple return values && Parallel assignment
+#### Generic Programming
 ```c++
-import "stdio.h"
-       "tuple"
-
-using std::tuple
-
-tuple<T, T> sort<T>(a: T, b: T)
-    return a < b ? (a, b) : (b, a)
-
-int main()
-    a := 10
-    b := 1
-    (a, b) = sort(a, b)
-    printf("%d %d\n", a, b)
-    (a, b) = (b, a)
-    printf("%d %d\n", a, b)
+T max<T>(x: T, y: T) = x > y ? x : y
 ```
 
 ```c++
-#include "stdio.h"
-#include "tuple"
-
-using std::tuple;
-
 template <typename T>
-tuple<T, T> sort(T a, T b) {
-    return a < b ? std::make_tuple(a, b) : std::make_tuple(b, a);
-}
-
-int main() {
-    auto a = 10;
-    auto b = 1;
-    std::tie(a, b) = sort(a, b);
-    printf("%d %d\n", a, b);
-    std::tie(a, b) = std::make_tuple(b, a);
-    printf("%d %d\n", a, b);
+T max(T x, T y) {
+    return x > y ? x : y;
 }
 ```
 
@@ -324,7 +561,7 @@ public:
 ```
 
 #### Haskell style infix function
-```C#
+```coffeescript
 import "stdio.h"
        "algorithm"
 
@@ -503,130 +740,6 @@ typedef u_int32 = unsigned int
 
 ```c++
 typedef unsigned int u_int32;
-```
-
-#### C# style extension method
-This feature currently not available.
-```c++
-import "stdio.h"
-       "string"
-
-using namespace std
-
-string ToString(n: int, base:=10)
-    a:string := "0"
-    a[0] = n % base + 48
-    return a if n < base else ToString(n / base, base) + a
-
-int main()
-    a := 100
-    base10 := a:ToString()
-    base2 := a:ToString(2)
-    printf("%s %s\n", base10.c_str(), base2.c_str())
-```
-
-```c++
-#include "stdio.h"
-#include "string"
-
-using namespace std;
-
-string ToString(int n, decltype(10) base = 10) {
-    string a = "0";
-    a[0] = n % base + 48;
-    return n < base ? a : ToString(n / base, base) + a;
-}
-
-int main() {
-    auto a = 100;
-    auto base10 = ToString(a);
-    auto base2 = ToString(a, 2);
-    printf("%s %s\n", base10.c_str(), base2.c_str());
-}
-```
-
-#### Prolog style query with C# LINQ syntax
-This feature currently not available.
-```c++
-import "stdio.h"
-       "iostream"
-       "tuple"
-       "vector"
-
-using namespace std
-
-class Family(child: string, father: string, mother: string)
-
-int main()
-    // Two way to unpacking object
-    // 1. Using case class
-    family: vector<Family>
-    family.push_back(Family("a", "b", "c"))
-    family.push_back(Family("d", "b", "f"))
-    family.push_back(Family("e", "g", "h"))
-    
-    // 2. Using tuple
-    friends: vector<tuple<string, string> >
-    friends.push_back(("a", "d"))
-    friends.push_back(("a", "e"))
-    
-    // @ means not define new variable
-    from (a, b) in friends
-    from Family(@a, f, _) in family
-    from Family(@b, @f, _) in family
-        printf("%s and %s has same father %s\n", a.c_str(), b.c_str(), f.c_str())
-```
-
-```c++
-#include "stdio.h"
-#include "iostream"
-#include "tuple"
-#include "vector"
-
-using namespace std;
-
-class Family {
-public:
-    string child;
-    string father;
-    string mother;
-
-    Family(string child, string father, string mother) {
-        this->child = child;
-        this->father = father;
-        this->mother = mother;
-    }
-
-    inline tuple<string, string, string> Unapply() {
-        return std::make_tuple(child, father, mother);
-    }
-};
-
-int main() {
-    vector<Family> family;
-    family.push_back(Family("a", "b", "c"));
-    family.push_back(Family("d", "b", "f"));
-    family.push_back(Family("e", "g", "h"));
-    vector<tuple<string, string>> friends;
-    friends.push_back(std::make_tuple("a", "d"));
-    friends.push_back(std::make_tuple("a", "e"));
-    for (auto _t_match : friends) {
-        auto a = get<0>(_t_match);
-        auto b = get<1>(_t_match);
-        for (auto _t_iterator : family) {
-            auto &&_t_match = _t_iterator.Unapply();
-            if (std::get<0>(_t_match) == a) {
-                auto f = std::get<1>(_t_match);
-                for (auto _t_iterator : family) {
-                    auto &&_t_match = _t_iterator.Unapply();
-                    if ((std::get<0>(_t_match) == b) && (std::get<1>(_t_match) == f)) {
-                        printf("%s and %s has same father %s\n", a.c_str(), b.c_str(), f.c_str());
-                    }
-                }
-            }
-        }
-    }
-}
 ```
 
 ## Command Line Usage
