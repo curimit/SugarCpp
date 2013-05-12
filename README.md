@@ -336,17 +336,17 @@ int main()
     // suffix if
     printf("haha!") if score > 90
     return 0 if score == 0
-    
+
     // suffix while/until
     buy()  while supply > demand
     sell() until supply > demand
-    
+
     // suffix for
     a[i] = 0 for i <- 1 to 10, i % 2 == 0
     printf("%s\n", food) for food <- ["toast", "cheese", "wine"]
-    
+
     // combine together
-    a[i] = i for i <- list if i % 2== 0
+    a[i] = i if i % 2== 0 for i <- list
 ```
 
 ```c++
@@ -374,8 +374,8 @@ int main() {
     for (auto food : { "toast", "cheese", "wine" }) {
         printf("%s\n", food);
     }
-    if (i % 2 == 0) {
-        for (auto i : list) {
+    for (auto i : list) {
+        if (i % 2 == 0) {
             a[i] = i;
         }
     }
