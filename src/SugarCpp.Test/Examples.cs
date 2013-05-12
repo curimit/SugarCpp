@@ -121,13 +121,13 @@ namespace SugarCpp.Test
         }
 
         [Test]
-        public void ToStringAttribute()
+        public void ForLoop()
         {
             Test();
         }
 
         [Test]
-        public void Linq()
+        public void ToStringAttribute()
         {
             Test();
         }
