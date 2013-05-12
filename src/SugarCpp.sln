@@ -1,5 +1,5 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
+Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SugarCpp.WPF", "SugarCpp.WPF\SugarCpp.WPF.csproj", "{00241C45-AB13-4B3C-841C-F00F433BBF4B}"
 EndProject

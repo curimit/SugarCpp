@@ -6,7 +6,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MS.Internal.Xml.XPath;
 
 namespace SugarCpp.Compiler
 {
