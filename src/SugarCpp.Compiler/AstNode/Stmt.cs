@@ -47,27 +47,6 @@ namespace SugarCpp.Compiler
         }
     }
 
-    public class StmtFor : Stmt
-    {
-        public Expr Start;
-        public Expr Condition;
-        public Expr Next;
-        public StmtBlock Body;
-
-        public StmtFor(Expr start, Expr condition, Expr next, StmtBlock body)
-        {
-            this.Start = start;
-            this.Condition = condition;
-            this.Next = next;
-            this.Body = body;
-        }
-
-        public override Template Accept(Visitor visitor)
-        {
-            return visitor.Visit(this);
-        }
-    }
-
     public class StmtForEach : Stmt
     {
         public Expr Var;

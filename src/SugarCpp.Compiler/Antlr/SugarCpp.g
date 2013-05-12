@@ -40,19 +40,15 @@ tokens
    Stmt_While;
    Stmt_Until;
    Stmt_Loop;
-   Stmt_For;
-   Stmt_For_To;
-   Stmt_For_Down_To;
-   Stmt_ForEach;
    Stmt_Try;
 
-   Stmt_Return;
+   Stmt_For;
+   For_Item_Each;
+   For_Item_When;
+   For_Item_To;
+   For_Item_Down_To;
 
-   Stmt_Linq;
-   Linq_Prefix;
-   Linq_From;
-   Linq_Let;
-   Linq_Where;
+   Stmt_Return;
 
    Type_IDENT;
    Type_Ref;
@@ -303,7 +299,6 @@ stmt
 	| stmt_for
 	| stmt_while
 	| stmt_try
-	| stmt_linq
 	| stmt_defer
 	;
 
@@ -312,11 +307,11 @@ stmt_expr
 							   | 'unless' expr -> ^(Stmt_Unless expr ^(Stmt_Block $stmt_expr))
 							   | 'while' expr -> ^(Stmt_While expr ^(Stmt_Block $stmt_expr))
 							   | 'until' expr -> ^(Stmt_Until expr ^(Stmt_Block $stmt_expr))
-							   | 'for' ( '&'? ident '<-' expr ( 'to' expr ('by' expr)? -> ^(Stmt_For_To ident expr expr expr? ^(Stmt_Block $stmt_expr))
+							   /*| 'for' ( '&'? ident '<-' expr ( 'to' expr ('by' expr)? -> ^(Stmt_For_To ident expr expr expr? ^(Stmt_Block $stmt_expr))
 												              | 'downto' expr ('by' expr)? -> ^(Stmt_For_Down_To ident expr expr expr? ^(Stmt_Block $stmt_expr))
 							                                  )
 									   | '(' expr ';' expr ';' expr ')' NEWLINE+ stmt_block -> ^(Stmt_For expr expr expr ^(Stmt_Block $stmt_expr))
-			                           )
+			                           )*/
 							   )*
 	;
 
@@ -365,35 +360,30 @@ stmt_while
 	| 'loop' expr? NEWLINE+ stmt_block -> ^(Stmt_Loop expr? stmt_block)
 	;
 
+for_range
+	: ident '<-' a=expr ('to' b=expr ('by' c=expr)? -> ^(For_Item_To ident $a $b $c?)
+						|'downto' b=expr ('by' c=expr)? -> ^(For_Item_Down_To ident $a $b $c?)
+						| -> ^(For_Item_Each ident $a)
+						)
+	;
+
+for_when
+	: expr -> ^(For_Item_When expr)
+	;
+
+for_item
+	: for_range
+	| for_when
+	;
+
 stmt_for
-	: 'for' ( '&'? ident '<-' a=expr ( 'to' b=expr ('by' c=expr)? ( 'when' d=expr NEWLINE+ stmt_block -> ^(Stmt_For_To ident $a $b ($c)? ^(Stmt_Block ^(Stmt_If $d stmt_block)))
-															      | NEWLINE+ stmt_block -> ^(Stmt_For_To ident expr expr expr? stmt_block)
-															      )
-	                               | 'downto' b=expr ('by' c=expr)? ( 'when' d=expr NEWLINE+ stmt_block -> ^(Stmt_For_Down_To ident $a $b ($c)? ^(Stmt_Block ^(Stmt_If $d stmt_block)))
-																	| NEWLINE+ stmt_block -> ^(Stmt_For_Down_To ident expr expr expr? stmt_block)
-																	)
-	                               | NEWLINE+ stmt_block -> ^(Stmt_ForEach '&' ident expr stmt_block)
-							       )
-			| '(' expr ';' expr ';' expr ')' NEWLINE+ stmt_block -> ^(Stmt_For expr expr expr stmt_block)
+	: 'for' ( for_item (',' for_item)* NEWLINE+ stmt_block -> ^(Stmt_For for_item* stmt_block)
+			//| '(' expr ';' expr ';' expr ')' NEWLINE+ stmt_block -> ^(Stmt_For expr expr expr stmt_block)
 			)
 	;
 
 stmt_try
 	:	'try' stmt_block 'catch' stmt_alloc stmt_block -> ^(Stmt_Try stmt_block stmt_alloc stmt_block)
-	;
-
-linq_item
-	: 'from' expr 'in' expr -> ^(Linq_From expr expr)
-	| 'let' ident '=' expr -> ^(Linq_Let ident expr)
-	| 'where' expr -> ^(Linq_Where expr)
-	;
-
-linq_prefix
-	: (linq_item linq_item* NEWLINE+)+ -> ^(Linq_Prefix linq_item+)
-	;
-
-stmt_linq
-	: linq_prefix stmt_block -> ^(Stmt_Linq linq_prefix stmt_block)
 	;
 
 ident_list

@@ -271,7 +271,6 @@ stmt returns [List<Stmt> value]
 	| a=stmt_while { $value.Add(a); }
 	| a=stmt_for { $value.Add(a); }
 	| a=stmt_try { $value.Add(a); }
-	| a=stmt_linq { $value.Add(a); }
 	| a=stmt_defer { $value.Add(a); }
 	| b=stmt_translate { foreach (var x in b) $value.Add(x); }
 	;
@@ -364,46 +363,47 @@ stmt_while returns [Stmt value]
 		}
 		else
 		{
-			Expr iter = new ExprConst("_t_loop_iterator", ConstType.Ident);
+			/*Expr iter = new ExprConst("_t_loop_iterator", ConstType.Ident);
 			Expr start = new ExprAlloc("auto", "_t_loop_iterator", a, true);
 			Expr condition = new ExprBin("!=", iter, new ExprConst("0", ConstType.Number));
 			Expr next = new ExprPrefix("--", iter);
-			$value = new StmtFor(start, condition, next, b);
+			$value = new StmtFor(start, condition, next, b);*/
+			throw new Exception("Not Implement!");
 		}
 	}
 	;
 
+for_item returns [ForItem value]
+	: ^(For_Item_To a=ident b=expr c=expr (d=expr)?)
+	{
+		$value = new ForItemTo(a, b, c, d);
+	}
+	| ^(For_Item_Down_To a=ident b=expr c=expr (d=expr)?)
+	{
+		$value = new ForItemDownTo(a, b, c, d);
+	}
+	| ^(For_Item_Each a=ident b=expr)
+	{
+		$value = new ForItemEach(a, b);
+	}
+	| ^(For_Item_When b=expr)
+	{
+		$value = new ForItemWhen(b);
+	}
+	;
+
+for_item_list returns [List<ForItem> value]
+@init
+{
+	$value = new List<ForItem>();
+}
+	: (a=for_item { $value.Add(a); } )+
+	;
+
 stmt_for returns [Stmt value]
-	: ^(Stmt_For e1=expr e2=expr e3=expr block=stmt_block)
+	: ^(Stmt_For a=for_item_list b=stmt_block)
 	{
-		$value = new StmtFor(e1, e2, e3, block);
-	}
-	| ^(Stmt_For_To a=ident b=expr c=expr (d=expr)? e=stmt_block)
-	{
-		ExprConst variable = new ExprConst(a, ConstType.Ident);
-		ExprAlloc start = new ExprAlloc("auto", new List<string>{ a }, new List<Expr> { b }, true);
-		ExprBin condition = new ExprBin("<=", variable, c);
-		Expr next = null;
-		if (d == null)
-			next = new ExprPrefix("++", variable);
-		else next = new ExprAssign(variable, new ExprBin("+", variable, d));
-		$value = new StmtFor(start, condition, next, e);
-	}
-	| ^(Stmt_For_Down_To a=ident b=expr c=expr (d=expr)? e=stmt_block)
-	{
-		ExprConst variable = new ExprConst(a, ConstType.Ident);
-		ExprAlloc start = new ExprAlloc("auto", new List<string>{ a }, new List<Expr> { b }, true);
-		ExprBin condition = new ExprBin(">=", variable, c);
-		Expr next = null;
-		if (d == null)
-			next = new ExprPrefix("--", variable);
-		else next = new ExprAssign(variable, new ExprBin("+", variable, d));
-		$value = new StmtFor(start, condition, next, e);
-	}
-	| ^(Stmt_ForEach (own='&')? a=ident b=expr e=stmt_block)
-	{
-		if (own != null) a = "&" + a;
-		$value = new StmtForEach(new ExprConst(a, ConstType.Ident), b, e);
+		$value = new StmtFor(a, b);
 	}
 	;
 
@@ -418,36 +418,6 @@ stmt_return returns [Stmt value]
 	: ^(Stmt_Return (a=expr)?)
 	{
 		$value = new StmtReturn(a);
-	}
-	;
-
-linq_item returns [LinqItem value]
-	: ^(Linq_From x=expr b=expr)
-	{
-		$value = new LinqFrom(x, b);
-	}
-	| ^(Linq_Let a=ident b=expr)
-	{
-		$value = new LinqLet(a, b);
-	}
-	| ^(Linq_Where b=expr)
-	{
-		$value = new LinqWhere(b);
-	}
-	;
-
-linq_prefix returns [List<LinqItem> value]
-@init
-{
-	$value = new List<LinqItem>();
-}
-	: ^(Linq_Prefix (a=linq_item { $value.Add(a); })+)
-	;
-
-stmt_linq returns [Stmt value]
-	: ^(Stmt_Linq a=linq_prefix b=stmt_block)
-	{
-		$value = new StmtLinq(a, b);
 	}
 	;
 
