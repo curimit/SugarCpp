@@ -649,7 +649,7 @@ namespace SugarCpp.Compiler
                     case ForItemType.Each:
                         {
                             var node = (ForItemEach)item;
-                            Template tmp = new Template("for (auto <var>: <expr>) {\n    <body>\n}");
+                            Template tmp = new Template("for (auto <var> : <expr>) {\n    <body>\n}");
                             tmp.Add("var", node.Var);
                             tmp.Add("expr", node.Expr.Accept(this));
                             tmp.Add("body", template);
