@@ -307,11 +307,7 @@ stmt_expr
 							   | 'unless' expr -> ^(Stmt_Unless expr ^(Stmt_Block $stmt_expr))
 							   | 'while' expr -> ^(Stmt_While expr ^(Stmt_Block $stmt_expr))
 							   | 'until' expr -> ^(Stmt_Until expr ^(Stmt_Block $stmt_expr))
-							   /*| 'for' ( '&'? ident '<-' expr ( 'to' expr ('by' expr)? -> ^(Stmt_For_To ident expr expr expr? ^(Stmt_Block $stmt_expr))
-												              | 'downto' expr ('by' expr)? -> ^(Stmt_For_Down_To ident expr expr expr? ^(Stmt_Block $stmt_expr))
-							                                  )
-									   | '(' expr ';' expr ';' expr ')' NEWLINE+ stmt_block -> ^(Stmt_For expr expr expr ^(Stmt_Block $stmt_expr))
-			                           )*/
+							   | 'for' for_item (',' for_item)* -> ^(Stmt_For for_item* ^(Stmt_Block $stmt_expr))
 							   )*
 	;
 
