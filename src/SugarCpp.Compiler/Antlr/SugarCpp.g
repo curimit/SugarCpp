@@ -236,15 +236,15 @@ global_alloc
 	;
 
 global_using
-	: stmt_using
+	: attribute? 'using' stmt_using_item* -> ^(Stmt_Using attribute? stmt_using_item*)
 	;
 
 global_typedef
-	: stmt_typedef
+	: attribute? 'typedef' ident '=' type_name -> ^(Stmt_Typedef attribute? type_name ident)
 	;
 
 import_def
-	: 'import' STRING? (NEWLINE+ INDENT NEWLINE*  (STRING NEWLINE+)* DEDENT)? -> ^(Import STRING*)
+	: attribute? 'import' STRING? (NEWLINE+ INDENT NEWLINE*  (STRING NEWLINE+)* DEDENT)? -> ^(Import attribute? STRING*)
 	;
 
 enum_def
@@ -252,7 +252,7 @@ enum_def
 	;
 
 namespace_def
-	: 'namespace' ident NEWLINE+ INDENT NEWLINE* global_block DEDENT -> ^(Namespace ident global_block)
+	: attribute? 'namespace' ident (NEWLINE+ INDENT NEWLINE* global_block DEDENT)? -> ^(Namespace attribute? ident global_block?)
 	;
 
 class_def

@@ -424,6 +424,10 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(Namespace namespace_def)
         {
+            if (namespace_def.Block == null || namespace_def.Block.List.Count() == 0)
+            {
+                return new Template(string.Format("namespace {0} {{ }}", namespace_def.Name));
+            }
             Template template = new Template("namespace <name> {\n    <block>\n}");
             string name = namespace_def.Name;
             if (name.IndexOf("::") != -1)

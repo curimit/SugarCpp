@@ -60,10 +60,12 @@ node returns [List<AttrAstNode> value]
 	;
 
 global_using returns[GlobalUsing value]
-	: a=stmt_using
-	{
-		$value = new GlobalUsing(a.List);
-	}
+@init
+{
+	$value = new GlobalUsing();
+}
+	: ^(Stmt_Using (attr=attribute { $value.Attribute = attr; } )? ( a=ident { $value.List.Add(a); }
+																   | b='namespace' { $value.List.Add("namespace"); })*)
 	;
 
 global_alloc returns [List<GlobalAlloc> value]
@@ -91,9 +93,10 @@ global_alloc returns [List<GlobalAlloc> value]
 	;
 
 global_typedef returns [GlobalTypeDef value]
-	: a=stmt_typedef
+	: ^(Stmt_Typedef (attr=attribute)? a=type_name b=ident)
 	{
-		$value = new GlobalTypeDef(a.Type, a.Name);
+		$value = new GlobalTypeDef(a, b);
+		if (attr != null) $value.Attribute = attr;
 	}
 	;
 
@@ -129,7 +132,7 @@ attribute returns [List<Attr> value]
 	;
 
 namespace_def returns [Namespace value]
-	: ^(Namespace a=ident b=global_block)
+	: ^(Namespace a=ident (b=global_block)?)
 	{
 		$value = new Namespace(a, b);
 	}
@@ -140,7 +143,7 @@ import_def returns [Import value]
 {
 	$value = new Import();
 }
-	: ^(Import (a=STRING { $value.NameList.Add(a.Text); })*)
+	: ^(Import (attr=attribute { $value.Attribute = attr; } )? (a=STRING { $value.NameList.Add(a.Text); })*)
 	;
 
 enum_def returns [Enum value]

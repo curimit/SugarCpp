@@ -20,14 +20,6 @@ namespace SugarCpp.Compiler
     {
         public List<string> List = new List<string>();
 
-        public GlobalUsing(List<string> list)
-        {
-            if (list != null)
-            {
-                this.List = list;
-            }
-        }
-
         public override Template Accept(Visitor visitor)
         {
             return visitor.Visit(this);

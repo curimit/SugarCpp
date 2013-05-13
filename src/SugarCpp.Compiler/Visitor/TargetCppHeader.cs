@@ -23,7 +23,7 @@ namespace SugarCpp.Compiler
             AstNode last_node = null;
             foreach (var node in block.List)
             {
-                if (node is GlobalAlloc || node is FuncDef) continue;
+                if (!(node is Namespace) && !node.Attribute.Exists(x => x.Name == "export")) continue;
                 bool current = node is FuncDef || node is Class || node is Enum || node is Import || node is GlobalUsing || node is Namespace;
                 if ((last || current) && !(last_node is Import && node is Import))
                 {
