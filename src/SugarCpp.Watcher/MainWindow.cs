@@ -80,7 +80,7 @@ namespace SugarCpp.Watcher
             try
             {
                 TargetCpp sugar_cpp = new TargetCpp();
-                result = sugar_cpp.Compile(input);
+                result = sugar_cpp.Compile(input, "test").Implementation;
             }
             catch (Exception err)
             {

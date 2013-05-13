@@ -102,24 +102,26 @@ namespace SugarCpp.CommandLine
 
 		internal static void DoCompile(string inputFileName, string arguments)
         {
+            string cppFileName = Path.GetTempFileName();
+
             string input = File.ReadAllText(inputFileName);
-            string output = String.Empty;
+            TargetCppResult result = null;
             try
             {
                 TargetCpp sugarCpp = new TargetCpp();
-                output = sugarCpp.Compile(input);
+                result = sugarCpp.Compile(input, cppFileName);
             }
             catch (Exception ex)
             {
                 Program.Panic(string.Format("Compile Error:\n{0}", ex.Message));
             }
             // Write to temperory file
-            string cppFileName = Path.GetTempFileName();
             File.Delete(cppFileName);
-            cppFileName += ".cpp";
-            File.WriteAllText(cppFileName, output);
+            File.WriteAllText(cppFileName + ".h", result.Header);
+            File.WriteAllText(cppFileName + ".cpp", result.Implementation);
+
             // Execute compiler
-			RunCommand(compiler.Command, cppFileName + " " + arguments + " " + compiler.AdditionalArgs);
+			RunCommand(compiler.Command, cppFileName + ".cpp" + " " + arguments + " " + compiler.AdditionalArgs);
         }
 
 		private static void RunCommand(string command, string arguments)

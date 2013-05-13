@@ -9,12 +9,18 @@ using System.Text;
 
 namespace SugarCpp.Compiler
 {
+    public class TargetCppResult
+    {
+        public string Header;
+        public string Implementation;
+    }
+
     public class TargetCpp : Visitor
     {
         private Stack<Template> defer_stack = new Stack<Template>();
         private int stmt_finally_count = 0;
 
-        public string Compile(string input)
+        public TargetCppResult Compile(string input, string file_name)
         {
             input = input.Replace("\r", "");
             ANTLRStringStream Input = new ANTLRStringStream(input);
@@ -39,9 +45,18 @@ namespace SugarCpp.Compiler
 
             CommonTreeNodeStream nodes = new CommonTreeNodeStream(ct);
             SugarWalker walker = new SugarWalker(nodes);
+            
+            Root ast = walker.root();
 
-            Root x = walker.root();
-            return x.Accept(this).Render();
+            TargetCppHeader header = new TargetCppHeader();
+            TargetCppImplementation implementation = new TargetCppImplementation();
+            implementation.HeaderFileName = string.Format("{0}.h", file_name);
+
+            TargetCppResult result = new TargetCppResult();
+            result.Header = ast.Accept(header).Render();
+            result.Implementation = ast.Accept(implementation).Render();
+
+            return result;
         }
 
         public override Template Visit(Root root)

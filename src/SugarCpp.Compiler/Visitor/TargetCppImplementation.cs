@@ -8,6 +8,8 @@ namespace SugarCpp.Compiler
 {
     public class TargetCppImplementation : TargetCpp
     {
+        public string HeaderFileName;
+
         private string name_space = "";
 
         private void EnterNameSpace(string name)
@@ -39,6 +41,41 @@ namespace SugarCpp.Compiler
         {
             if (name_space == "") return name;
             return name_space + "::" + name;
+        }
+
+        public override Template Visit(Root root)
+        {
+            Template template = new Template("#include\"<header>\"\n\n<body>");
+            template.Add("header", this.HeaderFileName);
+            template.Add("body", root.Block.Accept(this));
+            return template;
+        }
+
+        public override Template Visit(GlobalBlock block)
+        {
+            Template template = new Template("<list; separator=\"\n\">");
+            List<Template> list = new List<Template>();
+            bool last = false;
+            AstNode last_node = null;
+            foreach (var node in block.List)
+            {
+                if (node is Import || node is GlobalUsing || node is GlobalTypeDef) continue;
+                bool current = node is FuncDef || node is Class || node is Enum || node is Import || node is GlobalUsing || node is Namespace;
+                if ((last || current) && !(last_node is Import && node is Import))
+                {
+                    Template tp = new Template("\n<node>");
+                    tp.Add("node", node.Accept(this));
+                    list.Add(tp);
+                }
+                else
+                {
+                    list.Add(node.Accept(this));
+                }
+                last = current;
+                last_node = node;
+            }
+            template.Add("list", list);
+            return template;
         }
 
         public override Template Visit(Class class_def)

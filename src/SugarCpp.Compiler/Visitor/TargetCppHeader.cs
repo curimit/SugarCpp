@@ -8,6 +8,8 @@ namespace SugarCpp.Compiler
 {
     public class TargetCppHeader : TargetCpp
     {
+        private int ClassLevel = 0;
+
         public override Template Visit(Root root)
         {
             Template template = new Template("#pragma once\n\n<body>");
@@ -23,7 +25,7 @@ namespace SugarCpp.Compiler
             AstNode last_node = null;
             foreach (var node in block.List)
             {
-                if (!(node is Namespace) && !node.Attribute.Exists(x => x.Name == "export")) continue;
+                //if ((node is Import || node is GlobalUsing) && !node.Attribute.Exists(x => x.Name == "export")) continue;
                 bool current = node is FuncDef || node is Class || node is Enum || node is Import || node is GlobalUsing || node is Namespace;
                 if ((last || current) && !(last_node is Import && node is Import))
                 {
@@ -39,6 +41,25 @@ namespace SugarCpp.Compiler
                 last_node = node;
             }
             template.Add("list", list);
+            return template;
+        }
+
+        public override Template Visit(Class class_def)
+        {
+            ClassLevel++;
+            var template = base.Visit(class_def);
+            ClassLevel--;
+            return template;
+        }
+
+        public override Template Visit(GlobalAlloc global_alloc)
+        {
+            if (this.ClassLevel > 0)
+            {
+                return base.Visit(global_alloc);
+            }
+            Template template = new Template("extern <expr>");
+            template.Add("expr", base.Visit(global_alloc));
             return template;
         }
 

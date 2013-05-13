@@ -58,6 +58,9 @@ namespace SugarCpp.CommandLine
         private static void Compile()
         {
             string input = File.ReadAllText(inputFileName);
+            int dot_pos = inputFileName.LastIndexOf(".");
+            string header_name = inputFileName.Substring(0, dot_pos) + ".h";
+            string implementation_name = inputFileName.Substring(0, dot_pos) + ".cpp";
             ANTLRStringStream inputStream = new ANTLRStringStream(input);
             SugarCppLexer lexer = new SugarCppLexer(inputStream);
             CommonTokenStream tokens = new CommonTokenStream(lexer);
@@ -79,9 +82,17 @@ namespace SugarCpp.CommandLine
                 CommonTreeNodeStream nodes = new CommonTreeNodeStream(ct);
                 SugarWalker walker = new SugarWalker(nodes);
                 Root x = walker.root();
-                TargetCpp cpp = new TargetCpp();
-                string code = x.Accept(cpp).Render();
-                Print(code);
+                TargetCppHeader header = new TargetCppHeader();
+                TargetCppImplementation implementation = new TargetCppImplementation();
+                string include_name = implementation_name;
+                if (include_name.LastIndexOf('/') != -1) include_name = include_name.Substring(include_name.LastIndexOf('/') + 1);
+                if (include_name.LastIndexOf('\\') != -1) include_name = include_name.Substring(include_name.LastIndexOf('\\') + 1);
+                implementation.HeaderFileName = include_name;
+                string header_code = x.Accept(header).Render();
+                string implementation_code = x.Accept(implementation).Render();
+                File.WriteAllText(header_name, header_code);
+                File.WriteAllText(implementation_name, implementation_code);
+                Console.WriteLine();
             }
         }
 

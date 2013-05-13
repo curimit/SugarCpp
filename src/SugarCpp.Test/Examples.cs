@@ -30,7 +30,7 @@ namespace SugarCpp.Test
         public string Compile(string input)
         {
             var sugarCpp = new TargetCpp();
-            return sugarCpp.Compile(input);
+            return sugarCpp.Compile(input, "test").Implementation;
         }
 
         public void Test()

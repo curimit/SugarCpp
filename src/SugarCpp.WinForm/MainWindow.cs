@@ -30,7 +30,7 @@ namespace SugarCpp.WinForm
             try
             {
                 TargetCpp sugar_cpp = new TargetCpp();
-                string output = sugar_cpp.Compile(input);
+                string output = sugar_cpp.Compile(input, "test").Implementation;
                 this.Result.Text = output;
                 File.WriteAllText("test.cpp", output);
             }

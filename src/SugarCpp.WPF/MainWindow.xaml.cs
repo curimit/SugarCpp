@@ -36,11 +36,11 @@ namespace SugarCpp.WPF
             File.WriteAllText("test.sc", input);
             try
             {
-                TargetCppHeader sugar_cpp_header = new TargetCppHeader();
-                TargetCppImplementation sugar_cpp_implementation = new TargetCppImplementation();
-                this.Header.Text = sugar_cpp_header.Compile(input);
+                TargetCpp sugar_cpp = new TargetCpp();
+                var result = sugar_cpp.Compile(input, "test");
+                this.Header.Text = result.Header;
                 File.WriteAllText("test.h", this.Header.Text);
-                this.Implementation.Text = sugar_cpp_implementation.Compile(input);
+                this.Implementation.Text = result.Implementation;
                 File.WriteAllText("test.cpp", this.Implementation.Text);
             }
             catch (Exception ex)

@@ -25,14 +25,14 @@ namespace SugarCpp.Test
         public void SpeedTest100KB()
         {
             var sugarCpp = new TargetCpp();
-            sugarCpp.Compile(_input100KB);
+            sugarCpp.Compile(_input100KB, "test");
         }
 
         [Test]
         public void SpeedTest1MB()
         {
             var sugarCpp = new TargetCpp();
-            sugarCpp.Compile(_input1MB);
+            sugarCpp.Compile(_input1MB, "test");
         }
     }
 }
