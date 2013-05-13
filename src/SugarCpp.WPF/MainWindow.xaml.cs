@@ -36,15 +36,17 @@ namespace SugarCpp.WPF
             File.WriteAllText("test.sc", input);
             try
             {
-                TargetCpp sugar_cpp = new TargetCpp();
-                string output = sugar_cpp.Compile(input);
-                this.Result.Text = output;
-                File.WriteAllText("test.cpp", output);
+                TargetCppHeader sugar_cpp_header = new TargetCppHeader();
+                TargetCppImplementation sugar_cpp_implementation = new TargetCppImplementation();
+                this.Header.Text = sugar_cpp_header.Compile(input);
+                File.WriteAllText("test.h", this.Header.Text);
+                this.Implementation.Text = sugar_cpp_implementation.Compile(input);
+                File.WriteAllText("test.cpp", this.Implementation.Text);
             }
             catch (Exception ex)
             {
                 string output = string.Format("Compile Error:\n{0}", ex.Message);
-                this.Result.Text = output;
+                this.Header.Text = output;
             }
         }
     }

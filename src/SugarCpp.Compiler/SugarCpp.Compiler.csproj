@@ -71,6 +71,8 @@
     <Compile Include="AstNode\StmtFor.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Visitor\TargetCpp.cs" />
+    <Compile Include="Visitor\TargetCppHeader.cs" />
+    <Compile Include="Visitor\TargetCppImplementation.cs" />
     <Compile Include="Visitor\Visitor.cs" />
   </ItemGroup>
   <ItemGroup>
