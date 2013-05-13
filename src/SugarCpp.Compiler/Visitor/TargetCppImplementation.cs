@@ -45,7 +45,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(Root root)
         {
-            Template template = new Template("#include\"<header>\"\n\n<body>");
+            Template template = new Template("#include \"<header>\"\n\n<body>");
             template.Add("header", this.HeaderFileName);
             template.Add("body", root.Block.Accept(this));
             return template;
@@ -59,7 +59,7 @@ namespace SugarCpp.Compiler
             AstNode last_node = null;
             foreach (var node in block.List)
             {
-                if (node is Import || node is GlobalUsing || node is GlobalTypeDef) continue;
+                if (node is Import || node is GlobalUsing || node is GlobalTypeDef || node is Enum) continue;
                 bool current = node is FuncDef || node is Class || node is Enum || node is Import || node is GlobalUsing || node is Namespace;
                 if ((last || current) && !(last_node is Import && node is Import))
                 {
@@ -80,11 +80,6 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(Class class_def)
         {
-            if (!class_def.Attribute.Exists(x => x.Name == "export"))
-            {
-                return base.Visit(class_def);
-            }
-
             Template template = template = new Template("<list; separator=\"\n\n\">");
 
             List<Template> list = new List<Template>();

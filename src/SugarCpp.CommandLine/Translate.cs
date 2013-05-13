@@ -84,7 +84,7 @@ namespace SugarCpp.CommandLine
                 Root x = walker.root();
                 TargetCppHeader header = new TargetCppHeader();
                 TargetCppImplementation implementation = new TargetCppImplementation();
-                string include_name = implementation_name;
+                string include_name = header_name;
                 if (include_name.LastIndexOf('/') != -1) include_name = include_name.Substring(include_name.LastIndexOf('/') + 1);
                 if (include_name.LastIndexOf('\\') != -1) include_name = include_name.Substring(include_name.LastIndexOf('\\') + 1);
                 implementation.HeaderFileName = include_name;
