@@ -58,9 +58,84 @@ namespace SugarCpp.Compiler
             {
                 return base.Visit(global_alloc);
             }
-            Template template = new Template("extern <expr>");
-            template.Add("expr", base.Visit(global_alloc));
-            return template;
+
+            string type = global_alloc.Type;
+            string name_prefix = "";
+            string name_suffix = "";
+            while (true)
+            {
+                if (type.EndsWith("*"))
+                {
+                    type = type.Substring(0, type.Length - 1);
+                    name_prefix = "*" + name_prefix;
+                    continue;
+                }
+                if (type.EndsWith("&"))
+                {
+                    type = type.Substring(0, type.Length - 1);
+                    name_prefix = "&" + name_prefix;
+                    continue;
+                }
+                if (type.EndsWith("[]"))
+                {
+                    type = type.Substring(0, type.Length - 2);
+                    name_suffix = "[]" + name_suffix;
+                    continue;
+                }
+                break;
+            }
+
+            string prefix = "";
+            if (global_alloc.Attribute.Find(x => x.Name == "static") != null)
+            {
+                prefix += "static ";
+            }
+
+            if (global_alloc.Attribute.Find(x => x.Name == "const") != null)
+            {
+                prefix += "const ";
+            }
+
+            if (global_alloc.ExprList.Count() > 0)
+            {
+                List<Template> list = new List<Template>();
+                foreach (var name in global_alloc.Name)
+                {
+                    Template stmt = null;
+                    if (global_alloc.IsEqualSign)
+                    {
+                        stmt = new Template("extern <prefix><type> <name>;");
+                    }
+                    else
+                    {
+                        stmt = new Template("extern <prefix><type> <name>;");
+                    }
+                    stmt.Add("prefix", prefix);
+                    if (type == "auto")
+                    {
+                        Template tmp = new Template("decltype(<expr; separator=\", \">)");
+                        tmp.Add("expr", global_alloc.ExprList.Select(x => x.Accept(this)));
+                        stmt.Add("type", tmp);
+                    }
+                    else
+                    {
+                        stmt.Add("type", type);
+                    }
+                    stmt.Add("name", string.Format("{0}{1}{2}", name_prefix, name, name_suffix));
+                    list.Add(stmt);
+                }
+                Template template = new Template("<list; separator=\"\n\">");
+                template.Add("list", list);
+                return template;
+            }
+            else
+            {
+                Template template = new Template("extern <prefix><type> <name; separator=\", \">;");
+                template.Add("prefix", prefix);
+                template.Add("type", type);
+                template.Add("name", global_alloc.Name.Select(x => string.Format("{0}{1}{2}", name_prefix, x, name_suffix)));
+                return template;
+            }
         }
 
         public override Template Visit(FuncDef func_def)

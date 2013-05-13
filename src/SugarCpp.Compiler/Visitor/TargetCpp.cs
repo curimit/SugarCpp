@@ -159,7 +159,16 @@ namespace SugarCpp.Compiler
                         stmt = new Template("<prefix><type> <name>(<expr; separator=\", \">);");
                     }
                     stmt.Add("prefix", prefix);
-                    stmt.Add("type", type);
+                    if (type == "auto")
+                    {
+                        Template tmp = new Template("decltype(<expr; separator=\", \">)");
+                        tmp.Add("expr", global_alloc.ExprList.Select(x => x.Accept(this)));
+                        stmt.Add("type", tmp);
+                    }
+                    else
+                    {
+                        stmt.Add("type", type);
+                    }
                     stmt.Add("name", string.Format("{0}{1}{2}", name_prefix, name, name_suffix));
                     stmt.Add("expr", global_alloc.ExprList.Select(x => x.Accept(this)));
                     list.Add(stmt);
