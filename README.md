@@ -11,14 +11,14 @@ Try SugarCpp in your browser: http://curimit.com/project/SugarCpp/
 ## Features
 
 * Indent-based code block.
-* Borrow lots of syntax sugar from CoffeeScript.
-* Go style defer/finally statement, be able to handle exceptions.
-* (Prolog? Haskell? Scala?) style for loop.
-* Multiple return values & parallel assignment.
-* C# style lambda expression.
-* Inline function defination.
-* Haskell style infix function.
-* Scala style case class.
+* [Borrow lots of syntax sugar from CoffeeScript.](#syntax-sugar-borrow-from-coffeescript)
+* [Go style defer/finally statement, be able to handle exceptions.](#defer-and-finally)
+* [(Prolog? Haskell? Scala?) style for loop.](#prolog-haskell-scala-style-for-loop)
+* [Multiple return values & parallel assignment.](#multiple-return-values--parallel-assignment)
+* [C# style lambda expression.](#c-style-lambda-expression)
+* Inline function definition.
+* [Haskell style infix function.](#haskell-style-infix-function)
+* [Scala style case class.](#scala-style-case-class)
 
 ## Examples
 
@@ -27,8 +27,8 @@ Try SugarCpp in your browser: http://curimit.com/project/SugarCpp/
 import "stdio.h"
 
 int main()
-    printf("Hello world!") 
-``` 
+    printf("Hello world!")
+```
 
 ```c++
 #include "stdio.h"
@@ -239,7 +239,7 @@ import "stdio.h"
 int main()
     for i <- 1 to 10, j <- 1 to 10, i + j == 10
         printf("%d + %d = %d")
-    
+
     sum := 0
     for i <- 10 downto 1 by -1, i != 5, x <- a[i]
         sum += x
@@ -274,7 +274,7 @@ int main() {
 int main()
     // ?= operator
     tree->left ?= new Node()
-    
+
     // ? operator
     footprints = yeti ? "bear"
 ```
@@ -292,7 +292,7 @@ int main() {
 ```c++
 int main()
     a = 1 <= x <= y <= 10
-    
+
     b = 1 < x != 10
 ```
 
@@ -308,7 +308,7 @@ int main() {
 [public]
 class Point
     x, y := 0
-    
+
     void set(x: int, y: int)
         @x = x
         @y = y
@@ -382,19 +382,6 @@ int main() {
 }
 ```
 
-```c++
-class Point {
-public:
-    auto x = 0;
-    auto y = 0;
-
-    void set(int x, int y) {
-        this->x = x;
-        this->y = y;
-    }
-};
-```
-
 ##### Arrays Initialization
 ```c++
 grid:int[][] = [
@@ -428,17 +415,17 @@ int line[] = { 1, 2, 3 };
         <td>is</td>
         <td>==</td>
     </tr>
-    
+
     <tr>
         <td>isnt</td>
         <td>!=</td>
     </tr>
-    
+
     <tr>
         <td>and</td>
         <td>&&</td>
     </tr>
-    
+
     <tr>
         <td>or</td>
         <td>||</td>
@@ -451,10 +438,10 @@ import "stdio.h"
 
 int main()
     x := 1
-    
+
     // capture by reference
     f := () -> ++x
-    
+
     // capture by value
     f := () => ++x
 ```
@@ -571,7 +558,7 @@ int main()
     a, b, c := 1, 2, 3
     x := a `max` b `max` c
     printf("%d\n", x)
-``` 
+```
 
 ```c++
 #include "stdio.h"
@@ -597,10 +584,10 @@ import "stdio.h"
 class Test
     [public]
     Test(x: int) = this->x = x
-    
+
     [private]
     x: int
-    
+
 class Print
     [public, static]
     void print(a :Test&) = printf("%d", a.x)
