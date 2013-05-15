@@ -140,10 +140,10 @@ namespace SugarCpp.Compiler
 
     public class StmtTypeDef : Stmt
     {
-        public string Type;
+        public SugarType Type;
         public string Name;
 
-        public StmtTypeDef(string type, string name)
+        public StmtTypeDef(SugarType type, string name)
         {
             this.Type = type;
             this.Name = name;

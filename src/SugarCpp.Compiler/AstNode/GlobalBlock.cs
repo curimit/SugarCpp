@@ -26,14 +26,31 @@ namespace SugarCpp.Compiler
         }
     }
 
+    public enum AllocType
+    {
+        Declare, Equal, Bracket, Array
+    }
+
     public class GlobalAlloc : AttrAstNode
     {
         public List<string> Name = new List<string>();
-        public string Type;
+        public SugarType Type;
         public List<Expr> ExprList = new List<Expr>();
-        public bool IsEqualSign;
+        public AllocType Style;
 
-        public GlobalAlloc(string type, List<string> name, List<Expr> expr_list, List<Attr> attr, bool isEqualSign)
+        public GlobalAlloc(SugarType type, string name, Expr expr, List<Attr> attr, AllocType style)
+        {
+            this.Type = type;
+            this.Name.Add(name);
+            this.ExprList.Add(expr);
+            if (attr != null)
+            {
+                this.Attribute = attr;
+            }
+            this.Style = style;
+        }
+
+        public GlobalAlloc(SugarType type, List<string> name, List<Expr> expr_list, List<Attr> attr, AllocType style)
         {
             this.Type = type;
             this.Name = name;
@@ -45,7 +62,7 @@ namespace SugarCpp.Compiler
             {
                 this.Attribute = attr;
             }
-            this.IsEqualSign = isEqualSign;
+            this.Style = style;
         }
 
         public override Template Accept(Visitor visitor)
@@ -56,10 +73,10 @@ namespace SugarCpp.Compiler
 
     public class GlobalTypeDef : AttrAstNode
     {
-        public string Type;
+        public SugarType Type;
         public string Name;
 
-        public GlobalTypeDef(string type, string name)
+        public GlobalTypeDef(SugarType type, string name)
         {
             this.Type = type;
             this.Name = name;

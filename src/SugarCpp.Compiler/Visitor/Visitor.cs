@@ -15,6 +15,14 @@ namespace SugarCpp.Compiler
         public abstract Template Visit(GlobalTypeDef global_typedef);
         public abstract Template Visit(GlobalUsing global_using);
 
+        public abstract Template Visit(AutoType type);
+        public abstract Template Visit(DeclType type);
+        public abstract Template Visit(IdentType type);
+        public abstract Template Visit(StarType type);
+        public abstract Template Visit(RefType type);
+        public abstract Template Visit(TemplateType type);
+        public abstract Template Visit(ArrayType type);
+
         public abstract Template Visit(Import import);
 
         public abstract Template Visit(Class class_def);

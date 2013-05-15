@@ -75,18 +75,25 @@ global_alloc returns [List<GlobalAlloc> value]
 }
 	: ^(Expr_Alloc_Equal (attr=attribute)? a=type_name b=ident_list (c=expr_list)?)
 	{
-		$value.Add(new GlobalAlloc(a, b, c, attr, true));
+		if (c != null)
+		{
+			$value.Add(new GlobalAlloc(a, b, c, attr, AllocType.Equal));
+		}
+		else
+		{
+			$value.Add(new GlobalAlloc(a, b, c, attr, AllocType.Declare));
+		}
 	}
 	| ^(Expr_Alloc_Bracket (attr=attribute)? a=type_name b=ident_list (c=expr_list)?)
 	{
-		$value.Add(new GlobalAlloc(a, b, c, attr, false));
+		$value.Add(new GlobalAlloc(a, b, c, attr, AllocType.Bracket));
 	}
 	| ^(':=' (attr=attribute)? d=ident_list e=expr_list)
 	{
 		int k = 0;
 		for (int i = 0; i < d.Count(); i++)
 		{
-			$value.Add(new GlobalAlloc("auto", new List<string> { d[i] }, new List<Expr>{ e[k] }, attr, true));
+			$value.Add(new GlobalAlloc(new AutoType(), d[i], e[k], attr, AllocType.Equal));
 			k = (k + 1) \% e.Count();
 		}
 	}
@@ -101,7 +108,7 @@ global_typedef returns [GlobalTypeDef value]
 	;
 
 attribute_args returns [string value]
-	: a=(NUMBER)
+	: a=NUMBER
 	{
 		$value = a.Text;
 	}
@@ -160,27 +167,57 @@ class_def returns [Class value]
 	}
 	;
 
-type_name returns [string value]
+type_ident returns [SugarType value]
 @init
 {
-	$value = "";
+	string type = "";
 }
-	: ^( Type_IDENT
-	     ('const' { $value += "const "; })?
-		 ('unsigned' { $value += "unsigned "; })?
-	     a=ident { $value+=a; }
-	   ( '<' { $value+="<"; bool isFirst = true; }
-	    (b=type_name
-		{
-			if (!isFirst) $value+=", ";
-			isFirst = false;
-			$value+=b;
-		})*
-		'>' { $value+=">"; })?
-	  ( '*' { $value+="*"; }
-	  | '[' ']' { $value+="[]"; }
-	  | '&' { $value+="&"; }
-	  )*)
+	: ^(Type_Ident ('const' {type+="const";})? ('unsigned' {type+="unsigned";})? a=ident {type+=a;})
+	{
+		$value = new IdentType(type);
+	}
+	;
+
+type_template returns [SugarType value]
+@init
+{
+	List<SugarType> list = new List<SugarType>();
+}
+	: ^(Type_Template a=type_name (b=type_name {list.Add(b);})*)
+	{
+		$value = new TemplateType(a, list);
+	}
+	;
+
+type_array returns [SugarType value]
+@init
+{
+	List<Expr> list = new List<Expr>();
+}
+	: ^(Type_Array a=type_name (b=expr { list.Add(b); })+)
+	{
+		$value = new ArrayType(a, list);
+	}
+	;
+
+type_star returns [SugarType value]
+	: ^(Type_Star a=type_name '*' { $value = new StarType(a); } ('*' { $value = new StarType($value); })*)
+	;
+
+
+type_ref returns [SugarType value]
+	: ^(Type_Ref a=type_name)
+	{
+		$value = new RefType(a);
+	}
+	;
+
+type_name returns [SugarType value]
+	: a=type_array { $value = a; }
+	| a=type_ref { $value = a; }
+	| a=type_star { $value = a; }
+	| a=type_template { $value = a; }
+	| a=type_ident { $value = a; }
 	;
 
 func_args returns [List<ExprAlloc> value]
@@ -188,14 +225,9 @@ func_args returns [List<ExprAlloc> value]
 {
 	$value = new List<ExprAlloc>();
 }
-	: ^(Func_Args (a=stmt_alloc
+	: ^(Func_Args (a=alloc_expr
 	{
-		var b = (ExprAlloc)a;
-		if (b.Type == "auto")
-		{
-			b.Type = "decltype";
-		}
-		$value.Add(b);
+		$value.Add(a);
 	})*)
 	;
 
@@ -238,7 +270,7 @@ func_def returns [FuncDef value]
 			$value.Name = "~" + $value.Name;
 		}
 		StmtBlock block = new StmtBlock();
-		if (a == "void" || a == null)
+		if ((a is IdentType && ((IdentType)a).Type=="void") || a == null)
 		{
 			block.StmtList.Add(new StmtExpr(f));
 		}
@@ -295,7 +327,7 @@ stmt_translate returns [List<Stmt> value]
 		int k = 0;
 		for (int i = 0; i < d.Count(); i++)
 		{
-			$value.Add(new StmtExpr(new ExprAlloc("auto", new List<string> { d[i] }, new List<Expr>{ e[k] }, true)));
+			$value.Add(new StmtExpr(new ExprAlloc(new AutoType(), d[i], e[k], AllocType.Equal)));
 			k = (k + 1) \% e.Count();
 		}
 	}
@@ -367,7 +399,7 @@ stmt_while returns [Stmt value]
 		else
 		{
 			/*Expr iter = new ExprConst("_t_loop_iterator", ConstType.Ident);
-			Expr start = new ExprAlloc("auto", "_t_loop_iterator", a, true);
+			Expr start = new ExprAlloc(new AutoType(), "_t_loop_iterator", a, true);
 			Expr condition = new ExprBin("!=", iter, new ExprConst("0", ConstType.Number));
 			Expr next = new ExprPrefix("--", iter);
 			$value = new StmtFor(start, condition, next, b);*/
@@ -443,11 +475,18 @@ ident_list returns [List<string> value]
 alloc_expr returns [ExprAlloc value]
 	: ^(Expr_Alloc_Equal a=type_name b=ident_list (c=expr_list)?)
 	{
-		$value = new ExprAlloc(a, b, c, true);
+		if (c != null)
+		{
+			$value = new ExprAlloc(a, b, c, AllocType.Equal);
+		}
+		else
+		{
+			$value = new ExprAlloc(a, b, c, AllocType.Declare);
+		}
 	}
 	| ^(Expr_Alloc_Bracket a=type_name b=ident_list (c=expr_list)?)
 	{
-		$value = new ExprAlloc(a, b, c, false);
+		$value = new ExprAlloc(a, b, c, AllocType.Bracket);
 	}
 	;
 
@@ -666,7 +705,7 @@ expr returns [Expr value]
 		{
 			throw new Exception("Assert failed.");
 		}
-		$value = new ExprAlloc("auto", new List<string> { ((ExprConst)a).Text }, new List<Expr> { b }, true);
+		$value = new ExprAlloc(new AutoType(), ((ExprConst)a).Text, b, AllocType.Equal);
 	}
 	| text_ident = ident
 	{

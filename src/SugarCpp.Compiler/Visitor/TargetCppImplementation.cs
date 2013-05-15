@@ -59,6 +59,10 @@ namespace SugarCpp.Compiler
             AstNode last_node = null;
             foreach (var node in block.List)
             {
+                // Generic Class/Function Should Defined in Header File
+                if (node is FuncDef && ((FuncDef)node).GenericParameter.Count() > 0) continue;
+                if (node is Class && ((Class)node).GenericParameter.Count() > 0) continue;
+
                 if (node is Import || node is GlobalUsing || node is GlobalTypeDef || node is Enum) continue;
                 bool current = node is FuncDef || node is Class || node is Enum || node is Import || node is GlobalUsing || node is Namespace;
                 if ((last || current) && !(last_node is Import && node is Import))
@@ -110,10 +114,6 @@ namespace SugarCpp.Compiler
             {
                 prefix += "inline ";
             }
-            if (func_def.Attribute.Find(x => x.Name == "static") != null)
-            {
-                prefix += "static ";
-            }
             string suffix = "";
             if (func_def.Attribute.Find(x => x.Name == "const") != null)
             {
@@ -130,6 +130,7 @@ namespace SugarCpp.Compiler
                 else
                 {
                     template = new Template("<prefix><type> <name>(<args; separator=\", \">)<suffix> {\n    <list; separator=\"\n\">\n}");
+                    template.Add("type", func_def.Type.Accept(this));
                 }
             }
             else
@@ -141,12 +142,12 @@ namespace SugarCpp.Compiler
                 else
                 {
                     template = new Template("template \\<<generics; separator=\", \">>\n<prefix><type> <name>(<args; separator=\", \">)<suffix> {\n    <list; separator=\"\n\">\n}");
+                    template.Add("type", func_def.Type.Accept(this));
                 }
                 template.Add("generics", func_def.GenericParameter.Select(x => string.Format("typename {0}", x)));
             }
             template.Add("prefix", prefix);
             template.Add("suffix", suffix);
-            template.Add("type", func_def.Type);
             template.Add("name", NameInNameSpace(func_def.Name));
             template.Add("args", func_def.Args.Select(x => x.Accept(this)));
             template.Add("list", func_def.Body.Accept(this));

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Diagnostics;
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 using Antlr4.StringTemplate;
@@ -64,6 +65,60 @@ namespace SugarCpp.Compiler
             return root.Block.Accept(this);
         }
 
+        public override Template Visit(IdentType type)
+        {
+            return new Template(type.Type);
+        }
+
+        public override Template Visit(DeclType type)
+        {
+            Template template = new Template("decltype(<expr>)");
+            template.Add("expr", type.Expr.Accept(this));
+            return template;
+        }
+
+        public override Template Visit(AutoType type)
+        {
+            return new Template("auto");
+        }
+
+        public override Template Visit(StarType type)
+        {
+            Template template = new Template("<type>*");
+            template.Add("type", type.Type.Accept(this));
+            return template;
+        }
+
+        public override Template Visit(RefType type)
+        {
+            Template template = new Template("<type>&");
+            template.Add("type", type.Type.Accept(this));
+            return template;
+        }
+
+        public override Template Visit(TemplateType type)
+        {
+            Template template = new Template("<type>\\<<list; separator=\", \">>");
+            template.Add("type", type.Type.Accept(this));
+            template.Add("list", type.Args.Select(x => x.Accept(this)));
+            return template;
+        }
+
+        public override Template Visit(ArrayType type)
+        {
+            Template template = new Template("<type><list>");
+            template.Add("type", type.Type.Accept(this));
+            List<Template> list = new List<Template>();
+            foreach (var x in type.Args)
+            {
+                Template tmp = new Template("[<expr>]");
+                tmp.Add("expr", x.Accept(this));
+                list.Add(tmp);
+            }
+            template.Add("list", list);
+            return template;
+        }
+
         public override Template Visit(GlobalBlock block)
         {
             Template template = new Template("<list; separator=\"\n\">");
@@ -107,27 +162,39 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(GlobalAlloc global_alloc)
         {
-            string type = global_alloc.Type;
+            Template template = null;
+
+            var type = global_alloc.Type;
+
             string name_prefix = "";
             string name_suffix = "";
             while (true)
             {
-                if (type.EndsWith("*"))
+                if (type is StarType)
                 {
-                    type = type.Substring(0, type.Length - 1);
                     name_prefix = "*" + name_prefix;
+                    type = ((StarType)type).Type;
                     continue;
                 }
-                if (type.EndsWith("&"))
+                if (type is RefType)
                 {
-                    type = type.Substring(0, type.Length - 1);
                     name_prefix = "&" + name_prefix;
+                    type = ((RefType)type).Type;
                     continue;
                 }
-                if (type.EndsWith("[]"))
+                if (type is ArrayType)
                 {
-                    type = type.Substring(0, type.Length - 2);
-                    name_suffix = "[]" + name_suffix;
+                    Template tmp = new Template("<type_list>");
+                    List<Template> type_list = new List<Template>();
+                    foreach (var x in ((ArrayType)type).Args)
+                    {
+                        Template item = new Template("[<expr>]");
+                        item.Add("expr", x.Accept(this));
+                        type_list.Add(item);
+                    }
+                    tmp.Add("type_list", type_list);
+                    name_suffix = tmp.Render() + name_suffix;
+                    type = ((ArrayType)type).Type;
                     continue;
                 }
                 break;
@@ -144,47 +211,136 @@ namespace SugarCpp.Compiler
                 prefix += "const ";
             }
 
-            if (global_alloc.ExprList.Count() > 0)
+            if (type is AutoType)
             {
-                List<Template> list = new List<Template>();
-                foreach (var name in global_alloc.Name)
-                {
-                    Template stmt = null;
-                    if (global_alloc.IsEqualSign)
-                    {
-                        stmt = new Template("<prefix><type> <name> = <expr; separator=\", \">;");
-                    }
-                    else
-                    {
-                        stmt = new Template("<prefix><type> <name>(<expr; separator=\", \">);");
-                    }
-                    stmt.Add("prefix", prefix);
-                    if (type == "auto")
-                    {
-                        Template tmp = new Template("decltype(<expr; separator=\", \">)");
-                        tmp.Add("expr", global_alloc.ExprList.Select(x => x.Accept(this)));
-                        stmt.Add("type", tmp);
-                    }
-                    else
-                    {
-                        stmt.Add("type", type);
-                    }
-                    stmt.Add("name", string.Format("{0}{1}{2}", name_prefix, name, name_suffix));
-                    stmt.Add("expr", global_alloc.ExprList.Select(x => x.Accept(this)));
-                    list.Add(stmt);
-                }
-                Template template = new Template("<list; separator=\"\n\">");
-                template.Add("list", list);
-                return template;
+                // Todo: Check ExprList.Count()
+                Debug.Assert(global_alloc.ExprList.Count() == 1);
+                type = new DeclType(global_alloc.ExprList.First());
             }
-            else
+
+            // Can declare inline
+            if (global_alloc.Style == AllocType.Declare)
             {
-                Template template = new Template("<prefix><type> <name; separator=\", \">;");
+                template = new Template("<prefix><type> <name; separator=\", \">;");
                 template.Add("prefix", prefix);
-                template.Add("type", type);
+                template.Add("type", type.Accept(this));
                 template.Add("name", global_alloc.Name.Select(x => string.Format("{0}{1}{2}", name_prefix, x, name_suffix)));
                 return template;
             }
+
+            List<Template> list = new List<Template>();
+            foreach (var name in global_alloc.Name)
+            {
+                switch (global_alloc.Style)
+                {
+                    case AllocType.Equal:
+                        {
+                            Template stmt = new Template("<prefix><type> <name> = <expr; separator=\", \">;");
+                            stmt.Add("prefix", prefix);
+                            stmt.Add("type", type.Accept(this));
+                            stmt.Add("name", string.Format("{0}{1}{2}", name_prefix, name, name_suffix));
+                            stmt.Add("expr", global_alloc.ExprList.Select(x => x.Accept(this)));
+                            list.Add(stmt);
+                            break;
+                        }
+
+                    case AllocType.Bracket:
+                        {
+                            Template stmt = new Template("<prefix><type> <name>(<expr; separator=\", \">);");
+                            stmt.Add("prefix", prefix);
+                            stmt.Add("type", type.Accept(this));
+                            stmt.Add("name", string.Format("{0}{1}{2}", name_prefix, name, name_suffix));
+                            stmt.Add("expr", global_alloc.ExprList.Select(x => x.Accept(this)));
+                            list.Add(stmt);
+                            break;
+                        }
+                }
+            }
+
+            template = new Template("<list; separator=\"\n\">");
+            template.Add("list", list);
+            return template;
+        }
+
+        public override Template Visit(ExprAlloc expr)
+        {
+            Template template = null;
+
+            var type = expr.Type;
+
+            string name_prefix = "";
+            string name_suffix = "";
+            while (true)
+            {
+                if (type is StarType)
+                {
+                    name_prefix = "*" + name_prefix;
+                    type = ((StarType)type).Type;
+                    continue;
+                }
+                if (type is RefType)
+                {
+                    name_prefix = "&" + name_prefix;
+                    type = ((RefType)type).Type;
+                    continue;
+                }
+                if (type is ArrayType)
+                {
+                    Template tmp = new Template("<type_list>");
+                    List<Template> type_list = new List<Template>();
+                    foreach (var x in ((ArrayType)type).Args)
+                    {
+                        Template item = new Template("[<expr>]");
+                        item.Add("expr", x.Accept(this));
+                        type_list.Add(item);
+                    }
+                    tmp.Add("type_list", type_list);
+                    name_suffix = tmp.Render() + name_suffix;
+                    type = ((ArrayType)type).Type;
+                    continue;
+                }
+                break;
+            }
+
+            // Can declare inline
+            if (expr.Style == AllocType.Declare)
+            {
+                template = new Template("<type> <name; separator=\", \">");
+                template.Add("type", type.Accept(this));
+                template.Add("name", expr.Name.Select(x => string.Format("{0}{1}{2}", name_prefix, x, name_suffix)));
+                return template;
+            }
+
+            List<Template> list = new List<Template>();
+            foreach (var name in expr.Name)
+            {
+                switch (expr.Style)
+                {
+                    case AllocType.Equal:
+                        {
+                            Template stmt = new Template("<type> <name> = <expr; separator=\", \">");
+                            stmt.Add("type", type.Accept(this));
+                            stmt.Add("name", string.Format("{0}{1}{2}", name_prefix, name, name_suffix));
+                            stmt.Add("expr", expr.ExprList.Select(x => x.Accept(this)));
+                            list.Add(stmt);
+                            break;
+                        }
+
+                    case AllocType.Bracket:
+                        {
+                            Template stmt = new Template("<type> <name>(<expr; separator=\", \">)");
+                            stmt.Add("type", type.Accept(this));
+                            stmt.Add("name", string.Format("{0}{1}{2}", name_prefix, name, name_suffix));
+                            stmt.Add("expr", expr.ExprList.Select(x => x.Accept(this)));
+                            list.Add(stmt);
+                            break;
+                        }
+                }
+            }
+
+            template = new Template("<list; separator=\"\n\">");
+            template.Add("list", list);
+            return template;
         }
 
         public override Template Visit(Enum enum_def)
@@ -217,34 +373,6 @@ namespace SugarCpp.Compiler
                 }
             }
             template.Add("list", list);
-
-            if (enum_def.Attribute.Find(x => x.Name == "ToString") != null)
-            {
-                Attr attr = enum_def.Attribute.Find(x => x.Name == "ToString");
-
-                FuncDef func = new FuncDef();
-                func.Type = "const char*";
-                func.Name = attr.Args.Count() == 0 ? "ToString" : attr.Args.First();
-                func.Args.Add(new ExprAlloc("const " + enum_def.Name + "&", new List<string> { "a" }, null, true));
-                StmtBlock body = new StmtBlock();
-                StmtSwitch stmt_switch = new StmtSwitch();
-                stmt_switch.Expr = new ExprConst("a", ConstType.Ident);
-                foreach (var item in enum_def.Values)
-                {
-                    StmtBlock block = new StmtBlock();
-                    block.StmtList.Add(new StmtReturn(new ExprConst("\"" + item + "\"", ConstType.String)));
-                    stmt_switch.List.Add(new StmtSwitchItem(new ExprConst(item, ConstType.Ident), block));
-                }
-                body.StmtList.Add(stmt_switch);
-                func.Body = body;
-                Template node = new Template("\n\n<stmt>");
-                node.Add("stmt", func.Accept(this));
-                template.Add("tostring", node);
-            }
-            else
-            {
-                template.Add("tostring", "");
-            }
             return template;
         }
 
@@ -312,6 +440,10 @@ namespace SugarCpp.Compiler
                 tmp.Add("inherit", class_def.Inherit.Select(x => string.Format("public {0}", x)));
                 template.Add("inherit", tmp);
             }
+            else
+            {
+                template.Add("inherit", "");
+            }
             List<Template> list = new List<Template>();
 
             bool default_public = class_def.Attribute.Find(x => x.Name == "public") != null;
@@ -343,7 +475,7 @@ namespace SugarCpp.Compiler
                     List<Template> nodes = new List<Template>();
                     foreach (var item in class_def.Args)
                     {
-                        GlobalAlloc alloc = new GlobalAlloc(item.Type, item.Name, null, null, true);
+                        GlobalAlloc alloc = new GlobalAlloc(item.Type, item.Name, null, null, AllocType.Declare);
                         nodes.Add(alloc.Accept(this));
                     }
                     tmp.Add("nodes", nodes);
@@ -363,34 +495,6 @@ namespace SugarCpp.Compiler
                     }
 
                     tmp.Add("constructor", func.Accept(this));
-                }
-
-                {
-                    Template tmp = new Template("\n    <unapply>");
-                    List<Template> nodes = new List<Template>();
-                    foreach (var item in class_def.Args)
-                    {
-                        GlobalAlloc alloc = new GlobalAlloc(item.Type, item.Name, null, null, true);
-                        nodes.Add(alloc.Accept(this));
-                    }
-                    tmp.Add("nodes", nodes);
-                    list.Add(tmp);
-
-                    FuncDef func = new FuncDef();
-                    Template type = new Template("tuple\\<<types; separator=\", \">>");
-                    type.Add("types", class_def.Args.Select(x => x.Type));
-                    func.Attribute = new List<Attr>{new Attr{Name = "inline"}};
-                    func.Type = type.Render();
-                    func.Name = "Unapply";
-                    func.Body = new StmtBlock();
-                    ExprTuple tuple = new ExprTuple();
-                    foreach (var item in class_def.Args)
-                    {
-                        string name = item.Name.First();
-                        tuple.ExprList.Add(new ExprConst(name, ConstType.Ident));
-                    }
-                    func.Body.StmtList.Add(new StmtReturn(tuple));
-                    tmp.Add("unapply", func.Accept(this));
                 }
 
                 last = "public";
@@ -498,6 +602,7 @@ namespace SugarCpp.Compiler
                 else
                 {
                     template = new Template("<prefix><type> <name>(<args; separator=\", \">)<suffix> {\n    <list; separator=\"\n\">\n}");
+                    template.Add("type", func_def.Type.Accept(this));
                 }
             }
             else
@@ -509,12 +614,12 @@ namespace SugarCpp.Compiler
                 else
                 {
                     template = new Template("template \\<<generics; separator=\", \">>\n<prefix><type> <name>(<args; separator=\", \">)<suffix> {\n    <list; separator=\"\n\">\n}");
+                    template.Add("type", func_def.Type.Accept(this));
                 }
                 template.Add("generics", func_def.GenericParameter.Select(x => string.Format("typename {0}", x)));
             }
             template.Add("prefix", prefix);
             template.Add("suffix", suffix);
-            template.Add("type", func_def.Type);
             template.Add("name", func_def.Name);
             template.Add("args", func_def.Args.Select(x => x.Accept(this)));
             template.Add("list", func_def.Body.Accept(this));
@@ -777,7 +882,7 @@ namespace SugarCpp.Compiler
                         {
                             continue;
                         }
-                        stmt_list.Add(new StmtExpr(new ExprAlloc("auto", new List<string> { const_expr.Text }, new List<Expr>{ get }, true)));
+                        stmt_list.Add(new StmtExpr(new ExprAlloc(new AutoType(), const_expr.Text, get, AllocType.Equal)));
                     }
                     else
                     {
@@ -800,7 +905,7 @@ namespace SugarCpp.Compiler
                 if (condition_list.Count() > 0)
                 {
                     StmtBlock if_body = new StmtBlock();
-                    if_body.StmtList.Add(new StmtExpr(new ExprAlloc("auto&&", new List<string> { "_t_match" }, new List<Expr> { new ExprCall(new ExprAccess(new ExprConst("_t_iterator", ConstType.Ident), ".", "Unapply"), null, null) }, true)));
+                    if_body.StmtList.Add(new StmtExpr(new ExprAlloc(new IdentType("auto&&"), "_t_match", new ExprCall(new ExprAccess(new ExprConst("_t_iterator", ConstType.Ident), ".", "Unapply"), null, null), AllocType.Equal)));
                     Expr condition = null;
                     foreach (var item in condition_list)
                     {
@@ -823,7 +928,7 @@ namespace SugarCpp.Compiler
                 }
                 else
                 {
-                    block.StmtList.Insert(0, new StmtExpr(new ExprAlloc("auto&&", new List<string> { "_t_match" }, new List<Expr> { new ExprCall(new ExprAccess(new ExprConst("_t_iterator", ConstType.Ident), ".", "Unapply"), null, null) }, true)));
+                    block.StmtList.Insert(0, new StmtExpr(new ExprAlloc(new IdentType("auto&&"), "_t_match", new ExprCall(new ExprAccess(new ExprConst("_t_iterator", ConstType.Ident), ".", "Unapply"), null, null), AllocType.Equal)));
                 }
                 StmtForEach for_each = new StmtForEach(new ExprConst("_t_iterator", ConstType.Ident), stmt_for_each.Target, block);
                 return for_each.Accept(this);
@@ -846,7 +951,7 @@ namespace SugarCpp.Compiler
                         {
                             continue;
                         }
-                        stmt_list.Add(new StmtExpr(new ExprAlloc("auto", new List<string> { const_expr.Text }, new List<Expr> { get }, true)));
+                        stmt_list.Add(new StmtExpr(new ExprAlloc(new IdentType("auto&&"), const_expr.Text, get, AllocType.Equal)));
                     }
                     else
                     {
@@ -921,76 +1026,6 @@ namespace SugarCpp.Compiler
             Template template = new Template("{ <list; separator=\", \"> }");
             template.Add("list", expr.List.Select(x => x.Accept(this)));
             return template;
-        }
-
-        public override Template Visit(ExprAlloc expr)
-        {
-            string type = expr.Type;
-            string name_prefix = "";
-            string name_suffix = "";
-            while (true)
-            {
-                if (type.EndsWith("*"))
-                {
-                    type = type.Substring(0, type.Length - 1);
-                    name_prefix = "*" + name_prefix;
-                    continue;
-                }
-                if (type.EndsWith("&"))
-                {
-                    type = type.Substring(0, type.Length - 1);
-                    name_prefix = "&" + name_prefix;
-                    continue;
-                }
-                if (type.EndsWith("[]"))
-                {
-                    type = type.Substring(0, type.Length - 2);
-                    name_suffix = "[]" + name_suffix;
-                    continue;
-                }
-                break;
-            }
-            if (expr.ExprList.Count() > 0)
-            {
-                List<Template> list = new List<Template>();
-                foreach (var name in expr.Name)
-                {
-                    if (expr.Type != "decltype")
-                    {
-                        Template stmt = null;
-                        if (expr.IsEqualSign)
-                        {
-                            stmt = new Template("<type> <name> = <expr; separator=\", \">");
-                        }
-                        else
-                        {
-                            stmt = new Template("<type> <name>(<expr; separator=\", \">)");
-                        }
-                        stmt.Add("type", type);
-                        stmt.Add("name", string.Format("{0}{1}{2}", name_prefix, name, name_suffix));
-                        stmt.Add("expr", expr.ExprList.Select(x => x.Accept(this)));
-                        list.Add(stmt);
-                    }
-                    else
-                    {
-                        Template stmt = new Template("decltype(<expr>) <name> = <expr>");
-                        stmt.Add("type", expr.Type);
-                        stmt.Add("name", name);
-                        stmt.Add("expr", expr.ExprList.First().Accept(this));
-                        list.Add(stmt);
-                    }
-                }
-                Template template = new Template("<list; separator=\"\n\">");
-                template.Add("list", list);
-                return template;
-            }
-            else
-            {
-                Template template = new Template("<type> <name; separator=\", \">");
-                template.Add("type", type);
-                template.Add("name", expr.Name.Select(x => string.Format("{0}{1}{2}", name_prefix, x, name_suffix)));
-                return template;
-            }
         }
 
         public override Template Visit(MatchTuple match)
@@ -1084,7 +1119,7 @@ namespace SugarCpp.Compiler
         public override Template Visit(ExprNewType expr)
         {
             Template template = new Template("new <elem>(<args; separator=\", \">)");
-            template.Add("elem", expr.ElemType);
+            template.Add("elem", expr.ElemType.Accept(this));
             template.Add("args", expr.Args.Select(x => x.Accept(this)));
             return template;
         }
@@ -1092,7 +1127,7 @@ namespace SugarCpp.Compiler
         public override Template Visit(ExprNewArray expr)
         {
             Template template = new Template("new <elem>[<list; separator=\", \">]");
-            template.Add("elem", expr.ElemType);
+            template.Add("elem", expr.ElemType.Accept(this));
             template.Add("list", expr.Args.Select(x => x.Accept(this)));
             return template;
         }

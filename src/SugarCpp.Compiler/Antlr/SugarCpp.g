@@ -49,10 +49,12 @@ tokens
    For_Item_Down_To;
 
    Stmt_Return;
-
-   Type_IDENT;
+   
+   Type_Array;
    Type_Ref;
-   Type_Tuple;
+   Type_Star;
+   Type_Template;
+   Type_Ident;
 
    Func_Args;
 
@@ -259,9 +261,27 @@ class_def
 	:  attribute? 'class' ident (generic_parameter)? ('(' func_args ')')? (':' ident (',' ident)*)? (NEWLINE+ INDENT NEWLINE* global_block DEDENT)? -> ^(Class attribute? ident generic_parameter? func_args? (^(Ident_List ident*))? global_block?)
 	;
 
-type_name_op: '*' | '[' ']' | '&' ;
 type_name
-	: 'const'? 'unsigned'? ident ('<' (type_name (',' type_name)*)? '>')? type_name_op* -> ^(Type_IDENT 'const'? 'unsigned'? ident ('<' type_name* '>')?  type_name_op*)
+	: type_star ( '&' -> ^(Type_Ref type_star)
+				| '[' expr (',' expr)* ']' -> ^(Type_Array type_star expr+)
+				| -> type_star
+				)
+	;
+
+type_star
+	: type_template_type ( '*'+ -> ^(Type_Star type_template_type '*'+)
+						 | -> type_template_type
+						 )
+	;
+	
+type_template_type
+	: type_ident ( '<' (type_name (',' type_name)*)? '>' -> ^(Type_Template type_ident type_name*)
+				 | -> type_ident
+				 )
+	;
+
+type_ident
+	: 'const'? 'unsigned'? ident -> ^(Type_Ident 'const'? 'unsigned'? ident)
 	;
 
 generic_parameter_inside
@@ -338,10 +358,10 @@ stmt_return
 	;
 
 stmt_if
-	: 'if' expr (NEWLINE+ stmt_block (NEWLINE* 'else' stmt_block)? -> ^(Stmt_If expr stmt_block stmt_block?)
+	: 'if' expr (NEWLINE+ stmt_block (NEWLINE* 'else' NEWLINE+ stmt_block)? -> ^(Stmt_If expr stmt_block stmt_block?)
 	            | 'then' stmt -> ^(Stmt_If expr ^(Stmt_Block stmt))
 				)
-	| 'unless' expr (NEWLINE+ stmt_block (NEWLINE* 'else' stmt_block)? -> ^(Stmt_Unless expr stmt_block stmt_block?)
+	| 'unless' expr (NEWLINE+ stmt_block (NEWLINE* 'else' NEWLINE+ stmt_block)? -> ^(Stmt_Unless expr stmt_block stmt_block?)
 	                | 'then' stmt -> ^(Stmt_Unless expr ^(Stmt_Block stmt))
 				    )
 	;
@@ -379,7 +399,7 @@ stmt_for
 	;
 
 stmt_try
-	:	'try' stmt_block 'catch' stmt_alloc stmt_block -> ^(Stmt_Try stmt_block stmt_alloc stmt_block)
+	:	'try' NEWLINE+ stmt_block NEWLINE* 'catch' stmt_alloc NEWLINE+ stmt_block -> ^(Stmt_Try stmt_block stmt_alloc stmt_block)
 	;
 
 ident_list
@@ -499,8 +519,7 @@ cast_expr
 prefix_expr_op: '!' | '~' | '++' | '--' | '-' | '+' | '*' | '&';
 prefix_expr
 	: (prefix_expr_op prefix_expr) -> ^(Expr_Prefix prefix_expr_op prefix_expr)
-	| 'new' type_name ( '(' expr_list? ')' -> ^(Expr_New_Type type_name expr_list?)
-					  | '[' expr_list ']' -> ^(Expr_New_Array type_name expr_list))
+	| 'new' type_name '(' expr_list? ')' -> ^(Expr_New_Type type_name expr_list?)
 	| suffix_expr
 	;
 	

@@ -44,11 +44,11 @@ namespace SugarCpp.Compiler
     public class ExprAlloc : Expr
     {
         public List<string> Name = new List<string>();
-        public string Type;
+        public SugarType Type;
         public List<Expr> ExprList = new List<Expr>();
-        public bool IsEqualSign;
+        public AllocType Style;
 
-        public ExprAlloc(string type, List<string> name, List<Expr> expr_list, bool isEqualSign)
+        public ExprAlloc(SugarType type, List<string> name, List<Expr> expr_list, AllocType style)
         {
             this.Type = type;
             this.Name = name;
@@ -56,14 +56,14 @@ namespace SugarCpp.Compiler
             {
                 this.ExprList = expr_list;
             }
-            this.IsEqualSign = isEqualSign;
+            this.Style = style;
         }
-        public ExprAlloc(string type, string name, Expr expr, bool isEqualSign)
+        public ExprAlloc(SugarType type, string name, Expr expr, AllocType style)
         {
             this.Type = type;
             this.Name = new List<string> { name };
             this.ExprList = new List<Expr> { expr };
-            this.IsEqualSign = isEqualSign;
+            this.Style = style;
         }
 
         public override Template Accept(Visitor visitor)
@@ -231,9 +231,9 @@ namespace SugarCpp.Compiler
     public class ExprNewType : Expr
     {
         public List<Expr> Args = new List<Expr>();
-        public string ElemType;
+        public SugarType ElemType;
 
-        public ExprNewType(string type, List<Expr> args)
+        public ExprNewType(SugarType type, List<Expr> args)
         {
             this.ElemType = type;
             if (args != null)
@@ -251,9 +251,9 @@ namespace SugarCpp.Compiler
     public class ExprNewArray : Expr
     {
         public List<Expr> Args = new List<Expr>();
-        public string ElemType;
+        public SugarType ElemType;
 
-        public ExprNewArray(string type, List<Expr> args)
+        public ExprNewArray(SugarType type, List<Expr> args)
         {
             this.ElemType = type;
             if (args != null)
@@ -299,10 +299,10 @@ namespace SugarCpp.Compiler
 
     public class ExprCast : Expr
     {
-        public string Type;
+        public SugarType Type;
         public Expr Expr;
 
-        public ExprCast(string type, Expr expr)
+        public ExprCast(SugarType type, Expr expr)
         {
             this.Type = type;
             this.Expr = expr;

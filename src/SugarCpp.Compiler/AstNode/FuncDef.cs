@@ -8,7 +8,7 @@ namespace SugarCpp.Compiler
 {
     public class FuncDef : AttrAstNode
     {
-        public string Type;
+        public SugarType Type;
         public List<ExprAlloc> Args = new List<ExprAlloc>();
         public List<string> GenericParameter = new List<string>();
         public string Name;
