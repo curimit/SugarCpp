@@ -411,7 +411,7 @@ switch_item
 	;
 
 stmt_switch
-	: 'switch' expr? NEWLINE+ INDENT (NEWLINE* switch_item)* NEWLINE* DEDENT -> ^(Stmt_Switch expr? switch_item*)
+	: 'switch' expr? NEWLINE+ INDENT (NEWLINE* switch_item)* (NEWLINE* 'else' NEWLINE+ stmt_block)? NEWLINE* DEDENT -> ^(Stmt_Switch expr? switch_item* stmt_block?)
 	;
 
 ident_list

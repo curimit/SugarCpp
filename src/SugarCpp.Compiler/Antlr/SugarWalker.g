@@ -348,9 +348,9 @@ stmt_switch_item_list returns[List<StmtSwitchItem> value]
 	;
 
 stmt_switch returns [Stmt value]
-	: ^(Stmt_Switch (a=expr)? b=stmt_switch_item_list)
+	: ^(Stmt_Switch (a=expr)? b=stmt_switch_item_list (c=stmt_block)?)
 	{
-		$value = new StmtSwitch(a, b);
+		$value = new StmtSwitch(a, b, c);
 	}
 	;
 

@@ -426,7 +426,14 @@ namespace SugarCpp.Compiler
             {
                 Template template = new Template("switch (<expr>) {\n<list; separator=\"\n\n\">\n}");
                 template.Add("expr", stmt_switch.Expr.Accept(this));
-                template.Add("list", stmt_switch.List.Select(x => x.Accept(this)));
+                List<Template> list = stmt_switch.List.Select(x => x.Accept(this)).ToList();
+                if (stmt_switch.DefalutBlock != null)
+                {
+                    Template node = new Template("defalult:\n    <block>");
+                    node.Add("block", stmt_switch.DefalutBlock.Accept(this));
+                    list.Add(node);
+                }
+                template.Add("list", list);
                 return template;
             }
             else
@@ -457,6 +464,12 @@ namespace SugarCpp.Compiler
                         node.Add("expr", tmp);
                     }
                     node.Add("block", x.Block.Accept(this));
+                    list.Add(node);
+                }
+                if (stmt_switch.DefalutBlock != null)
+                {
+                    Template node = new Template("else {\n    <block>\n}");
+                    node.Add("block", stmt_switch.DefalutBlock.Accept(this));
                     list.Add(node);
                 }
                 template.Add("list", list);

@@ -109,14 +109,16 @@ namespace SugarCpp.Compiler
     {
         public Expr Expr;
         public List<StmtSwitchItem> List = new List<StmtSwitchItem>();
+        public StmtBlock DefalutBlock;
 
-        public StmtSwitch(Expr expr, List<StmtSwitchItem> list)
+        public StmtSwitch(Expr expr, List<StmtSwitchItem> list, StmtBlock default_block)
         {
             this.Expr = expr;
             if (list != null)
             {
                 this.List = list;
             }
+            this.DefalutBlock = default_block;
         }
 
         public override Template Accept(Visitor visitor)
