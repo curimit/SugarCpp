@@ -306,6 +306,7 @@ stmt returns [List<Stmt> value]
 	| a=stmt_while { $value.Add(a); }
 	| a=stmt_for { $value.Add(a); }
 	| a=stmt_try { $value.Add(a); }
+	| a=stmt_switch { $value.Add(a); }
 	| a=stmt_defer { $value.Add(a); }
 	| b=stmt_translate { foreach (var x in b) $value.Add(x); }
 	;
@@ -330,6 +331,26 @@ stmt_translate returns [List<Stmt> value]
 			$value.Add(new StmtExpr(new ExprAlloc(new AutoType(), d[i], e[k], AllocType.Equal)));
 			k = (k + 1) \% e.Count();
 		}
+	}
+	;
+
+stmt_switch_item_list returns[List<StmtSwitchItem> value]
+@init
+{
+	$value = new List<StmtSwitchItem>();
+}
+	: (
+		^(Switch_Item a=expr_list b=stmt_block)
+		{
+			$value.Add(new StmtSwitchItem(a, b));
+		}
+	  )*
+	;
+
+stmt_switch returns [Stmt value]
+	: ^(Stmt_Switch (a=expr)? b=stmt_switch_item_list)
+	{
+		$value = new StmtSwitch(a, b);
 	}
 	;
 

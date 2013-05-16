@@ -407,18 +407,61 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(StmtSwitchItem stmt_switch_item)
         {
-            Template template = new Template("case <expr>:\n    <block>");
-            template.Add("expr", stmt_switch_item.Expr.Accept(this));
+            Template template = new Template("<list; separator=\"\n\">\n    <block>");
+            List<Template> list = new List<Template>();
+            foreach (var x in stmt_switch_item.ExprList)
+            {
+                Template item = new Template("case <expr>:");
+                item.Add("expr", x.Accept(this));
+                list.Add(item);
+            }
+            template.Add("list", list);
             template.Add("block", stmt_switch_item.Block.Accept(this));
             return template;
         }
 
         public override Template Visit(StmtSwitch stmt_switch)
         {
-            Template template = new Template("switch (<expr>) {\n<list; separator=\"\n\n\">\n}");
-            template.Add("expr", stmt_switch.Expr.Accept(this));
-            template.Add("list", stmt_switch.List.Select(x => x.Accept(this)));
-            return template;
+            if (stmt_switch.Expr != null)
+            {
+                Template template = new Template("switch (<expr>) {\n<list; separator=\"\n\n\">\n}");
+                template.Add("expr", stmt_switch.Expr.Accept(this));
+                template.Add("list", stmt_switch.List.Select(x => x.Accept(this)));
+                return template;
+            }
+            else
+            {
+                Template template = new Template("<list; separator=\" \">");
+                List<Template> list = new List<Template>();
+                int ct = 0;
+                foreach (var x in stmt_switch.List)
+                {
+                    Template node = null;
+                    if (ct++ == 0)
+                    {
+                        node = new Template("if (<expr>) {\n    <block>\n}");
+                    }
+                    else
+                    {
+                        node = new Template("else if (<expr>) {\n    <block>\n}");
+                    }
+
+                    if (x.ExprList.Count() == 1)
+                    {
+                        node.Add("expr", x.ExprList.First().Accept(this));
+                    }
+                    else
+                    {
+                        Template tmp = new Template("<list; separator=\" && \">");
+                        tmp.Add("list", x.ExprList.Select(i => (new ExprBracket(i)).Accept(this)));
+                        node.Add("expr", tmp);
+                    }
+                    node.Add("block", x.Block.Accept(this));
+                    list.Add(node);
+                }
+                template.Add("list", list);
+                return template;
+            }
         }
 
         public override Template Visit(Class class_def)

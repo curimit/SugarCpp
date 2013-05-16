@@ -49,6 +49,9 @@ tokens
    For_Item_Down_To;
 
    Stmt_Return;
+
+   Stmt_Switch;
+   Switch_Item;
    
    Type_Array;
    Type_Ref;
@@ -310,7 +313,7 @@ func_def
     ;
 
 stmt_block
-	: INDENT NEWLINE*  (stmt NEWLINE+)* DEDENT -> ^(Stmt_Block stmt*)
+	: INDENT NEWLINE* (stmt NEWLINE+)* DEDENT -> ^(Stmt_Block stmt*)
 	;
 
 stmt
@@ -337,6 +340,7 @@ stmt_expr_item
 	| stmt_using
 	| stmt_typedef
 	| stmt_modify
+	| stmt_switch
 	;
 
 stmt_defer
@@ -399,7 +403,15 @@ stmt_for
 	;
 
 stmt_try
-	:	'try' NEWLINE+ stmt_block NEWLINE* 'catch' stmt_alloc NEWLINE+ stmt_block -> ^(Stmt_Try stmt_block stmt_alloc stmt_block)
+	: 'try' NEWLINE+ stmt_block NEWLINE* 'catch' stmt_alloc NEWLINE+ stmt_block -> ^(Stmt_Try stmt_block stmt_alloc stmt_block)
+	;
+
+switch_item
+	: 'when' expr (',' expr)* NEWLINE+ stmt_block -> ^(Switch_Item expr+ stmt_block)
+	;
+
+stmt_switch
+	: 'switch' expr? NEWLINE+ INDENT (NEWLINE* switch_item)* NEWLINE* DEDENT -> ^(Stmt_Switch expr? switch_item*)
 	;
 
 ident_list
@@ -543,9 +555,9 @@ atom_expr
 	| ident
 	| STRING
 	| '@' ident -> ^('@' ident)
-	| '(' expr ( (',' expr)+ ')' -> ^(Expr_Tuple expr+)
-	           | ')' -> ^(Expr_Bracket expr)
-			   )
+	| '(' a=expr ( (',' expr)+ ')' -> ^(Expr_Tuple expr+)
+	             | ')' { true&&true }? -> ^(Expr_Bracket expr)
+			     )
 	;
 
 lvalue_item

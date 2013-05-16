@@ -87,12 +87,15 @@ namespace SugarCpp.Compiler
 
     public class StmtSwitchItem : Stmt
     {
-        public Expr Expr;
+        public List<Expr> ExprList = new List<Expr>();
         public StmtBlock Block;
 
-        public StmtSwitchItem(Expr expr, StmtBlock block)
+        public StmtSwitchItem(List<Expr> list, StmtBlock block)
         {
-            this.Expr = expr;
+            if (list != null)
+            {
+                this.ExprList = list;
+            }
             this.Block = block;
         }
 
@@ -104,8 +107,17 @@ namespace SugarCpp.Compiler
 
     public class StmtSwitch : Stmt
     {
-        public List<StmtSwitchItem> List = new List<StmtSwitchItem>();
         public Expr Expr;
+        public List<StmtSwitchItem> List = new List<StmtSwitchItem>();
+
+        public StmtSwitch(Expr expr, List<StmtSwitchItem> list)
+        {
+            this.Expr = expr;
+            if (list != null)
+            {
+                this.List = list;
+            }
+        }
 
         public override Template Accept(Visitor visitor)
         {
