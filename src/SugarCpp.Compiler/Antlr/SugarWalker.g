@@ -23,6 +23,7 @@ options
 		if (op == "not") return "!";
 		if (op == "and") return "&&";
 		if (op == "or") return "||";
+		if (op == "not") return "!";
 		return op;
     }
 }
@@ -172,7 +173,7 @@ type_ident returns [SugarType value]
 {
 	string type = "";
 }
-	: ^(Type_Ident ('const' {type+="const";})? ('unsigned' {type+="unsigned";})? a=ident {type+=a;})
+	: ^(Type_Ident ('const' {type+="const ";})? ('unsigned' {type+="unsigned ";})? ('struct' {type+="struct ";})? a=ident {type+=a;})
 	{
 		$value = new IdentType(type);
 	}
@@ -483,6 +484,9 @@ ident returns [string value]
 	$value = "";
 }
 	: a=IDENT { $value += a.Text; } ('::' a=IDENT { $value += "::" + a.Text; })*
+	{
+		if ($value.StartsWith("global::")) $value = $value.Substring(6);
+	}
 	;
 
 ident_list returns [List<string> value]
@@ -675,11 +679,11 @@ expr returns [Expr value]
 	}
 	| ^(Expr_Cond_Not_Null a=expr b=expr)
 	{
-		$value = new ExprCond(new ExprBin("!=", a, new ExprConst("nullptr", ConstType.Ident)), a, b);
+		$value = new ExprCond(new ExprBin("!=", a, new ExprConst("NULL", ConstType.Ident)), a, b);
 	}
 	| ^(Expr_Not_Null a=expr)
 	{
-		$value = new ExprBin("!=", a, new ExprConst("nullptr", ConstType.Ident));
+		$value = new ExprBin("!=", a, new ExprConst("NULL", ConstType.Ident));
 	}
 	| ^(Expr_Access op=('.' | '::' | '->' | '->*' | '.*') a=expr ident_text=ident)
 	{
@@ -716,9 +720,9 @@ expr returns [Expr value]
 	{
 		$value = new ExprSuffix(op.Text, a);
 	}
-	| ^(Expr_Prefix op=('!' | '~' | '++' | '--' | '-' | '+' | '*' | '&') a=expr)
+	| ^(Expr_Prefix op=('!' | '~' | '++' | '--' | '-' | '+' | '*' | '&' | 'not') a=expr)
 	{
-		$value = new ExprPrefix(op.Text, a);
+		$value = new ExprPrefix(Alias(op.Text), a);
 	}
 	| ^(':=' a=expr b=expr)
 	{
@@ -730,7 +734,7 @@ expr returns [Expr value]
 	}
 	| text_ident = ident
 	{
-		if (text_ident == "nil") text_ident = "nullptr";
+		if (text_ident == "nil") text_ident = "NULL";
 		$value = new ExprConst(text_ident, ConstType.Ident);
 	}
 	| text=(NUMBER | DOUBLE)

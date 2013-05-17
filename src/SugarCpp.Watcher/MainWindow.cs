@@ -63,6 +63,10 @@ namespace SugarCpp.Watcher
         {
             Thread.Sleep(1);
 
+            string name = e.Name.Substring(0, e.Name.Length - 3);
+            name = name.Substring(name.LastIndexOf("/") + 1);
+            name = name.Substring(name.LastIndexOf("\\") + 1);
+
             string root = watcher_to_root[sender];
             string input = null;
             try
@@ -71,20 +75,20 @@ namespace SugarCpp.Watcher
             }
             catch (Exception)
             {
-                compile_info[root][e.Name] = string.Format("Failed to read file.");
+                compile_info[root][name] = string.Format("Failed to read file.");
                 UpdateGui();
                 return;
             }
 
-            string result = null;
+            TargetCppResult result = null;
             try
             {
                 TargetCpp sugar_cpp = new TargetCpp();
-                result = sugar_cpp.Compile(input, "test").Implementation;
+                result = sugar_cpp.Compile(input, name);
             }
             catch (Exception err)
             {
-                compile_info[root][e.Name] = string.Format("Compile Error:\n{0}", err);
+                compile_info[root][name] = string.Format("Compile Error:\n{0}", err);
                 Console.WriteLine("Compile Error!");
                 UpdateGui();
                 return;
@@ -92,19 +96,17 @@ namespace SugarCpp.Watcher
 
             try
             {
-                string name = e.Name.Substring(0, e.Name.Length - 3) + ".cpp";
-                name = name.Substring(name.LastIndexOf("/") + 1);
-                name = name.Substring(name.LastIndexOf("\\") + 1);
-                File.WriteAllText(root + "/" + name, result);
+                File.WriteAllText(root + "/" + name + ".h", result.Header);
+                File.WriteAllText(root + "/" + name + ".cpp", result.Implementation);
             }
             catch (Exception)
             {
-                compile_info[root][e.Name] = string.Format("Can't access file.");
+                compile_info[root][name] = string.Format("Can't access file.");
                 UpdateGui();
                 return;
             }
 
-            compile_info[root][e.Name] = null;
+            compile_info[root][name] = null;
             Console.WriteLine("Compile Success!");
             UpdateGui();
         }

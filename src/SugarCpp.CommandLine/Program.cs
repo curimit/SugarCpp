@@ -23,7 +23,7 @@ namespace SugarCpp.CommandLine
                     Compile.CompileSource(TrimArg(args));
                     break;
                 case "run":
-					Compile.RunSource(TrimArg(args));
+                    Compile.RunSource(TrimArg(args));
                     break;
                 default:
                     Translate.Main(args);

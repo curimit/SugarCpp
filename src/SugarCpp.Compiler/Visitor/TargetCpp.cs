@@ -155,7 +155,7 @@ namespace SugarCpp.Compiler
         public override Template Visit(GlobalTypeDef global_typedef)
         {
             Template template = new Template("typedef <type> <name>;");
-            template.Add("type", global_typedef.Type);
+            template.Add("type", global_typedef.Type.Accept(this));
             template.Add("name", global_typedef.Name);
             return template;
         }
@@ -383,7 +383,15 @@ namespace SugarCpp.Compiler
             foreach (var name in import.NameList)
             {
                 Template node = new Template("#include <name>");
-                node.Add("name", name);
+                if (name.EndsWith(".sc\""))
+                {
+                    // Todo: recursive compilation
+                    node.Add("name", name.Substring(0, name.Length - 4) + ".h\"");
+                }
+                else
+                {
+                    node.Add("name", name);
+                }
                 list.Add(node);
             }
             template.Add("list", list);
@@ -400,7 +408,7 @@ namespace SugarCpp.Compiler
         public override Template Visit(StmtTypeDef stmt_typedef)
         {
             Template template = new Template("typedef <type> <name>");
-            template.Add("type", stmt_typedef.Type);
+            template.Add("type", stmt_typedef.Type.Accept(this));
             template.Add("name", stmt_typedef.Name);
             return template;
         }
@@ -1072,7 +1080,7 @@ namespace SugarCpp.Compiler
         public override Template Visit(ExprCast expr)
         {
             Template template = new Template("((<type>)<expr>)");
-            template.Add("type", expr.Type);
+            template.Add("type", expr.Type.Accept(this));
             template.Add("expr", expr.Expr.Accept(this));
             return template;
         }
@@ -1233,7 +1241,9 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(ExprConst expr)
         {
-            return new Template(expr.Text);
+            Template template = new Template("<expr>");
+            template.Add("expr", expr.Text);
+            return template;
         }
 
         public override Template Visit(ExprBlock block)

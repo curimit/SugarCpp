@@ -92,7 +92,6 @@ namespace SugarCpp.CommandLine
                 string implementation_code = x.Accept(implementation).Render();
                 File.WriteAllText(header_name, header_code);
                 File.WriteAllText(implementation_name, implementation_code);
-                Console.WriteLine();
             }
         }
 

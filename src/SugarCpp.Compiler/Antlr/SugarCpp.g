@@ -284,7 +284,7 @@ type_template_type
 	;
 
 type_ident
-	: 'const'? 'unsigned'? ident -> ^(Type_Ident 'const'? 'unsigned'? ident)
+	: 'const'? 'unsigned'? 'struct'? ident -> ^(Type_Ident 'const'? 'unsigned'? 'struct'? ident)
 	;
 
 generic_parameter_inside
@@ -528,7 +528,7 @@ cast_expr
 	: (a=prefix_expr -> $a) ('as' '(' type_name ')' -> ^(Expr_Cast type_name prefix_expr))?
 	;
 
-prefix_expr_op: '!' | '~' | '++' | '--' | '-' | '+' | '*' | '&';
+prefix_expr_op: '!' | '~' | '++' | '--' | '-' | '+' | '*' | '&' | 'not';
 prefix_expr
 	: (prefix_expr_op prefix_expr) -> ^(Expr_Prefix prefix_expr_op prefix_expr)
 	| 'new' type_name '(' expr_list? ')' -> ^(Expr_New_Type type_name expr_list?)
@@ -544,8 +544,12 @@ suffix_expr
 					      | '--' -> ^(Expr_Suffix '--' $suffix_expr)
 						  | '.' ident -> ^(Expr_Access '.' $suffix_expr ident)
 						  | '->' ident -> ^(Expr_Access '->' $suffix_expr ident)
-						  | '(' expr_list? ')' -> ^(Expr_Call $suffix_expr expr_list?)
-						  | '[' expr_list? ']' -> ^(Expr_Dict $suffix_expr expr_list?)
+						  | '(' ( expr_list ')' -> ^(Expr_Call $suffix_expr expr_list)
+						        | ')' -> ^(Expr_Call $suffix_expr)
+								)
+						  | '[' ( expr_list ']' -> ^(Expr_Dict $suffix_expr expr_list)
+						        | ']' -> ^(Expr_Dict $suffix_expr)
+								)
 						  //| ':' ident '(' expr_list? ')' -> ^(Expr_Call_With $suffix_expr ident expr_list?)
 					      )*
 	;
@@ -561,12 +565,21 @@ atom_expr
 	;
 
 lvalue_item
-	: (a=lvalue_atom -> $a) ( '++' -> ^(Expr_Suffix '++' $lvalue_item)
-					        | '--' -> ^(Expr_Suffix '--' $lvalue_item)
-						    | '.' ident -> ^(Expr_Access '.' $lvalue_item ident)
-						    | '->' ident -> ^(Expr_Access '->' $lvalue_item ident)
-						    | generic_parameter? '(' expr_list? ')' -> ^(Expr_Call $lvalue_item generic_parameter? expr_list?)
-						    | '[' expr_list? ']' -> ^(Expr_Dict $lvalue_item expr_list?)
+	: lvalue_prefix
+	;
+
+lvalue_prefix
+	: (prefix_expr_op lvalue_prefix) -> ^(Expr_Prefix prefix_expr_op lvalue_prefix)
+	| lvalue_suffix
+	;
+
+lvalue_suffix
+	: (a=lvalue_atom -> $a) ( '++' -> ^(Expr_Suffix '++' $lvalue_suffix)
+					        | '--' -> ^(Expr_Suffix '--' $lvalue_suffix)
+						    | '.' ident -> ^(Expr_Access '.' $lvalue_suffix ident)
+						    | '->' ident -> ^(Expr_Access '->' $lvalue_suffix ident)
+						    | generic_parameter? '(' expr_list? ')' -> ^(Expr_Call $lvalue_suffix generic_parameter? expr_list?)
+						    | '[' expr_list? ']' -> ^(Expr_Dict $lvalue_suffix expr_list?)
 					        )*
 	;
 
@@ -601,7 +614,7 @@ NUMBER: ( '0'..'9'+ ('.' '0'..'9'+)? ('e' '-'? '0'..'9'+)? ('ll' | 'f')?
 
 STRING
 	: '"' (~'"')* '"'
-	| '\'' (~'\'') '\''
+	| '\'' (~'\'')+ '\''
 	;
 
 Comment
