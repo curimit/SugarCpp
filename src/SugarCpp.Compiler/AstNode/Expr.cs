@@ -342,6 +342,26 @@ namespace SugarCpp.Compiler
         }
     }
 
+    public class ExprWhere : Expr
+    {
+        public List<Stmt> StmtList = new List<Stmt>();
+        public Expr Expr;
+
+        public ExprWhere(List<Stmt> stmt_list, Expr expr)
+        {
+            if (stmt_list != null)
+            {
+                this.StmtList = stmt_list;
+            }
+            this.Expr = expr;
+        }
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
     public enum ConstType
     {
         Ident, String, Number

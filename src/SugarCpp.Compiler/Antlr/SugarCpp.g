@@ -91,7 +91,7 @@ tokens
    Expr_Infix;
 
    Expr_Lambda;
-
+   Expr_Where;
    Expr_Tuple;
 
    Ident_List;
@@ -309,7 +309,7 @@ func_args_item
 
 func_def
 	: attribute? type_name? '~'? ident generic_parameter? '(' func_args? ')' (NEWLINE+ stmt_block -> ^(Func_Def attribute? type_name? '~'? ident generic_parameter? func_args? stmt_block)
-																			 | '=' expr  -> ^(Func_Def attribute? type_name? '~'? ident generic_parameter? func_args? expr))
+																			 | '=' where_expr  -> ^(Func_Def attribute? type_name? '~'? ident generic_parameter? func_args? where_expr))
     ;
 
 stmt_block_item
@@ -448,6 +448,16 @@ stmt_alloc
 stmt_modify
 	: lvalue ( modify_expr_op^ expr
 	         | '?='^ modify_expr)?
+	;
+
+where_expr
+	: (a=expr -> $a) ( NEWLINE+ INDENT NEWLINE* 'where' ( stmt_alloc ( NEWLINE* DEDENT -> ^(Expr_Where $where_expr stmt_alloc)
+																	 | NEWLINE+ INDENT NEWLINE* (stmt NEWLINE+)+ DEDENT NEWLINE* DEDENT -> ^(Expr_Where $where_expr stmt_alloc stmt+)
+																	 )
+														| NEWLINE+ INDENT NEWLINE* (stmt NEWLINE+)+ DEDENT NEWLINE* DEDENT -> ^(Expr_Where $where_expr stmt+)
+														)
+			         | -> expr
+		             )
 	;
 
 expr

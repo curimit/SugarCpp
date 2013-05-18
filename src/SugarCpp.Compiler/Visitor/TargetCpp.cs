@@ -1239,6 +1239,16 @@ namespace SugarCpp.Compiler
             return template;
         }
 
+        public override Template Visit(ExprWhere expr)
+        {
+            Template template = new Template("({\n    <list; separator=\"\n\">\n})");
+            List<Template> list = new List<Template>();
+            foreach (var x in expr.StmtList) list.Add(x.Accept(this));
+            list.Add((new StmtExpr(expr.Expr)).Accept(this));
+            template.Add("list", list);
+            return template;
+        }
+
         public override Template Visit(ExprConst expr)
         {
             Template template = new Template("<expr>");

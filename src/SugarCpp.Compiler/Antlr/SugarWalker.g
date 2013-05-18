@@ -628,6 +628,18 @@ chain_expr returns [Expr value]
 			})*
 	   )
 	;
+
+where_expr returns [Expr value]
+@init
+{
+	List<Stmt> stmt_list = new List<Stmt>();
+}
+	: ^(Expr_Where a=expr (b=stmt { foreach (var x in b) stmt_list.Add(x); } )+)
+	{
+		$value = new ExprWhere(stmt_list, a);
+	}
+	;
+
 expr returns [Expr value]
     : tuple=expr_tuple
 	{
@@ -668,6 +680,10 @@ expr returns [Expr value]
 	| expr_new=new_expr
 	{
 		$value = expr_new;
+	}
+	| where=where_expr
+	{
+		$value = where;
 	}
 	| ^(Expr_Infix ident_text=ident a=expr b=expr)
 	{
