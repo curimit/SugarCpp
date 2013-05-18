@@ -313,7 +313,7 @@ func_def
     ;
 
 stmt_block
-	: INDENT NEWLINE* (stmt NEWLINE+)* DEDENT -> ^(Stmt_Block stmt*)
+	: INDENT NEWLINE* (stmt (NEWLINE | ';')+)* DEDENT -> ^(Stmt_Block stmt*)
 	;
 
 stmt
