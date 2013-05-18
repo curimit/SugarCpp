@@ -1269,5 +1269,45 @@ namespace SugarCpp.Compiler
             template.Add("list", list);
             return template;
         }
+
+        public override Template Visit(ExprMatch expr)
+        {
+            Template template = new Template("({\n    <type> match;\n    <list; separator=\" \">\n    match;\n})");
+            template.Add("type", new DeclType(expr.List.First().Expr).Accept(this));
+            List<Template> list = new List<Template>();
+
+            Template match_expr = expr.Expr == null ? null : expr.Expr.Accept(this);
+            bool isFirst = true;
+            foreach (var x in expr.List)
+            {
+                Template node = null;
+                if (isFirst)
+                {
+                    node = new Template("if (<condition>) {\n    match = <expr>;\n}");
+                    isFirst = false;
+                }
+                else
+                {
+                    node = new Template("else if (<condition>) {\n    match = <expr>;\n}");
+                }
+
+                if (match_expr == null)
+                {
+                    node.Add("condition", x.Condition.Accept(this));
+                }
+                else
+                {
+                    Template condition = new Template("<expr> == (<case>)");
+                    condition.Add("expr", match_expr);
+                    condition.Add("case", x.Condition.Accept(this));
+                    node.Add("condition", condition);
+                }
+                node.Add("expr", x.Expr.Accept(this));
+                list.Add(node);
+            }
+            template.Add("list", list);
+            return template;
+
+        }
     }
 }

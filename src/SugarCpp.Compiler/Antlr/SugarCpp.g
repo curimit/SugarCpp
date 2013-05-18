@@ -94,6 +94,9 @@ tokens
    Expr_Where;
    Expr_Tuple;
 
+   Match_Expr;
+   Match_Expr_Item;
+
    Ident_List;
    Match_Tuple;
 }
@@ -426,7 +429,7 @@ stmt_try
 switch_item
 	: 'when' expr (',' expr)* ( NEWLINE+ stmt_block -> ^(Switch_Item expr+ stmt_block)
 	                          | 'then' inline_stmt_block -> ^(Switch_Item expr+ inline_stmt_block)
-							  )
+						      )
 	;
 
 stmt_switch
@@ -438,30 +441,44 @@ ident_list
 	;
 
 stmt_alloc
-	: ident_list ( ':' type_name ( ('=' | ':=') expr  -> ^(Expr_Alloc_Equal type_name ident_list expr?)
+	: ident_list ( ':' type_name ( ('=' | ':=') where_expr  -> ^(Expr_Alloc_Equal type_name ident_list where_expr?)
 	                             | '(' expr_list? ')'  -> ^(Expr_Alloc_Bracket type_name ident_list expr_list?)
 							     | -> ^(Expr_Alloc_Equal type_name ident_list)
 							     )
-				 | ':='  (expr (',' expr)*) -> ^(':=' ident_list expr*))
+				 | ':='  (where_expr (',' where_expr)*) -> ^(':=' ident_list where_expr*))
 	;
 
 stmt_modify
-	: lvalue ( modify_expr_op^ expr
-	         | '?='^ modify_expr)?
+	: lvalue ( modify_expr_op^ where_expr
+	         | '?='^ where_expr)?
+	;
+
+match_item
+	: '|' expr '=>' where_expr -> ^(Match_Expr_Item expr where_expr)
+	;
+
+match_expr
+	: 'match' expr? NEWLINE+ INDENT NEWLINE* (match_item NEWLINE+)+ DEDENT -> ^(Match_Expr expr? match_item+)
+	;
+
+where_item
+	: stmt
 	;
 
 where_expr
-	: (a=expr -> $a) ( NEWLINE+ INDENT NEWLINE* 'where' ( stmt_alloc ( NEWLINE* DEDENT -> ^(Expr_Where $where_expr stmt_alloc)
-																	 | NEWLINE+ INDENT NEWLINE* (stmt NEWLINE+)+ DEDENT NEWLINE* DEDENT -> ^(Expr_Where $where_expr stmt_alloc stmt+)
+	: (a=expr -> $a) ( NEWLINE+ INDENT NEWLINE* 'where' ( where_item ( NEWLINE* DEDENT -> ^(Expr_Where $where_expr where_item)
+																	 | NEWLINE+ INDENT NEWLINE* (where_item NEWLINE+)+ DEDENT NEWLINE* DEDENT -> ^(Expr_Where $where_expr where_item+)
 																	 )
-														| NEWLINE+ INDENT NEWLINE* (stmt NEWLINE+)+ DEDENT NEWLINE* DEDENT -> ^(Expr_Where $where_expr stmt+)
+														| NEWLINE+ INDENT NEWLINE* (where_item NEWLINE+)+ DEDENT NEWLINE* DEDENT -> ^(Expr_Where $where_expr where_item+)
 														)
+					 | 'where' NEWLINE+ INDENT NEWLINE* (where_item NEWLINE+)+ DEDENT -> ^(Expr_Where $where_expr where_item+)
 			         | -> expr
 		             )
 	;
 
 expr
 	: list_expr
+	| match_expr
 	;
 
 list_expr

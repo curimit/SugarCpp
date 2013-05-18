@@ -640,6 +640,24 @@ where_expr returns [Expr value]
 	}
 	;
 
+match_item returns [ExprMatchItem value]
+	: ^(Match_Expr_Item a=expr b=expr)
+	{
+		$value = new ExprMatchItem(a, b);
+	}
+	;
+
+match_expr returns [Expr value]
+@init
+{
+	List<ExprMatchItem> list = new List<ExprMatchItem>();
+}
+	:  ^(Match_Expr (a=expr)? (b=match_item { list.Add(b); } )+)
+	{
+		$value = new ExprMatch(a, list);
+	}
+	;
+
 expr returns [Expr value]
     : tuple=expr_tuple
 	{
@@ -684,6 +702,10 @@ expr returns [Expr value]
 	| where=where_expr
 	{
 		$value = where;
+	}
+	| expr_match=match_expr
+	{
+		$value = expr_match;
 	}
 	| ^(Expr_Infix ident_text=ident a=expr b=expr)
 	{

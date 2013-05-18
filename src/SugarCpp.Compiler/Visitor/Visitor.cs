@@ -70,6 +70,7 @@ namespace SugarCpp.Compiler
         public abstract Template Visit(ExprInfix expr);
 
         public abstract Template Visit(ExprWhere expr);
+        public abstract Template Visit(ExprMatch expr);
 
         public abstract Template Visit(ExprBlock expr);
     }

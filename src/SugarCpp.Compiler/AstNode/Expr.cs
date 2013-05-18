@@ -362,6 +362,38 @@ namespace SugarCpp.Compiler
         }
     }
 
+    public class ExprMatchItem
+    {
+        public Expr Condition;
+        public Expr Expr;
+
+        public ExprMatchItem(Expr condition, Expr expr)
+        {
+            this.Condition = condition;
+            this.Expr = expr;
+        }
+    }
+
+    public class ExprMatch : Expr
+    {
+        public Expr Expr;
+        public List<ExprMatchItem> List = new List<ExprMatchItem>();
+
+        public ExprMatch(Expr expr, List<ExprMatchItem> list)
+        {
+            this.Expr = expr;
+            if (list != null)
+            {
+                this.List = list;
+            }
+        }
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
     public enum ConstType
     {
         Ident, String, Number
