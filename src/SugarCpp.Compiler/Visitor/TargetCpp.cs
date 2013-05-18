@@ -415,7 +415,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(StmtSwitchItem stmt_switch_item)
         {
-            Template template = new Template("<list; separator=\"\n\">\n    <block>");
+            Template template = new Template("<list; separator=\"\n\">\n    {\n        <block>\n        break;\n    }");
             List<Template> list = new List<Template>();
             foreach (var x in stmt_switch_item.ExprList)
             {
