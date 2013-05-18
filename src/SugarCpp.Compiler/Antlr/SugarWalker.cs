@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// $ANTLR 3.4 SugarWalker.g 2013-05-16 22:06:06
+// $ANTLR 3.4 SugarWalker.g 2013-05-18 10:31:19
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219
@@ -7916,7 +7916,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 
 				DebugLocation(712, 2);
 
-						value = new ExprAccess(new ExprConst("this", ConstType.Ident), "->", text_ident);
+						value = new ExprBracket(new ExprAccess(new ExprConst("this", ConstType.Ident), "->", text_ident));
 					
 
 				}

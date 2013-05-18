@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// $ANTLR 3.4 SugarCpp.g 2013-05-16 22:06:06
+// $ANTLR 3.4 SugarCpp.g 2013-05-18 10:31:18
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219
@@ -1205,7 +1205,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: 128, attribute_args
+				// elements: attribute_args, 128
 				// token labels: 
 				// rule labels: retval
 				// token list labels: 
@@ -1754,7 +1754,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: ident_list, attribute, expr, type_name
+					// elements: expr, type_name, attribute, ident_list
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -1853,7 +1853,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: attribute, ident_list, expr_list, type_name
+					// elements: type_name, attribute, expr_list, ident_list
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -2034,7 +2034,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: 102, ident_list, expr, attribute
+				// elements: attribute, 102, expr, ident_list
 				// token labels: 
 				// rule labels: retval
 				// token list labels: 
@@ -2233,7 +2233,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: attribute, stmt_using_item
+			// elements: stmt_using_item, attribute
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -2399,7 +2399,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: type_name, attribute, ident
+			// elements: attribute, ident, type_name
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -2792,7 +2792,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: STRING, attribute
+			// elements: attribute, STRING
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -3032,7 +3032,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: ident, attribute, ident
+			// elements: attribute, ident, ident
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -3336,7 +3336,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: global_block, attribute, ident
+			// elements: ident, global_block, attribute
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -3799,7 +3799,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: global_block, ident, func_args, generic_parameter, attribute, ident
+			// elements: generic_parameter, ident, attribute, func_args, ident, global_block
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -4125,7 +4125,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: type_star, expr
+				// elements: expr, type_star
 				// token labels: 
 				// rule labels: retval
 				// token list labels: 
@@ -4613,7 +4613,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: type_ident, type_name
+				// elements: type_name, type_ident
 				// token labels: 
 				// rule labels: retval
 				// token list labels: 
@@ -4849,7 +4849,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: 145, 128, ident, 152
+			// elements: ident, 152, 145, 128
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -5525,7 +5525,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: ident_list, type_name, expr
+					// elements: expr, type_name, ident_list
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -5615,7 +5615,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: type_name, expr_list, ident_list
+					// elements: type_name, ident_list, expr_list
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -5665,7 +5665,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: ident_list, type_name
+					// elements: type_name, ident_list
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -6061,7 +6061,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: ident, 160, stmt_block, generic_parameter, func_args, type_name, attribute
+				// elements: generic_parameter, ident, func_args, stmt_block, 160, type_name, attribute
 				// token labels: 
 				// rule labels: retval
 				// token list labels: 
@@ -6158,7 +6158,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: generic_parameter, 160, type_name, func_args, attribute, expr, ident
+				// elements: attribute, func_args, ident, 160, expr, type_name, generic_parameter
 				// token labels: 
 				// rule labels: retval
 				// token list labels: 
@@ -6995,7 +6995,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: expr, stmt_expr
+					// elements: stmt_expr, expr
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -7057,7 +7057,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: expr, stmt_expr
+					// elements: stmt_expr, expr
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -7165,7 +7165,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: for_item, stmt_expr
+					// elements: stmt_expr, for_item
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -8401,7 +8401,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: expr, stmt_block, stmt_block
+					// elements: stmt_block, stmt_block, expr
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -8462,7 +8462,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: stmt, expr
+					// elements: expr, stmt
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -8735,7 +8735,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: stmt_block, expr, stmt_block
+					// elements: stmt_block, stmt_block, expr
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -9109,7 +9109,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: expr, stmt
+					// elements: stmt, expr
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -9258,7 +9258,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: expr, stmt_block
+					// elements: stmt_block, expr
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -9310,7 +9310,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: expr, stmt
+					// elements: stmt, expr
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -9456,7 +9456,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: stmt_block, expr
+				// elements: expr, stmt_block
 				// token labels: 
 				// rule labels: retval
 				// token list labels: 
@@ -9678,7 +9678,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: b, ident, c, a
+				// elements: c, a, ident, b
 				// token labels: 
 				// rule labels: retval, b, c, a
 				// token list labels: 
@@ -9779,7 +9779,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: ident, c, b, a
+				// elements: a, c, b, ident
 				// token labels: 
 				// rule labels: retval, b, c, a
 				// token list labels: 
@@ -9834,7 +9834,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: a, ident
+				// elements: ident, a
 				// token labels: 
 				// rule labels: retval, a
 				// token list labels: 
@@ -10524,7 +10524,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: stmt_block, stmt_block, stmt_alloc
+			// elements: stmt_alloc, stmt_block, stmt_block
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -10737,7 +10737,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: stmt_block, expr
+			// elements: expr, stmt_block
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -11201,7 +11201,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 			{
 			// AST REWRITE
-			// elements: expr, switch_item, stmt_block
+			// elements: switch_item, stmt_block, expr
 			// token labels: 
 			// rule labels: retval
 			// token list labels: 
@@ -11731,7 +11731,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: ident_list, expr_list, type_name
+					// elements: expr_list, type_name, ident_list
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -11781,7 +11781,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: ident_list, type_name
+					// elements: type_name, ident_list
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -11894,7 +11894,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: ident_list, 102, expr
+				// elements: 102, expr, ident_list
 				// token labels: 
 				// rule labels: retval
 				// token list labels: 
@@ -12825,7 +12825,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: func_args, 94, expr
+					// elements: 94, func_args, expr
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -12886,7 +12886,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: expr, 110, func_args
+					// elements: func_args, expr, 110
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -13467,7 +13467,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 						{
 						// AST REWRITE
-						// elements: a, cond_expr, b
+						// elements: b, a, cond_expr
 						// token labels: 
 						// rule labels: retval, b, a
 						// token list labels: 
@@ -13512,7 +13512,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 						{
 						// AST REWRITE
-						// elements: cond_expr, a
+						// elements: a, cond_expr
 						// token labels: 
 						// rule labels: retval, a
 						// token list labels: 
@@ -13813,7 +13813,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: op, b, or_expr
+					// elements: or_expr, op, b
 					// token labels: 
 					// rule labels: retval, b, op
 					// token list labels: 
@@ -14071,7 +14071,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: op, b, and_expr
+					// elements: and_expr, op, b
 					// token labels: 
 					// rule labels: retval, b, op
 					// token list labels: 
@@ -14254,7 +14254,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: bit_or, 157, b
+					// elements: 157, b, bit_or
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -14436,7 +14436,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: b, bit_xor, 120
+					// elements: 120, b, bit_xor
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -15266,7 +15266,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: b, ident, expr_list, cmp_expr
+					// elements: ident, expr_list, cmp_expr, b
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -15343,7 +15343,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: 103, chain_list, cmp_expr, b
+					// elements: b, cmp_expr, 103, chain_list
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -15389,7 +15389,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: 103, cmp_expr, b
+					// elements: cmp_expr, b, 103
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -15487,7 +15487,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: b, op, chain_list, cmp_expr
+					// elements: chain_list, cmp_expr, b, op
 					// token labels: 
 					// rule labels: retval, op, b
 					// token list labels: 
@@ -15534,16 +15534,16 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: op, cmp_expr, b
+					// elements: cmp_expr, b, op
 					// token labels: 
-					// rule labels: retval, b, op
+					// rule labels: retval, op, b
 					// token list labels: 
 					// rule list labels: 
 					// wildcard labels: 
 					retval.Tree = root_0;
 					RewriteRuleSubtreeStream stream_retval=new RewriteRuleSubtreeStream(adaptor,"rule retval",retval!=null?retval.Tree:null);
-					RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
 					RewriteRuleSubtreeStream stream_op=new RewriteRuleSubtreeStream(adaptor,"rule op",op!=null?op.Tree:null);
+					RewriteRuleSubtreeStream stream_b=new RewriteRuleSubtreeStream(adaptor,"rule b",b!=null?b.Tree:null);
 
 					root_0 = (CommonTree)adaptor.Nil();
 					// 494:17: -> ^( Expr_Bin $op $cmp_expr $b)
@@ -15975,7 +15975,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: shift_expr_op, b, shift_expr
+					// elements: shift_expr, shift_expr_op, b
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -16219,7 +16219,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: 91, add_expr, b
+					// elements: add_expr, b, 91
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -16418,7 +16418,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: 85, b, mul_expr
+					// elements: mul_expr, 85, b
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -16473,7 +16473,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: 98, b, mul_expr
+					// elements: mul_expr, b, 98
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -16718,7 +16718,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: 95, b, selector_expr
+					// elements: selector_expr, b, 95
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 
@@ -16966,7 +16966,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: type_name, prefix_expr
+				// elements: prefix_expr, type_name
 				// token labels: 
 				// rule labels: retval
 				// token list labels: 
@@ -17308,7 +17308,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: type_name, expr_list
+				// elements: expr_list, type_name
 				// token labels: 
 				// rule labels: retval
 				// token list labels: 
@@ -17657,7 +17657,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: 88, suffix_expr
+					// elements: suffix_expr, 88
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -17703,7 +17703,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: 92, suffix_expr
+					// elements: suffix_expr, 92
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -17755,7 +17755,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: ident, 96, suffix_expr
+					// elements: suffix_expr, 96, ident
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -17895,7 +17895,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 						{
 						// AST REWRITE
-						// elements: expr_list, suffix_expr
+						// elements: suffix_expr, expr_list
 						// token labels: 
 						// rule labels: retval
 						// token list labels: 
@@ -18030,7 +18030,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 						{
 						// AST REWRITE
-						// elements: suffix_expr, expr_list
+						// elements: expr_list, suffix_expr
 						// token labels: 
 						// rule labels: retval
 						// token list labels: 
@@ -18699,7 +18699,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: lvalue_prefix, prefix_expr_op
+				// elements: prefix_expr_op, lvalue_prefix
 				// token labels: 
 				// rule labels: retval
 				// token list labels: 
@@ -18930,7 +18930,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: 88, lvalue_suffix
+					// elements: lvalue_suffix, 88
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -18976,7 +18976,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: 92, lvalue_suffix
+					// elements: lvalue_suffix, 92
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -19028,7 +19028,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: ident, 96, lvalue_suffix
+					// elements: lvalue_suffix, 96, ident
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -19082,7 +19082,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: ident, 94, lvalue_suffix
+					// elements: 94, lvalue_suffix, ident
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -19196,7 +19196,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: expr_list, lvalue_suffix, generic_parameter
+					// elements: generic_parameter, expr_list, lvalue_suffix
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -19293,7 +19293,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: expr_list, lvalue_suffix
+					// elements: lvalue_suffix, expr_list
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -19456,7 +19456,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 				{
 				// AST REWRITE
-				// elements: 117, ident
+				// elements: ident, 117
 				// token labels: 
 				// rule labels: retval
 				// token list labels: 

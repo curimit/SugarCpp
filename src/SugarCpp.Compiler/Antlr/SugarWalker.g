@@ -710,7 +710,7 @@ expr returns [Expr value]
 	}
 	| ^('@' text_ident=ident)
 	{
-		$value = new ExprAccess(new ExprConst("this", ConstType.Ident), "->", text_ident);
+		$value = new ExprBracket(new ExprAccess(new ExprConst("this", ConstType.Ident), "->", text_ident));
 	}
 	| ^(Expr_Bracket a=expr)
 	{
