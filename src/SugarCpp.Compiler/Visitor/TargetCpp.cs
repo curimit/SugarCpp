@@ -1317,7 +1317,7 @@ namespace SugarCpp.Compiler
 
             foreach (var x in expr.List)
             {
-                if (x.Expr is ExprConst)
+                if (x.Condition is ExprConst)
                 {
                     ExprConst expr_const = (ExprConst)x.Condition;
                     if (expr_const.Type == ConstType.Ident && expr_const.Text != "_")
