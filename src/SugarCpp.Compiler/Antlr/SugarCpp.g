@@ -312,16 +312,30 @@ func_def
 																			 | '=' expr  -> ^(Func_Def attribute? type_name? '~'? ident generic_parameter? func_args? expr))
     ;
 
+stmt_block_item
+	: stmt_complex NEWLINE+ -> stmt_complex
+	| stmt_simple (NEWLINE+ | ';' NEWLINE*) -> stmt_simple
+	;
+
 stmt_block
-	: INDENT NEWLINE* (stmt (NEWLINE | ';')+)* DEDENT -> ^(Stmt_Block stmt*)
+	: INDENT NEWLINE* stmt_block_item* DEDENT -> ^(Stmt_Block stmt_block_item*)
 	;
 
 stmt
+	: stmt_simple
+	| stmt_complex
+	;
+
+stmt_simple
 	: stmt_expr
-	| stmt_if
+	;
+
+stmt_complex
+	: stmt_if
 	| stmt_for
 	| stmt_while
 	| stmt_try
+	| stmt_switch
 	| stmt_defer
 	;
 
@@ -340,7 +354,6 @@ stmt_expr_item
 	| stmt_using
 	| stmt_typedef
 	| stmt_modify
-	| stmt_switch
 	;
 
 stmt_defer
@@ -361,21 +374,25 @@ stmt_return
 	: 'return' expr? -> ^(Stmt_Return expr?)
 	;
 
+inline_stmt_block
+	: stmt_simple (';' stmt_simple)* -> ^(Stmt_Block stmt_simple+)
+	;
+
 stmt_if
 	: 'if' expr (NEWLINE+ stmt_block (NEWLINE* 'else' NEWLINE+ stmt_block)? -> ^(Stmt_If expr stmt_block stmt_block?)
-	            | 'then' stmt -> ^(Stmt_If expr ^(Stmt_Block stmt))
+	            | 'then' inline_stmt_block -> ^(Stmt_If expr inline_stmt_block)
 				)
 	| 'unless' expr (NEWLINE+ stmt_block (NEWLINE* 'else' NEWLINE+ stmt_block)? -> ^(Stmt_Unless expr stmt_block stmt_block?)
-	                | 'then' stmt -> ^(Stmt_Unless expr ^(Stmt_Block stmt))
+	                | 'then' inline_stmt_block -> ^(Stmt_Unless expr inline_stmt_block)
 				    )
 	;
 
 stmt_while
 	: 'while' expr ( NEWLINE+ stmt_block -> ^(Stmt_While expr stmt_block)
-			       | 'then' stmt -> ^(Stmt_While expr ^(Stmt_Block stmt))
+			       | 'then' inline_stmt_block -> ^(Stmt_While expr inline_stmt_block)
 				   )
 	| 'until' expr ( NEWLINE+ stmt_block -> ^(Stmt_Until expr stmt_block)
-			       | 'then' stmt -> ^(Stmt_Until expr ^(Stmt_Block stmt))
+			       | 'then' inline_stmt_block -> ^(Stmt_Until expr inline_stmt_block)
 				   )
 	| 'loop' expr? NEWLINE+ stmt_block -> ^(Stmt_Loop expr? stmt_block)
 	;
@@ -408,7 +425,7 @@ stmt_try
 
 switch_item
 	: 'when' expr (',' expr)* ( NEWLINE+ stmt_block -> ^(Switch_Item expr+ stmt_block)
-	                          | 'then' stmt_expr -> ^(Switch_Item expr+ ^(Stmt_Block stmt_expr))
+	                          | 'then' inline_stmt_block -> ^(Switch_Item expr+ inline_stmt_block)
 							  )
 	;
 
