@@ -71,6 +71,14 @@ namespace SugarCpp.CommandLine
 
             SugarCppParser parser = new SugarCppParser(tokens);
             AstParserRuleReturnScope<CommonTree, IToken> t = parser.root();
+            if (parser.errors.Count > 0)
+            {
+                foreach (var error in parser.errors)
+                {
+                    Console.WriteLine(error);
+                }
+                return;
+            }
             CommonTree ct = (CommonTree)t.Tree;
             if (printAST)
             {
