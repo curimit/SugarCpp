@@ -310,9 +310,18 @@ func_args_item
 	| ':='^  modify_expr
 	;
 
+operator
+	: '+' | '-' | '*' | '/'
+	;
+
+func_name
+	: ident -> ident
+	| '(' operator ')' -> operator
+	;
+
 func_def
-	: attribute? type_name? '~'? ident generic_parameter? '(' func_args? ')' (NEWLINE+ stmt_block -> ^(Func_Def attribute? type_name? '~'? ident generic_parameter? func_args? stmt_block)
-																			 | '=' where_expr  -> ^(Func_Def attribute? type_name? '~'? ident generic_parameter? func_args? where_expr))
+	: attribute? type_name? '~'? func_name generic_parameter? '(' func_args? ')' (NEWLINE+ stmt_block -> ^(Func_Def attribute? type_name? '~'? func_name generic_parameter? func_args? stmt_block)
+																			     | '=' where_expr  -> ^(Func_Def attribute? type_name? '~'? func_name generic_parameter? func_args? where_expr))
     ;
 
 stmt_block_item
@@ -662,7 +671,7 @@ infix_func
 
 DOT_DOT: '..' ;
 
-IDENT: ('a'..'z' | 'A'..'Z' | '_')+ ('0'..'9')*;
+IDENT: ('a'..'z' | 'A'..'Z' | '_') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')*;
 
 NUMBER: ( '0'..'9'+ ('.' '0'..'9'+)? ('e' '-'? '0'..'9'+)? ('f' | 'F' | 'u' ('l' 'l'?)? | 'l' 'l'? | 'U' ('L' 'L'?)? | 'L' 'L'?)?
         | '0' 'x' ('0'..'9' | 'a'..'f' | 'A' .. 'F')+

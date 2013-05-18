@@ -245,12 +245,12 @@ func_def returns [FuncDef value]
 {
 	$value = new FuncDef();
 }
-	: ^(Func_Def (attr=attribute)? (a=type_name)? (deconstructor='~')? b=ident (x=generic_parameter )? (args=func_args { $value.Args = args; })?
+	: ^(Func_Def (attr=attribute)? (a=type_name)? (deconstructor='~')? (b=ident | op=('+'|'-'|'*'|'/'))? (x=generic_parameter )? (args=func_args { $value.Args = args; })?
 	( e=stmt_block
 	{
 		if (attr != null) $value.Attribute = attr;
 		$value.Type = a;
-		$value.Name = b;
+		$value.Name = b != null ? b : "operator" + op.Text;
 		if (deconstructor != null) 
 		{
 			$value.Name = "~" + $value.Name;
@@ -265,7 +265,7 @@ func_def returns [FuncDef value]
 	{
 		if (attr != null) $value.Attribute = attr;
 		$value.Type = a;
-		$value.Name = b;
+		$value.Name = b != null ? b : "operator" + op.Text;
 		if (deconstructor != null) 
 		{
 			$value.Name = "~" + $value.Name;

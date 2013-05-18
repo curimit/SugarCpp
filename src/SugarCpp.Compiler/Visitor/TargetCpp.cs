@@ -535,7 +535,8 @@ namespace SugarCpp.Compiler
             if (class_def.Args.Count() > 0)
             {
                 {
-                    Template tmp = new Template("\npublic:\n    <nodes; separator=\"\n\">\n\n    <constructor>");
+                    Template tmp = new Template("\npublic:\n    <nodes; separator=\"\n\">\n\n    <name>() = default;\n    <constructor>");
+                    tmp.Add("name", class_def.Name);
                     List<Template> nodes = new List<Template>();
                     foreach (var item in class_def.Args)
                     {

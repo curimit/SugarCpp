@@ -90,6 +90,24 @@ namespace SugarCpp.Compiler
 
             EnterNameSpace(class_def.Name);
 
+            if (class_def.Args.Count() > 0)
+            {
+                FuncDef func = new FuncDef();
+                func.Type = null;
+                func.Name = class_def.Name;
+                func.Args = class_def.Args;
+                func.Body = new StmtBlock();
+                foreach (var item in class_def.Args)
+                {
+                    string name = item.Name.First();
+                    ExprAssign assign = new ExprAssign(new ExprAccess(new ExprConst("this", ConstType.Ident), "->", name),
+                                                       new ExprConst(name, ConstType.Ident));
+                    func.Body.StmtList.Add(new StmtExpr(assign));
+                }
+
+                list.Add(func.Accept(this));
+            }
+
             if (class_def.Block != null)
             {
                 foreach (var node in class_def.Block.List)
