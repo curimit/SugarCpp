@@ -453,14 +453,6 @@ stmt_modify
 	         | '?='^ where_expr)?
 	;
 
-match_item
-	: '|' expr '=>' where_expr -> ^(Match_Expr_Item expr where_expr)
-	;
-
-match_expr
-	: 'match' expr? NEWLINE+ INDENT NEWLINE* (match_item NEWLINE+)+ DEDENT -> ^(Match_Expr expr? match_item+)
-	;
-
 where_item
 	: stmt
 	;
@@ -476,9 +468,28 @@ where_expr
 		             )
 	;
 
+let_expr
+	: 'let' where_item ( 'in' ( expr -> ^(Expr_Where expr where_item+)
+							  | NEWLINE+ ( INDENT NEWLINE* expr NEWLINE+ DEDENT -> ^(Expr_Where expr where_item+)
+										 | expr -> ^(Expr_Where expr where_item+)
+										 )
+							  )
+					   | NEWLINE+ INDENT NEWLINE* (where_item NEWLINE+)+ 'in' expr NEWLINE+ DEDENT -> ^(Expr_Where expr where_item+)
+					   )
+	;
+
+match_item
+	: '|' expr '=>' where_expr -> ^(Match_Expr_Item expr where_expr)
+	;
+
+match_expr
+	: 'match' expr? NEWLINE+ INDENT NEWLINE* (match_item NEWLINE+)+ DEDENT -> ^(Match_Expr expr? match_item+)
+	;
+
 expr
 	: list_expr
 	| match_expr
+	| let_expr
 	;
 
 list_expr
