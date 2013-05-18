@@ -407,11 +407,13 @@ stmt_try
 	;
 
 switch_item
-	: 'when' expr (',' expr)* NEWLINE+ stmt_block -> ^(Switch_Item expr+ stmt_block)
+	: 'when' expr (',' expr)* ( NEWLINE+ stmt_block -> ^(Switch_Item expr+ stmt_block)
+	                          | 'then' stmt_expr -> ^(Switch_Item expr+ ^(Stmt_Block stmt_expr))
+							  )
 	;
 
 stmt_switch
-	: 'switch' expr? NEWLINE+ INDENT (NEWLINE* switch_item)* (NEWLINE* 'else' NEWLINE+ stmt_block)? NEWLINE* DEDENT -> ^(Stmt_Switch expr? switch_item* stmt_block?)
+	: 'switch' expr? NEWLINE+ INDENT NEWLINE* (switch_item NEWLINE+)+ ('else' NEWLINE+ stmt_block NEWLINE*)? DEDENT -> ^(Stmt_Switch expr? switch_item* stmt_block?)
 	;
 
 ident_list
