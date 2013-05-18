@@ -551,19 +551,15 @@ bit_and
 
 chain_op: '<' | '<=' | '>' | '>=' | '!=' | '==' | 'is' | 'isnt' ;
 no_less_op: '<=' | '>' | '>=' | '!=' | '==' | 'is' | 'isnt' ;
-chain_list: (chain_op infix_expr)+ ;
+chain_list: (chain_op shift_expr)+ ;
 cmp_expr
-	: (a=infix_expr -> $a) ( '<' b=infix_expr ( {b.Tree.Token.Type == IDENT}? ident* '>' '(' expr_list? ')' -> ^(Expr_Call $cmp_expr ^(Generic_Patameters $b ident*) expr_list?)
+	: (a=shift_expr -> $a) ( '<' b=shift_expr ( {b.Tree.Token.Type == IDENT}? ident* '>' '(' expr_list? ')' -> ^(Expr_Call $cmp_expr ^(Generic_Patameters $b ident*) expr_list?)
 	                                          | chain_list -> ^(Expr_Chain  $cmp_expr '<' $b chain_list)
 											  | -> ^(Expr_Bin '<' $cmp_expr $b))
-	                       | op=no_less_op b=infix_expr ( chain_list -> ^(Expr_Chain  $cmp_expr $op $b chain_list)
+	                       | op=no_less_op b=shift_expr ( chain_list -> ^(Expr_Chain  $cmp_expr $op $b chain_list)
 														| -> ^(Expr_Bin $op $cmp_expr $b)
 														)
 						   )?
-	;
-
-infix_expr
-	: (a=shift_expr -> $a) ( infix_func b=shift_expr  -> ^(Expr_Infix infix_func $infix_expr $b) )*
 	;
 
 shift_expr_op: '<<' | '>>' ;
@@ -578,10 +574,14 @@ add_expr
 	;
 
 mul_expr
-	: (a=selector_expr -> $a) ( '*' b=selector_expr -> ^(Expr_Bin '*' $mul_expr $b)
-						      | '/' b=selector_expr -> ^(Expr_Bin '/' $mul_expr $b)
-						      | '%' b=selector_expr -> ^(Expr_Bin '%' $mul_expr $b)
-						      )*
+	: (a=infix_expr -> $a) ( '*' b=infix_expr -> ^(Expr_Bin '*' $mul_expr $b)
+						   | '/' b=infix_expr -> ^(Expr_Bin '/' $mul_expr $b)
+						   | '%' b=infix_expr -> ^(Expr_Bin '%' $mul_expr $b)
+						   )*
+	;
+
+infix_expr
+	: (a=selector_expr -> $a) ( infix_func b=selector_expr  -> ^(Expr_Infix infix_func $infix_expr $b) )*
 	;
 
 selector_expr
