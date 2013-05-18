@@ -1280,6 +1280,15 @@ namespace SugarCpp.Compiler
             bool isFirst = true;
             foreach (var x in expr.List)
             {
+                if (x.Condition is ExprConst)
+                {
+                    ExprConst expr_const = (ExprConst)x.Condition;
+                    if (expr_const.Type == ConstType.Ident && expr_const.Text == "_")
+                    {
+                        continue;
+                    }
+                }
+
                 Template node = null;
                 if (isFirst)
                 {
@@ -1305,6 +1314,22 @@ namespace SugarCpp.Compiler
                 node.Add("expr", x.Expr.Accept(this));
                 list.Add(node);
             }
+
+            foreach (var x in expr.List)
+            {
+                if (x.Expr is ExprConst)
+                {
+                    ExprConst expr_const = (ExprConst)x.Condition;
+                    if (expr_const.Type == ConstType.Ident && expr_const.Text != "_")
+                    {
+                        continue;
+                    }
+                    var node = new Template("else {\n    match = <expr>;\n}");
+                    node.Add("expr", x.Expr.Accept(this));
+                    list.Add(node);
+                }
+            }
+
             template.Add("list", list);
             return template;
 
