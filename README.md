@@ -781,7 +781,7 @@ namespace SugarCpp {
 
 #### Typedef
 ```c++
-typedef u_int32 = unsigned int
+type u_int32 = unsigned int
 ```
 
 ```c++
@@ -811,8 +811,8 @@ typedef unsigned int u_int32;
         --token /token              Output the tokens.
 
     Examples:
-        Translate into C++ code
-            sugarcpp code.sc -o code.cpp
+        Translate into C++ code, will generate .h and .cpp two files.
+            sugarcpp code.sc
         Compile to binary by calling the default compiler
             sugarcpp compule code.sc -o code.exe
         Compile and run
