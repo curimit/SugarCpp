@@ -785,7 +785,7 @@ type u_int32 = unsigned int
 ```
 
 ```c++
-typedef unsigned int u_int32;
+using u_int32 = unsigned int;
 ```
 
 ## Command Line Usage
