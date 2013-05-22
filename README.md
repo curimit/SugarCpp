@@ -18,6 +18,7 @@ Try SugarCpp in your browser: http://curimit.com/project/SugarCpp/
 * [C# style lambda expression.](#c-style-lambda-expression)
 * Inline function definition.
 * [Haskell style infix function.](#haskell-style-infix-function)
+* [Switch case.](#switch-case)
 * [Scala style case class.](#scala-style-case-class)
 
 ## Examples
@@ -572,6 +573,64 @@ int main() {
     auto c = 3;
     auto x = max(max(a, b), c);
     printf("%d\n", x);
+}
+```
+
+#### Switch case
+```c++
+int main()
+    // switch table
+    // auto break, auto add {}
+    switch x
+        when '0'
+            i := 0
+            printf("%d", i)
+        when '1', '2'
+            i := 4
+            printf("%d", i)
+        else
+            printf("unknown")
+    
+    // if elsif syntax
+    switch
+        when 0 < i < 10
+            printf("case1")
+        when i <= 0
+            printf("case2")
+        else
+            printf("else")
+```
+
+```c++
+#include "test.h"
+
+int main() {
+    switch (x) {
+    case '0':
+        {
+            auto i = 0;
+            printf("%d", i);
+            break;
+        }
+
+    case '1':
+    case '2':
+        {
+            auto i = 4;
+            printf("%d", i);
+            break;
+        }
+
+    defalult:
+        printf("unknown");
+    }
+    if (0 < i && i < 10) {
+        printf("case1");
+    } else if (i <= 0) {
+        printf("case2");
+    } else {
+        printf("else");
+    }
 }
 ```
 
