@@ -248,7 +248,7 @@ global_using
 	;
 
 global_typedef
-	: attribute? 'typedef' ident '=' type_name -> ^(Stmt_Typedef attribute? type_name ident)
+	: attribute? 'type' ident '=' type_name -> ^(Stmt_Typedef attribute? type_name ident)
 	;
 
 import_def
@@ -458,8 +458,9 @@ stmt_alloc
 	;
 
 stmt_modify
-	: lvalue ( modify_expr_op^ where_expr
-	         | '?='^ where_expr)?
+	: lvalue ( modify_expr_op where_expr -> ^(modify_expr_op lvalue where_expr)
+	         | '?=' where_expr -> ^('?=' lvalue where_expr)
+             | '<<' where_expr -> ^(Expr_Bin '<<' lvalue where_expr))?
 	;
 
 where_item

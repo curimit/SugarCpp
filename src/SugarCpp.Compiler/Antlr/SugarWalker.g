@@ -333,6 +333,7 @@ stmt_translate returns [List<Stmt> value]
 			k = (k + 1) \% e.Count();
 		}
 	}
+	| ^('<<' a=expr b=expr)
 	;
 
 stmt_switch_item_list returns[List<StmtSwitchItem> value]

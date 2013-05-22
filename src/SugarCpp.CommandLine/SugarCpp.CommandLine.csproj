@@ -27,6 +27,8 @@
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -54,10 +56,6 @@
     <Reference Include="Antlr3.Runtime">
       <HintPath>..\..\dll\Antlr3.Runtime.dll</HintPath>
     </Reference>
-    <Reference Include="Antlr4.StringTemplate, Version=4.0.6.9004, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\dll\Antlr4.StringTemplate.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -65,6 +63,9 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="Antlr4.StringTemplate">
+      <HintPath>..\..\dll\Antlr4.StringTemplate.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Arguments.cs" />
@@ -78,7 +79,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\SugarCpp.Compiler\SugarCpp.Compiler.csproj">
-      <Project>{65bae256-8eb4-418b-bb17-fd9e3fa4d40a}</Project>
+      <Project>{65BAE256-8EB4-418B-BB17-FD9E3FA4D40A}</Project>
       <Name>SugarCpp.Compiler</Name>
     </ProjectReference>
   </ItemGroup>
