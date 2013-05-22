@@ -374,7 +374,7 @@ stmt_defer
 	;
 
 stmt_typedef
-	: 'typedef' ident '=' type_name -> ^(Stmt_Typedef type_name ident)
+	: 'type' ident '=' type_name -> ^(Stmt_Typedef type_name ident)
 	;
 
 stmt_using_item: ident | 'namespace';
@@ -460,7 +460,9 @@ stmt_alloc
 stmt_modify
 	: lvalue ( modify_expr_op where_expr -> ^(modify_expr_op lvalue where_expr)
 	         | '?=' where_expr -> ^('?=' lvalue where_expr)
-             | '<<' where_expr -> ^(Expr_Bin '<<' lvalue where_expr))?
+             | '<<' where_expr -> ^(Expr_Bin '<<' lvalue where_expr)
+             | '>>' where_expr -> ^(Expr_Bin '>>' lvalue where_expr)
+			 | -> lvalue)
 	;
 
 where_item

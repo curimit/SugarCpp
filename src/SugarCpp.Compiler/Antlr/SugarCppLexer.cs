@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// $ANTLR 3.4 SugarCpp.g 2013-05-22 20:20:17
+// $ANTLR 3.4 SugarCpp.g 2013-05-22 21:22:07
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219
@@ -127,7 +127,6 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 	public const int T__166=166;
 	public const int T__167=167;
 	public const int T__168=168;
-	public const int T__169=169;
 	public const int Attribute=4;
 	public const int Block=5;
 	public const int Class=6;
@@ -3125,12 +3124,12 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		{
 			int _type = T__158;
 			int _channel = DefaultTokenChannel;
-			// SugarCpp.g:160:8: ( 'typedef' )
+			// SugarCpp.g:160:8: ( 'unless' )
 			DebugEnterAlt(1);
-			// SugarCpp.g:160:10: 'typedef'
+			// SugarCpp.g:160:10: 'unless'
 			{
 			DebugLocation(160, 10);
-			Match("typedef"); 
+			Match("unless"); 
 
 
 			}
@@ -3161,12 +3160,12 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		{
 			int _type = T__159;
 			int _channel = DefaultTokenChannel;
-			// SugarCpp.g:161:8: ( 'unless' )
+			// SugarCpp.g:161:8: ( 'unsigned' )
 			DebugEnterAlt(1);
-			// SugarCpp.g:161:10: 'unless'
+			// SugarCpp.g:161:10: 'unsigned'
 			{
 			DebugLocation(161, 10);
-			Match("unless"); 
+			Match("unsigned"); 
 
 
 			}
@@ -3197,12 +3196,12 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		{
 			int _type = T__160;
 			int _channel = DefaultTokenChannel;
-			// SugarCpp.g:162:8: ( 'unsigned' )
+			// SugarCpp.g:162:8: ( 'until' )
 			DebugEnterAlt(1);
-			// SugarCpp.g:162:10: 'unsigned'
+			// SugarCpp.g:162:10: 'until'
 			{
 			DebugLocation(162, 10);
-			Match("unsigned"); 
+			Match("until"); 
 
 
 			}
@@ -3233,12 +3232,12 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		{
 			int _type = T__161;
 			int _channel = DefaultTokenChannel;
-			// SugarCpp.g:163:8: ( 'until' )
+			// SugarCpp.g:163:8: ( 'using' )
 			DebugEnterAlt(1);
-			// SugarCpp.g:163:10: 'until'
+			// SugarCpp.g:163:10: 'using'
 			{
 			DebugLocation(163, 10);
-			Match("until"); 
+			Match("using"); 
 
 
 			}
@@ -3269,12 +3268,12 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		{
 			int _type = T__162;
 			int _channel = DefaultTokenChannel;
-			// SugarCpp.g:164:8: ( 'using' )
+			// SugarCpp.g:164:8: ( 'when' )
 			DebugEnterAlt(1);
-			// SugarCpp.g:164:10: 'using'
+			// SugarCpp.g:164:10: 'when'
 			{
 			DebugLocation(164, 10);
-			Match("using"); 
+			Match("when"); 
 
 
 			}
@@ -3305,12 +3304,12 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		{
 			int _type = T__163;
 			int _channel = DefaultTokenChannel;
-			// SugarCpp.g:165:8: ( 'when' )
+			// SugarCpp.g:165:8: ( 'where' )
 			DebugEnterAlt(1);
-			// SugarCpp.g:165:10: 'when'
+			// SugarCpp.g:165:10: 'where'
 			{
 			DebugLocation(165, 10);
-			Match("when"); 
+			Match("where"); 
 
 
 			}
@@ -3341,12 +3340,12 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		{
 			int _type = T__164;
 			int _channel = DefaultTokenChannel;
-			// SugarCpp.g:166:8: ( 'where' )
+			// SugarCpp.g:166:8: ( 'while' )
 			DebugEnterAlt(1);
-			// SugarCpp.g:166:10: 'where'
+			// SugarCpp.g:166:10: 'while'
 			{
 			DebugLocation(166, 10);
-			Match("where"); 
+			Match("while"); 
 
 
 			}
@@ -3377,13 +3376,12 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		{
 			int _type = T__165;
 			int _channel = DefaultTokenChannel;
-			// SugarCpp.g:167:8: ( 'while' )
+			// SugarCpp.g:167:8: ( '|' )
 			DebugEnterAlt(1);
-			// SugarCpp.g:167:10: 'while'
+			// SugarCpp.g:167:10: '|'
 			{
 			DebugLocation(167, 10);
-			Match("while"); 
-
+			Match('|'); 
 
 			}
 
@@ -3413,12 +3411,13 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		{
 			int _type = T__166;
 			int _channel = DefaultTokenChannel;
-			// SugarCpp.g:168:8: ( '|' )
+			// SugarCpp.g:168:8: ( '|=' )
 			DebugEnterAlt(1);
-			// SugarCpp.g:168:10: '|'
+			// SugarCpp.g:168:10: '|='
 			{
 			DebugLocation(168, 10);
-			Match('|'); 
+			Match("|="); 
+
 
 			}
 
@@ -3448,12 +3447,12 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		{
 			int _type = T__167;
 			int _channel = DefaultTokenChannel;
-			// SugarCpp.g:169:8: ( '|=' )
+			// SugarCpp.g:169:8: ( '||' )
 			DebugEnterAlt(1);
-			// SugarCpp.g:169:10: '|='
+			// SugarCpp.g:169:10: '||'
 			{
 			DebugLocation(169, 10);
-			Match("|="); 
+			Match("||"); 
 
 
 			}
@@ -3484,13 +3483,12 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		{
 			int _type = T__168;
 			int _channel = DefaultTokenChannel;
-			// SugarCpp.g:170:8: ( '||' )
+			// SugarCpp.g:170:8: ( '~' )
 			DebugEnterAlt(1);
-			// SugarCpp.g:170:10: '||'
+			// SugarCpp.g:170:10: '~'
 			{
 			DebugLocation(170, 10);
-			Match("||"); 
-
+			Match('~'); 
 
 			}
 
@@ -3506,41 +3504,6 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 	}
 	// $ANTLR end "T__168"
 
-	partial void EnterRule_T__169();
-	partial void LeaveRule_T__169();
-
-	// $ANTLR start "T__169"
-	[GrammarRule("T__169")]
-	private void mT__169()
-	{
-		EnterRule_T__169();
-		EnterRule("T__169", 91);
-		TraceIn("T__169", 91);
-		try
-		{
-			int _type = T__169;
-			int _channel = DefaultTokenChannel;
-			// SugarCpp.g:171:8: ( '~' )
-			DebugEnterAlt(1);
-			// SugarCpp.g:171:10: '~'
-			{
-			DebugLocation(171, 10);
-			Match('~'); 
-
-			}
-
-			state.type = _type;
-			state.channel = _channel;
-		}
-		finally
-		{
-			TraceOut("T__169", 91);
-			LeaveRule("T__169", 91);
-			LeaveRule_T__169();
-		}
-	}
-	// $ANTLR end "T__169"
-
 	partial void EnterRule_DOT_DOT();
 	partial void LeaveRule_DOT_DOT();
 
@@ -3549,17 +3512,17 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 	private void mDOT_DOT()
 	{
 		EnterRule_DOT_DOT();
-		EnterRule("DOT_DOT", 92);
-		TraceIn("DOT_DOT", 92);
+		EnterRule("DOT_DOT", 91);
+		TraceIn("DOT_DOT", 91);
 		try
 		{
 			int _type = DOT_DOT;
 			int _channel = DefaultTokenChannel;
-			// SugarCpp.g:673:8: ( '..' )
+			// SugarCpp.g:675:8: ( '..' )
 			DebugEnterAlt(1);
-			// SugarCpp.g:673:10: '..'
+			// SugarCpp.g:675:10: '..'
 			{
-			DebugLocation(673, 10);
+			DebugLocation(675, 10);
 			Match(".."); 
 
 
@@ -3570,8 +3533,8 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("DOT_DOT", 92);
-			LeaveRule("DOT_DOT", 92);
+			TraceOut("DOT_DOT", 91);
+			LeaveRule("DOT_DOT", 91);
 			LeaveRule_DOT_DOT();
 		}
 	}
@@ -3585,17 +3548,17 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 	private void mIDENT()
 	{
 		EnterRule_IDENT();
-		EnterRule("IDENT", 93);
-		TraceIn("IDENT", 93);
+		EnterRule("IDENT", 92);
+		TraceIn("IDENT", 92);
 		try
 		{
 			int _type = IDENT;
 			int _channel = DefaultTokenChannel;
-			// SugarCpp.g:675:6: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
+			// SugarCpp.g:677:6: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
 			DebugEnterAlt(1);
-			// SugarCpp.g:675:8: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+			// SugarCpp.g:677:8: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
 			{
-			DebugLocation(675, 8);
+			DebugLocation(677, 8);
 			if ((input.LA(1)>='A' && input.LA(1)<='Z')||input.LA(1)=='_'||(input.LA(1)>='a' && input.LA(1)<='z'))
 			{
 				input.Consume();
@@ -3608,8 +3571,8 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 				throw mse;
 			}
 
-			DebugLocation(675, 36);
-			// SugarCpp.g:675:36: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+			DebugLocation(677, 36);
+			// SugarCpp.g:677:36: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
 			try { DebugEnterSubRule(1);
 			while (true)
 			{
@@ -3630,7 +3593,7 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 					DebugEnterAlt(1);
 					// SugarCpp.g:
 					{
-					DebugLocation(675, 36);
+					DebugLocation(677, 36);
 					input.Consume();
 
 
@@ -3655,8 +3618,8 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("IDENT", 93);
-			LeaveRule("IDENT", 93);
+			TraceOut("IDENT", 92);
+			LeaveRule("IDENT", 92);
 			LeaveRule_IDENT();
 		}
 	}
@@ -3670,18 +3633,18 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 	private void mNUMBER()
 	{
 		EnterRule_NUMBER();
-		EnterRule("NUMBER", 94);
-		TraceIn("NUMBER", 94);
+		EnterRule("NUMBER", 93);
+		TraceIn("NUMBER", 93);
 		try
 		{
 			int _type = NUMBER;
 			int _channel = DefaultTokenChannel;
-			// SugarCpp.g:677:7: ( ( ( '0' .. '9' )+ ( '.' ( '0' .. '9' )+ )? ( 'e' ( '-' )? ( '0' .. '9' )+ )? ( 'f' | 'F' | 'u' ( 'l' ( 'l' )? )? | 'l' ( 'l' )? | 'U' ( 'L' ( 'L' )? )? | 'L' ( 'L' )? )? | '0' 'x' ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )+ ) )
+			// SugarCpp.g:679:7: ( ( ( '0' .. '9' )+ ( '.' ( '0' .. '9' )+ )? ( 'e' ( '-' )? ( '0' .. '9' )+ )? ( 'f' | 'F' | 'u' ( 'l' ( 'l' )? )? | 'l' ( 'l' )? | 'U' ( 'L' ( 'L' )? )? | 'L' ( 'L' )? )? | '0' 'x' ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )+ ) )
 			DebugEnterAlt(1);
-			// SugarCpp.g:677:9: ( ( '0' .. '9' )+ ( '.' ( '0' .. '9' )+ )? ( 'e' ( '-' )? ( '0' .. '9' )+ )? ( 'f' | 'F' | 'u' ( 'l' ( 'l' )? )? | 'l' ( 'l' )? | 'U' ( 'L' ( 'L' )? )? | 'L' ( 'L' )? )? | '0' 'x' ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )+ )
+			// SugarCpp.g:679:9: ( ( '0' .. '9' )+ ( '.' ( '0' .. '9' )+ )? ( 'e' ( '-' )? ( '0' .. '9' )+ )? ( 'f' | 'F' | 'u' ( 'l' ( 'l' )? )? | 'l' ( 'l' )? | 'U' ( 'L' ( 'L' )? )? | 'L' ( 'L' )? )? | '0' 'x' ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )+ )
 			{
-			DebugLocation(677, 9);
-			// SugarCpp.g:677:9: ( ( '0' .. '9' )+ ( '.' ( '0' .. '9' )+ )? ( 'e' ( '-' )? ( '0' .. '9' )+ )? ( 'f' | 'F' | 'u' ( 'l' ( 'l' )? )? | 'l' ( 'l' )? | 'U' ( 'L' ( 'L' )? )? | 'L' ( 'L' )? )? | '0' 'x' ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )+ )
+			DebugLocation(679, 9);
+			// SugarCpp.g:679:9: ( ( '0' .. '9' )+ ( '.' ( '0' .. '9' )+ )? ( 'e' ( '-' )? ( '0' .. '9' )+ )? ( 'f' | 'F' | 'u' ( 'l' ( 'l' )? )? | 'l' ( 'l' )? | 'U' ( 'L' ( 'L' )? )? | 'L' ( 'L' )? )? | '0' 'x' ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )+ )
 			int alt16=2;
 			try { DebugEnterSubRule(16);
 			try { DebugEnterDecision(16, false);
@@ -3715,10 +3678,10 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:677:11: ( '0' .. '9' )+ ( '.' ( '0' .. '9' )+ )? ( 'e' ( '-' )? ( '0' .. '9' )+ )? ( 'f' | 'F' | 'u' ( 'l' ( 'l' )? )? | 'l' ( 'l' )? | 'U' ( 'L' ( 'L' )? )? | 'L' ( 'L' )? )?
+				// SugarCpp.g:679:11: ( '0' .. '9' )+ ( '.' ( '0' .. '9' )+ )? ( 'e' ( '-' )? ( '0' .. '9' )+ )? ( 'f' | 'F' | 'u' ( 'l' ( 'l' )? )? | 'l' ( 'l' )? | 'U' ( 'L' ( 'L' )? )? | 'L' ( 'L' )? )?
 				{
-				DebugLocation(677, 11);
-				// SugarCpp.g:677:11: ( '0' .. '9' )+
+				DebugLocation(679, 11);
+				// SugarCpp.g:679:11: ( '0' .. '9' )+
 				int cnt2=0;
 				try { DebugEnterSubRule(2);
 				while (true)
@@ -3740,7 +3703,7 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 						DebugEnterAlt(1);
 						// SugarCpp.g:
 						{
-						DebugLocation(677, 11);
+						DebugLocation(679, 11);
 						input.Consume();
 
 
@@ -3762,8 +3725,8 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 
 				} finally { DebugExitSubRule(2); }
 
-				DebugLocation(677, 21);
-				// SugarCpp.g:677:21: ( '.' ( '0' .. '9' )+ )?
+				DebugLocation(679, 21);
+				// SugarCpp.g:679:21: ( '.' ( '0' .. '9' )+ )?
 				int alt4=2;
 				try { DebugEnterSubRule(4);
 				try { DebugEnterDecision(4, false);
@@ -3778,12 +3741,12 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:677:22: '.' ( '0' .. '9' )+
+					// SugarCpp.g:679:22: '.' ( '0' .. '9' )+
 					{
-					DebugLocation(677, 22);
+					DebugLocation(679, 22);
 					Match('.'); 
-					DebugLocation(677, 26);
-					// SugarCpp.g:677:26: ( '0' .. '9' )+
+					DebugLocation(679, 26);
+					// SugarCpp.g:679:26: ( '0' .. '9' )+
 					int cnt3=0;
 					try { DebugEnterSubRule(3);
 					while (true)
@@ -3805,7 +3768,7 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 							DebugEnterAlt(1);
 							// SugarCpp.g:
 							{
-							DebugLocation(677, 26);
+							DebugLocation(679, 26);
 							input.Consume();
 
 
@@ -3834,8 +3797,8 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 				}
 				} finally { DebugExitSubRule(4); }
 
-				DebugLocation(677, 38);
-				// SugarCpp.g:677:38: ( 'e' ( '-' )? ( '0' .. '9' )+ )?
+				DebugLocation(679, 38);
+				// SugarCpp.g:679:38: ( 'e' ( '-' )? ( '0' .. '9' )+ )?
 				int alt7=2;
 				try { DebugEnterSubRule(7);
 				try { DebugEnterDecision(7, false);
@@ -3850,12 +3813,12 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:677:39: 'e' ( '-' )? ( '0' .. '9' )+
+					// SugarCpp.g:679:39: 'e' ( '-' )? ( '0' .. '9' )+
 					{
-					DebugLocation(677, 39);
+					DebugLocation(679, 39);
 					Match('e'); 
-					DebugLocation(677, 43);
-					// SugarCpp.g:677:43: ( '-' )?
+					DebugLocation(679, 43);
+					// SugarCpp.g:679:43: ( '-' )?
 					int alt5=2;
 					try { DebugEnterSubRule(5);
 					try { DebugEnterDecision(5, false);
@@ -3870,9 +3833,9 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 					{
 					case 1:
 						DebugEnterAlt(1);
-						// SugarCpp.g:677:43: '-'
+						// SugarCpp.g:679:43: '-'
 						{
-						DebugLocation(677, 43);
+						DebugLocation(679, 43);
 						Match('-'); 
 
 						}
@@ -3881,8 +3844,8 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 					}
 					} finally { DebugExitSubRule(5); }
 
-					DebugLocation(677, 48);
-					// SugarCpp.g:677:48: ( '0' .. '9' )+
+					DebugLocation(679, 48);
+					// SugarCpp.g:679:48: ( '0' .. '9' )+
 					int cnt6=0;
 					try { DebugEnterSubRule(6);
 					while (true)
@@ -3904,7 +3867,7 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 							DebugEnterAlt(1);
 							// SugarCpp.g:
 							{
-							DebugLocation(677, 48);
+							DebugLocation(679, 48);
 							input.Consume();
 
 
@@ -3933,8 +3896,8 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 				}
 				} finally { DebugExitSubRule(7); }
 
-				DebugLocation(677, 60);
-				// SugarCpp.g:677:60: ( 'f' | 'F' | 'u' ( 'l' ( 'l' )? )? | 'l' ( 'l' )? | 'U' ( 'L' ( 'L' )? )? | 'L' ( 'L' )? )?
+				DebugLocation(679, 60);
+				// SugarCpp.g:679:60: ( 'f' | 'F' | 'u' ( 'l' ( 'l' )? )? | 'l' ( 'l' )? | 'U' ( 'L' ( 'L' )? )? | 'L' ( 'L' )? )?
 				int alt14=7;
 				try { DebugEnterSubRule(14);
 				try { DebugEnterDecision(14, false);
@@ -3977,30 +3940,30 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:677:61: 'f'
+					// SugarCpp.g:679:61: 'f'
 					{
-					DebugLocation(677, 61);
+					DebugLocation(679, 61);
 					Match('f'); 
 
 					}
 					break;
 				case 2:
 					DebugEnterAlt(2);
-					// SugarCpp.g:677:67: 'F'
+					// SugarCpp.g:679:67: 'F'
 					{
-					DebugLocation(677, 67);
+					DebugLocation(679, 67);
 					Match('F'); 
 
 					}
 					break;
 				case 3:
 					DebugEnterAlt(3);
-					// SugarCpp.g:677:73: 'u' ( 'l' ( 'l' )? )?
+					// SugarCpp.g:679:73: 'u' ( 'l' ( 'l' )? )?
 					{
-					DebugLocation(677, 73);
+					DebugLocation(679, 73);
 					Match('u'); 
-					DebugLocation(677, 77);
-					// SugarCpp.g:677:77: ( 'l' ( 'l' )? )?
+					DebugLocation(679, 77);
+					// SugarCpp.g:679:77: ( 'l' ( 'l' )? )?
 					int alt9=2;
 					try { DebugEnterSubRule(9);
 					try { DebugEnterDecision(9, false);
@@ -4015,12 +3978,12 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 					{
 					case 1:
 						DebugEnterAlt(1);
-						// SugarCpp.g:677:78: 'l' ( 'l' )?
+						// SugarCpp.g:679:78: 'l' ( 'l' )?
 						{
-						DebugLocation(677, 78);
+						DebugLocation(679, 78);
 						Match('l'); 
-						DebugLocation(677, 82);
-						// SugarCpp.g:677:82: ( 'l' )?
+						DebugLocation(679, 82);
+						// SugarCpp.g:679:82: ( 'l' )?
 						int alt8=2;
 						try { DebugEnterSubRule(8);
 						try { DebugEnterDecision(8, false);
@@ -4035,9 +3998,9 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 						{
 						case 1:
 							DebugEnterAlt(1);
-							// SugarCpp.g:677:82: 'l'
+							// SugarCpp.g:679:82: 'l'
 							{
-							DebugLocation(677, 82);
+							DebugLocation(679, 82);
 							Match('l'); 
 
 							}
@@ -4058,12 +4021,12 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 					break;
 				case 4:
 					DebugEnterAlt(4);
-					// SugarCpp.g:677:91: 'l' ( 'l' )?
+					// SugarCpp.g:679:91: 'l' ( 'l' )?
 					{
-					DebugLocation(677, 91);
+					DebugLocation(679, 91);
 					Match('l'); 
-					DebugLocation(677, 95);
-					// SugarCpp.g:677:95: ( 'l' )?
+					DebugLocation(679, 95);
+					// SugarCpp.g:679:95: ( 'l' )?
 					int alt10=2;
 					try { DebugEnterSubRule(10);
 					try { DebugEnterDecision(10, false);
@@ -4078,9 +4041,9 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 					{
 					case 1:
 						DebugEnterAlt(1);
-						// SugarCpp.g:677:95: 'l'
+						// SugarCpp.g:679:95: 'l'
 						{
-						DebugLocation(677, 95);
+						DebugLocation(679, 95);
 						Match('l'); 
 
 						}
@@ -4094,12 +4057,12 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 					break;
 				case 5:
 					DebugEnterAlt(5);
-					// SugarCpp.g:677:102: 'U' ( 'L' ( 'L' )? )?
+					// SugarCpp.g:679:102: 'U' ( 'L' ( 'L' )? )?
 					{
-					DebugLocation(677, 102);
+					DebugLocation(679, 102);
 					Match('U'); 
-					DebugLocation(677, 106);
-					// SugarCpp.g:677:106: ( 'L' ( 'L' )? )?
+					DebugLocation(679, 106);
+					// SugarCpp.g:679:106: ( 'L' ( 'L' )? )?
 					int alt12=2;
 					try { DebugEnterSubRule(12);
 					try { DebugEnterDecision(12, false);
@@ -4114,12 +4077,12 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 					{
 					case 1:
 						DebugEnterAlt(1);
-						// SugarCpp.g:677:107: 'L' ( 'L' )?
+						// SugarCpp.g:679:107: 'L' ( 'L' )?
 						{
-						DebugLocation(677, 107);
+						DebugLocation(679, 107);
 						Match('L'); 
-						DebugLocation(677, 111);
-						// SugarCpp.g:677:111: ( 'L' )?
+						DebugLocation(679, 111);
+						// SugarCpp.g:679:111: ( 'L' )?
 						int alt11=2;
 						try { DebugEnterSubRule(11);
 						try { DebugEnterDecision(11, false);
@@ -4134,9 +4097,9 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 						{
 						case 1:
 							DebugEnterAlt(1);
-							// SugarCpp.g:677:111: 'L'
+							// SugarCpp.g:679:111: 'L'
 							{
-							DebugLocation(677, 111);
+							DebugLocation(679, 111);
 							Match('L'); 
 
 							}
@@ -4157,12 +4120,12 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 					break;
 				case 6:
 					DebugEnterAlt(6);
-					// SugarCpp.g:677:120: 'L' ( 'L' )?
+					// SugarCpp.g:679:120: 'L' ( 'L' )?
 					{
-					DebugLocation(677, 120);
+					DebugLocation(679, 120);
 					Match('L'); 
-					DebugLocation(677, 124);
-					// SugarCpp.g:677:124: ( 'L' )?
+					DebugLocation(679, 124);
+					// SugarCpp.g:679:124: ( 'L' )?
 					int alt13=2;
 					try { DebugEnterSubRule(13);
 					try { DebugEnterDecision(13, false);
@@ -4177,9 +4140,9 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 					{
 					case 1:
 						DebugEnterAlt(1);
-						// SugarCpp.g:677:124: 'L'
+						// SugarCpp.g:679:124: 'L'
 						{
-						DebugLocation(677, 124);
+						DebugLocation(679, 124);
 						Match('L'); 
 
 						}
@@ -4200,14 +4163,14 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 				break;
 			case 2:
 				DebugEnterAlt(2);
-				// SugarCpp.g:678:11: '0' 'x' ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )+
+				// SugarCpp.g:680:11: '0' 'x' ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )+
 				{
-				DebugLocation(678, 11);
+				DebugLocation(680, 11);
 				Match('0'); 
-				DebugLocation(678, 15);
+				DebugLocation(680, 15);
 				Match('x'); 
-				DebugLocation(678, 19);
-				// SugarCpp.g:678:19: ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )+
+				DebugLocation(680, 19);
+				// SugarCpp.g:680:19: ( '0' .. '9' | 'a' .. 'f' | 'A' .. 'F' )+
 				int cnt15=0;
 				try { DebugEnterSubRule(15);
 				while (true)
@@ -4229,7 +4192,7 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 						DebugEnterAlt(1);
 						// SugarCpp.g:
 						{
-						DebugLocation(678, 19);
+						DebugLocation(680, 19);
 						input.Consume();
 
 
@@ -4266,8 +4229,8 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("NUMBER", 94);
-			LeaveRule("NUMBER", 94);
+			TraceOut("NUMBER", 93);
+			LeaveRule("NUMBER", 93);
 			LeaveRule_NUMBER();
 		}
 	}
@@ -4281,13 +4244,13 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 	private void mSTRING()
 	{
 		EnterRule_STRING();
-		EnterRule("STRING", 95);
-		TraceIn("STRING", 95);
+		EnterRule("STRING", 94);
+		TraceIn("STRING", 94);
 		try
 		{
 			int _type = STRING;
 			int _channel = DefaultTokenChannel;
-			// SugarCpp.g:683:2: ( '\"' (~ '\"' )* '\"' | '\\'' (~ '\\'' )+ '\\'' )
+			// SugarCpp.g:685:2: ( '\"' (~ '\"' )* '\"' | '\\'' (~ '\\'' )+ '\\'' )
 			int alt19=2;
 			try { DebugEnterDecision(19, false);
 			int LA19_0 = input.LA(1);
@@ -4311,12 +4274,12 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:683:4: '\"' (~ '\"' )* '\"'
+				// SugarCpp.g:685:4: '\"' (~ '\"' )* '\"'
 				{
-				DebugLocation(683, 4);
+				DebugLocation(685, 4);
 				Match('\"'); 
-				DebugLocation(683, 8);
-				// SugarCpp.g:683:8: (~ '\"' )*
+				DebugLocation(685, 8);
+				// SugarCpp.g:685:8: (~ '\"' )*
 				try { DebugEnterSubRule(17);
 				while (true)
 				{
@@ -4337,7 +4300,7 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 						DebugEnterAlt(1);
 						// SugarCpp.g:
 						{
-						DebugLocation(683, 8);
+						DebugLocation(685, 8);
 						input.Consume();
 
 
@@ -4354,19 +4317,19 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 
 				} finally { DebugExitSubRule(17); }
 
-				DebugLocation(683, 16);
+				DebugLocation(685, 16);
 				Match('\"'); 
 
 				}
 				break;
 			case 2:
 				DebugEnterAlt(2);
-				// SugarCpp.g:684:4: '\\'' (~ '\\'' )+ '\\''
+				// SugarCpp.g:686:4: '\\'' (~ '\\'' )+ '\\''
 				{
-				DebugLocation(684, 4);
+				DebugLocation(686, 4);
 				Match('\''); 
-				DebugLocation(684, 9);
-				// SugarCpp.g:684:9: (~ '\\'' )+
+				DebugLocation(686, 9);
+				// SugarCpp.g:686:9: (~ '\\'' )+
 				int cnt18=0;
 				try { DebugEnterSubRule(18);
 				while (true)
@@ -4388,7 +4351,7 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 						DebugEnterAlt(1);
 						// SugarCpp.g:
 						{
-						DebugLocation(684, 9);
+						DebugLocation(686, 9);
 						input.Consume();
 
 
@@ -4410,7 +4373,7 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 
 				} finally { DebugExitSubRule(18); }
 
-				DebugLocation(684, 18);
+				DebugLocation(686, 18);
 				Match('\''); 
 
 				}
@@ -4422,8 +4385,8 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("STRING", 95);
-			LeaveRule("STRING", 95);
+			TraceOut("STRING", 94);
+			LeaveRule("STRING", 94);
 			LeaveRule_STRING();
 		}
 	}
@@ -4437,21 +4400,21 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 	private void mComment()
 	{
 		EnterRule_Comment();
-		EnterRule("Comment", 96);
-		TraceIn("Comment", 96);
+		EnterRule("Comment", 95);
+		TraceIn("Comment", 95);
 		try
 		{
 			int _type = Comment;
 			int _channel = DefaultTokenChannel;
-			// SugarCpp.g:688:2: ( '/*' ( options {greedy=false; } : . )* '*/' )
+			// SugarCpp.g:690:2: ( '/*' ( options {greedy=false; } : . )* '*/' )
 			DebugEnterAlt(1);
-			// SugarCpp.g:688:4: '/*' ( options {greedy=false; } : . )* '*/'
+			// SugarCpp.g:690:4: '/*' ( options {greedy=false; } : . )* '*/'
 			{
-			DebugLocation(688, 4);
+			DebugLocation(690, 4);
 			Match("/*"); 
 
-			DebugLocation(688, 9);
-			// SugarCpp.g:688:9: ( options {greedy=false; } : . )*
+			DebugLocation(690, 9);
+			// SugarCpp.g:690:9: ( options {greedy=false; } : . )*
 			try { DebugEnterSubRule(20);
 			while (true)
 			{
@@ -4485,9 +4448,9 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:688:41: .
+					// SugarCpp.g:690:41: .
 					{
-					DebugLocation(688, 41);
+					DebugLocation(690, 41);
 					MatchAny(); 
 
 					}
@@ -4503,10 +4466,10 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 
 			} finally { DebugExitSubRule(20); }
 
-			DebugLocation(688, 46);
+			DebugLocation(690, 46);
 			Match("*/"); 
 
-			DebugLocation(688, 51);
+			DebugLocation(690, 51);
 			 _channel = Hidden; 
 
 			}
@@ -4516,8 +4479,8 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("Comment", 96);
-			LeaveRule("Comment", 96);
+			TraceOut("Comment", 95);
+			LeaveRule("Comment", 95);
 			LeaveRule_Comment();
 		}
 	}
@@ -4531,21 +4494,21 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 	private void mLineComment()
 	{
 		EnterRule_LineComment();
-		EnterRule("LineComment", 97);
-		TraceIn("LineComment", 97);
+		EnterRule("LineComment", 96);
+		TraceIn("LineComment", 96);
 		try
 		{
 			int _type = LineComment;
 			int _channel = DefaultTokenChannel;
-			// SugarCpp.g:692:2: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
+			// SugarCpp.g:694:2: ( '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n' )
 			DebugEnterAlt(1);
-			// SugarCpp.g:692:4: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
+			// SugarCpp.g:694:4: '//' (~ ( '\\n' | '\\r' ) )* ( '\\r' )? '\\n'
 			{
-			DebugLocation(692, 4);
+			DebugLocation(694, 4);
 			Match("//"); 
 
-			DebugLocation(692, 9);
-			// SugarCpp.g:692:9: (~ ( '\\n' | '\\r' ) )*
+			DebugLocation(694, 9);
+			// SugarCpp.g:694:9: (~ ( '\\n' | '\\r' ) )*
 			try { DebugEnterSubRule(21);
 			while (true)
 			{
@@ -4566,7 +4529,7 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 					DebugEnterAlt(1);
 					// SugarCpp.g:
 					{
-					DebugLocation(692, 9);
+					DebugLocation(694, 9);
 					input.Consume();
 
 
@@ -4583,8 +4546,8 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 
 			} finally { DebugExitSubRule(21); }
 
-			DebugLocation(692, 24);
-			// SugarCpp.g:692:24: ( '\\r' )?
+			DebugLocation(694, 24);
+			// SugarCpp.g:694:24: ( '\\r' )?
 			int alt22=2;
 			try { DebugEnterSubRule(22);
 			try { DebugEnterDecision(22, false);
@@ -4599,9 +4562,9 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:692:24: '\\r'
+				// SugarCpp.g:694:24: '\\r'
 				{
-				DebugLocation(692, 24);
+				DebugLocation(694, 24);
 				Match('\r'); 
 
 				}
@@ -4610,9 +4573,9 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 			}
 			} finally { DebugExitSubRule(22); }
 
-			DebugLocation(692, 30);
+			DebugLocation(694, 30);
 			Match('\n'); 
-			DebugLocation(692, 35);
+			DebugLocation(694, 35);
 			 _channel = Hidden; 
 
 			}
@@ -4622,8 +4585,8 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("LineComment", 97);
-			LeaveRule("LineComment", 97);
+			TraceOut("LineComment", 96);
+			LeaveRule("LineComment", 96);
 			LeaveRule_LineComment();
 		}
 	}
@@ -4637,15 +4600,15 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 	private void mEXPONENT()
 	{
 		EnterRule_EXPONENT();
-		EnterRule("EXPONENT", 98);
-		TraceIn("EXPONENT", 98);
+		EnterRule("EXPONENT", 97);
+		TraceIn("EXPONENT", 97);
 		try
 		{
-			// SugarCpp.g:697:10: ( ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+ )
+			// SugarCpp.g:699:10: ( ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+ )
 			DebugEnterAlt(1);
-			// SugarCpp.g:698:5: ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+
+			// SugarCpp.g:700:5: ( 'e' | 'E' ) ( '+' | '-' )? ( '0' .. '9' )+
 			{
-			DebugLocation(698, 5);
+			DebugLocation(700, 5);
 			if (input.LA(1)=='E'||input.LA(1)=='e')
 			{
 				input.Consume();
@@ -4658,8 +4621,8 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 				throw mse;
 			}
 
-			DebugLocation(698, 15);
-			// SugarCpp.g:698:15: ( '+' | '-' )?
+			DebugLocation(700, 15);
+			// SugarCpp.g:700:15: ( '+' | '-' )?
 			int alt23=2;
 			try { DebugEnterSubRule(23);
 			try { DebugEnterDecision(23, false);
@@ -4676,7 +4639,7 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 				DebugEnterAlt(1);
 				// SugarCpp.g:
 				{
-				DebugLocation(698, 15);
+				DebugLocation(700, 15);
 				input.Consume();
 
 
@@ -4686,8 +4649,8 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 			}
 			} finally { DebugExitSubRule(23); }
 
-			DebugLocation(698, 26);
-			// SugarCpp.g:698:26: ( '0' .. '9' )+
+			DebugLocation(700, 26);
+			// SugarCpp.g:700:26: ( '0' .. '9' )+
 			int cnt24=0;
 			try { DebugEnterSubRule(24);
 			while (true)
@@ -4709,7 +4672,7 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 					DebugEnterAlt(1);
 					// SugarCpp.g:
 					{
-					DebugLocation(698, 26);
+					DebugLocation(700, 26);
 					input.Consume();
 
 
@@ -4737,8 +4700,8 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("EXPONENT", 98);
-			LeaveRule("EXPONENT", 98);
+			TraceOut("EXPONENT", 97);
+			LeaveRule("EXPONENT", 97);
 			LeaveRule_EXPONENT();
 		}
 	}
@@ -4752,13 +4715,13 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 	private void mLeft_Bracket()
 	{
 		EnterRule_Left_Bracket();
-		EnterRule("Left_Bracket", 99);
-		TraceIn("Left_Bracket", 99);
+		EnterRule("Left_Bracket", 98);
+		TraceIn("Left_Bracket", 98);
 		try
 		{
 			int _type = Left_Bracket;
 			int _channel = DefaultTokenChannel;
-			// SugarCpp.g:702:2: ( '(' | '[' | '{' )
+			// SugarCpp.g:704:2: ( '(' | '[' | '{' )
 			int alt25=3;
 			try { DebugEnterDecision(25, false);
 			switch (input.LA(1))
@@ -4791,29 +4754,29 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:702:4: '('
+				// SugarCpp.g:704:4: '('
 				{
-				DebugLocation(702, 4);
+				DebugLocation(704, 4);
 				Match('('); 
 
 				}
 				break;
 			case 2:
 				DebugEnterAlt(2);
-				// SugarCpp.g:702:10: '['
+				// SugarCpp.g:704:10: '['
 				{
-				DebugLocation(702, 10);
+				DebugLocation(704, 10);
 				Match('['); 
 
 				}
 				break;
 			case 3:
 				DebugEnterAlt(3);
-				// SugarCpp.g:702:16: '{'
+				// SugarCpp.g:704:16: '{'
 				{
-				DebugLocation(702, 16);
+				DebugLocation(704, 16);
 				Match('{'); 
-				DebugLocation(703, 2);
+				DebugLocation(705, 2);
 
 						int k = Text == "(" ? 0 : Text == "[" ? 1 : 2;
 						if (Bracket[k] == null) Bracket[k] = new Stack<int>();
@@ -4829,8 +4792,8 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("Left_Bracket", 99);
-			LeaveRule("Left_Bracket", 99);
+			TraceOut("Left_Bracket", 98);
+			LeaveRule("Left_Bracket", 98);
 			LeaveRule_Left_Bracket();
 		}
 	}
@@ -4844,13 +4807,13 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 	private void mRight_Bracket()
 	{
 		EnterRule_Right_Bracket();
-		EnterRule("Right_Bracket", 100);
-		TraceIn("Right_Bracket", 100);
+		EnterRule("Right_Bracket", 99);
+		TraceIn("Right_Bracket", 99);
 		try
 		{
 			int _type = Right_Bracket;
 			int _channel = DefaultTokenChannel;
-			// SugarCpp.g:711:2: ( ')' | ']' | '}' )
+			// SugarCpp.g:713:2: ( ')' | ']' | '}' )
 			int alt26=3;
 			try { DebugEnterDecision(26, false);
 			switch (input.LA(1))
@@ -4883,29 +4846,29 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:711:4: ')'
+				// SugarCpp.g:713:4: ')'
 				{
-				DebugLocation(711, 4);
+				DebugLocation(713, 4);
 				Match(')'); 
 
 				}
 				break;
 			case 2:
 				DebugEnterAlt(2);
-				// SugarCpp.g:711:10: ']'
+				// SugarCpp.g:713:10: ']'
 				{
-				DebugLocation(711, 10);
+				DebugLocation(713, 10);
 				Match(']'); 
 
 				}
 				break;
 			case 3:
 				DebugEnterAlt(3);
-				// SugarCpp.g:711:16: '}'
+				// SugarCpp.g:713:16: '}'
 				{
-				DebugLocation(711, 16);
+				DebugLocation(713, 16);
 				Match('}'); 
-				DebugLocation(712, 2);
+				DebugLocation(714, 2);
 
 						int k = Text == "(" ? 0 : Text == "[" ? 1 : 2;
 						int pos = Bracket[k].Pop();
@@ -4926,8 +4889,8 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("Right_Bracket", 100);
-			LeaveRule("Right_Bracket", 100);
+			TraceOut("Right_Bracket", 99);
+			LeaveRule("Right_Bracket", 99);
 			LeaveRule_Right_Bracket();
 		}
 	}
@@ -4941,20 +4904,20 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 	private void mNEWLINE()
 	{
 		EnterRule_NEWLINE();
-		EnterRule("NEWLINE", 101);
-		TraceIn("NEWLINE", 101);
+		EnterRule("NEWLINE", 100);
+		TraceIn("NEWLINE", 100);
 		try
 		{
 			int _type = NEWLINE;
 			int _channel = DefaultTokenChannel;
 			CommonToken SP1 = default(CommonToken);
 
-			// SugarCpp.g:725:2: ( ( ( '\\r' )? '\\n' )+ ( SP )? )
+			// SugarCpp.g:727:2: ( ( ( '\\r' )? '\\n' )+ ( SP )? )
 			DebugEnterAlt(1);
-			// SugarCpp.g:725:4: ( ( '\\r' )? '\\n' )+ ( SP )?
+			// SugarCpp.g:727:4: ( ( '\\r' )? '\\n' )+ ( SP )?
 			{
-			DebugLocation(725, 4);
-			// SugarCpp.g:725:4: ( ( '\\r' )? '\\n' )+
+			DebugLocation(727, 4);
+			// SugarCpp.g:727:4: ( ( '\\r' )? '\\n' )+
 			int cnt28=0;
 			try { DebugEnterSubRule(28);
 			while (true)
@@ -4974,10 +4937,10 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 				{
 				case 1:
 					DebugEnterAlt(1);
-					// SugarCpp.g:725:5: ( '\\r' )? '\\n'
+					// SugarCpp.g:727:5: ( '\\r' )? '\\n'
 					{
-					DebugLocation(725, 5);
-					// SugarCpp.g:725:5: ( '\\r' )?
+					DebugLocation(727, 5);
+					// SugarCpp.g:727:5: ( '\\r' )?
 					int alt27=2;
 					try { DebugEnterSubRule(27);
 					try { DebugEnterDecision(27, false);
@@ -4992,9 +4955,9 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 					{
 					case 1:
 						DebugEnterAlt(1);
-						// SugarCpp.g:725:5: '\\r'
+						// SugarCpp.g:727:5: '\\r'
 						{
-						DebugLocation(725, 5);
+						DebugLocation(727, 5);
 						Match('\r'); 
 
 						}
@@ -5003,7 +4966,7 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 					}
 					} finally { DebugExitSubRule(27); }
 
-					DebugLocation(725, 11);
+					DebugLocation(727, 11);
 					Match('\n'); 
 
 					}
@@ -5024,8 +4987,8 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 
 			} finally { DebugExitSubRule(28); }
 
-			DebugLocation(725, 18);
-			// SugarCpp.g:725:18: ( SP )?
+			DebugLocation(727, 18);
+			// SugarCpp.g:727:18: ( SP )?
 			int alt29=2;
 			try { DebugEnterSubRule(29);
 			try { DebugEnterDecision(29, false);
@@ -5040,16 +5003,16 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarCpp.g:725:18: SP
+				// SugarCpp.g:727:18: SP
 				{
-				DebugLocation(725, 18);
-				int SP1Start1126 = CharIndex;
-				int SP1StartLine1126 = Line;
-				int SP1StartCharPos1126 = CharPositionInLine;
+				DebugLocation(727, 18);
+				int SP1Start1118 = CharIndex;
+				int SP1StartLine1118 = Line;
+				int SP1StartCharPos1118 = CharPositionInLine;
 				mSP(); 
-				SP1 = new CommonToken(input, TokenTypes.Invalid, TokenChannels.Default, SP1Start1126, CharIndex-1);
-				SP1.Line = SP1StartLine1126;
-				SP1.CharPositionInLine = SP1StartCharPos1126;
+				SP1 = new CommonToken(input, TokenTypes.Invalid, TokenChannels.Default, SP1Start1118, CharIndex-1);
+				SP1.Line = SP1StartLine1118;
+				SP1.CharPositionInLine = SP1StartCharPos1118;
 
 				}
 				break;
@@ -5057,7 +5020,7 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 			}
 			} finally { DebugExitSubRule(29); }
 
-			DebugLocation(726, 2);
+			DebugLocation(728, 2);
 
 					int indent = (SP1!=null?SP1.Text:null) == null ? 0 : (SP1!=null?SP1.Text:null).Length;
 					if (indent > CurrentIndent)
@@ -5093,8 +5056,8 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("NEWLINE", 101);
-			LeaveRule("NEWLINE", 101);
+			TraceOut("NEWLINE", 100);
+			LeaveRule("NEWLINE", 100);
 			LeaveRule_NEWLINE();
 		}
 	}
@@ -5108,16 +5071,16 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 	private void mSP()
 	{
 		EnterRule_SP();
-		EnterRule("SP", 102);
-		TraceIn("SP", 102);
+		EnterRule("SP", 101);
+		TraceIn("SP", 101);
 		try
 		{
-			// SugarCpp.g:755:12: ( ( ' ' | '\\t' )+ )
+			// SugarCpp.g:757:12: ( ( ' ' | '\\t' )+ )
 			DebugEnterAlt(1);
-			// SugarCpp.g:755:14: ( ' ' | '\\t' )+
+			// SugarCpp.g:757:14: ( ' ' | '\\t' )+
 			{
-			DebugLocation(755, 14);
-			// SugarCpp.g:755:14: ( ' ' | '\\t' )+
+			DebugLocation(757, 14);
+			// SugarCpp.g:757:14: ( ' ' | '\\t' )+
 			int cnt30=0;
 			try { DebugEnterSubRule(30);
 			while (true)
@@ -5139,7 +5102,7 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 					DebugEnterAlt(1);
 					// SugarCpp.g:
 					{
-					DebugLocation(755, 14);
+					DebugLocation(757, 14);
 					input.Consume();
 
 
@@ -5167,8 +5130,8 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("SP", 102);
-			LeaveRule("SP", 102);
+			TraceOut("SP", 101);
+			LeaveRule("SP", 101);
 			LeaveRule_SP();
 		}
 	}
@@ -5182,19 +5145,19 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 	private void mWhite_Space()
 	{
 		EnterRule_White_Space();
-		EnterRule("White_Space", 103);
-		TraceIn("White_Space", 103);
+		EnterRule("White_Space", 102);
+		TraceIn("White_Space", 102);
 		try
 		{
 			int _type = White_Space;
 			int _channel = DefaultTokenChannel;
-			// SugarCpp.g:757:12: ( ' ' )
+			// SugarCpp.g:759:12: ( ' ' )
 			DebugEnterAlt(1);
-			// SugarCpp.g:757:14: ' '
+			// SugarCpp.g:759:14: ' '
 			{
-			DebugLocation(757, 14);
+			DebugLocation(759, 14);
 			Match(' '); 
-			DebugLocation(757, 18);
+			DebugLocation(759, 18);
 			 Skip(); 
 
 			}
@@ -5204,8 +5167,8 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("White_Space", 103);
-			LeaveRule("White_Space", 103);
+			TraceOut("White_Space", 102);
+			LeaveRule("White_Space", 102);
 			LeaveRule_White_Space();
 		}
 	}
@@ -5219,27 +5182,27 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 	private void mINDENT()
 	{
 		EnterRule_INDENT();
-		EnterRule("INDENT", 104);
-		TraceIn("INDENT", 104);
+		EnterRule("INDENT", 103);
+		TraceIn("INDENT", 103);
 		try
 		{
 			int _type = INDENT;
 			int _channel = DefaultTokenChannel;
-			// SugarCpp.g:759:7: ({...}? => ( '\\n' ) )
+			// SugarCpp.g:761:7: ({...}? => ( '\\n' ) )
 			DebugEnterAlt(1);
-			// SugarCpp.g:759:9: {...}? => ( '\\n' )
+			// SugarCpp.g:761:9: {...}? => ( '\\n' )
 			{
-			DebugLocation(759, 9);
+			DebugLocation(761, 9);
 			if (!((0==1)))
 			{
 				throw new FailedPredicateException(input, "INDENT", "0==1");
 			}
-			DebugLocation(759, 19);
-			// SugarCpp.g:759:19: ( '\\n' )
+			DebugLocation(761, 19);
+			// SugarCpp.g:761:19: ( '\\n' )
 			DebugEnterAlt(1);
-			// SugarCpp.g:759:20: '\\n'
+			// SugarCpp.g:761:20: '\\n'
 			{
-			DebugLocation(759, 20);
+			DebugLocation(761, 20);
 			Match('\n'); 
 
 			}
@@ -5252,8 +5215,8 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("INDENT", 104);
-			LeaveRule("INDENT", 104);
+			TraceOut("INDENT", 103);
+			LeaveRule("INDENT", 103);
 			LeaveRule_INDENT();
 		}
 	}
@@ -5267,27 +5230,27 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 	private void mDEDENT()
 	{
 		EnterRule_DEDENT();
-		EnterRule("DEDENT", 105);
-		TraceIn("DEDENT", 105);
+		EnterRule("DEDENT", 104);
+		TraceIn("DEDENT", 104);
 		try
 		{
 			int _type = DEDENT;
 			int _channel = DefaultTokenChannel;
-			// SugarCpp.g:760:7: ({...}? => ( '\\n' ) )
+			// SugarCpp.g:762:7: ({...}? => ( '\\n' ) )
 			DebugEnterAlt(1);
-			// SugarCpp.g:760:9: {...}? => ( '\\n' )
+			// SugarCpp.g:762:9: {...}? => ( '\\n' )
 			{
-			DebugLocation(760, 9);
+			DebugLocation(762, 9);
 			if (!((0==1)))
 			{
 				throw new FailedPredicateException(input, "DEDENT", "0==1");
 			}
-			DebugLocation(760, 19);
-			// SugarCpp.g:760:19: ( '\\n' )
+			DebugLocation(762, 19);
+			// SugarCpp.g:762:19: ( '\\n' )
 			DebugEnterAlt(1);
-			// SugarCpp.g:760:20: '\\n'
+			// SugarCpp.g:762:20: '\\n'
 			{
-			DebugLocation(760, 20);
+			DebugLocation(762, 20);
 			Match('\n'); 
 
 			}
@@ -5300,8 +5263,8 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 		}
 		finally
 		{
-			TraceOut("DEDENT", 105);
-			LeaveRule("DEDENT", 105);
+			TraceOut("DEDENT", 104);
+			LeaveRule("DEDENT", 104);
 			LeaveRule_DEDENT();
 		}
 	}
@@ -5309,8 +5272,8 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 
 	public override void mTokens()
 	{
-		// SugarCpp.g:1:8: ( T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | T__123 | T__124 | T__125 | T__126 | T__127 | T__128 | T__129 | T__130 | T__131 | T__132 | T__133 | T__134 | T__135 | T__136 | T__137 | T__138 | T__139 | T__140 | T__141 | T__142 | T__143 | T__144 | T__145 | T__146 | T__147 | T__148 | T__149 | T__150 | T__151 | T__152 | T__153 | T__154 | T__155 | T__156 | T__157 | T__158 | T__159 | T__160 | T__161 | T__162 | T__163 | T__164 | T__165 | T__166 | T__167 | T__168 | T__169 | DOT_DOT | IDENT | NUMBER | STRING | Comment | LineComment | Left_Bracket | Right_Bracket | NEWLINE | White_Space | INDENT | DEDENT )
-		int alt31=103;
+		// SugarCpp.g:1:8: ( T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | T__123 | T__124 | T__125 | T__126 | T__127 | T__128 | T__129 | T__130 | T__131 | T__132 | T__133 | T__134 | T__135 | T__136 | T__137 | T__138 | T__139 | T__140 | T__141 | T__142 | T__143 | T__144 | T__145 | T__146 | T__147 | T__148 | T__149 | T__150 | T__151 | T__152 | T__153 | T__154 | T__155 | T__156 | T__157 | T__158 | T__159 | T__160 | T__161 | T__162 | T__163 | T__164 | T__165 | T__166 | T__167 | T__168 | DOT_DOT | IDENT | NUMBER | STRING | Comment | LineComment | Left_Bracket | Right_Bracket | NEWLINE | White_Space | INDENT | DEDENT )
+		int alt31=102;
 		try { DebugEnterDecision(31, false);
 		try
 		{
@@ -6136,117 +6099,108 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 			break;
 		case 91:
 			DebugEnterAlt(91);
-			// SugarCpp.g:1:619: T__169
+			// SugarCpp.g:1:619: DOT_DOT
 			{
 			DebugLocation(1, 619);
-			mT__169(); 
+			mDOT_DOT(); 
 
 			}
 			break;
 		case 92:
 			DebugEnterAlt(92);
-			// SugarCpp.g:1:626: DOT_DOT
+			// SugarCpp.g:1:627: IDENT
 			{
-			DebugLocation(1, 626);
-			mDOT_DOT(); 
+			DebugLocation(1, 627);
+			mIDENT(); 
 
 			}
 			break;
 		case 93:
 			DebugEnterAlt(93);
-			// SugarCpp.g:1:634: IDENT
+			// SugarCpp.g:1:633: NUMBER
 			{
-			DebugLocation(1, 634);
-			mIDENT(); 
+			DebugLocation(1, 633);
+			mNUMBER(); 
 
 			}
 			break;
 		case 94:
 			DebugEnterAlt(94);
-			// SugarCpp.g:1:640: NUMBER
+			// SugarCpp.g:1:640: STRING
 			{
 			DebugLocation(1, 640);
-			mNUMBER(); 
+			mSTRING(); 
 
 			}
 			break;
 		case 95:
 			DebugEnterAlt(95);
-			// SugarCpp.g:1:647: STRING
+			// SugarCpp.g:1:647: Comment
 			{
 			DebugLocation(1, 647);
-			mSTRING(); 
+			mComment(); 
 
 			}
 			break;
 		case 96:
 			DebugEnterAlt(96);
-			// SugarCpp.g:1:654: Comment
+			// SugarCpp.g:1:655: LineComment
 			{
-			DebugLocation(1, 654);
-			mComment(); 
+			DebugLocation(1, 655);
+			mLineComment(); 
 
 			}
 			break;
 		case 97:
 			DebugEnterAlt(97);
-			// SugarCpp.g:1:662: LineComment
+			// SugarCpp.g:1:667: Left_Bracket
 			{
-			DebugLocation(1, 662);
-			mLineComment(); 
+			DebugLocation(1, 667);
+			mLeft_Bracket(); 
 
 			}
 			break;
 		case 98:
 			DebugEnterAlt(98);
-			// SugarCpp.g:1:674: Left_Bracket
+			// SugarCpp.g:1:680: Right_Bracket
 			{
-			DebugLocation(1, 674);
-			mLeft_Bracket(); 
+			DebugLocation(1, 680);
+			mRight_Bracket(); 
 
 			}
 			break;
 		case 99:
 			DebugEnterAlt(99);
-			// SugarCpp.g:1:687: Right_Bracket
+			// SugarCpp.g:1:694: NEWLINE
 			{
-			DebugLocation(1, 687);
-			mRight_Bracket(); 
+			DebugLocation(1, 694);
+			mNEWLINE(); 
 
 			}
 			break;
 		case 100:
 			DebugEnterAlt(100);
-			// SugarCpp.g:1:701: NEWLINE
+			// SugarCpp.g:1:702: White_Space
 			{
-			DebugLocation(1, 701);
-			mNEWLINE(); 
+			DebugLocation(1, 702);
+			mWhite_Space(); 
 
 			}
 			break;
 		case 101:
 			DebugEnterAlt(101);
-			// SugarCpp.g:1:709: White_Space
+			// SugarCpp.g:1:714: INDENT
 			{
-			DebugLocation(1, 709);
-			mWhite_Space(); 
+			DebugLocation(1, 714);
+			mINDENT(); 
 
 			}
 			break;
 		case 102:
 			DebugEnterAlt(102);
-			// SugarCpp.g:1:721: INDENT
+			// SugarCpp.g:1:721: DEDENT
 			{
 			DebugLocation(1, 721);
-			mINDENT(); 
-
-			}
-			break;
-		case 103:
-			DebugEnterAlt(103);
-			// SugarCpp.g:1:728: DEDENT
-			{
-			DebugLocation(1, 728);
 			mDEDENT(); 
 
 			}
@@ -6277,14 +6231,14 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 			"\x2\xFFFF\x8\x29\x1\xB8\x1\xFFFF\x1\x29\x1\xFFFF\x1\x29\x1\xFFFF\x1\xBB"+
 			"\x3\x29\x1\xBF\x1\xC0\x1\xFFFF\x4\x29\x1\xFFFF\x1\xC5\x7\x29\x3\xFFFF"+
 			"\x5\x29\x1\xD3\x1\xD4\x1\x29\x1\xFFFF\x1\x29\x1\xD7\x1\xFFFF\x1\xD8\x2"+
-			"\x29\x2\xFFFF\x3\x29\x1\xDE\x1\xFFFF\x1\xE0\x4\x29\x1\xE5\x2\x29\x1\xE8"+
-			"\x1\xE9\x1\xEA\x1\xEB\x1\x29\x2\xFFFF\x2\x29\x2\xFFFF\x1\xEF\x4\x29\x1"+
-			"\xFFFF\x1\x29\x1\xFFFF\x2\x29\x1\xF7\x1\xF8\x1\xFFFF\x1\xF9\x1\xFA\x4"+
-			"\xFFFF\x1\xFB\x1\x29\x1\xFD\x1\xFFFF\x1\x29\x1\xFF\x1\x100\x1\x101\x1"+
-			"\x29\x1\x103\x1\x29\x5\xFFFF\x1\x105\x1\xFFFF\x1\x29\x3\xFFFF\x1\x107"+
-			"\x1\xFFFF\x1\x29\x1\xFFFF\x1\x29\x1\xFFFF\x1\x10A\x1\x10B\x2\xFFFF";
+			"\x29\x2\xFFFF\x3\x29\x1\xDE\x1\xFFFF\x1\xDF\x4\x29\x1\xE4\x2\x29\x1\xE7"+
+			"\x1\xE8\x1\xE9\x1\xEA\x1\x29\x2\xFFFF\x2\x29\x2\xFFFF\x1\xEE\x4\x29\x2"+
+			"\xFFFF\x2\x29\x1\xF5\x1\xF6\x1\xFFFF\x1\xF7\x1\xF8\x4\xFFFF\x1\xF9\x1"+
+			"\x29\x1\xFB\x1\xFFFF\x1\x29\x1\xFD\x1\xFE\x1\xFF\x1\x100\x1\x29\x5\xFFFF"+
+			"\x1\x102\x1\xFFFF\x1\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1\x29\x1\x106\x1\x107"+
+			"\x2\xFFFF";
 		private const string DFA31_eofS =
-			"\x10C\xFFFF";
+			"\x108\xFFFF";
 		private const string DFA31_minS =
 			"\x1\xA\x2\x3D\x1\x26\x2\xFFFF\x1\x3D\x1\x2B\x1\xFFFF\x1\x2D\x2\x2A\x1"+
 			"\x3A\x1\xFFFF\x1\x2D\x3\x3D\x3\xFFFF\x1\x3D\x1\xFFFF\x1\x6E\x1\x79\x1"+
@@ -6301,10 +6255,9 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 			"\x72\x1\x30\x1\xFFFF\x1\x30\x1\x68\x1\x73\x2\xFFFF\x1\x72\x2\x63\x1\x30"+
 			"\x1\xFFFF\x1\x30\x1\x73\x1\x67\x1\x6C\x1\x67\x1\x30\x2\x65\x4\x30\x1"+
 			"\x6F\x2\xFFFF\x1\x6C\x1\x74\x2\xFFFF\x1\x30\x1\x70\x1\x6E\x1\x74\x1\x68"+
-			"\x1\xFFFF\x1\x65\x1\xFFFF\x1\x73\x1\x6E\x2\x30\x1\xFFFF\x2\x30\x4\xFFFF"+
-			"\x1\x30\x1\x79\x1\x30\x1\xFFFF\x1\x61\x3\x30\x1\x66\x1\x30\x1\x65\x5"+
-			"\xFFFF\x1\x30\x1\xFFFF\x1\x63\x3\xFFFF\x1\x30\x1\xFFFF\x1\x64\x1\xFFFF"+
-			"\x1\x65\x1\xFFFF\x2\x30\x2\xFFFF";
+			"\x2\xFFFF\x1\x73\x1\x6E\x2\x30\x1\xFFFF\x2\x30\x4\xFFFF\x1\x30\x1\x79"+
+			"\x1\x30\x1\xFFFF\x1\x61\x4\x30\x1\x65\x5\xFFFF\x1\x30\x1\xFFFF\x1\x63"+
+			"\x4\xFFFF\x1\x64\x1\xFFFF\x1\x65\x2\x30\x2\xFFFF";
 		private const string DFA31_maxS =
 			"\x1\x7E\x3\x3D\x2\xFFFF\x2\x3D\x1\xFFFF\x1\x3E\x1\x2E\x2\x3D\x1\xFFFF"+
 			"\x1\x3D\x2\x3E\x1\x3D\x3\xFFFF\x1\x3D\x1\xFFFF\x1\x73\x1\x79\x2\x6F\x1"+
@@ -6321,29 +6274,27 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 			"\x72\x1\x7A\x1\xFFFF\x1\x7A\x1\x68\x1\x73\x2\xFFFF\x1\x72\x2\x63\x1\x7A"+
 			"\x1\xFFFF\x1\x7A\x1\x73\x1\x67\x1\x6C\x1\x67\x1\x7A\x2\x65\x4\x7A\x1"+
 			"\x6F\x2\xFFFF\x1\x6C\x1\x74\x2\xFFFF\x1\x7A\x1\x70\x1\x6E\x1\x74\x1\x68"+
-			"\x1\xFFFF\x1\x65\x1\xFFFF\x1\x73\x1\x6E\x2\x7A\x1\xFFFF\x2\x7A\x4\xFFFF"+
-			"\x1\x7A\x1\x79\x1\x7A\x1\xFFFF\x1\x61\x3\x7A\x1\x66\x1\x7A\x1\x65\x5"+
-			"\xFFFF\x1\x7A\x1\xFFFF\x1\x63\x3\xFFFF\x1\x7A\x1\xFFFF\x1\x64\x1\xFFFF"+
-			"\x1\x65\x1\xFFFF\x2\x7A\x2\xFFFF";
+			"\x2\xFFFF\x1\x73\x1\x6E\x2\x7A\x1\xFFFF\x2\x7A\x4\xFFFF\x1\x7A\x1\x79"+
+			"\x1\x7A\x1\xFFFF\x1\x61\x4\x7A\x1\x65\x5\xFFFF\x1\x7A\x1\xFFFF\x1\x63"+
+			"\x4\xFFFF\x1\x64\x1\xFFFF\x1\x65\x2\x7A\x2\xFFFF";
 		private const string DFA31_acceptS =
 			"\x4\xFFFF\x1\x8\x1\x9\x2\xFFFF\x1\xF\x4\xFFFF\x1\x1C\x4\xFFFF\x1\x2B"+
-			"\x1\x2C\x1\x2D\x1\xFFFF\x1\x30\x11\xFFFF\x1\x5B\x1\x5D\x1\x5E\x1\x5F"+
-			"\x1\x62\x1\x63\x1\x64\x1\xFFFF\x1\x65\x1\x2\x1\x1\x1\x4\x1\x3\x1\x5\x1"+
+			"\x1\x2C\x1\x2D\x1\xFFFF\x1\x30\x11\xFFFF\x1\x5A\x1\x5C\x1\x5D\x1\x5E"+
+			"\x1\x61\x1\x62\x1\x63\x1\xFFFF\x1\x64\x1\x2\x1\x1\x1\x4\x1\x3\x1\x5\x1"+
 			"\x7\x1\x6\x1\x8\x1\x9\x1\xB\x1\xA\x1\xD\x1\xE\x1\xC\x1\x11\x1\x12\x1"+
-			"\xFFFF\x1\x10\x1\x16\x1\x5C\x1\x15\x1\x18\x1\x60\x1\x61\x1\x17\x1\x1A"+
+			"\xFFFF\x1\x10\x1\x16\x1\x5B\x1\x15\x1\x18\x1\x5F\x1\x60\x1\x17\x1\x1A"+
 			"\x1\x1B\x1\x19\x1\x1E\x1\xFFFF\x1\x21\x1\x1D\x1\x23\x1\x24\x1\x22\x1"+
 			"\x26\x1\xFFFF\x1\x25\x1\x2A\x1\x29\x1\x2C\x1\x2D\x1\x2F\x1\x2E\x21\xFFFF"+
-			"\x1\x59\x1\x5A\x1\x58\x1\xFFFF\x1\x14\x1\x13\x1\x20\x1\x1F\x1\x28\x1"+
+			"\x1\x58\x1\x59\x1\x57\x1\xFFFF\x1\x14\x1\x13\x1\x20\x1\x1F\x1\x28\x1"+
 			"\x27\x1\xFFFF\x1\x32\x1\x33\x9\xFFFF\x1\x3D\x1\xFFFF\x1\x3F\x1\xFFFF"+
-			"\x1\x40\x6\xFFFF\x1\x48\x4\xFFFF\x1\x4D\x8\xFFFF\x1\x66\x1\x67\x1\x31"+
+			"\x1\x40\x6\xFFFF\x1\x48\x4\xFFFF\x1\x4D\x8\xFFFF\x1\x65\x1\x66\x1\x31"+
 			"\x8\xFFFF\x1\x3C\x2\xFFFF\x1\x42\x3\xFFFF\x1\x46\x1\x47\x4\xFFFF\x1\x4E"+
-			"\xD\xFFFF\x1\x39\x1\x3A\x2\xFFFF\x1\x41\x1\x43\x5\xFFFF\x1\x4C\x1\xFFFF"+
-			"\x1\x4F\x4\xFFFF\x1\x55\x2\xFFFF\x1\x34\x1\x35\x1\x36\x1\x37\x3\xFFFF"+
-			"\x1\x44\x7\xFFFF\x1\x53\x1\x54\x1\x56\x1\x57\x1\x38\x1\xFFFF\x1\x3E\x1"+
-			"\xFFFF\x1\x49\x1\x4A\x1\x4B\x1\xFFFF\x1\x51\x1\xFFFF\x1\x3B\x1\xFFFF"+
-			"\x1\x50\x2\xFFFF\x1\x52\x1\x45";
+			"\xD\xFFFF\x1\x39\x1\x3A\x2\xFFFF\x1\x41\x1\x43\x5\xFFFF\x1\x4C\x1\x4F"+
+			"\x4\xFFFF\x1\x54\x2\xFFFF\x1\x34\x1\x35\x1\x36\x1\x37\x3\xFFFF\x1\x44"+
+			"\x6\xFFFF\x1\x52\x1\x53\x1\x55\x1\x56\x1\x38\x1\xFFFF\x1\x3E\x1\xFFFF"+
+			"\x1\x49\x1\x4A\x1\x4B\x1\x50\x1\xFFFF\x1\x3B\x3\xFFFF\x1\x51\x1\x45";
 		private const string DFA31_specialS =
-			"\x81\xFFFF\x1\x0\x8A\xFFFF}>";
+			"\x81\xFFFF\x1\x0\x86\xFFFF}>";
 		private static readonly string[] DFA31_transitionS =
 			{
 				"\x1\x2F\x2\xFFFF\x1\x2E\x12\xFFFF\x1\x30\x1\x1\x1\x2B\x2\xFFFF\x1\x2"+
@@ -6550,36 +6501,34 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 				"\x1\xDD",
 				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1A\x29",
 				"",
-				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x3\x29\x1\xDF\x16"+
-				"\x29",
+				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1A\x29",
+				"\x1\xE0",
 				"\x1\xE1",
 				"\x1\xE2",
 				"\x1\xE3",
-				"\x1\xE4",
 				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1A\x29",
+				"\x1\xE5",
 				"\x1\xE6",
-				"\x1\xE7",
 				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1A\x29",
 				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1A\x29",
 				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1A\x29",
 				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1A\x29",
+				"\x1\xEB",
+				"",
+				"",
 				"\x1\xEC",
-				"",
-				"",
 				"\x1\xED",
-				"\x1\xEE",
 				"",
 				"",
 				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1A\x29",
+				"\x1\xEF",
 				"\x1\xF0",
 				"\x1\xF1",
 				"\x1\xF2",
+				"",
+				"",
 				"\x1\xF3",
-				"",
 				"\x1\xF4",
-				"",
-				"\x1\xF5",
-				"\x1\xF6",
 				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1A\x29",
 				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1A\x29",
 				"",
@@ -6590,33 +6539,30 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 				"",
 				"",
 				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1A\x29",
+				"\x1\xFA",
+				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1A\x29",
+				"",
 				"\x1\xFC",
 				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1A\x29",
+				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1A\x29",
+				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1A\x29",
+				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1A\x29",
+				"\x1\x101",
 				"",
-				"\x1\xFE",
+				"",
+				"",
+				"",
+				"",
 				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1A\x29",
-				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1A\x29",
-				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1A\x29",
-				"\x1\x102",
-				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1A\x29",
+				"",
+				"\x1\x103",
+				"",
+				"",
+				"",
+				"",
 				"\x1\x104",
 				"",
-				"",
-				"",
-				"",
-				"",
-				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1A\x29",
-				"",
-				"\x1\x106",
-				"",
-				"",
-				"",
-				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1A\x29",
-				"",
-				"\x1\x108",
-				"",
-				"\x1\x109",
-				"",
+				"\x1\x105",
 				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1A\x29",
 				"\xA\x29\x7\xFFFF\x1A\x29\x4\xFFFF\x1\x29\x1\xFFFF\x1A\x29",
 				"",
@@ -6655,7 +6601,7 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 			this.transition = DFA31_transition;
 		}
 
-		public override string Description { get { return "1:1: Tokens : ( T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | T__123 | T__124 | T__125 | T__126 | T__127 | T__128 | T__129 | T__130 | T__131 | T__132 | T__133 | T__134 | T__135 | T__136 | T__137 | T__138 | T__139 | T__140 | T__141 | T__142 | T__143 | T__144 | T__145 | T__146 | T__147 | T__148 | T__149 | T__150 | T__151 | T__152 | T__153 | T__154 | T__155 | T__156 | T__157 | T__158 | T__159 | T__160 | T__161 | T__162 | T__163 | T__164 | T__165 | T__166 | T__167 | T__168 | T__169 | DOT_DOT | IDENT | NUMBER | STRING | Comment | LineComment | Left_Bracket | Right_Bracket | NEWLINE | White_Space | INDENT | DEDENT );"; } }
+		public override string Description { get { return "1:1: Tokens : ( T__79 | T__80 | T__81 | T__82 | T__83 | T__84 | T__85 | T__86 | T__87 | T__88 | T__89 | T__90 | T__91 | T__92 | T__93 | T__94 | T__95 | T__96 | T__97 | T__98 | T__99 | T__100 | T__101 | T__102 | T__103 | T__104 | T__105 | T__106 | T__107 | T__108 | T__109 | T__110 | T__111 | T__112 | T__113 | T__114 | T__115 | T__116 | T__117 | T__118 | T__119 | T__120 | T__121 | T__122 | T__123 | T__124 | T__125 | T__126 | T__127 | T__128 | T__129 | T__130 | T__131 | T__132 | T__133 | T__134 | T__135 | T__136 | T__137 | T__138 | T__139 | T__140 | T__141 | T__142 | T__143 | T__144 | T__145 | T__146 | T__147 | T__148 | T__149 | T__150 | T__151 | T__152 | T__153 | T__154 | T__155 | T__156 | T__157 | T__158 | T__159 | T__160 | T__161 | T__162 | T__163 | T__164 | T__165 | T__166 | T__167 | T__168 | DOT_DOT | IDENT | NUMBER | STRING | Comment | LineComment | Left_Bracket | Right_Bracket | NEWLINE | White_Space | INDENT | DEDENT );"; } }
 
 		public override void Error(NoViableAltException nvae)
 		{
