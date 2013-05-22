@@ -154,7 +154,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(GlobalTypeDef global_typedef)
         {
-            Template template = new Template("typedef <type> <name>;");
+			Template template = new Template("using <name> = <type>;");
             template.Add("type", global_typedef.Type.Accept(this));
             template.Add("name", global_typedef.Name);
             return template;
@@ -407,7 +407,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(StmtTypeDef stmt_typedef)
         {
-            Template template = new Template("typedef <type> <name>");
+			Template template = new Template("using <name> = <type>");
             template.Add("type", stmt_typedef.Type.Accept(this));
             template.Add("name", stmt_typedef.Name);
             return template;
