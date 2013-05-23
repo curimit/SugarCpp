@@ -288,6 +288,12 @@ type_single
 				)
 	;
 
+type_no_array
+	: type_star ( '&' -> ^(Type_Ref type_star)
+				| -> type_star
+				)
+	;
+
 type_star
 	: type_template_type ( '*'+ -> ^(Type_Star type_template_type '*'+)
 						 | -> type_template_type
@@ -614,7 +620,9 @@ cast_expr
 prefix_expr_op: '!' | '~' | '++' | '--' | '-' | '+' | '*' | '&' | 'not';
 prefix_expr
 	: (prefix_expr_op prefix_expr) -> ^(Expr_Prefix prefix_expr_op prefix_expr)
-	| 'new' type_name '(' expr_list? ')' -> ^(Expr_New_Type type_name expr_list?)
+	| 'new' type_no_array ( '(' expr_list? ')' -> ^(Expr_New_Type type_no_array expr_list?)
+						  | '[' expr_list? ']' -> ^(Expr_New_Array type_no_array expr_list?)
+						  )
 	| suffix_expr
 	;
 	
