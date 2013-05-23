@@ -117,4 +117,24 @@ namespace SugarCpp.Compiler
             return visitor.Visit(this);
         }
     }
+
+    public class FuncType : SugarType
+    {
+        public List<SugarType> Args = new List<SugarType>();
+        public SugarType Type;
+
+        public FuncType(List<SugarType> args, SugarType type)
+        {
+            this.Type = type;
+            if (args != null)
+            {
+                this.Args = args;
+            }
+        }
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
 }

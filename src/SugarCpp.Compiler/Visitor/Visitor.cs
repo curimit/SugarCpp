@@ -22,6 +22,7 @@ namespace SugarCpp.Compiler
         public abstract Template Visit(RefType type);
         public abstract Template Visit(TemplateType type);
         public abstract Template Visit(ArrayType type);
+        public abstract Template Visit(FuncType type);
 
         public abstract Template Visit(Import import);
 

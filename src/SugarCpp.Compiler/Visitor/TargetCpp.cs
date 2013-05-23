@@ -104,6 +104,21 @@ namespace SugarCpp.Compiler
             return template;
         }
 
+        public override Template Visit(FuncType type)
+        {
+            Template template = new Template("function\\<<return_type> (<list_type; separator=\", \">)>");
+            if (type.Type != null)
+            {
+                template.Add("return_type", type.Type.Accept(this));
+            }
+            else
+            {
+                template.Add("return_type", "void");
+            }
+            template.Add("list_type", type.Args.Select(x => x.Accept(this)));
+            return template;
+        }
+
         public override Template Visit(ArrayType type)
         {
             Template template = new Template("<type><list>");

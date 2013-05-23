@@ -52,6 +52,9 @@ tokens
 
    Stmt_Switch;
    Switch_Item;
+
+   Type_List;
+   Type_Func;
    
    Type_Array;
    Type_Ref;
@@ -267,7 +270,18 @@ class_def
 	:  attribute? 'class' ident (generic_parameter)? ('(' func_args ')')? (':' ident (',' ident)*)? (NEWLINE+ INDENT NEWLINE* global_block DEDENT)? -> ^(Class attribute? ident generic_parameter? func_args? (^(Ident_List ident*))? global_block?)
 	;
 
+type_list
+	: type_name (',' type_name)* -> ^(Type_List type_name*)
+	;
+
 type_name
+	: type_single ( '->' (type_name | '(' ')') -> ^(Type_Func ^(Type_List type_single) type_name?)
+				  | -> type_single
+				  )
+	| '(' type_list? ')' '->' (type_name | '(' ')') -> ^(Type_Func type_list? type_name?)
+	;
+
+type_single
 	: type_star ( '&' -> ^(Type_Ref type_star)
 				| '[' expr (',' expr)* ']' -> ^(Type_Array type_star expr+)
 				| -> type_star

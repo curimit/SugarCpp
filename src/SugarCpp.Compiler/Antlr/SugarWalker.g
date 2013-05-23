@@ -213,12 +213,28 @@ type_ref returns [SugarType value]
 	}
 	;
 
+type_func returns [SugarType value]
+	: ^(Type_Func (a=type_list)? (b=type_name)?)
+	{
+		$value = new FuncType(a, b);
+	}
+	;
+
+type_list returns[List<SugarType> value]
+@init
+{
+	$value = new List<SugarType>();
+}
+	: ^(Type_List (a=type_name { $value.Add(a); } )*)
+	;
+
 type_name returns [SugarType value]
 	: a=type_array { $value = a; }
 	| a=type_ref { $value = a; }
 	| a=type_star { $value = a; }
 	| a=type_template { $value = a; }
 	| a=type_ident { $value = a; }
+	| a=type_func { $value = a; }
 	;
 
 func_args returns [List<ExprAlloc> value]
