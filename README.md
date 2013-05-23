@@ -765,6 +765,49 @@ int main() {
 }
 ```
 
+#### Function Type
+```c++
+import "iostream"
+       "functional"
+
+using namespace std
+
+int apply(f: () -> int) = f()
+int apply(f: (int, int) -> int, a: int, b: int) = f(a, b)
+
+int main()
+	a := 10
+	b := 20
+	ans1 := apply(() -> 100)
+	cout << ans1 << endl
+	ans2 := apply((a: int, b: int) -> a * b, a, b)
+	cout << ans2 << endl
+```
+
+```c++
+#include "iostream"
+#include "functional"
+
+using namespace std;
+
+int apply(function<int ()> f) {
+    return f();
+}
+
+int apply(function<int (int, int)> f, int a, int b) {
+    return f(a, b);
+}
+
+int main() {
+    auto a = 10;
+    auto b = 20;
+    auto ans1 = apply(([&]() { return 100; }));
+    cout << ans1 << endl;
+    auto ans2 = apply(([&](int a,int b) { return a * b; }), a, b);
+    cout << ans2 << endl;
+}
+```
+
 #### Namespace
 ```c++
 namespace SugarCpp::AstNode::Expr
