@@ -21,6 +21,13 @@ Try SugarCpp in your browser: http://curimit.com/project/SugarCpp/
 * [Switch case.](#switch-case)
 * [Scala style case class.](#scala-style-case-class)
 
+## Plugins
+Sublime-Text:  
+https://github.com/curimit/Sublime-SugarCpp
+
+vim:  
+https://github.com/ppwwyyxx/vim-SugarCpp
+
 ## Examples
 
 #### Hello world
@@ -787,6 +794,13 @@ type u_int32 = unsigned int
 ```c++
 using u_int32 = unsigned int;
 ```
+
+## Contributors
+  * [BYVoid](https://github.com/BYVoid)
+    * Implement command line interface.
+    * Suggest the defer syntax.
+  * [ppwwyyxx](https://github.com/ppwwyyxx)
+    * Vim plugin for SugarCpp.
 
 ## Command Line Usage
 
