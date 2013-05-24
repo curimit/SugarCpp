@@ -92,19 +92,33 @@ namespace SugarCpp.Compiler
 
             if (class_def.Args.Count() > 0)
             {
-                FuncDef func = new FuncDef();
-                func.Type = null;
-                func.Name = class_def.Name;
-                func.Args = class_def.Args;
-                func.Body = new StmtBlock();
-                foreach (var item in class_def.Args)
                 {
-                    string name = item.Name.First();
-                    ExprAssign assign = new ExprAssign(new ExprAccess(new ExprConst("this", ConstType.Ident), "->", name),
-                                                       new ExprConst(name, ConstType.Ident));
-                    func.Body.StmtList.Add(new StmtExpr(assign));
-                }
+                    FuncDef func = new FuncDef();
+                    func.Type = null;
+                    func.Name = class_def.Name;
+                    func.Args = class_def.Args;
+                    func.Body = new StmtBlock();
+                    foreach (var item in class_def.Args)
+                    {
+                        string name = item.Name.First();
+                        ExprAssign assign = new ExprAssign(new ExprAccess(new ExprConst("this", ConstType.Ident), "->", name),
+                                                           new ExprConst(name, ConstType.Ident));
+                        func.Body.StmtList.Add(new StmtExpr(assign));
+                    }
 
+                    list.Add(func.Accept(this));
+                }
+            }
+
+            if (class_def.Attribute.Exists(x => x.Name == "case"))
+            {
+                FuncDef func = new FuncDef();
+                func.Type = new IdentType("const char*");
+                func.Name = "GetType";
+                func.Args = new List<ExprAlloc>();
+                func.Body = new StmtBlock();
+                StmtReturn stmt = new StmtReturn(new ExprConst("\"" + class_def.Name + "\"", ConstType.String));
+                func.Body.StmtList.Add(stmt);
                 list.Add(func.Accept(this));
             }
 
@@ -131,6 +145,10 @@ namespace SugarCpp.Compiler
             if (func_def.Attribute.Find(x => x.Name == "inline") != null)
             {
                 prefix += "inline ";
+            }
+            if (func_def.Attribute.Find(x => x.Name == "virtual") != null)
+            {
+                prefix += "virtual ";
             }
             string suffix = "";
             if (func_def.Attribute.Find(x => x.Name == "const") != null)

@@ -162,9 +162,10 @@ enum_def returns [Enum value]
 	;
 
 class_def returns [Class value]
-	: ^(Class (attr=attribute)? a=ident (b=generic_parameter)? (c=func_args)? (d=ident_list)? (e=global_block)?)
+	: ^(Class (is_case='case')? (attr=attribute)? a=ident (b=generic_parameter)? (c=func_args)? (d=ident_list)? (e=global_block)?)
 	{
 		$value = new Class(a, b, c, d, e, attr);
+		if (is_case != null) $value.Attribute.Add(new Attr { Name = "case" });
 	}
 	;
 

@@ -267,7 +267,9 @@ namespace_def
 	;
 
 class_def
-	:  attribute? 'class' ident (generic_parameter)? ('(' func_args ')')? (':' ident (',' ident)*)? (NEWLINE+ INDENT NEWLINE* global_block DEDENT)? -> ^(Class attribute? ident generic_parameter? func_args? (^(Ident_List ident*))? global_block?)
+	:  attribute? ( 'class' ident (generic_parameter)? (':' ident (',' ident)*)? (NEWLINE+ INDENT NEWLINE* global_block DEDENT)? -> ^(Class attribute? ident generic_parameter? (^(Ident_List ident*))? global_block?)
+			      | 'case' 'class' ident (generic_parameter)? ('(' func_args ')')? (':' ident (',' ident)*)? (NEWLINE+ INDENT NEWLINE* global_block DEDENT)? -> ^(Class 'case' attribute? ident generic_parameter? func_args? (^(Ident_List ident*))? global_block?)
+				  )
 	;
 
 type_list
@@ -283,7 +285,9 @@ type_name
 
 type_single
 	: type_star ( '&' -> ^(Type_Ref type_star)
-				| '[' expr (',' expr)* ']' -> ^(Type_Array type_star expr+)
+				| '[' ( expr (',' expr)* ']' -> ^(Type_Array type_star expr+)
+				      | ','* ']' -> ^(Type_Array type_star expr+)
+					  )
 				| -> type_star
 				)
 	;

@@ -46,7 +46,7 @@ namespace SugarCpp.Compiler
 
             CommonTreeNodeStream nodes = new CommonTreeNodeStream(ct);
             SugarWalker walker = new SugarWalker(nodes);
-            
+
             Root ast = walker.root();
 
             TargetCppHeader header = new TargetCppHeader();
@@ -169,7 +169,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(GlobalTypeDef global_typedef)
         {
-			Template template = new Template("using <name> = <type>;");
+            Template template = new Template("using <name> = <type>;");
             template.Add("type", global_typedef.Type.Accept(this));
             template.Add("name", global_typedef.Name);
             return template;
@@ -422,7 +422,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(StmtTypeDef stmt_typedef)
         {
-			Template template = new Template("using <name> = <type>");
+            Template template = new Template("using <name> = <type>");
             template.Add("type", stmt_typedef.Type.Accept(this));
             template.Add("name", stmt_typedef.Name);
             return template;
@@ -561,21 +561,50 @@ namespace SugarCpp.Compiler
                     tmp.Add("nodes", nodes);
                     list.Add(tmp);
 
-                    FuncDef func = new FuncDef();
-                    func.Type = null;
-                    func.Name = class_def.Name;
-                    func.Args = class_def.Args;
-                    func.Body = new StmtBlock();
-                    foreach (var item in class_def.Args)
                     {
-                        string name = item.Name.First();
-                        ExprAssign assign = new ExprAssign(new ExprAccess(new ExprConst("this", ConstType.Ident), "->", name),
-                                                           new ExprConst(name, ConstType.Ident));
-                        func.Body.StmtList.Add(new StmtExpr(assign));
-                    }
+                        FuncDef func = new FuncDef();
+                        func.Type = null;
+                        func.Name = class_def.Name;
+                        func.Args = class_def.Args;
+                        func.Body = new StmtBlock();
+                        foreach (var item in class_def.Args)
+                        {
+                            string name = item.Name.First();
+                            ExprAssign assign = new ExprAssign(new ExprAccess(new ExprConst("this", ConstType.Ident), "->", name),
+                                                               new ExprConst(name, ConstType.Ident));
+                            func.Body.StmtList.Add(new StmtExpr(assign));
+                        }
 
-                    tmp.Add("constructor", func.Accept(this));
+                        tmp.Add("constructor", func.Accept(this));
+                    }
                 }
+
+                last = "public";
+                last_flag = true;
+            }
+
+            if (class_def.Attribute.Exists(x => x.Name=="case"))
+            {
+                Template tmp = null;
+                if (last != "public")
+                {
+                    tmp = new Template("\npublic:\n    <get_type>");
+                }
+                else
+                {
+                    tmp = new Template("    <get_type>");
+                }
+
+                FuncDef func = new FuncDef();
+                func.Type = new IdentType("const char*");
+                func.Name = "GetType";
+                func.Args = new List<ExprAlloc>();
+                func.Body = new StmtBlock();
+                func.Attribute.Add(new Attr { Name = "virtual" });
+                StmtReturn stmt = new StmtReturn(new ExprConst("\"" + class_def.Name + "\"", ConstType.String));
+                func.Body.StmtList.Add(stmt);
+                tmp.Add("get_type", func.Accept(this));
+                list.Add(tmp);
 
                 last = "public";
                 last_flag = true;
@@ -666,6 +695,10 @@ namespace SugarCpp.Compiler
             {
                 prefix += "static ";
             }
+            if (func_def.Attribute.Find(x => x.Name == "virtual") != null)
+            {
+                prefix += "virtual ";
+            }
             string suffix = "";
             if (func_def.Attribute.Find(x => x.Name == "const") != null)
             {
@@ -728,7 +761,7 @@ namespace SugarCpp.Compiler
 
                 if (defer_stack.Count() > 0 && node is StmtReturn)
                 {
-                    var stmt_return = (StmtReturn) node;
+                    var stmt_return = (StmtReturn)node;
                     if (stmt_return.Expr == null)
                     {
                         foreach (var item in defer_stack)
@@ -937,7 +970,7 @@ namespace SugarCpp.Compiler
         {
             if (stmt_for_each.Var is ExprConst)
             {
-                ExprConst expr = (ExprConst) stmt_for_each.Var;
+                ExprConst expr = (ExprConst)stmt_for_each.Var;
                 Template template = new Template("for (auto <var> : <expr>) {\n    <body>\n}");
                 template.Add("var", expr.Text);
                 template.Add("expr", stmt_for_each.Target.Accept(this));
@@ -952,8 +985,8 @@ namespace SugarCpp.Compiler
                 int i = 0;
                 foreach (var argument in expr.Args)
                 {
-                    ExprCall get = new ExprCall(new ExprConst("std::get", ConstType.Ident), new List<string> {i.ToString()},
-                                                new List<Expr> {new ExprConst("_t_match", ConstType.Ident)});
+                    ExprCall get = new ExprCall(new ExprConst("std::get", ConstType.Ident), new List<string> { i.ToString() },
+                                                new List<Expr> { new ExprConst("_t_match", ConstType.Ident) });
                     i++;
                     if (argument is ExprConst && ((ExprConst)argument).Type == ConstType.Ident && !((ExprConst)argument).Text.StartsWith("@"))
                     {

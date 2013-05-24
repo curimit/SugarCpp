@@ -177,6 +177,10 @@ namespace SugarCpp.Compiler
             {
                 prefix += "static ";
             }
+            if (func_def.Attribute.Find(x => x.Name == "virtual") != null)
+            {
+                prefix += "virtual ";
+            }
             string suffix = "";
             if (func_def.Attribute.Find(x => x.Name == "const") != null)
             {

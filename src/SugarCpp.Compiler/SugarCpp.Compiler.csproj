@@ -67,6 +67,8 @@
     <Compile Include="AstNode\Class.cs" />
     <Compile Include="AstNode\StmtFor.cs" />
     <Compile Include="AstNode\SugarType.cs" />
+    <Compile Include="Helper\CommonHelper.cs" />
+    <Compile Include="Helper\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Visitor\TargetCpp.cs" />
     <Compile Include="Visitor\TargetCppHeader.cs" />

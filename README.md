@@ -514,9 +514,9 @@ T max(T x, T y) {
 
 #### Scala style case class
 ```c++
-class Expr
-class Number<T>(value:T): Expr
-class ExprBin(op:string, l:Expr, r:Expr): Expr
+case class Expr
+case class Number<T>(value:T): Expr
+case class ExprBin(op:string, l:Expr, r:Expr): Expr
 ```
 
 ```
@@ -528,31 +528,28 @@ class Number: public Expr {
 public:
     T value;
 
+    Number() = default;
     Number(T value) {
         this->value = value;
     }
-
-    inline tuple<T> Unapply() {
-        return std::make_tuple(value);
+    const char* GetType() {
+        return "Number";
     }
 };
 
-class ExprBin: public Expr {
-public:
-    string op;
-    Expr l;
-    Expr r;
+const char* Expr::GetType() {
+    return "Expr";
+}
 
-    ExprBin(string op, Expr l, Expr r) {
-        this->op = op;
-        this->l = l;
-        this->r = r;
-    }
+ExprBin::ExprBin(string op, Expr l, Expr r) {
+    this->op = op;
+    this->l = l;
+    this->r = r;
+}
 
-    inline tuple<string, Expr, Expr> Unapply() {
-        return std::make_tuple(op, l, r);
-    }
-};
+const char* ExprBin::GetType() {
+    return "ExprBin";
+}
 ```
 
 #### Haskell style infix function
