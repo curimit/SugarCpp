@@ -69,6 +69,21 @@ int main() {
 }
 ```
 
+#### Multi-dimensional array
+```c++
+int main()
+    a: int[2,3]
+    a[1,2] = 2
+```
+
+```c++
+int main() {
+    int a[2][3];
+    a[1][2] = 2;
+}
+```
+
+
 #### Defer and Finally
 Due to C++11 does not support C# style Finally syntax, it's difficult to guarantee resource be closed or pointer be deleted while exception happens.
 
