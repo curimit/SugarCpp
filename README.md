@@ -83,6 +83,58 @@ int main() {
 }
 ```
 
+#### Types
+```c++
+a: int
+a: unsigned int
+a: bool
+a: char
+a: signed char
+a: unsigned char
+a: short
+a: unsigned short
+a: long
+a: unsigned long
+a: long int
+a: long long
+a: long long long
+a: long long int
+a: unsigned long long
+a: float
+a: double
+a: long double
+
+// func type
+a: (int, int) -> int
+a: () -> int
+a: int -> ()
+a: () -> ()
+```
+
+```c++
+int a;
+unsigned int a;
+bool a;
+char a;
+signed char a;
+unsigned char a;
+short a;
+unsigned short a;
+long a;
+unsigned long a;
+long int a;
+long long a;
+long long long a;
+long long int a;
+unsigned long long a;
+float a;
+double a;
+long double a;
+function<int (int, int)> a;
+function<int ()> a;
+function<void (int)> a;
+function<void ()> a;
+```
 
 #### Defer and Finally
 Due to C++11 does not support C# style Finally syntax, it's difficult to guarantee resource be closed or pointer be deleted while exception happens.
