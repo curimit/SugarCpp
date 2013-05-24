@@ -174,9 +174,16 @@ type_ident returns [SugarType value]
 {
 	string type = "";
 }
-	: ^(Type_Ident ('const' {type+="const ";})? ('unsigned' {type+="unsigned ";})? ('struct' {type+="struct ";})? a=ident {type+=a;})
+	: ^(Type_Ident ( 'const'	{ type+="const "; }
+				   | 'unsigned'	{ type+="unsigned "; }
+				   | 'signed'	{ type+="signed "; }
+				   | 'long'		{ type+="long "; }
+				   | 'short'	{ type+="short "; }
+				   | 'struct'	{ type+="struct "; }
+				   | a=ident	{ type+=a; }
+				   )*)
 	{
-		$value = new IdentType(type);
+		$value = new IdentType(type.Trim());
 	}
 	;
 

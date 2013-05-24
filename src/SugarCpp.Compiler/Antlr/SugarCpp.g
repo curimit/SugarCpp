@@ -310,8 +310,17 @@ type_template_type
 				 )
 	;
 
+type_sign: 'unsigned' | 'signed' ;
+type_size: 'long' | 'short' ;
 type_ident
-	: 'const'? 'unsigned'? 'struct'? ident -> ^(Type_Ident 'const'? 'unsigned'? 'struct'? ident)
+options
+{
+	backtrack=true;
+}
+	: 'const'? ( type_sign? type_size* ident -> ^(Type_Ident 'const'? type_sign? type_size* ident)
+			   | 'struct' ident -> ^(Type_Ident 'const'? 'struct' ident)
+			   )
+	| 'unsigned'? 'signed'? type_size+  -> ^(Type_Ident 'unsigned'? 'signed'? type_size+)
 	;
 
 generic_parameter_inside
