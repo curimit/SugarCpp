@@ -392,25 +392,25 @@ int main() {
 
 ##### Arrays Initialization
 ```c++
-grid:int[][] = [
+grid:int[3][3] = [
     [1, 2, 3]
     [4, 5, 6]
     [7, 8, 0]
 ]
 
-list: int[] = [
+list: int[9] = [
     1, 2, 3
     4, 5, 6
     7, 8, 9
 ]
 
-line: int[] = [1, 2, 3]
+line: int[3] = [1, 2, 3]
 ```
 
 ```c++
-int grid[][] = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 0 } };
-int list[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-int line[] = { 1, 2, 3 };
+int grid[3][3] = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 0 } };
+int list[9] = { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+int line[3] = { 1, 2, 3 };
 ```
 
 ##### Operators and Aliases
@@ -427,6 +427,11 @@ int line[] = { 1, 2, 3 };
     <tr>
         <td>isnt</td>
         <td>!=</td>
+    </tr>
+
+    <tr>
+        <td>not</td>
+        <td>!</td>
     </tr>
 
     <tr>
@@ -517,6 +522,19 @@ T max(T x, T y) {
 case class Expr
 case class Number<T>(value:T): Expr
 case class ExprBin(op:string, l:Expr, r:Expr): Expr
+
+void Test(expr: Expr*)
+    // reflection get actual type.
+    cout << expr->GetType() << endl
+
+int main()
+    expr: Expr
+    number: Number<int>
+    expr_bin: ExprBin
+    
+    Test(&expr)
+    Test(&number)
+    Test(&expr_bin)
 ```
 
 ```
@@ -562,6 +580,19 @@ ExprBin::ExprBin(string op, Expr l, Expr r) {
 
 const char* ExprBin::GetType() {
     return "ExprBin";
+}
+
+void Test(Expr *expr) {
+    cout << expr->GetType() << endl;
+}
+
+int main() {
+    Expr expr;
+    Number<int> number;
+    ExprBin expr_bin;
+    Test(&expr);
+    Test(&number);
+    Test(&expr_bin);
 }
 ```
 
@@ -726,7 +757,7 @@ enum Day = Sunday | Monday | Tuesday | Wednesday | Thursday | Friday | Saturday
 
 int main()
     day := Sunday
-    name := day:ToString()
+    name := day @ToString()
     printf("%s\n", name)
 ```
 
@@ -743,28 +774,52 @@ enum Day {
     Saturday
 };
 
-const char* ToString(const Day& a) {
-    switch (a) {
+const char* ToString(const Day& _t_value) {
+    switch (_t_value) {
     case Sunday:
-        return "Sunday";
+        {
+            return "Sunday";
+            break;
+        }
 
     case Monday:
-        return "Monday";
+        {
+            return "Monday";
+            break;
+        }
 
     case Tuesday:
-        return "Tuesday";
+        {
+            return "Tuesday";
+            break;
+        }
 
     case Wednesday:
-        return "Wednesday";
+        {
+            return "Wednesday";
+            break;
+        }
 
     case Thursday:
-        return "Thursday";
+        {
+            return "Thursday";
+            break;
+        }
 
     case Friday:
-        return "Friday";
+        {
+            return "Friday";
+            break;
+        }
 
     case Saturday:
-        return "Saturday";
+        {
+            return "Saturday";
+            break;
+        }
+
+    defalult:
+        throw("Not Found");
     }
 }
 
