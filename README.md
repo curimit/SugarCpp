@@ -521,6 +521,8 @@ case class ExprBin(op:string, l:Expr, r:Expr): Expr
 
 ```
 class Expr {
+public:
+    virtual const char* GetType();
 };
 
 template <typename T>
@@ -532,9 +534,20 @@ public:
     Number(T value) {
         this->value = value;
     }
-    const char* GetType() {
+    virtual const char* GetType() {
         return "Number";
     }
+};
+
+class ExprBin: public Expr {
+public:
+    string op;
+    Expr l;
+    Expr r;
+
+    ExprBin() = default;
+    ExprBin(string op, Expr l, Expr r);
+    virtual const char* GetType();
 };
 
 const char* Expr::GetType() {
