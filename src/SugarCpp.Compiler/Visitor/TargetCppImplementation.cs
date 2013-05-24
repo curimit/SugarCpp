@@ -63,7 +63,7 @@ namespace SugarCpp.Compiler
                 if (node is FuncDef && ((FuncDef)node).GenericParameter.Count() > 0) continue;
                 if (node is Class && ((Class)node).GenericParameter.Count() > 0) continue;
 
-                if (node is Import || node is GlobalUsing || node is GlobalTypeDef || node is Enum) continue;
+                if (node is Import || node is GlobalUsing || node is GlobalTypeDef || (node is Enum && node.Attribute.All(x => x.Name != "ToString"))) continue;
                 bool current = node is FuncDef || node is Class || node is Enum || node is Import || node is GlobalUsing || node is Namespace;
                 if ((last || current) && !(last_node is Import && node is Import))
                 {
@@ -137,6 +137,41 @@ namespace SugarCpp.Compiler
 
             template.Add("list", list);
             return template;
+        }
+
+        public override Template Visit(Enum enum_def)
+        {
+            if (enum_def.Attribute.Find(x => x.Name == "ToString") != null)
+            {
+                Attr attr = enum_def.Attribute.Find(x => x.Name == "ToString");
+
+                FuncDef func = new FuncDef();
+                func.Type = new IdentType("const char*");
+                func.Name = attr.Args.Count() == 0 ? "ToString" : attr.Args.First();
+                func.Args.Add(new ExprAlloc(new IdentType("const " + enum_def.Name + "&"), "_t_value", null, AllocType.Declare));
+                List<StmtSwitchItem> switch_list = new List<StmtSwitchItem>();
+                foreach (var item in enum_def.Values)
+                {
+                    StmtBlock block = new StmtBlock();
+                    block.StmtList.Add(new StmtReturn(new ExprConst("\"" + item + "\"", ConstType.String)));
+                    switch_list.Add(new StmtSwitchItem(new List<Expr> { new ExprConst(item, ConstType.Ident) }, block));
+                }
+
+                StmtBlock default_block = new StmtBlock();
+                {
+                    default_block.StmtList.Add(new StmtExpr(new ExprCall(new ExprConst("throw", ConstType.Ident), null, new List<Expr> { new ExprConst("\"Not Found\"", ConstType.String) })));
+                }
+
+                StmtSwitch stmt_switch = new StmtSwitch(new ExprConst("_t_value", ConstType.Ident), switch_list, default_block);
+                StmtBlock body = new StmtBlock();
+                body.StmtList.Add(stmt_switch);
+                func.Body = body;
+                return func.Accept(this);
+            }
+            else
+            {
+                throw new NotSupportedException();
+            }
         }
 
         public override Template Visit(FuncDef func_def)

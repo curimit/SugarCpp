@@ -645,7 +645,9 @@ suffix_expr
 						  | '[' ( expr_list ']' -> ^(Expr_Dict $suffix_expr expr_list)
 						        | ']' -> ^(Expr_Dict $suffix_expr)
 								)
-						  //| ':' ident '(' expr_list? ')' -> ^(Expr_Call_With $suffix_expr ident expr_list?)
+						  | '@' ident '(' ( expr_list ')' -> ^(Expr_Call_With $suffix_expr ident expr_list)
+										  | ')' -> ^(Expr_Call_With $suffix_expr ident)
+										  )
 					      )*
 	;
 

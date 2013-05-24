@@ -388,6 +388,41 @@ namespace SugarCpp.Compiler
                 }
             }
             template.Add("list", list);
+
+            if (enum_def.Attribute.Find(x => x.Name == "ToString") != null)
+            {
+                Attr attr = enum_def.Attribute.Find(x => x.Name == "ToString");
+
+                FuncDef func = new FuncDef();
+                func.Type = new IdentType("const char*");
+                func.Name = attr.Args.Count() == 0 ? "ToString" : attr.Args.First();
+                func.Args.Add(new ExprAlloc(new IdentType("const " + enum_def.Name + "&"), "_t_value", null, AllocType.Declare));
+                List<StmtSwitchItem> switch_list = new List<StmtSwitchItem>();
+                foreach (var item in enum_def.Values)
+                {
+                    StmtBlock block = new StmtBlock();
+                    block.StmtList.Add(new StmtReturn(new ExprConst("\"" + item + "\"", ConstType.String)));
+                    switch_list.Add(new StmtSwitchItem(new List<Expr> { new ExprConst(item, ConstType.Ident) }, block));
+                }
+
+                StmtBlock default_block = new StmtBlock();
+                {
+                    default_block.StmtList.Add(new StmtExpr(new ExprCall(new ExprConst("throw", ConstType.Ident), null, new List<Expr> { new ExprConst("\"Not Found\"", ConstType.String) } )));
+                }
+
+                StmtSwitch stmt_switch = new StmtSwitch(new ExprConst("_t_value", ConstType.Ident), switch_list, default_block);
+                StmtBlock body = new StmtBlock();
+                body.StmtList.Add(stmt_switch);
+                func.Body = body;
+                Template node = new Template("\n\n<stmt>");
+                node.Add("stmt", func.Accept(this));
+                template.Add("tostring", node);
+            }
+            else
+            {
+                template.Add("tostring", "");
+            }
+
             return template;
         }
 
