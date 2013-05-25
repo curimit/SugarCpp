@@ -85,55 +85,62 @@ int main() {
 
 #### Types
 ```c++
-a: int
-a: unsigned int
+import "cstdint"
+       "functional"
+
 a: bool
-a: char
-a: signed char
-a: unsigned char
-a: short
-a: unsigned short
-a: long
-a: unsigned long
-a: long int
-a: long long
-a: long long long
-a: long long int
-a: unsigned long long
-a: float
-a: double
-a: long double
+b: char
+c: uchar
+d: int
+e: uint
+f: int8
+g: int16
+h: uint16
+i: int32
+j: uint32
+k: int64
+l: uint64
+m: float
+n: double
+o: long double
 
 // func type
-a: (int, int) -> int
-a: () -> int
-a: int -> ()
-a: () -> ()
+p: (int, int) -> int
+q: () -> int
+r: int -> ()
+s: () -> ()
+
+int main()
+    a = true
 ```
 
 ```c++
-int a;
-unsigned int a;
+#include "cstdint"
+#include "functional"
+
 bool a;
-char a;
-signed char a;
-unsigned char a;
-short a;
-unsigned short a;
-long a;
-unsigned long a;
-long int a;
-long long a;
-long long long a;
-long long int a;
-unsigned long long a;
-float a;
-double a;
-long double a;
-function<int (int, int)> a;
-function<int ()> a;
-function<void (int)> a;
-function<void ()> a;
+char b;
+unsigned char c;
+int d;
+unsigned int e;
+int8_t f;
+int16_t g;
+uint16_t h;
+int32_t i;
+uint32_t j;
+int64_t k;
+uint64_t l;
+float m;
+double n;
+long double o;
+std::function<int (int, int)> p;
+std::function<int ()> q;
+std::function<void (int)> r;
+std::function<void ()> s;
+
+int main() {
+    a = true;
+}
 ```
 
 #### Defer and Finally
