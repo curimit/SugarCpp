@@ -155,9 +155,9 @@ int main()
     for i <- 1 to 10, j <- 1 to 10, i + j == 10
         printf("%d + %d = %d\n", i, j, i + j)
     
-    //sum := 0
-    //for i <- 4 downto 0 by -1, i != 2, x <- a[i]
-    //    sum += x
+    sum := 0
+    for i <- 4 downto 0 by -1, i != 2, x <- a[i]
+        sum += x
     
     // i => i * i
     // means map i into i*i
@@ -181,6 +181,14 @@ int main() {
         for (auto j = 1; j <= 10; ++j) {
             if (i + j == 10) {
                 printf("%d + %d = %d\n", i, j, i + j);
+            }
+        }
+    }
+    auto sum = 0;
+    for (auto i = 4; i >= 0; i = i + -1) {
+        if (i != 2) {
+            for (auto x : a[i]) {
+                sum += x;
             }
         }
     }
