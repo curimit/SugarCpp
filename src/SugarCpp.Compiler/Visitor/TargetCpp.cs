@@ -106,7 +106,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(FuncType type)
         {
-            Template template = new Template("function\\<<return_type> (<list_type; separator=\", \">)>");
+            Template template = new Template("std::function\\<<return_type> (<list_type; separator=\", \">)>");
             if (type.Type != null)
             {
                 template.Add("return_type", type.Type.Accept(this));
