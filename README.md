@@ -278,6 +278,24 @@ int main() {
 }
 ```
 
+#### Operator overloading
+Currently support + - * /, other operators are on todo list.
+```c++
+Test (+) (a: const Test&, b: const Test&)
+    // something
+
+Test (/) (a: const Test&, b: const Test&)
+    // something
+```
+
+```c++
+Test operator+(const Test &a, const Test &b) {
+}
+
+Test operator/(const Test &a, const Test &b) {
+}
+```
+
 #### Defer and Finally
 Due to C++11 does not support C# style Finally syntax, it's difficult to guarantee resource be closed or pointer be deleted while exception happens.
 
