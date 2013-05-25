@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// $ANTLR 3.4 SugarCpp.g 2013-05-25 20:41:08
+// $ANTLR 3.4 SugarCpp.g 2013-05-25 20:45:49
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219
@@ -8967,7 +8967,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: expr, stmt_expr
+					// elements: stmt_expr, expr
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -9091,7 +9091,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: expr, stmt_expr
+					// elements: stmt_expr, expr
 					// token labels: 
 					// rule labels: retval
 					// token list labels: 
@@ -19546,7 +19546,7 @@ public partial class SugarCppParser : Antlr.Runtime.Parser
 
 					{
 					// AST REWRITE
-					// elements: bit_or, b, 169
+					// elements: b, bit_or, 169
 					// token labels: 
 					// rule labels: retval, b
 					// token list labels: 

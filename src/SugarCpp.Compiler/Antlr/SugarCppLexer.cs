@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// $ANTLR 3.4 SugarCpp.g 2013-05-25 20:41:08
+// $ANTLR 3.4 SugarCpp.g 2013-05-25 20:45:50
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219
@@ -4851,7 +4851,7 @@ public partial class SugarCppLexer : Antlr.Runtime.Lexer
 							if (c == '\n')
 							{
 								erase = CurrentIndent;
-								if (sb.Length > 1) sb.Append("\\n");
+								sb.Append("\\n");
 								continue;
 							}
 							if (erase == 0)

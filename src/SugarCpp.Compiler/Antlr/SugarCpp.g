@@ -745,7 +745,7 @@ STRING
 			if (c == '\n')
 			{
 				erase = CurrentIndent;
-				if (sb.Length > 1) sb.Append("\\n");
+				sb.Append("\\n");
 				continue;
 			}
 			if (erase == 0)
