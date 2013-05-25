@@ -24,6 +24,14 @@ options
 		if (op == "and") return "&&";
 		if (op == "or") return "||";
 		if (op == "not") return "!";
+		if (op == "int8") return "int8_t";
+		if (op == "int16") return "int16_t";
+		if (op == "int32") return "int32_t";
+		if (op == "int64") return "int64_t";
+		if (op == "uint8") return "uint8_t";
+		if (op == "uint16") return "uint16_t";
+		if (op == "uint32") return "uint32_t";
+		if (op == "uint64") return "uint64_t";
 		return op;
     }
 }
@@ -175,12 +183,8 @@ type_ident returns [SugarType value]
 	string type = "";
 }
 	: ^(Type_Ident ( 'const'	{ type+="const "; }
-				   | 'unsigned'	{ type+="unsigned "; }
-				   | 'signed'	{ type+="signed "; }
-				   | 'long'		{ type+="long "; }
-				   | 'short'	{ type+="short "; }
 				   | 'struct'	{ type+="struct "; }
-				   | a=ident	{ type+=a; }
+				   | a=ident	{ type+=Alias(a); }
 				   )*)
 	{
 		$value = new IdentType(type.Trim());

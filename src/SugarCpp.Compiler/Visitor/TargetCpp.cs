@@ -221,11 +221,6 @@ namespace SugarCpp.Compiler
                 prefix += "static ";
             }
 
-            if (global_alloc.Attribute.Find(x => x.Name == "const") != null)
-            {
-                prefix += "const ";
-            }
-
             if (type is AutoType)
             {
                 // Todo: Check ExprList.Count()

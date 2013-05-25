@@ -310,17 +310,8 @@ type_template_type
 				 )
 	;
 
-type_sign: 'unsigned' | 'signed' ;
-type_size: 'long' | 'short' ;
 type_ident
-options
-{
-	backtrack=true;
-}
-	: 'const'? ( type_sign? type_size* ident -> ^(Type_Ident 'const'? type_sign? type_size* ident)
-			   | 'struct' ident -> ^(Type_Ident 'const'? 'struct' ident)
-			   )
-	| 'unsigned'? 'signed'? type_size+  -> ^(Type_Ident 'unsigned'? 'signed'? type_size+)
+	: 'const'? 'struct'? ident -> ^(Type_Ident 'const'? 'struct'? ident)
 	;
 
 generic_parameter_inside
@@ -352,9 +343,13 @@ func_name
 	| '(' operator ')' -> operator
 	;
 
+func_type
+	: type_name
+	;
+
 func_def
-	: attribute? type_name? '~'? func_name generic_parameter? '(' func_args? ')' (NEWLINE+ stmt_block -> ^(Func_Def attribute? type_name? '~'? func_name generic_parameter? func_args? stmt_block)
-																			     | '=' where_expr  -> ^(Func_Def attribute? type_name? '~'? func_name generic_parameter? func_args? where_expr))
+	: attribute? func_type '~'? func_name generic_parameter? '(' func_args? ')' ( NEWLINE+ stmt_block -> ^(Func_Def attribute? func_type '~'? func_name generic_parameter? func_args? stmt_block)
+																				 | '=' where_expr  -> ^(Func_Def attribute? func_type '~'? func_name generic_parameter? func_args? where_expr))
     ;
 
 stmt_block_item
