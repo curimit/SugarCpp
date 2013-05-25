@@ -254,6 +254,30 @@ int main() {
 }
 ```
 
+#### Multiple line string
+```c++
+int main()
+    a = @"""
+    int main() {
+        printf("adf")
+    }
+    """
+    
+    b = "test
+    it"
+    
+    c = "test
+        it"
+```
+
+```c++
+int main() {
+    a = "\nint main() {\n    printf(\"adf\")\n}\n";
+    b = "test\nit";
+    c = "test\n    it";
+}
+```
+
 #### Defer and Finally
 Due to C++11 does not support C# style Finally syntax, it's difficult to guarantee resource be closed or pointer be deleted while exception happens.
 
