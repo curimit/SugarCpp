@@ -111,6 +111,7 @@ tokens
 	using System.Collections;
     using System.Collections.Generic;
 	using System.Linq;
+	using System.Text;
 }
 
 @lexer::members
@@ -724,8 +725,48 @@ NUMBER: ( '0'..'9'+ ('.' '0'..'9'+)? ('e' '-'? '0'..'9'+)? ('f' | 'F' | 'u' ('l'
 		;
 
 STRING
-	: '"' (~'"')* '"'
-	| '\'' (~'\'')+ '\''
+	: ( '"' ( options { greedy = false; } : (('\\') => '\\' . | . ) )* '"'
+	  | '\'' ( options { greedy = false; } : (('\\') => '\\' . | . ) )* '\''
+	  | '@\"""' ( options { greedy = false; } : (('"' '"') => '"' '"' | . ) )* '\"""'
+	  )
+	{
+		StringBuilder sb = new StringBuilder();
+		int erase = 0;
+		bool at_string = false;
+		if (Text[0] == '@')
+		{
+			at_string = true;
+			Text = Text.Substring(3, Text.Length - 5);
+		}
+		int ct = 0;
+		foreach (var c in Text)
+		{
+			ct++;
+			if (c == '\n')
+			{
+				erase = CurrentIndent;
+				if (sb.Length > 1) sb.Append("\\n");
+				continue;
+			}
+			if (erase == 0)
+			{
+				if (at_string)
+				{
+					sb.Append(c == '\\' ? "\\\\" : c == '"' && ct != 1 && ct != Text.Length ? "\\\"" : c.ToString());
+				}
+				else
+				{
+					sb.Append(c);
+				}
+			}
+			else
+			{
+				erase--;
+				continue;
+			}
+		}
+		Text = sb.ToString();
+	}
 	;
 
 Comment
