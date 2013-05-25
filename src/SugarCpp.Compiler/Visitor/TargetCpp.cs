@@ -220,6 +220,10 @@ namespace SugarCpp.Compiler
             {
                 prefix += "static ";
             }
+            if (global_alloc.Attribute.Find(x => x.Name == "const") != null)
+            {
+                prefix += "const ";
+            }
 
             if (type is AutoType)
             {
@@ -925,6 +929,17 @@ namespace SugarCpp.Compiler
                         {
                             var node = (ForItemEach)item;
                             Template tmp = new Template("for (auto <var> : <expr>) {\n    <body>\n}");
+                            tmp.Add("var", node.Var);
+                            tmp.Add("expr", node.Expr.Accept(this));
+                            tmp.Add("body", template);
+                            template = tmp;
+                            break;
+                        }
+
+                    case ForItemType.Map:
+                        {
+                            var node = (ForItemMap)item;
+                            Template tmp = new Template("{\n    auto _t_iterator = <expr>;\n    auto <var> = _t_iterator;\n    <body>\n}");
                             tmp.Add("var", node.Var);
                             tmp.Add("expr", node.Expr.Accept(this));
                             tmp.Add("body", template);

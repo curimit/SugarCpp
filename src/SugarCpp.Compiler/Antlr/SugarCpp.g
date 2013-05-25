@@ -45,6 +45,7 @@ tokens
    Stmt_For;
    For_Item_Each;
    For_Item_When;
+   For_Item_Map;
    For_Item_To;
    For_Item_Down_To;
 
@@ -348,8 +349,8 @@ func_type
 	;
 
 func_def
-	: attribute? func_type '~'? func_name generic_parameter? '(' func_args? ')' ( NEWLINE+ stmt_block -> ^(Func_Def attribute? func_type '~'? func_name generic_parameter? func_args? stmt_block)
-																				 | '=' where_expr  -> ^(Func_Def attribute? func_type '~'? func_name generic_parameter? func_args? where_expr))
+	: attribute? func_type? '~'? func_name generic_parameter? '(' func_args? ')' ( NEWLINE+ stmt_block -> ^(Func_Def attribute? func_type? '~'? func_name generic_parameter? func_args? stmt_block)
+																				 | '=' where_expr  -> ^(Func_Def attribute? func_type? '~'? func_name generic_parameter? func_args? where_expr))
     ;
 
 stmt_block_item
@@ -448,9 +449,14 @@ for_when
 	: expr -> ^(For_Item_When expr)
 	;
 
+for_map
+	: ident '=>' expr -> ^(For_Item_Map ident expr)
+	;
+
 for_item
 	: for_range
 	| for_when
+	| for_map
 	;
 
 stmt_for

@@ -26,6 +26,7 @@ options
 		if (op == "not") return "!";
 		if (op == "uint") return "unsigned int";
 		if (op == "uchar") return "unsigned char";
+		if (op == "schar") return "signed char";
 		if (op == "int8") return "int8_t";
 		if (op == "int16") return "int16_t";
 		if (op == "int32") return "int32_t";
@@ -474,6 +475,10 @@ for_item returns [ForItem value]
 	| ^(For_Item_Each a=ident b=expr)
 	{
 		$value = new ForItemEach(a, b);
+	}
+	| ^(For_Item_Map a=ident b=expr)
+	{
+		$value = new ForItemMap(a, b);
 	}
 	| ^(For_Item_When b=expr)
 	{

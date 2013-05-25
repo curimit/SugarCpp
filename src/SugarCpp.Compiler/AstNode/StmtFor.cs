@@ -8,7 +8,7 @@ namespace SugarCpp.Compiler
 {
     public enum ForItemType
     {
-        Each, When, To, DownTo
+        Each, When, To, DownTo, Map
     }
 
     public abstract class ForItem
@@ -27,6 +27,23 @@ namespace SugarCpp.Compiler
         }
 
         public ForItemEach(string var, Expr expr)
+        {
+            this.Var = var;
+            this.Expr = expr;
+        }
+    }
+
+    public class ForItemMap : ForItem
+    {
+        public string Var;
+        public Expr Expr;
+
+        public override ForItemType Type
+        {
+            get { return ForItemType.Map; }
+        }
+
+        public ForItemMap(string var, Expr expr)
         {
             this.Var = var;
             this.Expr = expr;
