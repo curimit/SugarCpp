@@ -24,6 +24,8 @@ options
 		if (op == "and") return "&&";
 		if (op == "or") return "||";
 		if (op == "not") return "!";
+		if (op == "uint") return "unsigned int";
+		if (op == "uchar") return "unsigned char";
 		if (op == "int8") return "int8_t";
 		if (op == "int16") return "int16_t";
 		if (op == "int32") return "int32_t";
@@ -183,6 +185,7 @@ type_ident returns [SugarType value]
 	string type = "";
 }
 	: ^(Type_Ident ( 'const'	{ type+="const "; }
+				   | 'long'		{ type+="long "; }
 				   | 'struct'	{ type+="struct "; }
 				   | a=ident	{ type+=Alias(a); }
 				   )*)

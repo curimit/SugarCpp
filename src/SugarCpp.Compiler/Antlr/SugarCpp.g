@@ -311,7 +311,7 @@ type_template_type
 	;
 
 type_ident
-	: 'const'? 'struct'? ident -> ^(Type_Ident 'const'? 'struct'? ident)
+	: 'const'? 'struct'? 'long'? ident -> ^(Type_Ident 'const'? 'struct'? 'long'? ident)
 	;
 
 generic_parameter_inside
