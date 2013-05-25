@@ -143,6 +143,70 @@ int main() {
 }
 ```
 
+#### (Prolog? Haskell? Scala?) style for loop
+```c++
+import "cstdio"
+       "cstdlib"
+       "vector"
+
+using namespace std
+
+int main()
+    for i <- 1 to 10, j <- 1 to 10, i + j == 10
+        printf("%d + %d = %d\n", i, j, i + j)
+    
+    //sum := 0
+    //for i <- 4 downto 0 by -1, i != 2, x <- a[i]
+    //    sum += x
+    
+    // i => i * i
+    // means map i into i*i
+    for i <- 1 to 100, i % 3 == 0, i => i * i
+        printf("%d\n", i)
+    
+    // notice the type of i can be also changed
+    for i <- ["12", "21"], i => atoi(i), i => i * 2
+        printf("%d\n", i)
+```
+
+```c++
+#include "cstdio"
+#include "cstdlib"
+#include "vector"
+
+using namespace std;
+
+int main() {
+    for (auto i = 1; i <= 10; ++i) {
+        for (auto j = 1; j <= 10; ++j) {
+            if (i + j == 10) {
+                printf("%d + %d = %d\n", i, j, i + j);
+            }
+        }
+    }
+    for (auto i = 1; i <= 100; ++i) {
+        if (i % 3 == 0) {
+            {
+                auto _t_iterator = i * i;
+                auto i = _t_iterator;
+                printf("%d\n", i);
+            }
+        }
+    }
+    for (auto i : { "12", "21" }) {
+        {
+            auto _t_iterator = atoi(i);
+            auto i = _t_iterator;
+            {
+                auto _t_iterator = i * 2;
+                auto i = _t_iterator;
+                printf("%d\n", i);
+            }
+        }
+    }
+}
+```
+
 #### Defer and Finally
 Due to C++11 does not support C# style Finally syntax, it's difficult to guarantee resource be closed or pointer be deleted while exception happens.
 
@@ -311,41 +375,6 @@ int main() {
     printf("%d %d\n", a, b);
     std::tie(a, b) = std::make_tuple(b, a);
     printf("%d %d\n", a, b);
-}
-```
-
-#### (Prolog? Haskell? Scala?) style for loop
-```c++
-import "stdio.h"
-
-int main()
-    for i <- 1 to 10, j <- 1 to 10, i + j == 10
-        printf("%d + %d = %d")
-
-    sum := 0
-    for i <- 10 downto 1 by -1, i != 5, x <- a[i]
-        sum += x
-```
-
-```c++
-#include "stdio.h"
-
-int main() {
-    for (auto i = 1; i <= 10; ++i) {
-        for (auto j = 1; j <= 10; ++j) {
-            if (i + j == 10) {
-                printf("%d + %d = %d");
-            }
-        }
-    }
-    auto sum = 0;
-    for (auto i = 10; i >= 1; i = i + -1) {
-        if (i != 5) {
-            for (auto x : a[i]) {
-                sum += x;
-            }
-        }
-    }
 }
 ```
 
