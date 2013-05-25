@@ -91,24 +91,26 @@ import "cstdint"
 a: bool
 b: char
 c: uchar
-d: int
-e: uint
+d: schar
+e: int
 f: int8
 g: int16
-h: uint16
-i: int32
-j: uint32
-k: int64
-l: uint64
-m: float
-n: double
-o: long double
+h: int32
+i: int64
+j: uint
+k: uint8
+l: uint16
+m: uint32
+n: uint64
+o: float
+p: double
+q: long double
 
 // func type
-p: (int, int) -> int
-q: () -> int
-r: int -> ()
-s: () -> ()
+r: (int, int) -> int
+s: () -> int
+t: int -> ()
+u: () -> ()
 
 int main()
     a = true
@@ -121,22 +123,24 @@ int main()
 bool a;
 char b;
 unsigned char c;
-int d;
-unsigned int e;
+signed char d;
+int e;
 int8_t f;
 int16_t g;
-uint16_t h;
-int32_t i;
-uint32_t j;
-int64_t k;
-uint64_t l;
-float m;
-double n;
-long double o;
-std::function<int (int, int)> p;
-std::function<int ()> q;
-std::function<void (int)> r;
-std::function<void ()> s;
+int32_t h;
+int64_t i;
+unsigned int j;
+uint8_t k;
+uint16_t l;
+uint32_t m;
+uint64_t n;
+float o;
+double p;
+long double q;
+std::function<int (int, int)> r;
+std::function<int ()> s;
+std::function<void (int)> t;
+std::function<void ()> u;
 
 int main() {
     a = true;
@@ -875,21 +879,24 @@ int main() {
 ```
 
 #### Attributes
-##### 1. friend, public, private, static
+##### 1. friend, public, private, static, inline, virtual
 ```c++
 import "stdio.h"
 
-[friend(Print)]
+[friend(Print), public]
 class Test
-    [public]
     Test(x: int) = this->x = x
 
     [private]
     x: int
 
+[public]
 class Print
-    [public, static]
+    [inline, static]
     void print(a :Test&) = printf("%d", a.x)
+    
+    [virtual, const]
+    int get() = 1
 
 int main()
     a := Test(123)
@@ -903,9 +910,7 @@ class Test {
     friend class Print;
 
 public:
-    Test(int x) {
-        this->x = x;
-    }
+    Test(int x);
 
 private:
     int x;
@@ -913,15 +918,28 @@ private:
 
 class Print {
 public:
-    static void print(Test& a) {
-        printf("%d", a.x);
-    }
+    inline static void print(Test &a);
+
+    virtual int get() const;
 };
+
+Test::Test(int x) {
+    this->x = x;
+}
+
+inline void Print::print(Test &a) {
+    printf("%d", a.x);
+}
+
+int Print::get() const {
+    return 1;
+}
 
 int main() {
     auto a = Test(123);
     Print::print(a);
 }
+
 ```
 
 ##### 2. FlagAttribute
