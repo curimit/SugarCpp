@@ -215,6 +215,45 @@ int main() {
 }
 ```
 
+#### Multiple line function call
+```c++
+int main()
+    glVertexAttribPointer(
+        attribute_coord2d, // attribute
+        2,                 // number of elements per vertex, here (x,y)
+        GL_FLOAT,          // the type of each element
+        GL_FALSE,          // take our values as-is
+        0,                 // no extra data between each position
+        triangle_vertices  // pointer to the C array
+    )
+    
+    test(
+        1,2,3
+        4,5,6
+    )
+    
+    test(
+        1
+        2
+        3)
+    
+    test(1,2
+         3,4)
+    
+    test(1,2
+    3,4)
+```
+
+```c++
+int main() {
+    glVertexAttribPointer(attribute_coord2d, 2, GL_FLOAT, GL_FALSE, 0, triangle_vertices);
+    test(1, 2, 3, 4, 5, 6);
+    test(1, 2, 3);
+    test(1, 2, 3, 4);
+    test(1, 2, 3, 4);
+}
+```
+
 #### Defer and Finally
 Due to C++11 does not support C# style Finally syntax, it's difficult to guarantee resource be closed or pointer be deleted while exception happens.
 
