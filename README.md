@@ -22,10 +22,10 @@ Try SugarCpp in your browser: http://curimit.com/project/SugarCpp/
 * [Scala style case class.](#scala-style-case-class)
 
 ## Plugins
-Sublime-Text:  
+Sublime-Text:
 https://github.com/curimit/Sublime-SugarCpp
 
-vim:  
+vim:
 https://github.com/ppwwyyxx/vim-SugarCpp
 
 ## Examples
@@ -158,16 +158,16 @@ using namespace std
 int main()
     for i <- 1 to 10, j <- 1 to 10, i + j == 10
         printf("%d + %d = %d\n", i, j, i + j)
-    
+
     sum := 0
     for i <- 4 downto 0 by -1, i != 2, x <- a[i]
         sum += x
-    
+
     // i => i * i
     // means map i into i*i
     for i <- 1 to 100, i % 3 == 0, i => i * i
         printf("%d\n", i)
-    
+
     // notice the type of i can be also changed
     for i <- ["12", "21"], i => atoi(i), i => i * 2
         printf("%d\n", i)
@@ -230,20 +230,20 @@ int main()
         0,                 // no extra data between each position
         triangle_vertices  // pointer to the C array
     )
-    
+
     test(
         1,2,3
         4,5,6
     )
-    
+
     test(
         1
         2
         3)
-    
+
     test(1,2
          3,4)
-    
+
     test(1,2
     3,4)
 ```
@@ -266,10 +266,10 @@ int main()
         printf("adf")
     }
     """
-    
+
     b = "test
     it"
-    
+
     c = "test
         it"
 ```
@@ -301,16 +301,16 @@ Test operator/(const Test &a, const Test &b) {
 ```
 
 #### Defer and Finally
-Due to C++11 does not support C# style Finally syntax, it's difficult to guarantee resource be closed or pointer be deleted while exception happens.
+Due to the fact that C++11 does not support C# style Finally syntax, it's difficult to guarantee resource be closed or pointer be deleted while exception happens.
 
 SugarCpp provide two syntax: defer/finally
-+ `defer` is fast, lightweight, the generate C++ code is highly readable.
++ `defer` is fast, lightweight, the generated C++ code is highly readable.
 It simply insert code before `return`/`continue`/`break` statements.
 So when exception happens, the codes decleared by `defer` are **not** guarantee to be run.
 
 + `finally` is little heavier than `defer`.
 It is behaved just like the finally syntax in C# or Java.
-It use deconstructor to guarantee when exception happens, the codes decleared by `finally` will still be run.
+It uses a destructor to guarantee when exception happens, the codes decleared by `finally` will still be run.
 
 ##### This is an example of defer
 Notice it has no extra cost and does not handle exceptions.
@@ -727,7 +727,7 @@ int main()
     expr: Expr
     number: Number<int>
     expr_bin: ExprBin
-    
+
     Test(&expr)
     Test(&number)
     Test(&expr_bin)
@@ -834,7 +834,7 @@ int main()
             printf("%d", i)
         else
             printf("unknown")
-    
+
     // if elsif syntax
     switch
         when 0 < i < 10
@@ -894,7 +894,7 @@ class Test
 class Print
     [inline, static]
     void print(a :Test&) = printf("%d", a.x)
-    
+
     [virtual, const]
     int get() = 1
 
