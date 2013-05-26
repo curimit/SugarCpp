@@ -591,13 +591,13 @@ dict_expr returns [Expr value]
 	;
 
 lambda_expr returns [ExprLambda value]
-	: ^(Expr_Lambda '->' (b=func_args)? a=stmt_block)
+	: ^(Expr_Lambda '->' (b=func_args)? (t=type_name)? a=stmt_block)
 	{
-		$value = new ExprLambda(a, b, true);
+		$value = new ExprLambda(a, b, true, t);
 	}
-	| ^(Expr_Lambda '=>' (b=func_args)? a=stmt_block)
+	| ^(Expr_Lambda '=>' (b=func_args)? (t=type_name)? a=stmt_block)
 	{
-		$value = new ExprLambda(a, b, false);
+		$value = new ExprLambda(a, b, false, t);
 	}
 	;
 

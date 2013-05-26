@@ -549,9 +549,13 @@ lambda_value
 	| NEWLINE+ stmt_block -> stmt_block
 	;
 
+lambda_type
+	: '(' type_name ')' -> type_name
+	;
+
 lambda_expr
-	: '(' func_args? ')' ( '->' lambda_value  -> ^(Expr_Lambda '->' func_args? lambda_value)
-	                     | '=>' lambda_value  -> ^(Expr_Lambda '=>' func_args? lambda_value))
+	: '(' func_args? ')' lambda_type? ( '->' lambda_value  -> ^(Expr_Lambda '->' func_args? lambda_type? lambda_value)
+								      | '=>' lambda_value  -> ^(Expr_Lambda '=>' func_args? lambda_type? lambda_value))
 	| modify_expr
 	;
 

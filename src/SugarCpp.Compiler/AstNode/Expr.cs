@@ -191,9 +191,10 @@ namespace SugarCpp.Compiler
     {
         public List<ExprAlloc> Args = new List<ExprAlloc>();
         public StmtBlock Block;
+        public SugarType Type;
         public bool IsRef;
 
-        public ExprLambda(StmtBlock block, List<ExprAlloc> args, bool isRef)
+        public ExprLambda(StmtBlock block, List<ExprAlloc> args, bool isRef, SugarType type)
         {
             this.Block = block;
             if (args != null)
@@ -201,6 +202,7 @@ namespace SugarCpp.Compiler
                 this.Args = args;
             }
             this.IsRef = isRef;
+            this.Type = type;
         }
 
         public override Template Accept(Visitor visitor)

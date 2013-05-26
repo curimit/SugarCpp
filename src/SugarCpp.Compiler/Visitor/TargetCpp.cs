@@ -1203,10 +1203,20 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(ExprLambda expr)
         {
-            Template template = new Template("([<ref>](<args; separator=\",\">) {\n    <block>\n})");
+            Template template = new Template("([<ref>](<args; separator=\",\">)<type> {\n    <block>\n})");
             template.Add("args", expr.Args.Select(x => x.Accept(this)));
             template.Add("block", expr.Block.Accept(this));
             template.Add("ref", expr.IsRef ? "&" : "=");
+            if (expr.Type == null)
+            {
+                template.Add("type", "");
+            }
+            else
+            {
+                Template type = new Template(" -> <type>");
+                type.Add("type", expr.Type.Accept(this));
+                template.Add("type", type);
+            }
             return template;
         }
         public override Template Visit(ExprTuple expr)
