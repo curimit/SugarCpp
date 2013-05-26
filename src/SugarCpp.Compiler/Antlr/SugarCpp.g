@@ -66,6 +66,7 @@ tokens
    Func_Args;
 
    Expr_List;
+   Expr_Args;
 
    Expr_Cast;
 
@@ -241,7 +242,7 @@ attribute
 
 global_alloc
 	: attribute? ident_list ( ':' type_name ( ('=' | ':=') expr -> ^(Expr_Alloc_Equal attribute? type_name ident_list expr?)
-	                                       | bracket_expr_list -> ^(Expr_Alloc_Bracket attribute? type_name ident_list bracket_expr_list?)
+	                                       | bracket_expr_list -> ^(Expr_Alloc_Bracket attribute? type_name ident_list bracket_expr_list)
 								 		   | -> ^(Expr_Alloc_Equal attribute? type_name ident_list)
 								  		   )
 							| ':=' (expr (',' expr)*) -> ^(':=' attribute? ident_list expr+)
@@ -330,7 +331,7 @@ func_args
 
 func_args_item
 	: ident_list ':' type_name ( ('=' | ':=') expr  -> ^(Expr_Alloc_Equal type_name ident_list expr?)
-	                             | bracket_expr_list  -> ^(Expr_Alloc_Bracket type_name ident_list bracket_expr_list?)
+	                             | bracket_expr_list  -> ^(Expr_Alloc_Bracket type_name ident_list bracket_expr_list)
 							     | -> ^(Expr_Alloc_Equal type_name ident_list)
 							     )
 	| ':='^  modify_expr
@@ -486,7 +487,7 @@ ident_list
 
 stmt_alloc
 	: ident_list ( ':' type_name ( ('=' | ':=') where_expr  -> ^(Expr_Alloc_Equal type_name ident_list where_expr?)
-	                             | bracket_expr_list  -> ^(Expr_Alloc_Bracket type_name ident_list bracket_expr_list?)
+	                             | bracket_expr_list  -> ^(Expr_Alloc_Bracket type_name ident_list bracket_expr_list)
 							     | -> ^(Expr_Alloc_Equal type_name ident_list)
 							     )
 				 | ':='  (where_expr (',' where_expr)*) -> ^(':=' ident_list where_expr*))
@@ -600,7 +601,7 @@ chain_op: '<' | '<=' | '>' | '>=' | '!=' | '==' | 'is' | 'isnt' ;
 no_less_op: '<=' | '>' | '>=' | '!=' | '==' | 'is' | 'isnt' ;
 chain_list: (chain_op shift_expr)+ ;
 cmp_expr
-	: (a=shift_expr -> $a) ( '<' b=shift_expr ( {b.Tree.Token.Type == IDENT}? ident* '>' bracket_expr_list -> ^(Expr_Call $cmp_expr ^(Generic_Patameters $b ident*) bracket_expr_list?)
+	: (a=shift_expr -> $a) ( '<' b=shift_expr ( {b.Tree.Token.Type == IDENT}? ident* '>' bracket_expr_list -> ^(Expr_Call $cmp_expr ^(Generic_Patameters $b ident*) bracket_expr_list)
 	                                          | chain_list -> ^(Expr_Chain  $cmp_expr '<' $b chain_list)
 											  | -> ^(Expr_Bin '<' $cmp_expr $b))
 	                       | op=no_less_op b=shift_expr ( chain_list -> ^(Expr_Chain  $cmp_expr $op $b chain_list)
@@ -644,20 +645,20 @@ cast_expr
 prefix_expr_op: '!' | '~' | '++' | '--' | '-' | '+' | '*' | '&' | 'not';
 prefix_expr
 	: (prefix_expr_op prefix_expr) -> ^(Expr_Prefix prefix_expr_op prefix_expr)
-	| 'new' type_no_array ( bracket_expr_list -> ^(Expr_New_Type type_no_array bracket_expr_list?)
-						  | '[' expr_list? ']' -> ^(Expr_New_Array type_no_array expr_list?)
+	| 'new' type_no_array ( bracket_expr_list -> ^(Expr_New_Type type_no_array bracket_expr_list)
+						  | square_expr_list -> ^(Expr_New_Array type_no_array square_expr_list)
 						  )
 	| suffix_expr
 	;
 	
-expr_list
-	: expr (',' expr)* -> expr*
+square_expr_list
+	: '[' expr (',' expr)* ']' -> ^(Expr_Args expr*)
 	;
 
 bracket_expr_list
-	: '(' (expr (',' expr)*)? ( ')' -> expr*
-							  | NEWLINE+ ( INDENT NEWLINE* expr ((',' | NEWLINE)+ expr)* NEWLINE* ( ')' NEWLINE* DEDENT | DEDENT NEWLINE* ')' ) -> expr*
-										 | (expr ((',' | NEWLINE)+ expr)*)? ')' -> expr*
+	: '(' (expr (',' expr)*)? ( ')' -> ^(Expr_Args expr*)
+							  | NEWLINE+ ( INDENT NEWLINE* expr ((',' | NEWLINE)+ expr)* NEWLINE* ( ')' NEWLINE* DEDENT | DEDENT NEWLINE* ')' ) -> ^(Expr_Args expr*)
+										 | (expr ((',' | NEWLINE)+ expr)*)? ')' -> ^(Expr_Args expr*)
 										 )
 							  )
 	;
@@ -667,11 +668,9 @@ suffix_expr
 					      | '--' -> ^(Expr_Suffix '--' $suffix_expr)
 						  | '.' ident -> ^(Expr_Access '.' $suffix_expr ident)
 						  | '->' ident -> ^(Expr_Access '->' $suffix_expr ident)
-						  | bracket_expr_list -> ^(Expr_Call $suffix_expr bracket_expr_list?)
-						  | '[' ( expr_list ']' -> ^(Expr_Dict $suffix_expr expr_list)
-						        | ']' -> ^(Expr_Dict $suffix_expr)
-								)
-						  | '@' ident bracket_expr_list -> ^(Expr_Call_With $suffix_expr ident bracket_expr_list?)
+						  | bracket_expr_list -> ^(Expr_Call $suffix_expr bracket_expr_list)
+						  | square_expr_list -> ^(Expr_Dict $suffix_expr square_expr_list)
+						  | '@' ident bracket_expr_list -> ^(Expr_Call_With $suffix_expr ident bracket_expr_list)
 					      )*
 	;
 
@@ -699,8 +698,8 @@ lvalue_suffix
 					        | '--' -> ^(Expr_Suffix '--' $lvalue_suffix)
 						    | '.' ident -> ^(Expr_Access '.' $lvalue_suffix ident)
 						    | '->' ident -> ^(Expr_Access '->' $lvalue_suffix ident)
-						    | generic_parameter? bracket_expr_list -> ^(Expr_Call $lvalue_suffix generic_parameter? bracket_expr_list?)
-						    | '[' expr_list? ']' -> ^(Expr_Dict $lvalue_suffix expr_list?)
+						    | generic_parameter? bracket_expr_list -> ^(Expr_Call $lvalue_suffix generic_parameter? bracket_expr_list)
+						    | square_expr_list -> ^(Expr_Dict $lvalue_suffix square_expr_list)
 					        )*
 	;
 

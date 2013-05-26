@@ -85,7 +85,7 @@ global_alloc returns [List<GlobalAlloc> value]
 {
 	$value = new List<GlobalAlloc>();
 }
-	: ^(Expr_Alloc_Equal (attr=attribute)? a=type_name b=ident_list (c=expr_list)?)
+	: ^(Expr_Alloc_Equal (attr=attribute)? a=type_name b=ident_list c=expr_list)
 	{
 		if (c != null)
 		{
@@ -96,7 +96,7 @@ global_alloc returns [List<GlobalAlloc> value]
 			$value.Add(new GlobalAlloc(a, b, c, attr, AllocType.Declare));
 		}
 	}
-	| ^(Expr_Alloc_Bracket (attr=attribute)? a=type_name b=ident_list (c=expr_list)?)
+	| ^(Expr_Alloc_Bracket (attr=attribute)? a=type_name b=ident_list c=expr_list)
 	{
 		$value.Add(new GlobalAlloc(a, b, c, attr, AllocType.Bracket));
 	}
@@ -535,7 +535,7 @@ ident_list returns [List<string> value]
 	;
 	
 alloc_expr returns [ExprAlloc value]
-	: ^(Expr_Alloc_Equal a=type_name b=ident_list (c=expr_list)?)
+	: ^(Expr_Alloc_Equal a=type_name b=ident_list c=expr_list)
 	{
 		if (c != null)
 		{
@@ -546,7 +546,7 @@ alloc_expr returns [ExprAlloc value]
 			$value = new ExprAlloc(a, b, c, AllocType.Declare);
 		}
 	}
-	| ^(Expr_Alloc_Bracket a=type_name b=ident_list (c=expr_list)?)
+	| ^(Expr_Alloc_Bracket a=type_name b=ident_list c=expr_list)
 	{
 		$value = new ExprAlloc(a, b, c, AllocType.Bracket);
 	}
@@ -573,18 +573,18 @@ expr_list returns [List<Expr> value]
 {
 	$value = new List<Expr>();
 }
-	: (a=expr { $value.Add(a); })+
+	: ^(Expr_Args (a=expr { $value.Add(a); })*)
 	;
 
 call_expr returns [ExprCall value]
-	: ^(Expr_Call a=expr (b=generic_parameter)? (c=expr_list)?)
+	: ^(Expr_Call a=expr (b=generic_parameter)? c=expr_list)
 	{
 		$value = new ExprCall(a, b, c);
 	}
 	;
 
 dict_expr returns [Expr value]
-	: ^(Expr_Dict a=expr (b=expr_list)?)
+	: ^(Expr_Dict a=expr b=expr_list)
 	{
 		$value = new ExprDict(a, b);
 	}
@@ -602,7 +602,7 @@ lambda_expr returns [ExprLambda value]
 	;
 
 new_expr returns [Expr value]
-	: ^(Expr_New_Type a=type_name b=expr_list?)
+	: ^(Expr_New_Type a=type_name b=expr_list)
 	{
 		$value = new ExprNewType(a, b);
 	}
@@ -613,7 +613,7 @@ new_expr returns [Expr value]
 	;
 
 call_with_expr returns [ExprCall value]
-	: ^(Expr_Call_With a=expr b=ident c=expr_list?)
+	: ^(Expr_Call_With a=expr b=ident c=expr_list)
 	{
 		List<Expr> Args = new List<Expr>();
 		Args.Add(a);
@@ -636,7 +636,7 @@ cast_expr returns [ExprCast value]
 	;
 
 list_expr returns [ExprList value]
-	: ^(Expr_List a=expr_list?)
+	: ^(Expr_List a=expr_list)
 	{
 		$value = new ExprList(a);
 	}
