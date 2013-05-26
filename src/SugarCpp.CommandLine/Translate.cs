@@ -7,9 +7,7 @@ using Antlr.Runtime.Tree;
 using SugarCpp.Compiler;
 
 namespace SugarCpp.CommandLine
-{
-    class Translate
-    {
+{ class Translate {
         internal static void Main(string[] args)
         {
             Arguments arguments = new Arguments(args, new Dictionary<string, bool> {
@@ -38,18 +36,13 @@ namespace SugarCpp.CommandLine
             {
                 Program.Panic("No input file is specified. Use --help for more information.");
             }
-            // TODO support multiple input
-            inputFileName = arguments.DirectArguments[0];
 
-            if (outputFileName != null)
-            {
-                outputFile = new StreamWriter(outputFileName);
-            }
-            Compile();
-            if (outputFile != null)
-            {
-                outputFile.Close();
-            }
+			// multiple input file
+			foreach (var fname in arguments.DirectArguments)
+			{
+				inputFileName = fname;
+				Compile();
+			}
         }
 
         /// <summary>

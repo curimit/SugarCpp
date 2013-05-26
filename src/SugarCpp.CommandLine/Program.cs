@@ -83,7 +83,7 @@ namespace SugarCpp.CommandLine
 			Console.WriteLine(indent + "Translate into C++ code");
 			Console.WriteLine(indent + indent + "sugarcpp code.sc -o code.cpp");
 			Console.WriteLine(indent + "Compile to binary by calling the default compiler");
-			Console.WriteLine(indent + indent + "sugarcpp compule code.sc -o code.exe");
+			Console.WriteLine(indent + indent + "sugarcpp compile code.sc -o code.exe");
 			Console.WriteLine(indent + "Compile and run");
 			Console.WriteLine(indent + indent + "sugarcpp run code.sc");
             Environment.Exit(0);
