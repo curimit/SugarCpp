@@ -544,9 +544,14 @@ list_expr
 	| lambda_expr
 	;
 
+lambda_value
+	: expr -> ^(Stmt_Block ^(Stmt_Return expr))
+	| NEWLINE+ stmt_block -> stmt_block
+	;
+
 lambda_expr
-	: '(' func_args? ')' ( '->' expr  -> ^(Expr_Lambda '->' func_args? expr)
-	                     | '=>' expr  -> ^(Expr_Lambda '=>' func_args? expr))
+	: '(' func_args? ')' ( '->' lambda_value  -> ^(Expr_Lambda '->' func_args? lambda_value)
+	                     | '=>' lambda_value  -> ^(Expr_Lambda '=>' func_args? lambda_value))
 	| modify_expr
 	;
 

@@ -189,13 +189,13 @@ namespace SugarCpp.Compiler
 
     public class ExprLambda : Expr
     {
-        public Expr Expr;
         public List<ExprAlloc> Args = new List<ExprAlloc>();
+        public StmtBlock Block;
         public bool IsRef;
 
-        public ExprLambda(Expr expr, List<ExprAlloc> args, bool isRef)
+        public ExprLambda(StmtBlock block, List<ExprAlloc> args, bool isRef)
         {
-            this.Expr = expr;
+            this.Block = block;
             if (args != null)
             {
                 this.Args = args;

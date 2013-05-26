@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// $ANTLR 3.4 SugarWalker.g 2013-05-25 20:45:50
+// $ANTLR 3.4 SugarWalker.g 2013-05-26 12:47:20
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219
@@ -6932,7 +6932,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	partial void LeaveRule_lambda_expr();
 
 	// $ANTLR start "lambda_expr"
-	// SugarWalker.g:593:1: lambda_expr returns [ExprLambda value] : ( ^( Expr_Lambda '->' (b= func_args )? a= expr ) | ^( Expr_Lambda '=>' (b= func_args )? a= expr ) );
+	// SugarWalker.g:593:1: lambda_expr returns [ExprLambda value] : ( ^( Expr_Lambda '->' (b= func_args )? a= stmt_block ) | ^( Expr_Lambda '=>' (b= func_args )? a= stmt_block ) );
 	[GrammarRule("lambda_expr")]
 	private ExprLambda lambda_expr()
 	{
@@ -6943,13 +6943,13 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 
 
 		List<ExprAlloc> b = default(List<ExprAlloc>);
-		Expr a = default(Expr);
+		StmtBlock a = default(StmtBlock);
 
 		try { DebugEnterRule(GrammarFileName, "lambda_expr");
 		DebugLocation(593, 1);
 		try
 		{
-			// SugarWalker.g:594:2: ( ^( Expr_Lambda '->' (b= func_args )? a= expr ) | ^( Expr_Lambda '=>' (b= func_args )? a= expr ) )
+			// SugarWalker.g:594:2: ( ^( Expr_Lambda '->' (b= func_args )? a= stmt_block ) | ^( Expr_Lambda '=>' (b= func_args )? a= stmt_block ) )
 			int alt75=2;
 			try { DebugEnterDecision(75, false);
 			int LA75_0 = input.LA(1);
@@ -6995,7 +6995,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			{
 			case 1:
 				DebugEnterAlt(1);
-				// SugarWalker.g:594:4: ^( Expr_Lambda '->' (b= func_args )? a= expr )
+				// SugarWalker.g:594:4: ^( Expr_Lambda '->' (b= func_args )? a= stmt_block )
 				{
 				DebugLocation(594, 4);
 				DebugLocation(594, 6);
@@ -7035,8 +7035,8 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				} finally { DebugExitSubRule(73); }
 
 				DebugLocation(594, 39);
-				PushFollow(Follow._expr_in_lambda_expr2350);
-				a=expr();
+				PushFollow(Follow._stmt_block_in_lambda_expr2350);
+				a=stmt_block();
 				PopFollow();
 
 
@@ -7051,7 +7051,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				break;
 			case 2:
 				DebugEnterAlt(2);
-				// SugarWalker.g:598:4: ^( Expr_Lambda '=>' (b= func_args )? a= expr )
+				// SugarWalker.g:598:4: ^( Expr_Lambda '=>' (b= func_args )? a= stmt_block )
 				{
 				DebugLocation(598, 4);
 				DebugLocation(598, 6);
@@ -7091,8 +7091,8 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 				} finally { DebugExitSubRule(74); }
 
 				DebugLocation(598, 39);
-				PushFollow(Follow._expr_in_lambda_expr2373);
-				a=expr();
+				PushFollow(Follow._stmt_block_in_lambda_expr2373);
+				a=stmt_block();
 				PopFollow();
 
 
@@ -9232,13 +9232,13 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		public static readonly BitSet _expr_in_dict_expr2310 = new BitSet(new ulong[]{0x42A0803FFFFF008UL,0x120A120891200000UL,0x240000000001UL});
 		public static readonly BitSet _expr_list_in_dict_expr2315 = new BitSet(new ulong[]{0x8UL});
 		public static readonly BitSet _Expr_Lambda_in_lambda_expr2337 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _100_in_lambda_expr2339 = new BitSet(new ulong[]{0x42A0883FFFFF000UL,0x120A120891200000UL,0x240000000001UL});
-		public static readonly BitSet _func_args_in_lambda_expr2344 = new BitSet(new ulong[]{0x42A0803FFFFF000UL,0x120A120891200000UL,0x240000000001UL});
-		public static readonly BitSet _expr_in_lambda_expr2350 = new BitSet(new ulong[]{0x8UL});
+		public static readonly BitSet _100_in_lambda_expr2339 = new BitSet(new ulong[]{0x800008000000000UL});
+		public static readonly BitSet _func_args_in_lambda_expr2344 = new BitSet(new ulong[]{0x800000000000000UL});
+		public static readonly BitSet _stmt_block_in_lambda_expr2350 = new BitSet(new ulong[]{0x8UL});
 		public static readonly BitSet _Expr_Lambda_in_lambda_expr2360 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _117_in_lambda_expr2362 = new BitSet(new ulong[]{0x42A0883FFFFF000UL,0x120A120891200000UL,0x240000000001UL});
-		public static readonly BitSet _func_args_in_lambda_expr2367 = new BitSet(new ulong[]{0x42A0803FFFFF000UL,0x120A120891200000UL,0x240000000001UL});
-		public static readonly BitSet _expr_in_lambda_expr2373 = new BitSet(new ulong[]{0x8UL});
+		public static readonly BitSet _117_in_lambda_expr2362 = new BitSet(new ulong[]{0x800008000000000UL});
+		public static readonly BitSet _func_args_in_lambda_expr2367 = new BitSet(new ulong[]{0x800000000000000UL});
+		public static readonly BitSet _stmt_block_in_lambda_expr2373 = new BitSet(new ulong[]{0x8UL});
 		public static readonly BitSet _Expr_New_Type_in_new_expr2393 = new BitSet(new ulong[]{0x4UL});
 		public static readonly BitSet _type_name_in_new_expr2397 = new BitSet(new ulong[]{0x42A0803FFFFF008UL,0x120A120891200000UL,0x240000000001UL});
 		public static readonly BitSet _expr_list_in_new_expr2401 = new BitSet(new ulong[]{0x8UL});
