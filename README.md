@@ -1108,7 +1108,7 @@ namespace SugarCpp {
 
 #### Typedef
 ```c++
-type u_int32 = unsigned int
+type u_int32 = uint
 ```
 
 ```c++
