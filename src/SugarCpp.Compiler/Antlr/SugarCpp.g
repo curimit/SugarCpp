@@ -601,8 +601,8 @@ chain_op: '<' | '<=' | '>' | '>=' | '!=' | '==' | 'is' | 'isnt' ;
 no_less_op: '<=' | '>' | '>=' | '!=' | '==' | 'is' | 'isnt' ;
 chain_list: (chain_op shift_expr)+ ;
 cmp_expr
-	: (a=shift_expr -> $a) ( '<' b=shift_expr ( {b.Tree.Token.Type == IDENT}? ident* '>' bracket_expr_list -> ^(Expr_Call $cmp_expr ^(Generic_Patameters $b ident*) bracket_expr_list)
-	                                          | chain_list -> ^(Expr_Chain  $cmp_expr '<' $b chain_list)
+	: (a=shift_expr -> $a) ( ('<' ident (',' ident)* '>' bracket_expr_list) => '<' ident (',' ident)* '>' bracket_expr_list -> ^(Expr_Call $cmp_expr ^(Generic_Patameters ident*) bracket_expr_list)
+						   | '<' b=shift_expr ( chain_list -> ^(Expr_Chain  $cmp_expr '<' $b chain_list)
 											  | -> ^(Expr_Bin '<' $cmp_expr $b))
 	                       | op=no_less_op b=shift_expr ( chain_list -> ^(Expr_Chain  $cmp_expr $op $b chain_list)
 														| -> ^(Expr_Bin $op $cmp_expr $b)
