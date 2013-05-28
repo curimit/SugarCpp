@@ -43,17 +43,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Performance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TestAll.cs" />
     <Compile Include="TestCase.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Performance\SpeedTest100KB.sc">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Performance\SpeedTest1MB.sc">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
