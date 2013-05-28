@@ -636,9 +636,13 @@ cast_expr returns [ExprCast value]
 	;
 
 list_expr returns [ExprList value]
-	: ^(Expr_List a=expr_list)
+@init
+{
+	var list = new List<Expr>();
+}
+	: ^(Expr_List (a=expr { list.Add(a); })*)
 	{
-		$value = new ExprList(a);
+		$value = new ExprList(list);
 	}
 	;
 
