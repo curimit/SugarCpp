@@ -8,14 +8,20 @@ If you have any idea, please open a issue.
 
 Try SugarCpp in your browser: http://curimit.com/project/SugarCpp/
 
-Unit Tests: http://curimit.com/project/SugarCpp/unit_test.html
+## Unit Test
+#### Challenge on unit test page:
+http://curimit.com/project/SugarCpp/unit_test.html
+
+1. Add new test cases.
+2. Edit/Remove exist test cases.
+3. Run all unit tests.
 
 ## Features
 
 * Indent-based code block.
 * [Borrow lots of syntax sugar from CoffeeScript.](#syntax-sugar-borrow-from-coffeescript)
 * [Go style defer/finally statement, be able to handle exceptions.](#defer-and-finally)
-* [(Prolog? Haskell? Scala?) style for loop.](#prolog-haskell-scala-style-for-loop)
+* [Powerful for loop.](#powerful-for-loop)
 * [Multiple return values & parallel assignment.](#multiple-return-values--parallel-assignment)
 * [C# style lambda expression.](#c-style-lambda-expression)
 * Inline function definition.
@@ -29,6 +35,7 @@ https://github.com/curimit/Sublime-SugarCpp
 
 vim:
 https://github.com/ppwwyyxx/vim-SugarCpp
+
 
 ## Examples
 
@@ -48,26 +55,75 @@ int main() {
 }
 ```
 
-#### Calculate Sum
+#### Powerful for loop
 ```c++
-import "stdio.h"
+import "cstdio"
+       "cstdlib"
+       "vector"
+
+using namespace std
 
 int main()
+    for i <- 1 to 10, j <- 1 to 10, i + j == 10
+        printf("%d + %d = %d\n", i, j, i + j)
+
     sum := 0
-    for i <- 1 to 10
-        sum = sum + i
-    printf("sum = %d\n", sum)
+    for i <- 4 downto 0 by -1, i != 2, x <- a[i]
+        sum += x
+
+    // i => i * i
+    // means map i into i*i
+    for i <- 1 to 100, i % 3 == 0, i => i * i
+        printf("%d\n", i)
+
+    // notice the type of i can be also changed
+    for i <- ["12", "21"], i => atoi(i), i => i * 2
+        printf("%d\n", i)
 ```
 
 ```c++
-#include "stdio.h"
+#include "cstdio"
+#include "cstdlib"
+#include "vector"
+
+using namespace std;
 
 int main() {
-    auto sum = 0;
     for (auto i = 1; i <= 10; ++i) {
-        sum = sum + i;
+        for (auto j = 1; j <= 10; ++j) {
+            if (i + j == 10) {
+                printf("%d + %d = %d\n", i, j, i + j);
+            }
+        }
     }
-    printf("sum = %d\n", sum);
+    auto sum = 0;
+    for (auto i = 4; i >= 0; i = i + -1) {
+        if (i != 2) {
+            for (auto x : a[i]) {
+                sum += x;
+            }
+        }
+    }
+    for (auto i = 1; i <= 100; ++i) {
+        if (i % 3 == 0) {
+            {
+                auto _t_iterator = i * i;
+                auto i = _t_iterator;
+                printf("%d\n", i);
+            }
+        }
+    }
+    for (auto i : { "12", "21" }) {
+        {
+            auto _t_iterator = atoi(i);
+            auto i = _t_iterator;
+            {
+                auto _t_iterator = i * 2;
+                auto i = _t_iterator;
+                printf("%d\n", i);
+            }
+        }
+    }
 }
 ```
 
@@ -146,78 +202,6 @@ std::function<void ()> u;
 
 int main() {
     a = true;
-}
-```
-
-#### (Prolog? Haskell? Scala?) style for loop
-```c++
-import "cstdio"
-       "cstdlib"
-       "vector"
-
-using namespace std
-
-int main()
-    for i <- 1 to 10, j <- 1 to 10, i + j == 10
-        printf("%d + %d = %d\n", i, j, i + j)
-
-    sum := 0
-    for i <- 4 downto 0 by -1, i != 2, x <- a[i]
-        sum += x
-
-    // i => i * i
-    // means map i into i*i
-    for i <- 1 to 100, i % 3 == 0, i => i * i
-        printf("%d\n", i)
-
-    // notice the type of i can be also changed
-    for i <- ["12", "21"], i => atoi(i), i => i * 2
-        printf("%d\n", i)
-```
-
-```c++
-#include "cstdio"
-#include "cstdlib"
-#include "vector"
-
-using namespace std;
-
-int main() {
-    for (auto i = 1; i <= 10; ++i) {
-        for (auto j = 1; j <= 10; ++j) {
-            if (i + j == 10) {
-                printf("%d + %d = %d\n", i, j, i + j);
-            }
-        }
-    }
-    auto sum = 0;
-    for (auto i = 4; i >= 0; i = i + -1) {
-        if (i != 2) {
-            for (auto x : a[i]) {
-                sum += x;
-            }
-        }
-    }
-    for (auto i = 1; i <= 100; ++i) {
-        if (i % 3 == 0) {
-            {
-                auto _t_iterator = i * i;
-                auto i = _t_iterator;
-                printf("%d\n", i);
-            }
-        }
-    }
-    for (auto i : { "12", "21" }) {
-        {
-            auto _t_iterator = atoi(i);
-            auto i = _t_iterator;
-            {
-                auto _t_iterator = i * 2;
-                auto i = _t_iterator;
-                printf("%d\n", i);
-            }
-        }
-    }
 }
 ```
 
