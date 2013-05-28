@@ -9,7 +9,7 @@ If you have any idea, please open a issue.
 Try SugarCpp in your browser: http://curimit.com/project/SugarCpp/
 
 ## Unit Test
-#### Challenge on unit test page:
+#### Challenge the compiler on unit test page:
 http://curimit.com/project/SugarCpp/unit_test.html
 
 1. Add new test cases.
@@ -1097,6 +1097,42 @@ type u_int32 = uint
 
 ```c++
 using u_int32 = unsigned int;
+```
+
+#### [Beta] Where Expression
+```c++
+int unit(a: Point) = Point(a.x / k, a.y / k, a.z / k) where
+    k := len(a)
+```
+
+```c++
+int unit(Point a) {
+    return ({
+        auto k = len(a);
+        Point(a.x / k, a.y / k, a.z / k);
+    });
+}
+```
+
+#### [Beta] Implicit switch
+```c++
+int gcd(a: int, b: int) =
+    | a == 0 => b
+    | _      => gcd(b % a, a)
+```
+
+```c++
+int gcd(int a, int b) {
+    return ({
+        decltype(b) match;
+        if (a == 0) {
+            match = b;
+        } else {
+            match = gcd(b % a, a);
+        }
+        match;
+    });
+}
 ```
 
 ## Contributors
