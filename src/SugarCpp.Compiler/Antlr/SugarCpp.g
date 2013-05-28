@@ -472,8 +472,8 @@ stmt_try
 	;
 
 switch_item
-	: 'when' expr (',' expr)* ( NEWLINE+ stmt_block -> ^(Switch_Item expr+ stmt_block)
-	                          | 'then' inline_stmt_block -> ^(Switch_Item expr+ inline_stmt_block)
+	: 'when' expr (',' expr)* ( NEWLINE+ stmt_block -> ^(Switch_Item ^(Expr_Args expr+) stmt_block)
+	                          | 'then' inline_stmt_block -> ^(Switch_Item ^(Expr_Args expr+) inline_stmt_block)
 						      )
 	;
 
