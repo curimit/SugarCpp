@@ -538,13 +538,20 @@ match_expr
 	;
 
 expr
-	: list_expr
+	: feed_expr
 	| match_expr
 	| let_expr
 	;
 
+feed_expr
+	: (modify_expr ('<|' | '|>') ) => (a=modify_expr -> $a) ( '<|' list_expr -> ^(Expr_Call $feed_expr ^(Expr_Args list_expr))
+															| '|>' list_expr -> ^(Expr_Call list_expr ^(Expr_Args $feed_expr))
+															)
+	| list_expr
+	;
+
 list_expr
-	: '[' ((',' | NEWLINE | INDENT | DEDENT)* list_expr ((',' | NEWLINE | INDENT | DEDENT)+ list_expr)*)? (',' | NEWLINE | INDENT | DEDENT)* ']' -> ^(Expr_List list_expr*)
+	: '[' ((',' | NEWLINE | INDENT | DEDENT)* feed_expr ((',' | NEWLINE | INDENT | DEDENT)+ feed_expr)*)? (',' | NEWLINE | INDENT | DEDENT)* ']' -> ^(Expr_List feed_expr*)
 	| lambda_expr
 	;
 
