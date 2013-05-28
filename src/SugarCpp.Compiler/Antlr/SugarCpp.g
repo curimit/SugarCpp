@@ -352,7 +352,10 @@ func_type
 
 func_def
 	: attribute? func_type? '~'? func_name generic_parameter? '(' func_args? ')' ( NEWLINE+ stmt_block -> ^(Func_Def attribute? func_type? '~'? func_name generic_parameter? func_args? stmt_block)
-																				 | '=' where_expr  -> ^(Func_Def attribute? func_type? '~'? func_name generic_parameter? func_args? where_expr))
+																				 | '=' ( where_expr  -> ^(Func_Def attribute? func_type? '~'? func_name generic_parameter? func_args? where_expr)
+																					   | NEWLINE+ INDENT NEWLINE* (match_item NEWLINE+)+ DEDENT -> ^(Func_Def attribute? func_type? '~'? func_name generic_parameter? func_args? ^(Match_Expr match_item+))
+																					   )
+																				 )
     ;
 
 stmt_block_item
