@@ -332,7 +332,7 @@ func_args
 func_args_item
 	: ident_list ':' type_name ( ('=' | ':=') expr  -> ^(Expr_Alloc_Equal type_name ident_list ^(Expr_Args expr))
 	                             | bracket_expr_list  -> ^(Expr_Alloc_Bracket type_name ident_list bracket_expr_list)
-							     | -> ^(Expr_Alloc_Equal type_name ident_list)
+							     | -> ^(Expr_Alloc_Equal type_name ident_list ^(Expr_Args))
 							     )
 	| ':='^  modify_expr
 	;
