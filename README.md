@@ -8,7 +8,7 @@ If you have any idea, please open a issue.
 
 Try SugarCpp in your browser: http://curimit.com/project/SugarCpp/
 
-Unit Tests: http://curimit.com/project/SugarCpp/UnitTest.html
+Unit Tests: http://curimit.com/project/SugarCpp/unit_test.html
 
 ## Features
 
