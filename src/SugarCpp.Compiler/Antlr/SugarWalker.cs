@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// $ANTLR 3.4 SugarWalker.g 2013-05-26 16:37:04
+// $ANTLR 3.4 SugarWalker.g 2013-05-28 10:01:16
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219
@@ -912,7 +912,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 
 				DebugLocation(89, 2);
 
-						if (c != null)
+						if (c != null && c.Count > 0)
 						{
 							value.Add(new GlobalAlloc(a, b, c, attr, AllocType.Equal));
 						}
@@ -6236,7 +6236,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 
 				DebugLocation(539, 2);
 
-						if (c != null)
+						if (c != null && c.Count > 0)
 						{
 							value = new ExprAlloc(a, b, c, AllocType.Equal);
 						}

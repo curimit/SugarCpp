@@ -87,7 +87,7 @@ global_alloc returns [List<GlobalAlloc> value]
 }
 	: ^(Expr_Alloc_Equal (attr=attribute)? a=type_name b=ident_list c=expr_list)
 	{
-		if (c != null)
+		if (c != null && c.Count > 0)
 		{
 			$value.Add(new GlobalAlloc(a, b, c, attr, AllocType.Equal));
 		}
@@ -537,7 +537,7 @@ ident_list returns [List<string> value]
 alloc_expr returns [ExprAlloc value]
 	: ^(Expr_Alloc_Equal a=type_name b=ident_list c=expr_list)
 	{
-		if (c != null)
+		if (c != null && c.Count > 0)
 		{
 			$value = new ExprAlloc(a, b, c, AllocType.Equal);
 		}
