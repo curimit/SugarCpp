@@ -211,6 +211,30 @@ namespace SugarCpp.Compiler
         }
     }
 
+    public class ExprCurryLambda : Expr
+    {
+        public List<ExprAlloc> Args = new List<ExprAlloc>();
+        public StmtBlock Block;
+        public SugarType Type;
+        public bool IsRef;
+
+        public ExprCurryLambda(StmtBlock block, List<ExprAlloc> args, bool isRef, SugarType type)
+        {
+            this.Block = block;
+            if (args != null)
+            {
+                this.Args = args;
+            }
+            this.IsRef = isRef;
+            this.Type = type;
+        }
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
     public class ExprAccess : Expr
     {
         public Expr Expr;

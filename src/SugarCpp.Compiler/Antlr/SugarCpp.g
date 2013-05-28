@@ -94,7 +94,7 @@ tokens
    Expr_Call_With;
 
    Expr_Infix;
-
+   
    Expr_Lambda;
    Expr_Where;
    Expr_Tuple;
@@ -566,7 +566,10 @@ lambda_type
 
 lambda_expr
 	: '(' func_args? ')' lambda_type? ( '->' lambda_value  -> ^(Expr_Lambda '->' func_args? lambda_type? lambda_value)
-								      | '=>' lambda_value  -> ^(Expr_Lambda '=>' func_args? lambda_type? lambda_value))
+								      | '=>' lambda_value  -> ^(Expr_Lambda '=>' func_args? lambda_type? lambda_value)
+									  | '-->' lambda_value  -> ^(Expr_Lambda '-->' func_args? lambda_type? lambda_value)
+								      | '==>' lambda_value  -> ^(Expr_Lambda '==>' func_args? lambda_type? lambda_value)
+									  )
 	| modify_expr
 	;
 

@@ -406,7 +406,7 @@ namespace SugarCpp.Compiler
 
                 StmtBlock default_block = new StmtBlock();
                 {
-                    default_block.StmtList.Add(new StmtExpr(new ExprCall(new ExprConst("throw", ConstType.Ident), null, new List<Expr> { new ExprConst("\"Not Found\"", ConstType.String) } )));
+                    default_block.StmtList.Add(new StmtExpr(new ExprCall(new ExprConst("throw", ConstType.Ident), null, new List<Expr> { new ExprConst("\"Not Found\"", ConstType.String) })));
                 }
 
                 StmtSwitch stmt_switch = new StmtSwitch(new ExprConst("_t_value", ConstType.Ident), switch_list, default_block);
@@ -617,7 +617,7 @@ namespace SugarCpp.Compiler
                 last_flag = true;
             }
 
-            if (class_def.Attribute.Exists(x => x.Name=="case"))
+            if (class_def.Attribute.Exists(x => x.Name == "case"))
             {
                 Template tmp = null;
                 if (last != "public")
@@ -1219,6 +1219,48 @@ namespace SugarCpp.Compiler
             }
             return template;
         }
+
+        public override Template Visit(ExprCurryLambda expr)
+        {
+            if (expr.Args.Count() <= 1)
+            {
+                return (new ExprLambda(expr.Block, expr.Args, expr.IsRef, expr.Type)).Accept(this);
+            }
+
+            Stack<ExprAlloc> stack = new Stack<ExprAlloc>();
+            foreach (var x in expr.Args) stack.Push(x);
+
+            Template template = null;
+            foreach (var x in stack)
+            {
+                Template node = null;
+                if (template == null)
+                {
+                    node = new Template("([<ref>](<arg>)<type> {\n    <block>\n})");
+                    if (expr.Type == null)
+                    {
+                        node.Add("type", "");
+                    }
+                    else
+                    {
+                        Template type = new Template(" -> <type>");
+                        type.Add("type", expr.Type.Accept(this));
+                        node.Add("type", type);
+                    }
+                    node.Add("block", expr.Block.Accept(this));
+                }
+                else
+                {
+                    node = new Template("([<ref>](<arg>) {\n    return <expr>;\n})");
+                    node.Add("expr", template);
+                }
+                node.Add("ref", expr.IsRef ? "&" : "=");
+                node.Add("arg", x.Accept(this));
+                template = node;
+            }
+            return template;
+        }
+
         public override Template Visit(ExprTuple expr)
         {
             Template template = new Template("std::make_tuple(<list; separator=\", \">)");
