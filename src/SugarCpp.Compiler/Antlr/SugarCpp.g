@@ -243,7 +243,7 @@ attribute
 global_alloc
 	: attribute? ident_list ( ':' type_name ( ('=' | ':=') expr -> ^(Expr_Alloc_Equal attribute? type_name ident_list ^(Expr_Args expr))
 	                                       | bracket_expr_list -> ^(Expr_Alloc_Bracket attribute? type_name ident_list bracket_expr_list)
-								 		   | -> ^(Expr_Alloc_Equal attribute? type_name ident_list)
+								 		   | -> ^(Expr_Alloc_Equal attribute? type_name ident_list ^(Expr_Args))
 								  		   )
 							| ':=' (expr (',' expr)*) -> ^(':=' attribute? ident_list ^(Expr_Args expr+))
 							)
@@ -488,7 +488,7 @@ ident_list
 stmt_alloc
 	: ident_list ( ':' type_name ( ('=' | ':=') where_expr  -> ^(Expr_Alloc_Equal type_name ident_list ^(Expr_Args where_expr))
 	                             | bracket_expr_list  -> ^(Expr_Alloc_Bracket type_name ident_list bracket_expr_list)
-							     | -> ^(Expr_Alloc_Equal type_name ident_list)
+							     | -> ^(Expr_Alloc_Equal type_name ident_list ^(Expr_Args))
 							     )
 				 | ':='  (where_expr (',' where_expr)*) -> ^(':=' ident_list ^(Expr_Args where_expr*)))
 	;
