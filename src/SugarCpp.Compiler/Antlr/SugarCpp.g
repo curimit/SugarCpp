@@ -236,6 +236,7 @@ attribute_args
 attribute_item
 	: ident ('(' attribute_args (',' attribute_args)* ')')? -> ^(Attribute ident attribute_args*)
 	| 'const' ('(' attribute_args (',' attribute_args)* ')')? -> ^(Attribute 'const' attribute_args*)
+	| 'static' ('(' attribute_args (',' attribute_args)* ')')? -> ^(Attribute 'static' attribute_args*)
 	;
 
 attribute
@@ -316,7 +317,7 @@ type_template_type
 	;
 
 type_ident
-	: 'const'? 'struct'? 'long'? ident -> ^(Type_Ident 'const'? 'struct'? 'long'? ident)
+	: 'static'? 'const'? 'struct'? 'long'? ident -> ^(Type_Ident 'static'? 'const'? 'struct'? 'long'? ident)
 	;
 
 generic_parameter_inside

@@ -139,7 +139,7 @@ attribute_item returns [Attr value]
 {
 	$value = new Attr();
 }
-	: ^(Attribute (a=ident { $value.Name = a; } | c='const' { $value.Name = "const"; }) (b=attribute_args { $value.Args.Add(b) ; })*)
+	: ^(Attribute (a=ident { $value.Name = a; } | c='const' { $value.Name = "const"; } | d='static' { $value.Name = "static"; }) (b=attribute_args { $value.Args.Add(b) ; })*)
 	;
 
 attribute returns [List<Attr> value]
@@ -186,6 +186,7 @@ type_ident returns [SugarType value]
 	string type = "";
 }
 	: ^(Type_Ident ( 'const'	{ type+="const "; }
+				   | 'static'	{ type+="static "; }
 				   | 'long'		{ type+="long "; }
 				   | 'struct'	{ type+="struct "; }
 				   | a=ident	{ type+=Alias(a); }
