@@ -286,31 +286,16 @@ Test operator/(const Test &a, const Test &b) {
 }
 ```
 
-#### [Beta] Curried lambda functions
+#### Curried lambda functions
 ```c++
 import "iostream"
 
 using namespace std
 
 void example1()
-    plus := (x: int, y: int) --> x + y
+    t := 0
     
-    f := plus(2)
-    // it will print 6, 8
-    // which is unexpected
-    // c++'s lambda implementation case this
-    cout << f(3) << " " << f(4) << endl
-    
-    x := 5
-    fx := plus(x)
-    // stil print 6, 8
-    cout << fx(3) << " " << fx(4) << endl
-    x = 10
-    // always print 6, 8
-    cout << fx(3) << " " << fx(4) << endl
-
-void example2()
-    plus := (x: int, y: int) ==> x + y
+    plus := (x: int, y: int) --> x + y + t
     
     f := plus(2)
     // print 5, 6
@@ -320,7 +305,26 @@ void example2()
     fx := plus(x)
     // print 8, 9
     cout << fx(3) << " " << fx(4) << endl
-    x = 10
+    
+    t = 10
+    // print 18, 19
+    cout << fx(3) << " " << fx(4) << endl
+
+void example2()
+    t := 0
+    
+    plus := (x: int, y: int) ==> x + y + t
+    
+    f := plus(2)
+    // print 5, 6
+    cout << f(3) << " " << f(4) << endl
+    
+    x := 5
+    fx := plus(x)
+    // print 8, 9
+    cout << fx(3) << " " << fx(4) << endl
+    
+    t = 10
     // print 8, 9
     cout << fx(3) << " " << fx(4) << endl
 
@@ -335,9 +339,10 @@ int main()
 using namespace std;
 
 void example1() {
+    auto t = 0;
     auto plus = ([&](int x) {
-        return ([&](int y) {
-        return x + y;
+        return ([&, x](int y) {
+        return x + y + t;
     });
     });
     auto f = plus(2);
@@ -345,14 +350,15 @@ void example1() {
     auto x = 5;
     auto fx = plus(x);
     cout << fx(3) << " " << fx(4) << endl;
-    x = 10;
+    t = 10;
     cout << fx(3) << " " << fx(4) << endl;
 }
 
 void example2() {
+    auto t = 0;
     auto plus = ([=](int x) {
         return ([=](int y) {
-        return x + y;
+        return x + y + t;
     });
     });
     auto f = plus(2);
@@ -360,7 +366,7 @@ void example2() {
     auto x = 5;
     auto fx = plus(x);
     cout << fx(3) << " " << fx(4) << endl;
-    x = 10;
+    t = 10;
     cout << fx(3) << " " << fx(4) << endl;
 }
 
