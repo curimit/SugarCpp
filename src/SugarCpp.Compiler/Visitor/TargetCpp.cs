@@ -1271,13 +1271,16 @@ namespace SugarCpp.Compiler
             Stack<ExprAlloc> stack = new Stack<ExprAlloc>();
             foreach (var x in expr.Args) stack.Push(x);
 
+            Stack<string> capture_args = new Stack<string>();
+            foreach (var x in expr.Args) capture_args.Push(x.Name.First());
+
             Template template = null;
             foreach (var x in stack)
             {
                 Template node = null;
                 if (template == null)
                 {
-                    node = new Template("([<ref>](<arg>)<type> {\n    <block>\n})");
+                    node = new Template("([<ref><capture>](<arg>)<type> {\n    <block>\n})");
                     if (expr.Type == null)
                     {
                         node.Add("type", "");
@@ -1292,11 +1295,20 @@ namespace SugarCpp.Compiler
                 }
                 else
                 {
-                    node = new Template("([<ref>](<arg>) {\n    return <expr>;\n})");
+                    node = new Template("([<ref><capture>](<arg>) {\n    return <expr>;\n})");
                     node.Add("expr", template);
                 }
                 node.Add("ref", expr.IsRef ? "&" : "=");
                 node.Add("arg", x.Accept(this));
+
+                capture_args.Pop();
+                string capture_by_value = "";
+                foreach (var name in capture_args)
+                {
+                    capture_by_value = capture_by_value + ", " + name;
+                }
+                if (!expr.IsRef) capture_by_value = "";
+                node.Add("capture", capture_by_value);
                 template = node;
             }
             return template;
