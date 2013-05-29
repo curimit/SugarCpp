@@ -99,6 +99,8 @@ tokens
    Expr_Where;
    Expr_Tuple;
 
+   Expr_List_Generation;
+
    Match_Expr;
    Match_Expr_Item;
 
@@ -551,7 +553,8 @@ feed_expr
 	;
 
 list_expr
-	: '[' ((',' | NEWLINE | INDENT | DEDENT)* feed_expr ((',' | NEWLINE | INDENT | DEDENT)+ feed_expr)*)? (',' | NEWLINE | INDENT | DEDENT)* ']' -> ^(Expr_List feed_expr*)
+	: ('[' feed_expr 'for') => '[' feed_expr 'for' for_item (',' for_item)* ']' ':' type_name  -> ^(Expr_List_Generation type_name? ^(Stmt_For for_item* ^(Stmt_Block)) feed_expr)
+	| '[' ((',' | NEWLINE | INDENT | DEDENT)* feed_expr ((',' | NEWLINE | INDENT | DEDENT)+ feed_expr)*)? (',' | NEWLINE | INDENT | DEDENT)* ']' -> ^(Expr_List feed_expr*)
 	| lambda_expr
 	;
 
@@ -652,7 +655,8 @@ selector_expr
 	;
 
 cast_expr
-	: (a=prefix_expr -> $a) ('as' '(' type_name ')' -> ^(Expr_Cast type_name prefix_expr))?
+	: ('(' type_name ')' prefix_expr) => '(' type_name ')' prefix_expr -> ^(Expr_Cast type_name prefix_expr)
+	| prefix_expr
 	;
 
 prefix_expr_op: '!' | '~' | '++' | '--' | '-' | '+' | '*' | '&' | 'not';

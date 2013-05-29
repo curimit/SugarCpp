@@ -368,6 +368,25 @@ namespace SugarCpp.Compiler
         }
     }
 
+    public class ExprListGeneration : Expr
+    {
+        public StmtFor For;
+        public Expr Expr;
+        public SugarType Type;
+
+        public ExprListGeneration(SugarType type, StmtFor stmt_for, Expr expr)
+        {
+            this.For = stmt_for;
+            this.Expr = expr;
+            this.Type = type;
+        }
+
+        public override Template Accept(Visitor visitor)
+        {
+            return visitor.Visit(this);
+        }
+    }
+
     public class ExprWhere : Expr
     {
         public List<Stmt> StmtList = new List<Stmt>();

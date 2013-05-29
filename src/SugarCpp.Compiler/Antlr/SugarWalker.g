@@ -494,7 +494,7 @@ for_item_list returns [List<ForItem> value]
 	: (a=for_item { $value.Add(a); } )+
 	;
 
-stmt_for returns [Stmt value]
+stmt_for returns [StmtFor value]
 	: ^(Stmt_For a=for_item_list b=stmt_block)
 	{
 		$value = new StmtFor(a, b);
@@ -654,6 +654,13 @@ list_expr returns [ExprList value]
 	}
 	;
 
+list_generation_expr returns [ExprListGeneration value]
+	: ^(Expr_List_Generation a=type_name b=stmt_for c=expr)
+	{
+		$value = new ExprListGeneration(a, b, c);
+	}
+	;
+
 chain_expr returns [Expr value]
 @init
 {
@@ -743,6 +750,10 @@ expr returns [Expr value]
 	| list=list_expr
 	{
 		$value = list;
+	}
+	| list_generation=list_generation_expr
+	{
+		$value = list_generation;
 	}
 	| expr_new=new_expr
 	{

@@ -1186,6 +1186,47 @@ namespace SugarCpp.Compiler
             return template;
         }
 
+        public override Template Visit(ExprListGeneration expr)
+        {
+            Template template = new Template("({\n    <declare>;\n    <for>\n    <var>;\n})");
+            ExprAlloc delcare = new ExprAlloc(expr.Type, "_t_return_value", null, AllocType.Declare);
+            template.Add("declare", delcare.Accept(this));
+            template.Add("var", "_t_return_value");
+
+            Stmt stmt = null;
+            if (expr.Type is TemplateType && (((TemplateType)expr.Type).Type is IdentType))
+            {
+                string type = ((IdentType)((TemplateType)expr.Type).Type).Type;
+                if (type == "vector" || type == "list")
+                {
+                    stmt = new StmtExpr(new ExprCall(new ExprAccess(new ExprConst("_t_return_value", ConstType.Ident), ".", "push_back"), null, new List<Expr> { expr.Expr }));
+                }
+                if (type == "forward_list" || type == "deque")
+                {
+                    stmt = new StmtExpr(new ExprCall(new ExprAccess(new ExprConst("_t_return_value", ConstType.Ident), ".", "push_front"), null, new List<Expr> { expr.Expr }));
+                }
+                if (type == "queue" || type == "priority_queue" || type == "stack")
+                {
+                    stmt = new StmtExpr(new ExprCall(new ExprAccess(new ExprConst("_t_return_value", ConstType.Ident), ".", "push"), null, new List<Expr> { expr.Expr }));
+                }
+                if (type == "set" || type == "multiset" || type == "unordered_set" || type == "unordered_multiset" || type == "map" || type == "multimap" || type == "unordered_map" || type == "unordered_multimap")
+                {
+                    stmt = new StmtExpr(new ExprCall(new ExprAccess(new ExprConst("_t_return_value", ConstType.Ident), ".", "insert"), null, new List<Expr> { expr.Expr }));
+                }
+            }
+            if (stmt == null)
+            {
+                string msg = string.Format("Type {0} is not supported in list generation.", expr.Type.Accept(this).Render());
+                throw new Exception(msg);
+            }
+
+            expr.For.Body = new StmtBlock();
+            expr.For.Body.StmtList.Add(stmt);
+            template.Add("for", expr.For.Accept(this));
+
+            return template;
+        }
+
         public override Template Visit(MatchTuple match)
         {
             Template template = new Template("std::tie(<list; separator=\", \">)");
