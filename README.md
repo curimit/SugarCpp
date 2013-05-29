@@ -286,6 +286,307 @@ Test operator/(const Test &a, const Test &b) {
 }
 ```
 
+#### [Beta] Curried lambda functions
+```c++
+import "iostream"
+
+using namespace std
+
+void example1()
+    plus := (x: int, y: int) --> x + y
+    
+    f := plus(2)
+    // it will print 6, 8
+    // which is unexpected
+    // c++'s lambda implementation case this
+    cout << f(3) << " " << f(4) << endl
+    
+    x := 5
+    fx := plus(x)
+    // stil print 6, 8
+    cout << fx(3) << " " << fx(4) << endl
+    x = 10
+    // always print 6, 8
+    cout << fx(3) << " " << fx(4) << endl
+
+void example2()
+    plus := (x: int, y: int) ==> x + y
+    
+    f := plus(2)
+    // print 5, 6
+    cout << f(3) << " " << f(4) << endl
+    
+    x := 5
+    fx := plus(x)
+    // print 8, 9
+    cout << fx(3) << " " << fx(4) << endl
+    x = 10
+    // print 8, 9
+    cout << fx(3) << " " << fx(4) << endl
+
+int main()
+    example1()
+    example2()
+```
+
+```c++
+#include "iostream"
+
+using namespace std;
+
+void example1() {
+    auto plus = ([&](int x) {
+        return ([&](int y) {
+        return x + y;
+    });
+    });
+    auto f = plus(2);
+    cout << f(3) << " " << f(4) << endl;
+    auto x = 5;
+    auto fx = plus(x);
+    cout << fx(3) << " " << fx(4) << endl;
+    x = 10;
+    cout << fx(3) << " " << fx(4) << endl;
+}
+
+void example2() {
+    auto plus = ([=](int x) {
+        return ([=](int y) {
+        return x + y;
+    });
+    });
+    auto f = plus(2);
+    cout << f(3) << " " << f(4) << endl;
+    auto x = 5;
+    auto fx = plus(x);
+    cout << fx(3) << " " << fx(4) << endl;
+    x = 10;
+    cout << fx(3) << " " << fx(4) << endl;
+}
+
+int main() {
+    example1();
+    example2();
+}
+```
+
+#### [Beta] List Generation
+```c++
+import "iostream"
+       "cstdio"
+       "vector"
+       "list"
+       "forward_list"
+       "queue"
+       "stack"
+       "set"
+       "unordered_set"
+       "map"
+       "unordered_map"
+       "tuple"
+
+using namespace std
+
+int main()
+    a := [i for i <- 1 to 10] : vector<int>
+    
+    b := [i for i <- 1 to 10] : list<int>
+    c := [i for i <- 1 to 10] : forward_list<int>
+    
+    d := [i for i <- 1 to 10] : queue<int>
+    e := [i for i <- 1 to 10] : deque<int>
+    f := [i for i <- 1 to 10] : priority_queue<int>
+    
+    g := [i for i <- 1 to 10] : stack<int>
+    
+    h := [i for i <- 1 to 10] : set<int>
+    i := [i for i <- 1 to 10] : multiset<int>
+    j := [i for i <- 1 to 10] : unordered_set<int>
+    k := [i for i <- 1 to 10] : unordered_multiset<int>
+    
+    l := [[i, i*i] for i <- 1 to 10] : map<int, int>
+    m := [[i, i*i] for i <- 1 to 10] : multimap<int, int>
+    n := [[i, i*i] for i <- 1 to 10] : unordered_map<int, int>
+    o := [[i, i*i] for i <- 1 to 10] : unordered_multimap<int, int>
+    
+    // combine list generation with for loop
+    printf("%d\n", i) for i <- [i * i for i <- 1 to 100, (i & 1) is 0, (i % 3) is 0] : vector<int>
+```
+
+```c++
+#include "iostream"
+#include "cstdio"
+#include "vector"
+#include "list"
+#include "forward_list"
+#include "queue"
+#include "stack"
+#include "set"
+#include "unordered_set"
+#include "map"
+#include "unordered_map"
+#include "tuple"
+
+using namespace std;
+
+int main() {
+    auto a = ({
+        vector<int> _t_return_value;
+        for (auto i = 1; i <= 10; ++i) {
+            _t_return_value.push_back(i);
+        }
+        _t_return_value;
+    });
+    auto b = ({
+        list<int> _t_return_value;
+        for (auto i = 1; i <= 10; ++i) {
+            _t_return_value.push_back(i);
+        }
+        _t_return_value;
+    });
+    auto c = ({
+        forward_list<int> _t_return_value;
+        for (auto i = 1; i <= 10; ++i) {
+            _t_return_value.push_front(i);
+        }
+        _t_return_value;
+    });
+    auto d = ({
+        queue<int> _t_return_value;
+        for (auto i = 1; i <= 10; ++i) {
+            _t_return_value.push(i);
+        }
+        _t_return_value;
+    });
+    auto e = ({
+        deque<int> _t_return_value;
+        for (auto i = 1; i <= 10; ++i) {
+            _t_return_value.push_front(i);
+        }
+        _t_return_value;
+    });
+    auto f = ({
+        priority_queue<int> _t_return_value;
+        for (auto i = 1; i <= 10; ++i) {
+            _t_return_value.push(i);
+        }
+        _t_return_value;
+    });
+    auto g = ({
+        stack<int> _t_return_value;
+        for (auto i = 1; i <= 10; ++i) {
+            _t_return_value.push(i);
+        }
+        _t_return_value;
+    });
+    auto h = ({
+        set<int> _t_return_value;
+        for (auto i = 1; i <= 10; ++i) {
+            _t_return_value.insert(i);
+        }
+        _t_return_value;
+    });
+    auto i = ({
+        multiset<int> _t_return_value;
+        for (auto i = 1; i <= 10; ++i) {
+            _t_return_value.insert(i);
+        }
+        _t_return_value;
+    });
+    auto j = ({
+        unordered_set<int> _t_return_value;
+        for (auto i = 1; i <= 10; ++i) {
+            _t_return_value.insert(i);
+        }
+        _t_return_value;
+    });
+    auto k = ({
+        unordered_multiset<int> _t_return_value;
+        for (auto i = 1; i <= 10; ++i) {
+            _t_return_value.insert(i);
+        }
+        _t_return_value;
+    });
+    auto l = ({
+        map<int, int> _t_return_value;
+        for (auto i = 1; i <= 10; ++i) {
+            _t_return_value.insert({ i, i * i });
+        }
+        _t_return_value;
+    });
+    auto m = ({
+        multimap<int, int> _t_return_value;
+        for (auto i = 1; i <= 10; ++i) {
+            _t_return_value.insert({ i, i * i });
+        }
+        _t_return_value;
+    });
+    auto n = ({
+        unordered_map<int, int> _t_return_value;
+        for (auto i = 1; i <= 10; ++i) {
+            _t_return_value.insert({ i, i * i });
+        }
+        _t_return_value;
+    });
+    auto o = ({
+        unordered_multimap<int, int> _t_return_value;
+        for (auto i = 1; i <= 10; ++i) {
+            _t_return_value.insert({ i, i * i });
+        }
+        _t_return_value;
+    });
+    for (auto i : ({
+        vector<int> _t_return_value;
+        for (auto i = 1; i <= 100; ++i) {
+            if ((i & 1) == 0) {
+                if ((i % 3) == 0) {
+                    _t_return_value.push_back(i * i);
+                }
+            }
+        }
+        _t_return_value;
+    })) {
+        printf("%d\n", i);
+    }
+}
+```
+
+#### [Beta] Where Expression
+```c++
+int unit(a: Point) = Point(a.x / k, a.y / k, a.z / k) where
+    k := len(a)
+```
+
+```c++
+int unit(Point a) {
+    return ({
+        auto k = len(a);
+        Point(a.x / k, a.y / k, a.z / k);
+    });
+}
+```
+
+#### [Beta] Implicit switch
+```c++
+int gcd(a: int, b: int) =
+    | a == 0 => b
+    | _      => gcd(b % a, a)
+```
+
+```c++
+int gcd(int a, int b) {
+    return ({
+        decltype(b) match;
+        if (a == 0) {
+            match = b;
+        } else {
+            match = gcd(b % a, a);
+        }
+        match;
+    });
+}
+```
+
 #### Defer and Finally
 Due to the fact that C++11 does not support C# style Finally syntax, it's difficult to guarantee resource be closed or pointer be deleted while exception happens.
 
@@ -1097,42 +1398,6 @@ type u_int32 = uint
 
 ```c++
 using u_int32 = unsigned int;
-```
-
-#### [Beta] Where Expression
-```c++
-int unit(a: Point) = Point(a.x / k, a.y / k, a.z / k) where
-    k := len(a)
-```
-
-```c++
-int unit(Point a) {
-    return ({
-        auto k = len(a);
-        Point(a.x / k, a.y / k, a.z / k);
-    });
-}
-```
-
-#### [Beta] Implicit switch
-```c++
-int gcd(a: int, b: int) =
-    | a == 0 => b
-    | _      => gcd(b % a, a)
-```
-
-```c++
-int gcd(int a, int b) {
-    return ({
-        decltype(b) match;
-        if (a == 0) {
-            match = b;
-        } else {
-            match = gcd(b % a, a);
-        }
-        match;
-    });
-}
 ```
 
 ## Contributors
