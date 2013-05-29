@@ -1,4 +1,4 @@
-# SugarCpp
+# ![SugarCpp](http://curimit.com/images/SugarCpp.png)
 SugarCpp is a programming language which compiles to C++11.
 
 It adds lots of syntax sugar in to C++ and is 100% equivalent C++ code.
