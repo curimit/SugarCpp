@@ -10,55 +10,11 @@ using System.Text;
 
 namespace SugarCpp.Compiler
 {
-    public class TargetCppResult
-    {
-        public string Header;
-        public string Implementation;
-    }
 
     public class TargetCpp : Visitor
     {
         private Stack<Template> defer_stack = new Stack<Template>();
         private int stmt_finally_count = 0;
-
-        public TargetCppResult Compile(string input, string file_name)
-        {
-            input = input.Replace("\r", "");
-            ANTLRStringStream Input = new ANTLRStringStream(input);
-            SugarCppLexer lexer = new SugarCppLexer(Input);
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
-
-            SugarCppParser parser = new SugarCppParser(tokens);
-
-            AstParserRuleReturnScope<CommonTree, IToken> t = parser.root();
-            CommonTree ct = (CommonTree)t.Tree;
-
-            if (parser.errors.Count() > 0)
-            {
-                StringBuilder sb = new StringBuilder();
-                foreach (var error in parser.errors)
-                {
-                    sb.Append(error);
-                    sb.Append("\n");
-                }
-                throw new Exception(sb.ToString());
-            }
-
-            CommonTreeNodeStream nodes = new CommonTreeNodeStream(ct);
-            SugarWalker walker = new SugarWalker(nodes);
-
-            Root ast = walker.root();
-
-            TargetCppHeader header = new TargetCppHeader();
-            TargetCppImplementation implementation = new TargetCppImplementation();
-            implementation.HeaderFileName = string.Format("{0}.h", file_name);
-
-            TargetCppResult result = new TargetCppResult();
-            result.Header = ast.Accept(header).Render();
-            result.Implementation = ast.Accept(implementation).Render();
-
-            return result;
-        }
 
         public override Template Visit(Root root)
         {

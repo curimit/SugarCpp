@@ -11,7 +11,7 @@ namespace SugarCpp.CommandLine
         /// Entry point of program.
         /// </summary>
         /// <param name="args">Arguments.</param>
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
             if (args.Length == 0)
             {
@@ -20,13 +20,13 @@ namespace SugarCpp.CommandLine
             switch (args[0])
             {
                 case "compile":
-                    Compile.CompileSource(TrimArg(args));
+                    return Compile.CompileSource(TrimArg(args));
                     break;
                 case "run":
-                    Compile.RunSource(TrimArg(args));
+                    return Compile.RunSource(TrimArg(args));
                     break;
                 default:
-                    Translate.Main(args);
+                    return Translate.Main(args);
                     break;
             }
         }
@@ -72,16 +72,18 @@ namespace SugarCpp.CommandLine
             Console.WriteLine();
             Console.WriteLine("Options:");
             Console.WriteLine(indent + "--ast /ast                  Output the abstract syntax tree.");
+            Console.WriteLine(indent + "--token /token              Output the tokens.");
             Console.WriteLine(indent + "--help -h /help /h /?       Output this help text.");
             Console.WriteLine(indent + "--nocode /nocode            Do not print the generated code.");
-            Console.WriteLine(indent + "--output -o /output /o [filename]");
-            Console.WriteLine(indent + "                            Filename of output. If not specified, output");
-            Console.WriteLine(indent + "                            will be printed to standard output.");
-            Console.WriteLine(indent + "--token /token              Output the tokens.");
+            Console.WriteLine(indent + "--single /single            Translate into single cpp file.");
+            Console.WriteLine(indent + "--output -o /output /o [output_path]");
+            Console.WriteLine(indent + "                            Path of output. If not specified, output");
+            Console.WriteLine(indent + "                            will be written into the directory");
+            Console.WriteLine(indent + "                            where your source code at.");
             Console.WriteLine();
 			Console.WriteLine("Examples:");
 			Console.WriteLine(indent + "Translate into C++ code");
-			Console.WriteLine(indent + indent + "sugarcpp code.sc -o code.cpp");
+			Console.WriteLine(indent + indent + "sugarcpp code.sc");
 			Console.WriteLine(indent + "Compile to binary by calling the default compiler");
 			Console.WriteLine(indent + indent + "sugarcpp compile code.sc -o code.exe");
 			Console.WriteLine(indent + "Compile and run");

@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Antlr.Runtime;
 using Antlr.Runtime.Tree;
 using SugarCpp.Compiler;
 
 namespace SugarCpp.CommandLine
-{ class Translate {
-        internal static void Main(string[] args)
+{
+    class Translate
+    {
+        internal static int Main(string[] args)
         {
             Arguments arguments = new Arguments(args, new Dictionary<string, bool> {
                 {"output", true},
@@ -16,6 +19,7 @@ namespace SugarCpp.CommandLine
                 {"token", false},
                 {"ast", false},
                 {"nocode", false},
+                {"single", false},
                 {"help", false},
                 {"h", false},
                 {"?", false},
@@ -24,76 +28,127 @@ namespace SugarCpp.CommandLine
             if (arguments.HasOption("help") || arguments.HasOption("h") || arguments.HasOption("?"))
             {
                 Program.PrintHelp();
+                return 0;
             }
 
             printTokens = arguments.HasOption("token");
             printAST = arguments.HasOption("ast");
             printCode = !arguments.HasOption("nocode");
-            outputFileName = arguments.GetOption("o");
-            outputFileName = arguments.GetOption("output");
+            singleFile = arguments.HasOption("single");
+            if (arguments.HasOption("o"))
+            {
+                outputPath = arguments.GetOption("o");
+            }
+            if (arguments.HasOption("output"))
+            {
+                outputPath = arguments.GetOption("output");
+            }
 
             if (arguments.DirectArguments.Count == 0)
             {
                 Program.Panic("No input file is specified. Use --help for more information.");
+                return 0;
             }
 
-			// multiple input file
-			foreach (var fname in arguments.DirectArguments)
-			{
-				inputFileName = fname;
-				Compile();
-			}
+            // multiple input file
+            foreach (var fname in arguments.DirectArguments.Where(x => !x.StartsWith("-")))
+            {
+                string input = null;
+                try
+                {
+                    input = File.ReadAllText(fname);
+                }
+                catch
+                {
+                    Console.WriteLine("Unable to read file: {0}", fname);
+                }
+
+                try
+                {
+                    if (printTokens)
+                    {
+                        PrintTokens(input);
+                    }
+                    else if (printAST)
+                    {
+                        PrintAST(input);
+                    }
+                    else
+                    {
+                        Compile(input, fname);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("Compile error with file: {0}", fname);
+                    Console.WriteLine(e.Message);
+                    return 1;
+                }
+            }
+            return 0;
         }
 
         /// <summary>
         /// Compile code from input.
         /// </summary>
-        private static void Compile()
+        private static void Compile(string input, string inputFileName)
         {
-            string input = File.ReadAllText(inputFileName);
             int dot_pos = inputFileName.LastIndexOf(".");
             string header_name = inputFileName.Substring(0, dot_pos) + ".h";
             string implementation_name = inputFileName.Substring(0, dot_pos) + ".cpp";
-            ANTLRStringStream inputStream = new ANTLRStringStream(input);
-            SugarCppLexer lexer = new SugarCppLexer(inputStream);
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
-            if (printTokens)
+
+            Console.WriteLine("OutputPath = [{0}]", outputPath);
+            if (outputPath != null || outputPath == "")
             {
-                PrintTokens(tokens);
+                if (!outputPath.EndsWith("\\") || !outputPath.EndsWith("/")) outputPath = outputPath + "/";
+                int k1 = header_name.LastIndexOf("/");
+                int k2 = header_name.LastIndexOf("\\");
+                int k = k1 == -1 ? (k2 == -1 ? -1 : k2) : (k2 == -1 ? k1 : Math.Max(k1, k2));
+                header_name = k == -1 ? header_name : header_name.Substring(k + 1);
+                Console.WriteLine("Header = [{0}]", header_name);
+                header_name = outputPath + header_name;
+
+                k1 = implementation_name.LastIndexOf("/");
+                k2 = implementation_name.LastIndexOf("\\");
+                k = k1 == -1 ? (k2 == -1 ? -1 : k2) : (k2 == -1 ? k1 : Math.Max(k1, k2));
+                implementation_name = outputPath + (k == -1 ? implementation_name : implementation_name.Substring(k + 1));
             }
 
-            SugarCppParser parser = new SugarCppParser(tokens);
-            AstParserRuleReturnScope<CommonTree, IToken> t = parser.root();
-            if (parser.errors.Count > 0)
+            if (singleFile)
             {
-                foreach (var error in parser.errors)
+                string code = SugarCompiler.Compile(input);
+
+                if (printCode)
                 {
-                    Console.WriteLine(error);
+                    Console.WriteLine(code);
                 }
-                return;
-            }
-            CommonTree ct = (CommonTree)t.Tree;
-            if (printAST)
-            {
-                PrintAST(ct);
-            }
 
-            if (printCode)
-            {
-                CommonTreeNodeStream nodes = new CommonTreeNodeStream(ct);
-                SugarWalker walker = new SugarWalker(nodes);
-                Root x = walker.root();
-                TargetCppHeader header = new TargetCppHeader();
-                TargetCppImplementation implementation = new TargetCppImplementation();
-                string include_name = header_name;
-                if (include_name.LastIndexOf('/') != -1) include_name = include_name.Substring(include_name.LastIndexOf('/') + 1);
-                if (include_name.LastIndexOf('\\') != -1) include_name = include_name.Substring(include_name.LastIndexOf('\\') + 1);
-                implementation.HeaderFileName = include_name;
-                string header_code = x.Accept(header).Render();
-                string implementation_code = x.Accept(implementation).Render();
-                File.WriteAllText(header_name, header_code);
-                File.WriteAllText(implementation_name, implementation_code);
+                File.WriteAllText(implementation_name, code);
             }
+            else
+            {
+                var result = SugarCompiler.Compile(input, inputFileName);
+
+                if (printCode)
+                {
+                    Console.WriteLine(result.Header);
+
+                    Console.WriteLine();
+
+                    Console.WriteLine(result.Implementation);
+                }
+
+                File.WriteAllText(header_name, result.Header);
+                File.WriteAllText(implementation_name, result.Implementation);
+            }
+        }
+
+        /// <summary>
+        /// Print the abstract syntax tree.
+        /// </summary>
+        private static void PrintAST(string input)
+        {
+            PrintAST(SugarCompiler.GetAst(input), 0);
         }
 
         /// <summary>
@@ -101,7 +156,7 @@ namespace SugarCpp.CommandLine
         /// </summary>
         /// <param name="astNode">Node of abstract syntax tree.</param>
         /// <param name="depth">Depth of node from root.</param>
-        private static void PrintAST(CommonTree astNode, int depth = 0)
+        private static void PrintAST(CommonTree astNode, int depth)
         {
             string indent = "  ";
             for (int i = 0; i < depth; i++)
@@ -118,10 +173,10 @@ namespace SugarCpp.CommandLine
         /// <summary>
         /// Print the tokens.
         /// </summary>
-        /// <param name="tokens">Tokens</param>
-        private static void PrintTokens(CommonTokenStream tokens)
+        /// <param name="input">SugarCpp source code</param>
+        private static void PrintTokens(string input)
         {
-            foreach (var token in tokens.GetTokens())
+            foreach (var token in SugarCompiler.GetTokens(input))
             {
                 Print(token.ToString());
             }
@@ -131,23 +186,23 @@ namespace SugarCpp.CommandLine
         /// Print text to console or output file.
         /// </summary>
         /// <param name="contents"></param>
-        private static void Print(string contents)
+        private static void Print(string contents, params object[] objs)
         {
-            if (outputFileName == null)
+            if (outputPath == null)
             {
-                Console.WriteLine(contents);
+                Console.WriteLine(contents, objs);
             }
             else
             {
-                outputFile.WriteLine(contents);
+                outputFile.WriteLine(contents, objs);
             }
         }
 
-        static string inputFileName = null;
-        static string outputFileName = null;
-        static bool printTokens = false;
-        static bool printAST = false;
-        static bool printCode = true;
-        static StreamWriter outputFile = null;
+        private static string outputPath = null;
+        private static bool printTokens = false;
+        private static bool printAST = false;
+        private static bool singleFile = false;
+        private static bool printCode = true;
+        private static StreamWriter outputFile = null;
     }
 }

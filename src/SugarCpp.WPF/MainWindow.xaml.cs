@@ -37,7 +37,7 @@ namespace SugarCpp.WPF
             try
             {
                 TargetCpp sugar_cpp = new TargetCpp();
-                var result = sugar_cpp.Compile(input, "test");
+                var result = SugarCompiler.Compile(input, "test");
                 this.Header.Text = result.Header;
                 File.WriteAllText("test.h", this.Header.Text);
                 this.Implementation.Text = result.Implementation;

@@ -29,8 +29,7 @@ namespace SugarCpp.WinForm
             File.WriteAllText("test.sc", input);
             try
             {
-                TargetCpp sugar_cpp = new TargetCpp();
-                string output = sugar_cpp.Compile(input, "test").Implementation;
+                string output = SugarCompiler.Compile(input);
                 this.Result.Text = output;
                 File.WriteAllText("test.cpp", output);
             }

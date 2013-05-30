@@ -70,6 +70,7 @@
     <Compile Include="Helper\CommonHelper.cs" />
     <Compile Include="Helper\Extensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SugarCompiler.cs" />
     <Compile Include="Visitor\TargetCpp.cs" />
     <Compile Include="Visitor\TargetCppHeader.cs" />
     <Compile Include="Visitor\TargetCppImplementation.cs" />

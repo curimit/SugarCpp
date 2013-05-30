@@ -8,7 +8,7 @@ namespace SugarCpp.CommandLine
 {
     class Compile
 	{
-		internal static void CompileSource(string[] args)
+		internal static int CompileSource(string[] args)
 		{
 			if (args.Length == 0)
 			{
@@ -23,9 +23,10 @@ namespace SugarCpp.CommandLine
 			}
 			DetectCompiler();
 			DoCompile(inputFileName, compilerArgs);
+            return 0;
 		}
 		
-		internal static void RunSource(string[] args)
+		internal static int RunSource(string[] args)
 		{
 			if (args.Length == 0)
 			{
@@ -44,6 +45,7 @@ namespace SugarCpp.CommandLine
 			exeFileName += ".exe";
 			DoCompile(inputFileName, compiler.OutputArg + " " + exeFileName);
 			RunCommand(exeFileName, runArgs);
+            return 0;
 		}
 
         private static void DetectCompiler()
@@ -108,8 +110,7 @@ namespace SugarCpp.CommandLine
             TargetCppResult result = null;
             try
             {
-                TargetCpp sugarCpp = new TargetCpp();
-                result = sugarCpp.Compile(input, cppFileName);
+                result = SugarCompiler.Compile(input, cppFileName);
             }
             catch (Exception ex)
             {
