@@ -1428,18 +1428,20 @@ using u_int32 = unsigned int;
 
     Options:
         --ast /ast                  Output the abstract syntax tree.
+        --token /token              Output the tokens.
         --help -h /help /h /?       Output this help text.
         --nocode /nocode            Do not print the generated code.
-        --output -o /output /o [filename]
-                                    Filename of output. If not specified, output
-                                    will be printed to standard output.
-        --token /token              Output the tokens.
+        --single /single            Translate into single cpp file.
+        --output -o /output /o [output_path]
+                                    Path of output. If not specified, output
+                                    will be written into the directory
+                                    where your source code at.
 
     Examples:
-        Translate into C++ code, will generate .h and .cpp two files.
+        Translate into C++ code
             sugarcpp code.sc
         Compile to binary by calling the default compiler
-            sugarcpp compule code.sc -o code.exe
+            sugarcpp compile code.sc -o code.exe
         Compile and run
             sugarcpp run code.sc
 
