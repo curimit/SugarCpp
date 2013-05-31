@@ -94,10 +94,10 @@ namespace SugarCpp.CommandLine
         private static void Compile(string input, string inputFileName)
         {
             int dot_pos = inputFileName.LastIndexOf(".");
-            string header_name = inputFileName.Substring(0, dot_pos) + ".h";
-            string implementation_name = inputFileName.Substring(0, dot_pos) + ".cpp";
+            string file_no_ext = inputFileName.Substring(0, dot_pos);
+            string header_name = file_no_ext + ".h";
+            string implementation_name = file_no_ext + ".cpp";
 
-            Console.WriteLine("OutputPath = [{0}]", outputPath);
             if (outputPath != null || outputPath == "")
             {
                 if (!outputPath.EndsWith("\\") || !outputPath.EndsWith("/")) outputPath = outputPath + "/";
@@ -105,7 +105,6 @@ namespace SugarCpp.CommandLine
                 int k2 = header_name.LastIndexOf("\\");
                 int k = k1 == -1 ? (k2 == -1 ? -1 : k2) : (k2 == -1 ? k1 : Math.Max(k1, k2));
                 header_name = k == -1 ? header_name : header_name.Substring(k + 1);
-                Console.WriteLine("Header = [{0}]", header_name);
                 header_name = outputPath + header_name;
 
                 k1 = implementation_name.LastIndexOf("/");
@@ -127,7 +126,7 @@ namespace SugarCpp.CommandLine
             }
             else
             {
-                var result = SugarCompiler.Compile(input, inputFileName);
+                var result = SugarCompiler.Compile(input, file_no_ext);
 
                 if (printCode)
                 {
