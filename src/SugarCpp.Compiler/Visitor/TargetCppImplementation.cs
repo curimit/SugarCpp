@@ -8,6 +8,7 @@ namespace SugarCpp.Compiler
 {
     public class TargetCppImplementation : TargetCpp
     {
+        private int ClassLevel = 0;
         public string HeaderFileName;
 
         private string name_space = "";
@@ -89,6 +90,7 @@ namespace SugarCpp.Compiler
             List<Template> list = new List<Template>();
 
             EnterNameSpace(class_def.Name);
+            ClassLevel++;
 
             if (class_def.Args.Count() > 0)
             {
@@ -133,6 +135,7 @@ namespace SugarCpp.Compiler
                 }
             }
 
+            ClassLevel--;
             PopNameSpace();
 
             template.Add("list", list);
@@ -184,6 +187,13 @@ namespace SugarCpp.Compiler
             if (func_def.Attribute.Find(x => x.Name == "virtual") != null)
             {
                 prefix += "virtual ";
+            }
+            if (ClassLevel == 0)
+            {
+                if (func_def.Attribute.Find(x => x.Name == "static") != null)
+                {
+                    prefix += "static ";
+                }
             }
             string suffix = "";
             if (func_def.Attribute.Find(x => x.Name == "const") != null)
