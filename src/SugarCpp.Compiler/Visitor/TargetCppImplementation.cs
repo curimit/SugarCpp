@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Antlr4.StringTemplate;
@@ -132,6 +133,11 @@ namespace SugarCpp.Compiler
                     {
                         list.Add(node.Accept(this));
                     }
+
+                    if (node is GlobalAlloc)
+                    {
+                        list.Add(node.Accept(this));
+                    }
                 }
             }
 
@@ -230,8 +236,105 @@ namespace SugarCpp.Compiler
             template.Add("prefix", prefix);
             template.Add("suffix", suffix);
             template.Add("name", NameInNameSpace(func_def.Name));
-            template.Add("args", func_def.Args.Select(x => x.Accept(this)));
+            template.Add("args", func_def.Args.Select(x => x.Accept(this)).ToList());
             template.Add("list", func_def.Body.Accept(this));
+            return template;
+        }
+
+        public override Template Visit(GlobalAlloc global_alloc)
+        {
+            Template template = null;
+
+            var type = global_alloc.Type;
+
+            string name_prefix = "";
+            string name_suffix = "";
+            while (true)
+            {
+                if (type is StarType)
+                {
+                    name_prefix = "*" + name_prefix;
+                    type = ((StarType)type).Type;
+                    continue;
+                }
+                if (type is RefType)
+                {
+                    name_prefix = "&" + name_prefix;
+                    type = ((RefType)type).Type;
+                    continue;
+                }
+                if (type is ArrayType)
+                {
+                    Template tmp = new Template("<type_list>");
+                    List<Template> type_list = new List<Template>();
+                    foreach (var x in ((ArrayType)type).Args)
+                    {
+                        Template item = new Template("[<expr>]");
+                        item.Add("expr", x.Accept(this));
+                        type_list.Add(item);
+                    }
+                    tmp.Add("type_list", type_list);
+                    name_suffix = tmp.Render() + name_suffix;
+                    type = ((ArrayType)type).Type;
+                    continue;
+                }
+                break;
+            }
+
+            string prefix = "";
+            if (global_alloc.Attribute.Find(x => x.Name == "const") != null)
+            {
+                prefix += "const ";
+            }
+
+            if (type is AutoType)
+            {
+                // Todo: Check ExprList.Count()
+                Debug.Assert(global_alloc.ExprList.Count() == 1);
+                type = new DeclType(global_alloc.ExprList.First());
+            }
+
+            // Can declare inline
+            if (global_alloc.Style == AllocType.Declare)
+            {
+                template = new Template("<prefix><type> <name; separator=\", \">;");
+                template.Add("prefix", prefix);
+                template.Add("type", type.Accept(this));
+                template.Add("name", global_alloc.Name.Select(x => string.Format("{0}{1}{2}", name_prefix, NameInNameSpace(x), name_suffix)).ToList());
+                return template;
+            }
+
+            List<Template> list = new List<Template>();
+            foreach (var name in global_alloc.Name)
+            {
+                switch (global_alloc.Style)
+                {
+                    case AllocType.Equal:
+                        {
+                            Template stmt = new Template("<prefix><type> <name> = <expr; separator=\", \">;");
+                            stmt.Add("prefix", prefix);
+                            stmt.Add("type", type.Accept(this));
+                            stmt.Add("name", string.Format("{0}{1}{2}", name_prefix, NameInNameSpace(name), name_suffix));
+                            stmt.Add("expr", global_alloc.ExprList.Select(x => x.Accept(this)));
+                            list.Add(stmt);
+                            break;
+                        }
+
+                    case AllocType.Bracket:
+                        {
+                            Template stmt = new Template("<prefix><type> <name>(<expr; separator=\", \">);");
+                            stmt.Add("prefix", prefix);
+                            stmt.Add("type", type.Accept(this));
+                            stmt.Add("name", string.Format("{0}{1}{2}", name_prefix, NameInNameSpace(name), name_suffix));
+                            stmt.Add("expr", global_alloc.ExprList.Select(x => x.Accept(this)));
+                            list.Add(stmt);
+                            break;
+                        }
+                }
+            }
+
+            template = new Template("<list; separator=\"\n\">");
+            template.Add("list", list);
             return template;
         }
     }
