@@ -64,6 +64,7 @@ namespace SugarCpp.Compiler
                 // Generic Class/Function Should Defined in Header File
                 if (node is FuncDef && ((FuncDef)node).GenericParameter.Count() > 0) continue;
                 if (node is Class && ((Class)node).GenericParameter.Count() > 0) continue;
+                if (node is GlobalAlloc && node.Attribute.Exists(x => x.Name == "const") && !node.Attribute.Exists(x => x.Name == "static")) continue;
 
                 if (node is Import || node is GlobalUsing || node is GlobalTypeDef || (node is Enum && node.Attribute.All(x => x.Name != "ToString"))) continue;
                 bool current = node is FuncDef || node is Class || node is Enum || node is Import || node is GlobalUsing || node is Namespace;
@@ -134,7 +135,7 @@ namespace SugarCpp.Compiler
                         list.Add(node.Accept(this));
                     }
 
-                    if (node is GlobalAlloc && node.Attribute.Exists(x => x.Name == "static"))
+                    if (node is GlobalAlloc && node.Attribute.Exists(x => x.Name == "static") && !node.Attribute.Exists(x => x.Name == "const"))
                     {
                         list.Add(node.Accept(this));
                     }

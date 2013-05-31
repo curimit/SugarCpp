@@ -59,6 +59,11 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(GlobalAlloc global_alloc)
         {
+            if (global_alloc.Attribute.Exists(x => x.Name == "const"))
+            {
+                return base.Visit(global_alloc);
+            }
+
             if (this.ClassLevel > 0)
             {
                 Template template = null;
