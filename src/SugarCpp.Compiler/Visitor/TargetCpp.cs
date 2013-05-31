@@ -216,7 +216,7 @@ namespace SugarCpp.Compiler
 
                     case AllocType.Bracket:
                         {
-                            Template stmt = new Template("<prefix><type> <name>(<expr; separator=\", \">);");
+                            Template stmt = new Template("<prefix><type> <name> { <expr; separator=\", \"> } ;");
                             stmt.Add("prefix", prefix);
                             stmt.Add("type", type.Accept(this));
                             stmt.Add("name", string.Format("{0}{1}{2}", name_prefix, name, name_suffix));
@@ -298,7 +298,7 @@ namespace SugarCpp.Compiler
 
                     case AllocType.Bracket:
                         {
-                            Template stmt = new Template("<type> <name>(<expr; separator=\", \">)");
+                            Template stmt = new Template("<type> <name> { <expr; separator=\", \"> }");
                             stmt.Add("type", type.Accept(this));
                             stmt.Add("name", string.Format("{0}{1}{2}", name_prefix, name, name_suffix));
                             stmt.Add("expr", expr.ExprList.Select(x => x.Accept(this)));
@@ -308,7 +308,7 @@ namespace SugarCpp.Compiler
                 }
             }
 
-            template = new Template("<list; separator=\"\n\">");
+            template = new Template("<list; separator=\";\n\">");
             template.Add("list", list);
             return template;
         }

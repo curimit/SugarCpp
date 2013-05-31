@@ -134,7 +134,7 @@ namespace SugarCpp.Compiler
                         list.Add(node.Accept(this));
                     }
 
-                    if (node is GlobalAlloc)
+                    if (node is GlobalAlloc && node.Attribute.Exists(x => x.Name == "static"))
                     {
                         list.Add(node.Accept(this));
                     }
@@ -282,6 +282,13 @@ namespace SugarCpp.Compiler
             }
 
             string prefix = "";
+            if (ClassLevel == 0)
+            {
+                if (global_alloc.Attribute.Find(x => x.Name == "static") != null)
+                {
+                    prefix += "static ";
+                }
+            }
             if (global_alloc.Attribute.Find(x => x.Name == "const") != null)
             {
                 prefix += "const ";
@@ -322,7 +329,7 @@ namespace SugarCpp.Compiler
 
                     case AllocType.Bracket:
                         {
-                            Template stmt = new Template("<prefix><type> <name>(<expr; separator=\", \">);");
+                            Template stmt = new Template("<prefix><type> <name> { <expr; separator=\", \"> };");
                             stmt.Add("prefix", prefix);
                             stmt.Add("type", type.Accept(this));
                             stmt.Add("name", string.Format("{0}{1}{2}", name_prefix, NameInNameSpace(name), name_suffix));
