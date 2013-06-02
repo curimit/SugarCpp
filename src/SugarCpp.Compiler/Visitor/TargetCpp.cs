@@ -905,49 +905,63 @@ namespace SugarCpp.Compiler
 
                     case ForItemType.To:
                         {
-                            var node = (ForItemTo)item;
+                            var node = (ForItemRange)item;
                             if (node.By == null)
                             {
-                                Template tmp = new Template("for (auto <var> = <from>; <var> \\<= <to>; ++<var>) {\n    <body>\n}");
+                                Template tmp = new Template("for (auto <var> = <from>; <var> <op> <to>; <prefix_op><var>) {\n    <body>\n}");
                                 tmp.Add("var", node.Var);
                                 tmp.Add("from", node.From.Accept(this));
                                 tmp.Add("to", node.To.Accept(this));
                                 tmp.Add("body", template);
-                                template = tmp;
-                            }
-                            else
-                            {
-                                Template tmp = new Template("for (auto <var> = <from>; <var> \\<= <to>; <var> = <var> + <by>) {\n    <body>\n}");
-                                tmp.Add("var", node.Var);
-                                tmp.Add("from", node.From.Accept(this));
-                                tmp.Add("to", node.To.Accept(this));
-                                tmp.Add("by", node.By.Accept(this));
-                                tmp.Add("body", template);
-                                template = tmp;
-                            }
-                            break;
-                        }
 
-                    case ForItemType.DownTo:
-                        {
-                            var node = (ForItemDownTo)item;
-                            if (node.By == null)
-                            {
-                                Template tmp = new Template("for (auto <var> = <from>; <var> >= <to>; --<var>) {\n    <body>\n}");
-                                tmp.Add("var", node.Var);
-                                tmp.Add("from", node.From.Accept(this));
-                                tmp.Add("to", node.To.Accept(this));
-                                tmp.Add("body", template);
+                                switch (node.Style)
+                                {
+                                    case ForItemRangeType.To:
+                                        {
+                                            tmp.Add("prefix_op", "++");
+                                            tmp.Add("op", "<=");
+                                            break;
+                                        }
+
+                                    case ForItemRangeType.DownTo:
+                                        {
+                                            tmp.Add("prefix_op", "--");
+                                            tmp.Add("op", ">=");
+                                            break;
+                                        }
+
+                                    case ForItemRangeType.Til:
+                                        {
+                                            tmp.Add("prefix_op", "++");
+                                            tmp.Add("op", "!=");
+                                            break;
+                                        }
+                                }
                                 template = tmp;
                             }
                             else
                             {
-                                Template tmp = new Template("for (auto <var> = <from>; <var> >= <to>; <var> = <var> + <by>) {\n    <body>\n}");
+                                Template tmp = new Template("for (auto <var> = <from>; <var> <op> <to>; <var> = <var> + <by>) {\n    <body>\n}");
                                 tmp.Add("var", node.Var);
                                 tmp.Add("from", node.From.Accept(this));
                                 tmp.Add("to", node.To.Accept(this));
                                 tmp.Add("by", node.By.Accept(this));
                                 tmp.Add("body", template);
+
+                                switch (node.Style)
+                                {
+                                    case ForItemRangeType.To:
+                                        tmp.Add("op", "<=");
+                                        break;
+
+                                    case ForItemRangeType.DownTo:
+                                        tmp.Add("op", ">=");
+                                        break;
+
+                                    case ForItemRangeType.Til:
+                                        tmp.Add("op", "!=");
+                                        break;
+                                }
                                 template = tmp;
                             }
                             break;

@@ -65,45 +65,32 @@ namespace SugarCpp.Compiler
         }
     }
 
-    public class ForItemTo : ForItem
+    public enum ForItemRangeType
+    {
+        To, DownTo, Til
+    }
+
+    public class ForItemRange : ForItem
     {
         public string Var;
         public Expr From;
         public Expr To;
         public Expr By;
+
+        public ForItemRangeType Style;
 
         public override ForItemType Type
         {
             get { return ForItemType.To; }
         }
 
-        public ForItemTo(string var, Expr from, Expr to, Expr by)
+        public ForItemRange(string var, Expr from, Expr to, Expr by, ForItemRangeType style)
         {
             this.Var = var;
             this.From = from;
             this.To = to;
             this.By = by;
-        }
-    }
-
-    public class ForItemDownTo : ForItem
-    {
-        public string Var;
-        public Expr From;
-        public Expr To;
-        public Expr By;
-
-        public override ForItemType Type
-        {
-            get { return ForItemType.DownTo; }
-        }
-
-        public ForItemDownTo(string var, Expr from, Expr to, Expr by)
-        {
-            this.Var = var;
-            this.From = from;
-            this.To = to;
-            this.By = by;
+            this.Style = style;
         }
     }
 

@@ -47,6 +47,7 @@ tokens
    For_Item_When;
    For_Item_Map;
    For_Item_To;
+   For_Item_Til;
    For_Item_Down_To;
 
    Stmt_Return;
@@ -447,8 +448,9 @@ stmt_while
 	;
 
 for_range
-	: ident '<-' a=expr ('to' b=expr ('by' c=expr)? -> ^(For_Item_To ident $a $b $c?)
-						|'downto' b=expr ('by' c=expr)? -> ^(For_Item_Down_To ident $a $b $c?)
+	: ident '<-' a=expr ( 'to' b=expr ('by' c=expr)? -> ^(For_Item_To ident $a $b $c?)
+						| 'til' b=expr ('by' c=expr)? -> ^(For_Item_Til ident $a $b $c?)
+						| 'downto' b=expr ('by' c=expr)? -> ^(For_Item_Down_To ident $a $b $c?)
 						| -> ^(For_Item_Each ident $a)
 						)
 	;

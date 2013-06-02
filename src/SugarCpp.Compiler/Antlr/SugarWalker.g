@@ -467,11 +467,15 @@ stmt_while returns [Stmt value]
 for_item returns [ForItem value]
 	: ^(For_Item_To a=ident b=expr c=expr (d=expr)?)
 	{
-		$value = new ForItemTo(a, b, c, d);
+		$value = new ForItemRange(a, b, c, d, ForItemRangeType.To);
+	}
+	| ^(For_Item_Til a=ident b=expr c=expr (d=expr)?)
+	{
+		$value = new ForItemRange(a, b, c, d, ForItemRangeType.Til);
 	}
 	| ^(For_Item_Down_To a=ident b=expr c=expr (d=expr)?)
 	{
-		$value = new ForItemDownTo(a, b, c, d);
+		$value = new ForItemRange(a, b, c, d, ForItemRangeType.DownTo);
 	}
 	| ^(For_Item_Each a=ident b=expr)
 	{
