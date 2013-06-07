@@ -238,6 +238,8 @@ attribute_item
 	: ident ('(' attribute_args (',' attribute_args)* ')')? -> ^(Attribute ident attribute_args*)
 	| 'const' ('(' attribute_args (',' attribute_args)* ')')? -> ^(Attribute 'const' attribute_args*)
 	| 'static' ('(' attribute_args (',' attribute_args)* ')')? -> ^(Attribute 'static' attribute_args*)
+	| 'public' ('(' attribute_args (',' attribute_args)* ')')? -> ^(Attribute 'public' attribute_args*)
+	| 'virtual' ('(' attribute_args (',' attribute_args)* ')')? -> ^(Attribute 'virtual' attribute_args*)
 	;
 
 attribute
@@ -274,8 +276,8 @@ namespace_def
 	;
 
 class_def
-	:  attribute? ( 'public'? 'class' ident (generic_parameter)? (':' ident (',' ident)*)? (NEWLINE+ INDENT NEWLINE* global_block DEDENT)? -> ^(Class attribute? 'public'? ident generic_parameter? (^(Ident_List ident*))? global_block?)
-			      | 'case' 'class' ident (generic_parameter)? ('(' func_args ')')? (':' ident (',' ident)*)? (NEWLINE+ INDENT NEWLINE* global_block DEDENT)? -> ^(Class 'case' attribute? ident generic_parameter? func_args? (^(Ident_List ident*))? global_block?)
+	:  attribute? ( 'public'? 'class' ident (generic_parameter)? (':' ident (',' ident)*)? (NEWLINE+ INDENT NEWLINE* global_block DEDENT)? -> ^(Class 'public'? attribute? ident generic_parameter? (^(Ident_List ident*))? global_block?)
+			      | 'public'? 'case' 'class' ident (generic_parameter)? ('(' func_args ')')? (':' ident (',' ident)*)? (NEWLINE+ INDENT NEWLINE* global_block DEDENT)? -> ^(Class 'public'? 'case' attribute? ident generic_parameter? func_args? (^(Ident_List ident*))? global_block?)
 				  )
 	;
 
@@ -355,11 +357,11 @@ func_type
 	;
 
 func_def
-	: attribute? 'virtual'? func_type? '~'? func_name generic_parameter? '(' func_args? ')' ( NEWLINE+ stmt_block -> ^(Func_Def attribute? 'virtual'? func_type? '~'? func_name generic_parameter? func_args? stmt_block)
-																				            | '=' ( where_expr  -> ^(Func_Def attribute? 'virtual'? func_type? '~'? func_name generic_parameter? func_args? where_expr)
-																								  | NEWLINE+ INDENT NEWLINE* (match_item NEWLINE+)+ DEDENT -> ^(Func_Def attribute? 'virtual'? func_type? '~'? func_name generic_parameter? func_args? ^(Match_Expr match_item+))
-																								  )
-																							)
+	: attribute? 'public'? 'virtual'? func_type? '~'? func_name generic_parameter? '(' func_args? ')' ( NEWLINE+ stmt_block -> ^(Func_Def 'public'? 'virtual'? attribute? func_type? '~'? func_name generic_parameter? func_args? stmt_block)
+																									  | '=' ( where_expr  -> ^(Func_Def 'public'? 'virtual'? attribute? func_type? '~'? func_name generic_parameter? func_args? where_expr)
+																											| NEWLINE+ INDENT NEWLINE* (match_item NEWLINE+)+ DEDENT -> ^(Func_Def 'public'? 'virtual'? attribute? func_type? '~'? func_name generic_parameter? func_args? ^(Match_Expr match_item+))
+																											)
+																									  )
     ;
 
 stmt_block_item

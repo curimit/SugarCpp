@@ -139,7 +139,7 @@ attribute_item returns [Attr value]
 {
 	$value = new Attr();
 }
-	: ^(Attribute (a=ident { $value.Name = a; } | c='const' { $value.Name = "const"; } | d='static' { $value.Name = "static"; }) (b=attribute_args { $value.Args.Add(b) ; })*)
+	: ^(Attribute (a=ident { $value.Name = a; } | c='const' { $value.Name = "const"; } | d='static' { $value.Name = "static"; } | e='public' { $value.Name = "public"; } | f='virtual' { $value.Name = "virtual"; }) (b=attribute_args { $value.Args.Add(b) ; })*)
 	;
 
 attribute returns [List<Attr> value]
@@ -173,7 +173,7 @@ enum_def returns [Enum value]
 	;
 
 class_def returns [Class value]
-	: ^(Class (is_case='case')? (attr=attribute)? (pub='public')? a=ident (b=generic_parameter)? (c=func_args)? (d=ident_list)? (e=global_block)?)
+	: ^(Class (pub='public')? (is_case='case')? (attr=attribute)? a=ident (b=generic_parameter)? (c=func_args)? (d=ident_list)? (e=global_block)?)
 	{
 		$value = new Class(a, b, c, d, e, attr);
 		if (pub != null) $value.Attribute.Add(new Attr { Name = "public" });
@@ -279,10 +279,11 @@ func_def returns [FuncDef value]
 {
 	$value = new FuncDef();
 }
-	: ^(Func_Def (attr=attribute)? (vir='virtual')? (a=type_name)? (deconstructor='~')? (b=ident | op=('+'|'-'|'*'|'/'))? (x=generic_parameter )? (args=func_args { $value.Args = args; })?
+	: ^(Func_Def (pub='public')? (vir='virtual')? (attr=attribute)?(a=type_name)? (deconstructor='~')? (b=ident | op=('+'|'-'|'*'|'/'))? (x=generic_parameter )? (args=func_args { $value.Args = args; })?
 	( e=stmt_block
 	{
 		if (attr != null) $value.Attribute = attr;
+		if (pub != null) $value.Attribute.Add(new Attr { Name = "public" });
 		if (vir != null) $value.Attribute.Add(new Attr { Name = "virtual" });
 		$value.Type = a;
 		$value.Name = b != null ? b : "operator" + op.Text;
@@ -299,6 +300,7 @@ func_def returns [FuncDef value]
 	| f=expr
 	{
 		if (attr != null) $value.Attribute = attr;
+		if (pub != null) $value.Attribute.Add(new Attr { Name = "public" });
 		if (vir != null) $value.Attribute.Add(new Attr { Name = "virtual" });
 		$value.Type = a;
 		$value.Name = b != null ? b : "operator" + op.Text;
