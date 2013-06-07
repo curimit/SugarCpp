@@ -173,9 +173,10 @@ enum_def returns [Enum value]
 	;
 
 class_def returns [Class value]
-	: ^(Class (is_case='case')? (attr=attribute)? a=ident (b=generic_parameter)? (c=func_args)? (d=ident_list)? (e=global_block)?)
+	: ^(Class (is_case='case')? (attr=attribute)? (pub='public')? a=ident (b=generic_parameter)? (c=func_args)? (d=ident_list)? (e=global_block)?)
 	{
 		$value = new Class(a, b, c, d, e, attr);
+		if (pub != null) $value.Attribute.Add(new Attr { Name = "public" });
 		if (is_case != null) $value.Attribute.Add(new Attr { Name = "case" });
 	}
 	;
@@ -278,10 +279,11 @@ func_def returns [FuncDef value]
 {
 	$value = new FuncDef();
 }
-	: ^(Func_Def (attr=attribute)? (a=type_name)? (deconstructor='~')? (b=ident | op=('+'|'-'|'*'|'/'))? (x=generic_parameter )? (args=func_args { $value.Args = args; })?
+	: ^(Func_Def (attr=attribute)? (vir='virtual')? (a=type_name)? (deconstructor='~')? (b=ident | op=('+'|'-'|'*'|'/'))? (x=generic_parameter )? (args=func_args { $value.Args = args; })?
 	( e=stmt_block
 	{
 		if (attr != null) $value.Attribute = attr;
+		if (vir != null) $value.Attribute.Add(new Attr { Name = "virtual" });
 		$value.Type = a;
 		$value.Name = b != null ? b : "operator" + op.Text;
 		if (deconstructor != null) 
@@ -297,6 +299,7 @@ func_def returns [FuncDef value]
 	| f=expr
 	{
 		if (attr != null) $value.Attribute = attr;
+		if (vir != null) $value.Attribute.Add(new Attr { Name = "virtual" });
 		$value.Type = a;
 		$value.Name = b != null ? b : "operator" + op.Text;
 		if (deconstructor != null) 
