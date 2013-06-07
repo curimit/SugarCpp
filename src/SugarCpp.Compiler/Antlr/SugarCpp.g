@@ -275,10 +275,14 @@ namespace_def
 	: attribute? 'namespace' ident (NEWLINE+ INDENT NEWLINE* global_block DEDENT)? -> ^(Namespace attribute? ident global_block?)
 	;
 
+class_args
+	: '(' ( func_args ')' -> func_args
+		  | ')' -> ^(Func_Args)
+		  )
+	;
+
 class_def
-	:  attribute? ( 'public'? 'class' ident (generic_parameter)? (':' ident (',' ident)*)? (NEWLINE+ INDENT NEWLINE* global_block DEDENT)? -> ^(Class 'public'? attribute? ident generic_parameter? (^(Ident_List ident*))? global_block?)
-			      | 'public'? 'case' 'class' ident (generic_parameter)? ('(' func_args ')')? (':' ident (',' ident)*)? (NEWLINE+ INDENT NEWLINE* global_block DEDENT)? -> ^(Class 'public'? 'case' attribute? ident generic_parameter? func_args? (^(Ident_List ident*))? global_block?)
-				  )
+	:  attribute? 'public'? 'class' ident (generic_parameter)? class_args? (':' ident (',' ident)*)? (NEWLINE+ INDENT NEWLINE* global_block DEDENT)? -> ^(Class 'public'? attribute? ident generic_parameter? class_args? (^(Ident_List ident*))? global_block?)
 	;
 
 type_list

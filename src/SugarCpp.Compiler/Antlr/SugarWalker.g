@@ -173,11 +173,11 @@ enum_def returns [Enum value]
 	;
 
 class_def returns [Class value]
-	: ^(Class (pub='public')? (is_case='case')? (attr=attribute)? a=ident (b=generic_parameter)? (c=func_args)? (d=ident_list)? (e=global_block)?)
+	: ^(Class (pub='public')? (attr=attribute)? a=ident (b=generic_parameter)? (c=func_args)? (d=ident_list)? (e=global_block)?)
 	{
 		$value = new Class(a, b, c, d, e, attr);
 		if (pub != null) $value.Attribute.Add(new Attr { Name = "public" });
-		if (is_case != null) $value.Attribute.Add(new Attr { Name = "case" });
+		if (c != null) $value.Attribute.Add(new Attr { Name = "case" });
 	}
 	;
 
