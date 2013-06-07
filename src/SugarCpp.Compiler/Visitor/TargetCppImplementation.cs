@@ -191,10 +191,6 @@ namespace SugarCpp.Compiler
             {
                 prefix += "inline ";
             }
-            if (func_def.Attribute.Find(x => x.Name == "virtual") != null)
-            {
-                prefix += "virtual ";
-            }
             if (ClassLevel == 0)
             {
                 if (func_def.Attribute.Find(x => x.Name == "static") != null)
