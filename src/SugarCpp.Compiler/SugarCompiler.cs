@@ -17,6 +17,8 @@ namespace SugarCpp.Compiler
     {
         public static TargetCppResult Compile(string input, string file_name)
         {
+            if (file_name.LastIndexOf("/") != -1) file_name = file_name.Substring(file_name.LastIndexOf("/") + 1);
+            if (file_name.LastIndexOf("\\") != -1) file_name = file_name.Substring(file_name.LastIndexOf("\\") + 1);
             input = input.Replace("\r", "");
             ANTLRStringStream Input = new ANTLRStringStream(input);
             SugarCppLexer lexer = new SugarCppLexer(Input);
