@@ -126,6 +126,10 @@ namespace SugarCpp.Compiler
                 {
                     prefix += "static ";
                 }
+                if (global_alloc.Attribute.Find(x => x.Name == "extern") != null)
+                {
+                    prefix += "extern ";
+                }
                 if (global_alloc.Attribute.Find(x => x.Name == "const") != null)
                 {
                     prefix += "const ";

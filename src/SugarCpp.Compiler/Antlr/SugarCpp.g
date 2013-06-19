@@ -107,6 +107,8 @@ tokens
 
    Ident_List;
    Match_Tuple;
+
+   Func_Declare;
 }
 
 @lexer::header
@@ -247,12 +249,12 @@ attribute
 	;
 
 global_alloc
-	: attribute? ident_list ( ':' type_name ( ('=' | ':=') expr -> ^(Expr_Alloc_Equal attribute? type_name ident_list ^(Expr_Args expr))
-	                                       | bracket_expr_list -> ^(Expr_Alloc_Bracket attribute? type_name ident_list bracket_expr_list)
-								 		   | -> ^(Expr_Alloc_Equal attribute? type_name ident_list ^(Expr_Args))
-								  		   )
-							| ':=' (expr (',' expr)*) -> ^(':=' attribute? ident_list ^(Expr_Args expr+))
-							)
+	: attribute? 'extern'? ident_list ( ':' type_name ( ('=' | ':=') expr -> ^(Expr_Alloc_Equal attribute? 'extern'? type_name ident_list ^(Expr_Args expr))
+													  | bracket_expr_list -> ^(Expr_Alloc_Bracket attribute? 'extern'? type_name ident_list bracket_expr_list)
+								 					  | -> ^(Expr_Alloc_Equal attribute? 'extern'? type_name ident_list ^(Expr_Args))
+								  					  )
+									  | ':=' (expr (',' expr)*) -> ^(':=' attribute? 'extern'? ident_list ^(Expr_Args expr+))
+									  )
 	;
 
 global_using
@@ -365,6 +367,7 @@ func_def
 																									  | '=' ( where_expr  -> ^(Func_Def 'public'? 'virtual'? attribute? func_type? '~'? func_name generic_parameter? func_args? where_expr)
 																											| NEWLINE+ INDENT NEWLINE* (match_item NEWLINE+)+ DEDENT -> ^(Func_Def 'public'? 'virtual'? attribute? func_type? '~'? func_name generic_parameter? func_args? ^(Match_Expr match_item+))
 																											)
+																									  | -> ^(Func_Def 'public'? 'virtual'? attribute? func_type? '~'? func_name generic_parameter? func_args? Func_Declare)
 																									  )
     ;
 

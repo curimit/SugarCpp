@@ -84,28 +84,37 @@ global_alloc returns [List<GlobalAlloc> value]
 @init
 {
 	$value = new List<GlobalAlloc>();
+	GlobalAlloc item;
 }
-	: ^(Expr_Alloc_Equal (attr=attribute)? a=type_name b=ident_list c=expr_list)
+	: ^(Expr_Alloc_Equal (attr=attribute)? (has_extern='extern')? a=type_name b=ident_list c=expr_list)
 	{
 		if (c != null && c.Count > 0)
 		{
-			$value.Add(new GlobalAlloc(a, b, c, attr, AllocType.Equal));
+			item = new GlobalAlloc(a, b, c, attr, AllocType.Equal);
+			if (has_extern != null) item.Attribute.Add(new Attr { Name = "extern" });
+			$value.Add(item);
 		}
 		else
 		{
-			$value.Add(new GlobalAlloc(a, b, c, attr, AllocType.Declare));
+			item = new GlobalAlloc(a, b, c, attr, AllocType.Declare);
+			if (has_extern != null) item.Attribute.Add(new Attr { Name = "extern" });
+			$value.Add(item);
 		}
 	}
-	| ^(Expr_Alloc_Bracket (attr=attribute)? a=type_name b=ident_list c=expr_list)
+	| ^(Expr_Alloc_Bracket (attr=attribute)? (has_extern='extern')? a=type_name b=ident_list c=expr_list)
 	{
-		$value.Add(new GlobalAlloc(a, b, c, attr, AllocType.Bracket));
+		item = new GlobalAlloc(a, b, c, attr, AllocType.Bracket);
+		if (has_extern != null) item.Attribute.Add(new Attr { Name = "extern" });
+		$value.Add(item);
 	}
-	| ^(':=' (attr=attribute)? d=ident_list e=expr_list)
+	| ^(':=' (attr=attribute)? (has_extern='extern')? d=ident_list e=expr_list)
 	{
 		int k = 0;
 		for (int i = 0; i < d.Count(); i++)
 		{
-			$value.Add(new GlobalAlloc(new AutoType(), d[i], e[k], attr, AllocType.Equal));
+			item = new GlobalAlloc(new AutoType(), d[i], e[k], attr, AllocType.Equal);
+			if (has_extern != null) item.Attribute.Add(new Attr { Name = "extern" });
+			$value.Add(item);
 			k = (k + 1) \% e.Count();
 		}
 	}
@@ -322,6 +331,33 @@ func_def returns [FuncDef value]
 			$value.GenericParameter = x;
 		}
 		$value.Body = block;
+	}
+	| Func_Declare
+	{
+		if (attr != null) $value.Attribute = attr;
+		if (pub != null) $value.Attribute.Add(new Attr { Name = "public" });
+		if (vir != null) $value.Attribute.Add(new Attr { Name = "virtual" });
+		$value.Attribute.Add(new Attr { Name = "extern" });
+		$value.Type = a;
+		$value.Name = b != null ? b : "operator" + op.Text;
+		if (deconstructor != null) 
+		{
+			$value.Name = "~" + $value.Name;
+		}
+		StmtBlock block = new StmtBlock();
+		if ((a is IdentType && ((IdentType)a).Type=="void") || a == null)
+		{
+			block.StmtList.Add(new StmtExpr(f));
+		}
+		else
+		{
+			block.StmtList.Add(new StmtReturn(f));
+		}
+		if (x != null)
+		{
+			$value.GenericParameter = x;
+		}
+		$value.Body = null;
 	}
 	))
 	;

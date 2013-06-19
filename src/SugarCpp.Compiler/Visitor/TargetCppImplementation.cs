@@ -64,6 +64,7 @@ namespace SugarCpp.Compiler
                 if (node is FuncDef && ((FuncDef)node).GenericParameter.Count() > 0) continue;
                 if (node is Class && ((Class)node).GenericParameter.Count() > 0) continue;
                 if (node is GlobalAlloc && node.Attribute.Exists(x => x.Name == "const") && !node.Attribute.Exists(x => x.Name == "static")) continue;
+                if (node.Attribute.Exists(x => x.Name == "extern")) continue;
 
                 if (node is Import || node is GlobalUsing || node is GlobalTypeDef || (node is Enum && node.Attribute.All(x => x.Name != "ToString"))) continue;
                 bool current = node is FuncDef || node is Class || node is Enum || node is Import || node is GlobalUsing || node is Namespace;
