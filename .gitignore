@@ -1,0 +1,7 @@
+bin
+*.h
+*.c
+*.cpp
+*.sublime-workspace
+*.sublime-project
+*~
