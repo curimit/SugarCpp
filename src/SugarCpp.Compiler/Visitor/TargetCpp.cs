@@ -14,6 +14,7 @@ namespace SugarCpp.Compiler
     public class TargetCpp : Visitor
     {
         private Stack<Template> defer_stack = new Stack<Template>();
+        public Stack<Class> class_stack = new Stack<Class>();
         private int stmt_finally_count = 0;
 
         public override Template Visit(Root root)
@@ -492,6 +493,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(Class class_def)
         {
+            this.class_stack.Push(class_def);
             Template template = null;
             if (class_def.GenericParameter.Count() == 0)
             {
@@ -646,6 +648,7 @@ namespace SugarCpp.Compiler
             }
 
             template.Add("list", list);
+            this.class_stack.Pop();
             return template;
         }
 
@@ -723,7 +726,12 @@ namespace SugarCpp.Compiler
             }
             template.Add("prefix", prefix);
             template.Add("suffix", suffix);
-            template.Add("name", func_def.Name);
+            if (func_def.Name == "this")
+                template.Add("name", this.class_stack.First().Name);
+            else if (func_def.Name == "~this")
+                template.Add("name", "~" + this.class_stack.First().Name);
+            else
+                template.Add("name", func_def.Name);
             template.Add("args", func_def.Args.Select(x => x.Accept(this)));
             template.Add("list", func_def.Body.Accept(this));
             return template;
@@ -1441,8 +1449,17 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(ExprMatch expr)
         {
-            Template template = new Template("({\n    <type> match;\n    <list; separator=\" \">\n    match;\n})");
-            template.Add("type", new DeclType(expr.List.First().Expr).Accept(this));
+            Template template = new Template("([&]()<type>{\n    <list; separator=\" \">\n})()");
+            if (expr.Type != null)
+            {
+                Template type = new Template(" -> <type> ");
+                type.Add("type", expr.Type.Accept(this));
+                template.Add("type", type);
+            }
+            else
+            {
+                template.Add("type", "");
+            }
             List<Template> list = new List<Template>();
 
             Template match_expr = expr.Expr == null ? null : expr.Expr.Accept(this);
@@ -1461,12 +1478,12 @@ namespace SugarCpp.Compiler
                 Template node = null;
                 if (isFirst)
                 {
-                    node = new Template("if (<condition>) {\n    match = <expr>;\n}");
+                    node = new Template("if (<condition>) {\n    return <expr>;\n}");
                     isFirst = false;
                 }
                 else
                 {
-                    node = new Template("else if (<condition>) {\n    match = <expr>;\n}");
+                    node = new Template("else if (<condition>) {\n    return <expr>;\n}");
                 }
 
                 if (match_expr == null)
@@ -1489,19 +1506,17 @@ namespace SugarCpp.Compiler
                 if (x.Condition is ExprConst)
                 {
                     ExprConst expr_const = (ExprConst)x.Condition;
-                    if (expr_const.Type == ConstType.Ident && expr_const.Text != "_")
+                    if (expr_const.Type == ConstType.Ident && expr_const.Text == "_")
                     {
-                        continue;
+                        var node = new Template("else {\n    return <expr>;\n}");
+                        node.Add("expr", x.Expr.Accept(this));
+                        list.Add(node);
                     }
-                    var node = new Template("else {\n    match = <expr>;\n}");
-                    node.Add("expr", x.Expr.Accept(this));
-                    list.Add(node);
                 }
             }
 
             template.Add("list", list);
             return template;
-
         }
     }
 }

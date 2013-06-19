@@ -422,11 +422,13 @@ namespace SugarCpp.Compiler
     public class ExprMatch : Expr
     {
         public Expr Expr;
+        public SugarType Type;
         public List<ExprMatchItem> List = new List<ExprMatchItem>();
 
-        public ExprMatch(Expr expr, List<ExprMatchItem> list)
+        public ExprMatch(Expr expr, SugarType type, List<ExprMatchItem> list)
         {
             this.Expr = expr;
+            this.Type = type;
             if (list != null)
             {
                 this.List = list;

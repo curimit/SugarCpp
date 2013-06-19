@@ -718,9 +718,9 @@ match_expr returns [Expr value]
 {
 	List<ExprMatchItem> list = new List<ExprMatchItem>();
 }
-	:  ^(Match_Expr (a=expr)? (b=match_item { list.Add(b); } )+)
+	:  ^(Match_Expr (a=expr)? (tp=type_name)? (b=match_item { list.Add(b); } )+)
 	{
-		$value = new ExprMatch(a, list);
+		$value = new ExprMatch(a, tp, list);
 	}
 	;
 

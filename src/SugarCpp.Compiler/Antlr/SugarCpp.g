@@ -260,7 +260,7 @@ global_using
 	;
 
 global_typedef
-	: attribute? 'type' ident '=' type_name -> ^(Stmt_Typedef attribute? type_name ident)
+	: attribute? 'typedef' ident '=' type_name -> ^(Stmt_Typedef attribute? type_name ident)
 	;
 
 import_def
@@ -418,7 +418,7 @@ stmt_defer
 	;
 
 stmt_typedef
-	: 'type' ident '=' type_name -> ^(Stmt_Typedef type_name ident)
+	: 'typedef' ident '=' type_name -> ^(Stmt_Typedef type_name ident)
 	;
 
 stmt_using_item: ident | 'namespace';
@@ -545,7 +545,7 @@ match_item
 	;
 
 match_expr
-	: 'match' expr? NEWLINE+ INDENT NEWLINE* (match_item NEWLINE+)+ DEDENT -> ^(Match_Expr expr? match_item+)
+	: 'match' expr? ('returns' type_name)? NEWLINE+ INDENT NEWLINE* (match_item NEWLINE+)+ DEDENT -> ^(Match_Expr expr? type_name? match_item+)
 	;
 
 expr

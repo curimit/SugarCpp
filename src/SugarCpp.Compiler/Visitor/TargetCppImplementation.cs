@@ -9,7 +9,6 @@ namespace SugarCpp.Compiler
 {
     public class TargetCppImplementation : TargetCpp
     {
-        private int ClassLevel = 0;
         public string HeaderFileName;
 
         private string name_space = "";
@@ -92,7 +91,7 @@ namespace SugarCpp.Compiler
             List<Template> list = new List<Template>();
 
             EnterNameSpace(class_def.Name);
-            ClassLevel++;
+            this.class_stack.Push(class_def);
 
             if (class_def.Args.Count() > 0)
             {
@@ -142,7 +141,7 @@ namespace SugarCpp.Compiler
                 }
             }
 
-            ClassLevel--;
+            this.class_stack.Pop();
             PopNameSpace();
 
             template.Add("list", list);
@@ -191,7 +190,7 @@ namespace SugarCpp.Compiler
             {
                 prefix += "inline ";
             }
-            if (ClassLevel == 0)
+            if (this.class_stack.Count() == 0)
             {
                 if (func_def.Attribute.Find(x => x.Name == "static") != null)
                 {
@@ -232,7 +231,12 @@ namespace SugarCpp.Compiler
             }
             template.Add("prefix", prefix);
             template.Add("suffix", suffix);
-            template.Add("name", NameInNameSpace(func_def.Name));
+            if (func_def.Name == "this")
+                template.Add("name", NameInNameSpace(class_stack.First().Name));
+            else if (func_def.Name == "~this")
+                template.Add("name", NameInNameSpace("~" + class_stack.First().Name));
+            else
+                template.Add("name", NameInNameSpace(func_def.Name));
             template.Add("args", func_def.Args.Select(x => x.Accept(this)).ToList());
             template.Add("list", func_def.Body.Accept(this));
             return template;
@@ -279,7 +283,7 @@ namespace SugarCpp.Compiler
             }
 
             string prefix = "";
-            if (ClassLevel == 0)
+            if (this.class_stack.Count() == 0)
             {
                 if (global_alloc.Attribute.Find(x => x.Name == "static") != null)
                 {

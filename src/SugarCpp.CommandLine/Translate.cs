@@ -37,11 +37,11 @@ namespace SugarCpp.CommandLine
             singleFile = arguments.HasOption("single");
             if (arguments.HasOption("o"))
             {
-                outputPath = arguments.GetOption("o");
+                outputPath = arguments.GetOption("o").Replace("\\", "/");
             }
             if (arguments.HasOption("output"))
             {
-                outputPath = arguments.GetOption("output");
+                outputPath = arguments.GetOption("output").Replace("\\", "/");
             }
 
             if (arguments.DirectArguments.Count == 0)
@@ -75,7 +75,7 @@ namespace SugarCpp.CommandLine
                     }
                     else
                     {
-                        Compile(input, fname);
+                        Compile(input, fname.Replace("\\", "/"));
                     }
                 }
                 catch (Exception e)
@@ -100,16 +100,12 @@ namespace SugarCpp.CommandLine
 
             if (outputPath != null || outputPath == "")
             {
-                if (!outputPath.EndsWith("\\") || !outputPath.EndsWith("/")) outputPath = outputPath + "/";
-                int k1 = header_name.LastIndexOf("/");
-                int k2 = header_name.LastIndexOf("\\");
-                int k = k1 == -1 ? (k2 == -1 ? -1 : k2) : (k2 == -1 ? k1 : Math.Max(k1, k2));
+                if (!outputPath.EndsWith("/")) outputPath = outputPath + "/";
+                int k = header_name.LastIndexOf("/");
                 header_name = k == -1 ? header_name : header_name.Substring(k + 1);
                 header_name = outputPath + header_name;
 
-                k1 = implementation_name.LastIndexOf("/");
-                k2 = implementation_name.LastIndexOf("\\");
-                k = k1 == -1 ? (k2 == -1 ? -1 : k2) : (k2 == -1 ? k1 : Math.Max(k1, k2));
+                k = implementation_name.LastIndexOf("/");
                 implementation_name = outputPath + (k == -1 ? implementation_name : implementation_name.Substring(k + 1));
             }
 

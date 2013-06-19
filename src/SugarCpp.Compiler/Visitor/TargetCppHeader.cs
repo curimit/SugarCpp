@@ -9,13 +9,30 @@ namespace SugarCpp.Compiler
 {
     public class TargetCppHeader : TargetCpp
     {
-        private int ClassLevel = 0;
         private int GenericCount = 0;
 
         public override Template Visit(Root root)
         {
-            Template template = new Template("#pragma once\n\n<body>");
+            Template template = new Template("#pragma once\n\n<declare>\n\n<body>");
+            template.Add("declare", Declare(root.Block));
             template.Add("body", root.Block.Accept(this));
+            return template;
+        }
+
+        public Template Declare(GlobalBlock block)
+        {
+            Template template = new Template("<list; separator=\"\n\">");
+            List<Template> list = new List<Template>();
+            foreach (var node in block.List)
+            {
+                if (node is Class)
+                {
+                    Template tp = new Template("class <node>;");
+                    tp.Add("node", ((Class)node).Name);
+                    list.Add(tp);
+                }
+            }
+            template.Add("list", list);
             return template;
         }
 
@@ -49,11 +66,11 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(Class class_def)
         {
-            ClassLevel++;
+            this.class_stack.Push(class_def);
             if (class_def.GenericParameter.Count() > 0) GenericCount++;
             var template = base.Visit(class_def);
             if (class_def.GenericParameter.Count() > 0) GenericCount--;
-            ClassLevel--;
+            this.class_stack.Push(class_def);
             return template;
         }
 
@@ -64,7 +81,7 @@ namespace SugarCpp.Compiler
                 return base.Visit(global_alloc);
             }
 
-            if (this.ClassLevel > 0)
+            if (this.class_stack.Count() > 0)
             {
                 Template template = null;
 
@@ -284,7 +301,12 @@ namespace SugarCpp.Compiler
             }
             template.Add("prefix", prefix);
             template.Add("suffix", suffix);
-            template.Add("name", func_def.Name);
+            if (func_def.Name == "this")
+                template.Add("name", class_stack.First().Name);
+            else if (func_def.Name == "~this")
+                template.Add("name", "~" + class_stack.First().Name);
+            else
+                template.Add("name", func_def.Name);
             template.Add("args", func_def.Args.Select(x => x.Accept(this)));
             return template;
         }
