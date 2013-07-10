@@ -1,4 +1,6 @@
-import "cAstNode.sc"
+import
+    "cAstNode.sc"
+    "assert.h"
 
 public class cRender(): cVisitor
     st: StringTemplate
@@ -97,17 +99,21 @@ public class cRender(): cVisitor
     virtual void visit(node: cEnum*)
         @st.emit("enum ")
         @st.emit(node->name)
-        @st.emit(" {")
-        @st.newline()
 
-        @st.indent()
-        for i <- 0 til node->list.size(), x => node->list[i]
-            @st.emit(x)
-            @st.emit(",") if i != node->list.size() - 1
+        if not node->isDeclare
+            @st.emit(" {")
             @st.newline()
-        @st.dedent()
 
-        @st.emit("};")
+            @st.indent()
+            for i <- 0 til node->list.size(), x => node->list[i]
+                @st.emit(x)
+                @st.emit(",") if i != node->list.size() - 1
+                @st.newline()
+            @st.dedent()
+
+            @st.emit("}")
+
+        @st.emit(";")
 
     virtual void visit(node: cInclude*)
         @st.emit("#include ")
@@ -149,14 +155,17 @@ public class cRender(): cVisitor
         @st.emit("(")
         node->args->accept(this)
         @st.emit(")")
-        @st.emit(" {")
-        @st.newline()
+        if not node->isDeclare
+            @st.emit(" {")
+            @st.newline()
 
-        @st.indent()
-        node->block->accept(this)
-        @st.dedent()
+            @st.indent()
+            node->block->accept(this)
+            @st.dedent()
 
-        @st.emit("}")
+            @st.emit("}")
+        else
+            @st.emit(";")
 
     virtual void visit(node: cStmtIf*)
         @st.emit("if ")
@@ -322,16 +331,19 @@ public class cRender(): cVisitor
         @st.emit(")")
 
     virtual void visit(node: cExprDeclare*)
+        if node->isExtern
+            @st.emit("extern ")
         node->type->accept(this)
         @st.emit(" ")
         @st.emit(node->name)
 
     virtual void visit(node: cExprDeclareAssign*)
+        if node->isExtern
+            @st.emit("extern ")
+            assert(false)
         node->type->accept(this)
         @st.emit(" ")
         @st.emit(node->name)
-        @st.emit(" = ")
-        node->expr->accept(this)
 
     virtual void visit(node: cExprCast*)
         @st.emit("(")

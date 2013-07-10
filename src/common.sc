@@ -6,8 +6,10 @@ import
     "vector"
     "map"
     "stack"
-    "AstSugar/TargetCpp.h"
     "AstCpp/cRender.h"
+    "AstSugar/TargetCpp.h"
+    "AstSugar/TargetCppHeader.h"
+    "AstSugar/TargetCppImplementation.h"
 
 using namespace std
 
@@ -19,6 +21,7 @@ public class YYL_TOKEN
     EXPR: Expr*
     EXPR_CHAIN: ExprChain*
     BLOCK: Block*
+    ROOT: Root*
     STMT_IF: StmtIf*
     AST_NODE: AstNode*
     STMT_MATCH_ITEM: StmtMatchItem*
@@ -40,5 +43,5 @@ public class YYL_TOKEN
 
 int yyparse()
 
-extern yyroot: Block*
+extern yyroot: Root*
 extern yyin: FILE*

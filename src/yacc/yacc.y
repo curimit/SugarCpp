@@ -28,7 +28,7 @@ extern "C"
 
 %type <STRING> attribute_item
 
-%type <AST_NODE> root
+%type <ROOT> root
 %type <BLOCK> global_block stmt_block
 %type <ATTRIBUTE> attribute
 %type <CLASS_ARGUMENT> class_argument
@@ -77,7 +77,7 @@ extern "C"
 root:
 	global_block
 	{
-		yyroot = $1;
+		yyroot = new Root($1);
 	}
 	;
 
@@ -86,15 +86,14 @@ newline:
 	| NEWLINE
 	;
 
-global_block:
-	global_block newline node
+global_block
+	:global_block newline node
 	{
 		$$->list.push_back($3);
 	}
 	| node
 	{
-		$$ = new Block();
-		$$->list.push_back($1);
+		$$ = new Block($1);
 	}
 	;
 
@@ -105,8 +104,7 @@ stmt_block:
 	}
 	| stmt
 	{
-		$$ = new Block();
-		$$->list.push_back($1);
+		$$ = new Block($1);
 	}
 	;
 
@@ -501,9 +499,9 @@ lambda_expr:
 
 call_expr:
 	modify_expr    { $$ = $1; }
-	| modify_expr generic_call_parameters call_expr_args { $$ = new ExprCall($1, $3, $2); }
+	| modify_expr generic_call_parameters '(' call_expr_args ')' { $$ = new ExprCall($1, $4, $2); }
 	| modify_expr generic_call_parameters '(' ')' { $$ = new ExprCall($1, new CommaList(), $2); }
-	| NEW type call_expr_args { $$ = new ExprNew($2, $3); }
+	| NEW type '(' call_expr_args ')' { $$ = new ExprNew($2, $4); }
 	| NEW type '(' ')' { $$ = new ExprNew($2, new CommaList()); }
 	| NEW type { $$ = new ExprNew($2, new CommaList()); }
 	;
@@ -813,7 +811,7 @@ ident:
 
 %%
 
-Block* yyroot;
+Root* yyroot;
 
 void yyerror(const char *s)
 {

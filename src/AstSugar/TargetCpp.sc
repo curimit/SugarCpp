@@ -2,8 +2,15 @@ import
     "AstNode.sc"
 
 public class TargetCpp(): Visitor
+    enum ScopeStyle = GlobalScope | ClassScope | FormalScope
+
     class_stack: stack<Class*>
     for_block: cAstNode*
+    scope_style: ScopeStyle
+
+    virtual cAstNode* visit(node: Root*)
+        @scope_style = GlobalScope
+        return node->block->accept(this)
 
     virtual cAstNode* visit(node: Block*)
         result := new cBlock()
@@ -15,6 +22,7 @@ public class TargetCpp(): Visitor
         list := [new cInclude(x) for x <- node->list] : vector<cAstNode*>
 
     virtual cAstNode* visit(node: Class*)
+        @scope_style = ClassScope
         class_stack.push(node)
 
         astNode := new cClass()
@@ -29,11 +37,24 @@ public class TargetCpp(): Visitor
             | node->attribute.count("private") => false
             | _ => false
         last_flag := false
-        for x <- node->args
-            if last_flag == false
-                last_flag = true
-                block->list.push_back(new cClassFlag("public"))
-            block->list.push_back(new cStmtExpr(new cExprDeclare(x->type->accept(this), x->name)))
+        if node->args.size() > 0
+            for x <- node->args
+                if last_flag == false
+                    last_flag = true
+                    block->list.push_back(new cClassFlag("public"))
+                block->list.push_back(new cStmtExpr(new cExprDeclare(x->type->accept(this), x->name)))
+            // constructor
+            func_args := new cCommaList()
+            func_body := new cBlock()
+            for x <- node->args
+                func_args->list.push_back(new cExprDeclare(x->type->accept(this), x->name))
+                func_body->list.push_back(new cStmtExpr(new cExprBin("=", new cExprBin("->", new cExprConst("this"), new cExprConst(x->name)), new cExprConst(x->name))))
+            func := new cFunc()
+            func->name = node->name
+            func->args = func_args
+            func->block = func_body
+            func->funcType = cFunc::Constructor
+            block->list.push_back(func)
         for x <- node->block->list
             current_flag := match
                 | x->attribute.count("public")  => true
@@ -83,6 +104,7 @@ public class TargetCpp(): Visitor
     virtual cAstNode* visit(node: TypeAuto*) = new cTypeAuto()
 
     virtual cAstNode* visit(node: Func*)
+        @scope_style = FormalScope
         func := new cFunc()
         switch node->funcType
             when Func::Normal

@@ -15,7 +15,8 @@ int indent_count = 0;
 int dedent_count = 0;
 int newline_count = 0;
 
-#define debug(x) { cout << "TOKEN:\t"; if (#x == "yytext") cout << x << endl; else cout << #x << endl; }
+//#define debug(x) { cout << "TOKEN:\t"; if (#x == "yytext") cout << x << endl; else cout << #x << endl; }
+#define debug(x)
 
 %}
 

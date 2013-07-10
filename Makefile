@@ -4,7 +4,7 @@ CC=g++ -O2
 FLAGS=-c -std=gnu++11
 SC=SugarCpp
 
-AstSugar=AstNode TargetCpp Compiler
+AstSugar=AstNode TargetCpp TargetCppHeader TargetCppImplementation Compiler
 AstCpp=cAstNode StringTemplate cRender
 
 AstSugarSc=$(foreach file, $(AstSugar), src/AstSugar/$(file).sc)

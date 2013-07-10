@@ -1,5 +1,5 @@
 import "AstSugar/Compiler.sc"
 
-int main()
+int main(argc: int, argv: char**)
     compiler := new Compiler()
-    compiler->compile()
+    compiler->compile(argv[argc-1])

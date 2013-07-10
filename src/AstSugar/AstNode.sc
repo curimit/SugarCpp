@@ -1,15 +1,16 @@
 import
-    "iostream"
     "vector"
     "map"
     "stack"
     "../AstCpp/cAstNode.sc"
-
 using namespace std
 
 public class AstNode()
     attribute: map<string, string>
     virtual cAstNode* accept(visitor: Visitor*) = 0
+
+public class Root(block: Block*): AstNode
+    virtual cAstNode* accept(visitor: Visitor*) = visitor->visit(this)
 
 public class Block(list: vector<AstNode*>): AstNode
     this(x: AstNode*) = list.push_back(x)
@@ -213,6 +214,7 @@ public class ExprBracket(expr: Expr*): Expr
     virtual cAstNode* accept(visitor: Visitor*) = visitor->visit(this)
 
 public class Visitor()
+    virtual cAstNode* visit(node: Root*) = 0
     virtual cAstNode* visit(node: Block*) = 0
 
     virtual cAstNode* visit(node: TypeIdent*) = 0

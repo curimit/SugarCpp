@@ -52,7 +52,7 @@ public class cClass(): cAstNode
 public class cClassFlag(name: string): cAstNode
     virtual void accept(visitor: cVisitor*) = visitor->visit(this)
 
-public class cEnum(name: string, list: vector<string>): cAstNode
+public class cEnum(name: string, list: vector<string>, isDeclare: bool = false): cAstNode
     virtual void accept(visitor: cVisitor*) = visitor->visit(this)
 
 public class cFunc(): cAstNode
@@ -65,6 +65,7 @@ public class cFunc(): cAstNode
     args: cAstNode*
     block: cAstNode* = new cBlock()
     funcType: FuncType
+    isDeclare: bool = false
 
     virtual void accept(visitor: cVisitor*) = visitor->visit(this)
 
@@ -140,10 +141,10 @@ public class cCommaList(list: vector<cAstNode*>): cExpr
 public class cExprCond(cond: cAstNode*, expr1: cAstNode*, expr2: cAstNode*): cExpr
     virtual void accept(visitor: cVisitor*) = visitor->visit(this)
 
-public class cExprDeclare(type: cAstNode*, name: string): cExpr
+public class cExprDeclare(type: cAstNode*, name: string, isExtern: bool = false): cExpr
     virtual void accept(visitor: cVisitor*) = visitor->visit(this)
 
-public class cExprDeclareAssign(type: cAstNode*, name: string, expr: cAstNode*): cExpr
+public class cExprDeclareAssign(type: cAstNode*, name: string, expr: cAstNode*, isExtern: bool = false): cExpr
     virtual void accept(visitor: cVisitor*) = visitor->visit(this)
 
 public class cExprCast(type: cAstNode*, expr: cAstNode*): cExpr
