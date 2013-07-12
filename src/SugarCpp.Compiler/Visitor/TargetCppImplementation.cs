@@ -238,7 +238,14 @@ namespace SugarCpp.Compiler
                 template.Add("name", NameInNameSpace("~" + class_stack.First().Name));
             else
                 template.Add("name", NameInNameSpace(func_def.Name));
-            template.Add("args", func_def.Args.Select(x => x.Accept(this)).ToList());
+
+            List<Template> args_list = new List<Template>();
+            foreach (var x in func_def.Args)
+            {
+                ExprAlloc alloc = new ExprAlloc(x.Type, x.Name, null, AllocType.Declare);
+                args_list.Add(alloc.Accept(this));
+            }
+            template.Add("args", args_list);
             template.Add("list", func_def.Body.Accept(this));
             return template;
         }
