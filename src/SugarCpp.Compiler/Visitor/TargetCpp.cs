@@ -316,7 +316,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(Enum enum_def)
         {
-            Template template = new Template("enum <name> {\n    <list; separator=\",\n\">\n};<tostring>");
+            Template template = new Template("enum class <name> {\n    <list; separator=\",\n\">\n};<tostring>");
             template.Add("name", enum_def.Name);
             List<Template> list = new List<Template>();
             bool hasFlagAttribute = enum_def.Attribute.Find(x => x.Name == "FlagAttribute") != null;
