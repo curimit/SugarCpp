@@ -79,6 +79,9 @@ int main()
     // notice the type of i can be also changed
     for i <- ["12", "21"], i => atoi(i), i => i * 2
         printf("%d\n", i)
+    
+    for x <- 0 to n, x => a[x]
+        printf("%d\n", a[x])
 ```
 
 ```c++
@@ -122,6 +125,13 @@ int main() {
                 auto i = _t_iterator;
                 printf("%d\n", i);
             }
+        }
+    }
+    for (auto x = 0; x <= n; ++x) {
+        {
+            auto _t_iterator = a[x];
+            auto x = _t_iterator;
+            printf("%d\n", a[x]);
         }
     }
 }
