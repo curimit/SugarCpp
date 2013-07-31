@@ -20,6 +20,8 @@ int newline_count = 0;
 
 %}
 
+%option yylineno
+
 %x indent
 %x dedent
 %x newline

@@ -3,7 +3,7 @@ import
 
 public class TargetCppHeader(fileNoExt: string): TargetCpp
     virtual cAstNode* visit(node: Root*)
-        @scope_style = GlobalScope
+        @scope_style = ScopeStyle::GlobalScope
         return node->block->accept(this)
 
     virtual cAstNode* visit(node: Block*)
@@ -13,21 +13,21 @@ public class TargetCppHeader(fileNoExt: string): TargetCpp
         return result
 
     virtual cAstNode* visit(node: Func*)
-        @scope_style = FormalScope
+        @scope_style = ScopeStyle::FormalScope
         func := new cFunc()
         switch node->funcType
-            when Func::Normal
+            when Func::FuncType::Normal
                 func->type = node->type->accept(this)
                 func->name = node->name
-                func->funcType = cFunc::Normal
+                func->funcType = cFunc::FuncType::Normal
 
-            when Func::Constructor
+            when Func::FuncType::Constructor
                 func->name = class_stack.top()->name
-                func->funcType = cFunc::Constructor
+                func->funcType = cFunc::FuncType::Constructor
 
-            when Func::Destructor
+            when Func::FuncType::Destructor
                 func->name = class_stack.top()->name
-                func->funcType = cFunc::Destructor
+                func->funcType = cFunc::FuncType::Destructor
 
         if node->attribute.count("virtual")
             func->prefix.push_back("virtual")
@@ -39,12 +39,12 @@ public class TargetCppHeader(fileNoExt: string): TargetCpp
      virtual cAstNode* visit(node: ExprDeclare*) = new cExprDeclare(type, name, isExtern) where
         type := node->type->accept(this)
         name := node->name
-        isExtern := @scope_style == GlobalScope
+        isExtern := @scope_style == ScopeStyle::GlobalScope
 
     virtual cAstNode* visit(node: ExprDeclareAssign*) = new cExprDeclare(type, name, isExtern) where
         type := node->type->accept(this)
         name := node->name
-        isExtern := @scope_style == GlobalScope
+        isExtern := @scope_style == ScopeStyle::GlobalScope
 
     virtual cAstNode* visit(node: Enum*) = new cEnum(name, list, true) where
         name := node->name

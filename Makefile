@@ -1,7 +1,9 @@
 LEX=flex
 YACC=bison -d
 CC=g++ -O2
-FLAGS=-c -std=gnu++11
+FLAGS=-c -std=gnu++11 -DYYERROR_VERBOSE -DYYDEBUG
+#SC=~/Work/SugarCpp-C\#/src/SugarCpp.CommandLine/bin/Debug/SugarCpp.CommandLine.exe
+#SC=/tmp/SugarCpp
 SC=SugarCpp
 
 AstSugar=AstNode TargetCpp TargetCppHeader TargetCppImplementation Compiler
@@ -25,7 +27,7 @@ run: SugarCpp
 
 yacc:
 	$(LEX) src/yacc/lex.l
-	$(YACC) src/yacc/yacc.y
+	$(YACC) src/yacc/yacc.y --debug --verbose
 	@rm *.c *.h
 
 # object

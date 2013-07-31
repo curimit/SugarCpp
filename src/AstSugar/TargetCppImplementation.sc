@@ -9,7 +9,7 @@ public class TargetCppImplementation(fileNoExt: string): TargetCpp
             return class_stack.top()->name + "::" + name
 
     virtual cAstNode* visit(node: Root*)
-        @scope_style = GlobalScope
+        @scope_style = ScopeStyle::GlobalScope
         result := new cBlock()
         stmt := new cInclude(string("\"") + fileNoExt + string(".sc\""))
         result->list.push_back(stmt)
@@ -31,21 +31,21 @@ public class TargetCppImplementation(fileNoExt: string): TargetCpp
         return block
 
     virtual cAstNode* visit(node: Func*)
-        @scope_style = FormalScope
+        @scope_style = ScopeStyle::FormalScope
         func := new cFunc()
         switch node->funcType
-            when Func::Normal
+            when Func::FuncType::Normal
                 func->type = node->type->accept(this)
                 func->name = node->name
-                func->funcType = cFunc::Normal
+                func->funcType = cFunc::FuncType::Normal
 
-            when Func::Constructor
+            when Func::FuncType::Constructor
                 func->name = class_stack.top()->name
-                func->funcType = cFunc::Constructor
+                func->funcType = cFunc::FuncType::Constructor
 
-            when Func::Destructor
+            when Func::FuncType::Destructor
                 func->name = class_stack.top()->name
-                func->funcType = cFunc::Destructor
+                func->funcType = cFunc::FuncType::Destructor
 
         func->name = NameInNameSpace(func->name)
 

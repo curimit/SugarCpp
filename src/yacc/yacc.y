@@ -7,6 +7,8 @@ extern "C"
 {
 	void yyerror(const char *s);
 	extern int yylex(void);
+	extern int yylineno;
+	extern char* yytext;
 }
 
 %}
@@ -238,7 +240,7 @@ func_def
 	: attribute type ident generic_parameters '(' func_args ')' newline INDENT stmt_block DEDENT
 	{
 		$$ = new Func();
-		$$->funcType = Func::Normal;
+		$$->funcType = Func::FuncType::Normal;
 		$$->attribute = $1;
 		$$->type = $2;
 		$$->name = $3;
@@ -249,7 +251,7 @@ func_def
 	| type ident generic_parameters '(' func_args ')' newline INDENT stmt_block DEDENT
 	{
 		$$ = new Func();
-		$$->funcType = Func::Normal;
+		$$->funcType = Func::FuncType::Normal;
 		$$->type = $1;
 		$$->name = $2;
 		$$->genericParameter = $3;
@@ -259,7 +261,7 @@ func_def
 	| attribute type ident generic_parameters '(' func_args ')' '=' expr
 	{
 		$$ = new Func();
-		$$->funcType = Func::Normal;
+		$$->funcType = Func::FuncType::Normal;
 		$$->attribute = $1;
 		$$->type = $2;
 		$$->name = $3;
@@ -270,7 +272,7 @@ func_def
 	| type ident generic_parameters '(' func_args ')' '=' expr
 	{
 		$$ = new Func();
-		$$->funcType = Func::Normal;
+		$$->funcType = Func::FuncType::Normal;
 		$$->type = $1;
 		$$->name = $2;
 		$$->genericParameter = $3;
@@ -281,7 +283,7 @@ func_def
 	| attribute THIS generic_parameters '(' func_args ')' newline INDENT stmt_block DEDENT
 	{
 		$$ = new Func();
-		$$->funcType = Func::Constructor;
+		$$->funcType = Func::FuncType::Constructor;
 		$$->attribute = $1;
 		$$->genericParameter = $3;
 		$$->args = $5;
@@ -290,7 +292,7 @@ func_def
 	| THIS generic_parameters '(' func_args ')' newline INDENT stmt_block DEDENT
 	{
 		$$ = new Func();
-		$$->funcType = Func::Constructor;
+		$$->funcType = Func::FuncType::Constructor;
 		$$->genericParameter = $2;
 		$$->args = $4;
 		$$->block = $8;
@@ -298,7 +300,7 @@ func_def
 	| attribute THIS generic_parameters '(' func_args ')' '=' expr
 	{
 		$$ = new Func();
-		$$->funcType = Func::Constructor;
+		$$->funcType = Func::FuncType::Constructor;
 		$$->attribute = $1;
 		$$->genericParameter = $3;
 		$$->args = $5;
@@ -307,7 +309,7 @@ func_def
 	| THIS generic_parameters '(' func_args ')' '=' expr
 	{
 		$$ = new Func();
-		$$->funcType = Func::Constructor;
+		$$->funcType = Func::FuncType::Constructor;
 		$$->genericParameter = $2;
 		$$->args = $4;
 		$$->block = new Block((new StmtReturn($7)));
@@ -316,7 +318,7 @@ func_def
 	| attribute '~' THIS generic_parameters '(' func_args ')' newline INDENT stmt_block DEDENT
 	{
 		$$ = new Func();
-		$$->funcType = Func::Destructor;
+		$$->funcType = Func::FuncType::Destructor;
 		$$->attribute = $1;
 		$$->genericParameter = $4;
 		$$->args = $6;
@@ -325,7 +327,7 @@ func_def
 	| '~' THIS generic_parameters '(' func_args ')' newline INDENT stmt_block DEDENT
 	{
 		$$ = new Func();
-		$$->funcType = Func::Destructor;
+		$$->funcType = Func::FuncType::Destructor;
 		$$->genericParameter = $3;
 		$$->args = $5;
 		$$->block = $9;
@@ -333,7 +335,7 @@ func_def
 	| attribute '~' THIS generic_parameters '(' func_args ')' '=' expr
 	{
 		$$ = new Func();
-		$$->funcType = Func::Destructor;
+		$$->funcType = Func::FuncType::Destructor;
 		$$->attribute = $1;
 		$$->genericParameter = $4;
 		$$->args = $6;
@@ -342,7 +344,7 @@ func_def
 	| '~' THIS generic_parameters '(' func_args ')' '=' expr
 	{
 		$$ = new Func();
-		$$->funcType = Func::Destructor;
+		$$->funcType = Func::FuncType::Destructor;
 		$$->genericParameter = $3;
 		$$->args = $5;
 		$$->block = new Block((new StmtReturn($8)));
@@ -442,8 +444,8 @@ stmt
 	;
 
 stmt_using
-	: USING ident 			{ $$ = new StmtUsing($2, StmtUsing::Symbol); 	}
-	| USING NAMESPACE ident { $$ = new StmtUsing($3, StmtUsing::Namespace); }
+	: USING ident 			{ $$ = new StmtUsing($2, StmtUsing::Style::Symbol); 	}
+	| USING NAMESPACE ident { $$ = new StmtUsing($3, StmtUsing::Style::Namespace); }
 	;
 
 stmt_expr
@@ -595,7 +597,7 @@ add_expr:
 	| add_expr '%' cast_expr			{ $$ = new ExprBin("%", $1, $3);   }
 	| add_expr DOT cast_expr			{ $$ = new ExprBin(".", $1, $3);   }
 	| add_expr MINUS_GT cast_expr		{ $$ = new ExprBin("->", $1, $3);  }
-	| add_expr '`' ident '`' cast_expr 	{ $$ = new ExprInfix($3, $1, $5);  } 
+	| add_expr '`' ident '`' cast_expr 	{ $$ = new ExprInfix($3, $1, $5);  }
 	| add_expr MINUS_GT_STAR cast_expr	{ $$ = new ExprBin("->*", $1, $3); }
 	| add_expr DOT_STAR cast_expr		{ $$ = new ExprBin(".*", $1, $3);  }
 	;
@@ -699,7 +701,7 @@ stmt_for_item:
 	{
 		auto item = new ForItemRange();
 		item->name = $1;
-		item->type = ForItemRange::To;
+		item->type = ForItemRange::Type::To;
 		item->expr1 = $3;
 		item->expr2 = $5;
 		$$ = item;
@@ -708,7 +710,7 @@ stmt_for_item:
 	{
 		auto item = new ForItemRange();
 		item->name = $1;
-		item->type = ForItemRange::To;
+		item->type = ForItemRange::Type::To;
 		item->expr1 = $3;
 		item->expr2 = $5;
 		$$ = item;
@@ -717,7 +719,7 @@ stmt_for_item:
 	{
 		auto item = new ForItemRange();
 		item->name = $1;
-		item->type = ForItemRange::Til;
+		item->type = ForItemRange::Type::Til;
 		item->expr1 = $3;
 		item->expr2 = $5;
 		$$ = item;
@@ -726,7 +728,7 @@ stmt_for_item:
 	{
 		auto item = new ForItemRange();
 		item->name = $1;
-		item->type = ForItemRange::Down_To;
+		item->type = ForItemRange::Type::Down_To;
 		item->expr1 = $3;
 		item->expr2 = $5;
 		$$ = item;
@@ -735,7 +737,7 @@ stmt_for_item:
 	{
 		auto item = new ForItemRange();
 		item->name = $1;
-		item->type = ForItemRange::To;
+		item->type = ForItemRange::Type::To;
 		item->expr1 = $3;
 		item->expr2 = $5;
 		item->expr3 = $7;
@@ -745,7 +747,7 @@ stmt_for_item:
 	{
 		auto item = new ForItemRange();
 		item->name = $1;
-		item->type = ForItemRange::To;
+		item->type = ForItemRange::Type::To;
 		item->expr1 = $3;
 		item->expr2 = $5;
 		item->expr3 = $7;
@@ -755,7 +757,7 @@ stmt_for_item:
 	{
 		auto item = new ForItemRange();
 		item->name = $1;
-		item->type = ForItemRange::Til;
+		item->type = ForItemRange::Type::Til;
 		item->expr1 = $3;
 		item->expr2 = $5;
 		item->expr3 = $7;
@@ -765,7 +767,7 @@ stmt_for_item:
 	{
 		auto item = new ForItemRange();
 		item->name = $1;
-		item->type = ForItemRange::Down_To;
+		item->type = ForItemRange::Type::Down_To;
 		item->expr1 = $3;
 		item->expr2 = $5;
 		item->expr3 = $7;
@@ -813,7 +815,8 @@ ident:
 
 Root* yyroot;
 
-void yyerror(const char *s)
+void yyerror(const char *message)
 {
-	cerr << "error: " << s << endl;
+	fprintf(stderr, "error at line %d: '%s', after '%s'\n", yylineno, message, yylval.STRING.c_str());
+//	cerr << "error: " << s << endl;
 }

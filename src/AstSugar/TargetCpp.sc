@@ -9,7 +9,7 @@ public class TargetCpp(): Visitor
     scope_style: ScopeStyle
 
     virtual cAstNode* visit(node: Root*)
-        @scope_style = GlobalScope
+        @scope_style = ScopeStyle::GlobalScope
         return node->block->accept(this)
 
     virtual cAstNode* visit(node: Block*)
@@ -22,7 +22,7 @@ public class TargetCpp(): Visitor
         list := [new cInclude(x) for x <- node->list] : vector<cAstNode*>
 
     virtual cAstNode* visit(node: Class*)
-        @scope_style = ClassScope
+        @scope_style = ScopeStyle::ClassScope
         class_stack.push(node)
 
         astNode := new cClass()
@@ -53,7 +53,7 @@ public class TargetCpp(): Visitor
             func->name = node->name
             func->args = func_args
             func->block = func_body
-            func->funcType = cFunc::Constructor
+            func->funcType = cFunc::FuncType::Constructor
             block->list.push_back(func)
         for x <- node->block->list
             current_flag := match
@@ -104,21 +104,21 @@ public class TargetCpp(): Visitor
     virtual cAstNode* visit(node: TypeAuto*) = new cTypeAuto()
 
     virtual cAstNode* visit(node: Func*)
-        @scope_style = FormalScope
+        @scope_style = ScopeStyle::FormalScope
         func := new cFunc()
         switch node->funcType
-            when Func::Normal
+            when Func::FuncType::Normal
                 func->type = node->type->accept(this)
                 func->name = node->name
-                func->funcType = cFunc::Normal
+                func->funcType = cFunc::FuncType::Normal
 
-            when Func::Constructor
+            when Func::FuncType::Constructor
                 func->name = class_stack.top()->name
-                func->funcType = cFunc::Constructor
+                func->funcType = cFunc::FuncType::Constructor
 
-            when Func::Destructor
+            when Func::FuncType::Destructor
                 func->name = class_stack.top()->name
-                func->funcType = cFunc::Destructor
+                func->funcType = cFunc::FuncType::Destructor
 
         if node->attribute.count("virtual")
             func->prefix.push_back("virtual")
@@ -179,17 +179,17 @@ public class TargetCpp(): Visitor
                     expr := node->expr1->accept(this)
                 expr2 := new cExprBin(op, expr1, expr2) where
                     op := match node->type
-                        | ForItemRange::To      => "<="
-                        | ForItemRange::Til     => "<"
-                        | ForItemRange::Down_To => ">="
+                        | ForItemRange::Type::To      => "<="
+                        | ForItemRange::Type::Til     => "<"
+                        | ForItemRange::Type::Down_To => ">="
                     expr1 := new cExprConst(node->name)
                     expr2 := node->expr2->accept(this)
                 expr3 := match returns cAstNode*
                     | node->expr3 == nil => new cExprPrefix(op, expr) where
                                                 op := match node->type
-                                                    | ForItemRange::To      => "++"
-                                                    | ForItemRange::Til     => "++"
-                                                    | ForItemRange::Down_To => "--"
+                                                    | ForItemRange::Type::To      => "++"
+                                                    | ForItemRange::Type::Til     => "++"
+                                                    | ForItemRange::Type::Down_To => "--"
                                                 expr := new cExprConst(node->name)
                     | _ => new cExprBin("+=", expr1, expr2) where
                             expr1 := new cExprConst(node->name)
@@ -206,8 +206,8 @@ public class TargetCpp(): Visitor
     virtual cAstNode* visit(node: StmtUsing*) = new cStmtUsing(name, style) where
         name := node->name
         style := match node->style
-            | StmtUsing::Symbol    => cStmtUsing::Symbol
-            | StmtUsing::Namespace => cStmtUsing::Namespace
+            | StmtUsing::Style::Symbol    => cStmtUsing::Style::Symbol
+            | StmtUsing::Style::Namespace => cStmtUsing::Style::Namespace
 
     virtual cAstNode* visit(node: StmtReturn*) = new cStmtReturn(expr) where
         expr := node->expr->accept(this)

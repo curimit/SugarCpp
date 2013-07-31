@@ -19,8 +19,8 @@ public class cRender(): cVisitor
         @st.indent()
         node->block->accept(this)
         @st.dedent()
-        
-        @st.emit("}")        
+
+        @st.emit("}")
 
     virtual void visit(node: cTypeIdent*)
         @st.emit(node->name)
@@ -42,7 +42,7 @@ public class cRender(): cVisitor
         @st.emit("(")
         node->args->accept(this)
         @st.emit(")")
-        @st.emit(">")        
+        @st.emit(">")
 
     virtual void visit(node: cTypeScoping*)
         @st.emit(node->scope)
@@ -90,7 +90,7 @@ public class cRender(): cVisitor
                 isFirst = false
         @st.emit(" {")
         @st.newline()
-        
+
         @st.indent()
         node->block->accept(this)
         @st.dedent()
@@ -141,14 +141,14 @@ public class cRender(): cVisitor
             @st.emit(x)
             @st.emit(" ")
         switch node->funcType
-            when cFunc::Normal
+            when cFunc::FuncType::Normal
                 node->type->accept(this)
                 @st.emit(" ")
 
-            when cFunc::Constructor
+            when cFunc::FuncType::Constructor
                 /* empty */
 
-            when cFunc::Destructor
+            when cFunc::FuncType::Destructor
                 @st.emit("~")
 
         @st.emit(node->name)
@@ -250,11 +250,11 @@ public class cRender(): cVisitor
         @st.emit(")")
         @st.emit(" {")
         @st.newline()
-        
+
         @st.indent()
         x->accept(this) for x <- node->list
         @st.dedent()
-        
+
         @st.emit("}")
 
     virtual void visit(node: cForItemNormal*)
@@ -291,7 +291,7 @@ public class cRender(): cVisitor
 
     virtual void visit(node: cStmtUsing*)
         @st.emit("using ")
-        if node->style == cStmtUsing::Namespace
+        if node->style == cStmtUsing::Style::Namespace
             @st.emit("namespace ")
         @st.emit(node->name)
         @st.emit(";")
