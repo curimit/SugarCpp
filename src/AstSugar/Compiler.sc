@@ -3,12 +3,17 @@ import
 
 class Compiler
     public int compile(file: char*)
-        cout << "[file.h]" << endl
         compile_h(file)
-        cout << "[file.cpp]" << endl
         compile_cpp(file)
 
+
     int compile_h(file: char*)
+        fname := strndup(file, strrchr(file, '.') - file)
+        header_name := (char*)malloc(strlen(fname) + strlen(".h") + 1)
+        strcpy(header_name, fname)
+        strcat(header_name, ".h")
+        cout << "[" << header_name << "]" << endl
+
         sFile := file
         fp := fopen(sFile, "r")
         if fp == nil
@@ -26,20 +31,26 @@ class Compiler
             cout << "compile error!" << endl
             return state
 
-        value := yyroot->accept(new TargetCppHeader("file"))
-        
+        value := yyroot->accept(new TargetCppHeader(fname))
+
         cout << "render..." << endl
         render := new cRender()
         value->accept(render)
         answer := render->result()
 
-        out := fopen("file.h", "w")
+        out := fopen(header_name, "w")
         fprintf(out, "%s\n", answer.c_str())
         defer fclose(out)
 
         cout << answer << endl
 
     int compile_cpp(file: char*)
+        fname := strndup(file, strrchr(file, '.') - file)
+        src_name := (char*)malloc(strlen(fname) + strlen(".cpp") + 1)
+        strcpy(src_name, fname)
+        strcat(src_name, ".cpp")
+        cout << "[" << src_name << "]" << endl
+
         sFile := file
         fp := fopen(sFile, "r")
         if fp == nil
@@ -57,14 +68,14 @@ class Compiler
             cout << "compile error!" << endl
             return state
 
-        value := yyroot->accept(new TargetCppImplementation("file"))
-        
+        value := yyroot->accept(new TargetCppImplementation(fname))
+
         cout << "render..." << endl
         render := new cRender()
         value->accept(render)
         answer := render->result()
 
-        out := fopen("file.cpp", "w")
+        out := fopen(src_name, "w")
         fprintf(out, "%s\n", answer.c_str())
         defer fclose(out)
 
