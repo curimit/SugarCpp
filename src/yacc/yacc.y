@@ -468,8 +468,7 @@ stmt_match
 	;
 
 lvalue
-	: shift_expr
-	| shift_expr '=' expr { $$ = new ExprBin("=", $1, $3); }
+	: where_expr
 	;
 
 variable_def
