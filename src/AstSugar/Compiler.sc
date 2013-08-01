@@ -9,7 +9,9 @@ class Compiler
 
     int compile_h(file: char*)
         fname := strndup(file, strrchr(file, '.') - file)
+        defer free(fname)
         header_name := (char*)malloc(strlen(fname) + strlen(".h") + 1)
+        defer free(header_name)
         strcpy(header_name, fname)
         strcat(header_name, ".h")
         cout << "[" << header_name << "]" << endl
@@ -46,7 +48,9 @@ class Compiler
 
     int compile_cpp(file: char*)
         fname := strndup(file, strrchr(file, '.') - file)
+        defer free(fname)
         src_name := (char*)malloc(strlen(fname) + strlen(".cpp") + 1)
+        defer free(src_name)
         strcpy(src_name, fname)
         strcat(src_name, ".cpp")
         cout << "[" << src_name << "]" << endl
