@@ -54,7 +54,7 @@ extern "C"
 
 %type <TYPE> type type_atom type_star type_template type_func
 
-%type <EXPR> add_expr cond_expr modify_expr lambda_expr call_expr variable_def variable_def_no_comma
+%type <EXPR> add_expr cond_expr modify_expr lambda_expr variable_def variable_def_no_comma simple_expr
 %type <EXPR> cast_expr prefix_expr suffix_expr
 %type <EXPR> shift_expr cmp_expr
 %type <EXPR> atom_expr
@@ -494,36 +494,12 @@ where_expr
 	;
 
 lambda_expr:
-	call_expr { $$ = $1; }
+	simple_expr { $$ = $1; }
 	| '(' func_args ')' MINUS_GT lambda_expr { $$ = new ExprLambda($2, $5); }
 	;
 
-call_expr:
-	modify_expr    { $$ = $1; }
-	| modify_expr generic_call_parameters '(' call_expr_args ')' { $$ = new ExprCall($1, $4, $2); }
-	| modify_expr generic_call_parameters '(' ')' { $$ = new ExprCall($1, new CommaList(), $2); }
-	| NEW type '(' call_expr_args ')' { $$ = new ExprNew($2, $4); }
-	| NEW type '(' ')' { $$ = new ExprNew($2, new CommaList()); }
-	| NEW type { $$ = new ExprNew($2, new CommaList()); }
-	;
-
-call_expr_args:
-	modify_expr ',' call_expr_args
-	{
-		$$ = $3;
-		$$->list.insert($$->list.begin(), $1);
-	}
-	| call_expr
-	{
-		$$ = new CommaList();
-		$$->list.push_back($1);
-	}
-	;
-
-generic_call_parameters:
-	{ }
-	// Todo: fix ambiguous, support get<int>(1)
-	| '!' '(' type_list ')' { for (auto x : $3->list) $$.push_back(x); delete $3; }
+simple_expr:
+	modify_expr
 	;
 
 modify_expr:
@@ -617,6 +593,8 @@ prefix_expr:
 	| '(' '&' suffix_expr ')'	{ $$ = new ExprPrefix("&", $3);  }
 	| SIZE_OF suffix_expr 		{ $$ = new ExprSizeOf($2); }
 	| DELETE suffix_expr 		{ $$ = new ExprDelete($2); }
+	| NEW type '(' call_expr_args ')' { $$ = new ExprNew($2, $4); }
+	| NEW type '(' ')' { $$ = new ExprNew($2, new CommaList()); }
 	;
 
 suffix_expr:
@@ -624,6 +602,28 @@ suffix_expr:
 	| suffix_expr PLUS_PLUS					{ $$ = new ExprSuffix("++", $1); }
 	| suffix_expr MINUS_MINUS 				{ $$ = new ExprSuffix("--", $1); }
 	| suffix_expr '[' call_expr_args ']'	{ $$ = new ExprDict($1, $3); }
+	// call
+	| suffix_expr generic_call_parameters '(' call_expr_args ')' { $$ = new ExprCall($1, $4, $2); }
+	| suffix_expr generic_call_parameters '(' ')' { $$ = new ExprCall($1, new CommaList(), $2); }
+	;
+
+call_expr_args:
+	simple_expr ',' call_expr_args
+	{
+		$$ = $3;
+		$$->list.insert($$->list.begin(), $1);
+	}
+	| simple_expr
+	{
+		$$ = new CommaList();
+		$$->list.push_back($1);
+	}
+	;
+
+generic_call_parameters:
+	{ }
+	// Todo: fix ambiguous, support get<int>(1)
+	| '!' '(' type_list ')' { for (auto x : $3->list) $$.push_back(x); delete $3; }
 	;
 
 atom_expr:
@@ -695,8 +695,8 @@ stmt_switch:
 	;
 
 stmt_for_item:
-	IDENT LT_MINUS modify_expr { $$ = new ForItemEach($1, $3); }
-	| IDENT LT_MINUS call_expr TO modify_expr
+	IDENT LT_MINUS simple_expr { $$ = new ForItemEach($1, $3); }
+	| IDENT LT_MINUS simple_expr TO simple_expr
 	{
 		auto item = new ForItemRange();
 		item->name = $1;
@@ -705,7 +705,7 @@ stmt_for_item:
 		item->expr2 = $5;
 		$$ = item;
 	}
-	| IDENT LT_MINUS call_expr DOT_DOT modify_expr
+	| IDENT LT_MINUS simple_expr DOT_DOT simple_expr
 	{
 		auto item = new ForItemRange();
 		item->name = $1;
@@ -714,7 +714,7 @@ stmt_for_item:
 		item->expr2 = $5;
 		$$ = item;
 	}
-	| IDENT LT_MINUS call_expr TIL modify_expr
+	| IDENT LT_MINUS simple_expr TIL simple_expr
 	{
 		auto item = new ForItemRange();
 		item->name = $1;
@@ -723,7 +723,7 @@ stmt_for_item:
 		item->expr2 = $5;
 		$$ = item;
 	}
-	| IDENT LT_MINUS call_expr DOWN_TO modify_expr
+	| IDENT LT_MINUS simple_expr DOWN_TO simple_expr
 	{
 		auto item = new ForItemRange();
 		item->name = $1;
@@ -732,7 +732,7 @@ stmt_for_item:
 		item->expr2 = $5;
 		$$ = item;
 	}
-	| IDENT LT_MINUS call_expr TO call_expr BY modify_expr
+	| IDENT LT_MINUS simple_expr TO simple_expr BY simple_expr
 	{
 		auto item = new ForItemRange();
 		item->name = $1;
@@ -742,7 +742,7 @@ stmt_for_item:
 		item->expr3 = $7;
 		$$ = item;
 	}
-	| IDENT LT_MINUS call_expr DOT_DOT call_expr BY modify_expr
+	| IDENT LT_MINUS simple_expr DOT_DOT simple_expr BY simple_expr
 	{
 		auto item = new ForItemRange();
 		item->name = $1;
@@ -752,7 +752,7 @@ stmt_for_item:
 		item->expr3 = $7;
 		$$ = item;
 	}
-	| IDENT LT_MINUS call_expr TIL call_expr BY modify_expr
+	| IDENT LT_MINUS simple_expr TIL simple_expr BY simple_expr
 	{
 		auto item = new ForItemRange();
 		item->name = $1;
@@ -762,7 +762,7 @@ stmt_for_item:
 		item->expr3 = $7;
 		$$ = item;
 	}
-	| IDENT LT_MINUS call_expr DOWN_TO call_expr BY modify_expr
+	| IDENT LT_MINUS simple_expr DOWN_TO simple_expr BY simple_expr
 	{
 		auto item = new ForItemRange();
 		item->name = $1;
@@ -772,11 +772,11 @@ stmt_for_item:
 		item->expr3 = $7;
 		$$ = item;
 	}
-	| IDENT EQ_GT modify_expr
+	| IDENT EQ_GT simple_expr
 	{
 		$$ = new ForItemMap($1, $3);
 	}
-	| modify_expr
+	| simple_expr
 	{
 		$$ = new ForItemCond($1);
 	}

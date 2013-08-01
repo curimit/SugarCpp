@@ -344,6 +344,8 @@ public class cRender(): cVisitor
         node->type->accept(this)
         @st.emit(" ")
         @st.emit(node->name)
+        @st.emit(" = ")
+        node->expr->accept(this)
 
     virtual void visit(node: cExprCast*)
         @st.emit("(")
