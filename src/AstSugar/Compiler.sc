@@ -3,20 +3,13 @@ import
 
 class Compiler
     public int compile(file: char*)
+        // parse file
+        pre_compile(file)
+
         compile_h(file)
         compile_cpp(file)
 
-
-    int compile_h(file: char*)
-        fname := strndup(file, strrchr(file, '.') - file)
-        defer free(fname)
-        header_name := (char*)malloc(strlen(fname) + strlen(".h") + 1)
-        defer free(header_name)
-        strcpy(header_name, fname)
-        strcat(header_name, ".h")
-        cout << "[" << header_name << "]" << endl
-
-        sFile := file
+    bool pre_compile(sFile: char*)
         fp := fopen(sFile, "r")
         if fp == nil
             printf("cannot open %s\n", sFile)
@@ -32,6 +25,17 @@ class Compiler
         if state != 0
             cout << "compile error!" << endl
             return state
+
+        cout << "parse success..." << endl
+
+    int compile_h(file: char*)
+        fname := strndup(file, strrchr(file, '.') - file)
+        defer free(fname)
+        header_name := (char*)malloc(strlen(fname) + strlen(".h") + 1)
+        defer free(header_name)
+        strcpy(header_name, fname)
+        strcat(header_name, ".h")
+        cout << "[" << header_name << "]" << endl
 
         value := yyroot->accept(new TargetCppHeader(fname))
 
@@ -54,23 +58,6 @@ class Compiler
         strcpy(src_name, fname)
         strcat(src_name, ".cpp")
         cout << "[" << src_name << "]" << endl
-
-        sFile := file
-        fp := fopen(sFile, "r")
-        if fp == nil
-            printf("cannot open %s\n", sFile)
-            return -1
-        defer fclose(fp)
-
-        yyin = fp
-
-        state := yyparse()
-
-        cout << "State: " << state << endl
-
-        if state != 0
-            cout << "compile error!" << endl
-            return state
 
         value := yyroot->accept(new TargetCppImplementation(fname))
 

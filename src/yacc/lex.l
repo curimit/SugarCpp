@@ -142,6 +142,7 @@ operator ("+"|"-"|"*"|"/"|"%"|"|"|"("|")"|"["|"]"|"{"|"}"|","|"<"|"="|">"|"~"|"&
                         indent_count = 1;
                         indents.push(len);
                         // cout << indents.size() << endl;
+                        //cout << "INDENTS INCREASE: " << indents.size() << endl;
                         newline_count = 1;
                         BEGIN(newline);
                     } else if (indents.size() > 0 && indents.top() > len) {
@@ -150,6 +151,7 @@ operator ("+"|"-"|"*"|"/"|"%"|"|"|"("|")"|"["|"]"|"{"|"}"|","|"<"|"="|">"|"~"|"&
                         while (indents.size() > 0 && indents.top() > len) {
                             indents.pop();
                             dedent_count++;
+                            //cout << "New DEDENT: " << indents.size() << endl;
                         }
                         //cout << indents.size() << endl;
                         if (dedent_count > 0) {
@@ -166,12 +168,15 @@ operator ("+"|"-"|"*"|"/"|"%"|"|"|"("|")"|"["|"]"|"{"|"}"|","|"<"|"="|">"|"~"|"&
 \/\/.*          { }
 
 <<EOF>>     {
+                //cout << "INDENTS: " << indents.size() << "   dedent_count: " << dedent_count << endl;
                 if (indents.size() > 0) {
+                    //cout << "EOF POP 1" << endl;
                     indents.pop();
                     debug(DEDENT);
                     return DEDENT;
                 }
                 if (dedent_count > 0) {
+                    //cout << "EOF POP 2" << endl;
                     dedent_count--;
                     debug(DEDENT);
                     return DEDENT;
