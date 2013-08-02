@@ -1,3 +1,5 @@
+# Makefile
+
 LEX=flex
 YACC=bison -d
 CC=g++ -O2
@@ -23,13 +25,13 @@ DEPS=$(OBJS:.o=.d)
 all: $(cppSources) $(TARGET)
 
 $(TARGET): $(OBJS)
-	@echo 'link...'
+	@echo 'linking ...'
 	@$(CC) $(FLAGS) $^ -o $@
 
 run: SugarCpp
 	@clear
 	@echo "[result]"
-	@./bin/SugarCpp
+	@./$(TARGET)
 
 sinclude $(DEPS)
 
@@ -39,16 +41,18 @@ $(BUILD_DIR)/%.o: src/%.cpp
 	@echo "[cc] $< ..."
 	@$(CC) $(FLAGS) -c $< -o $@
 
+# dependency
 $(BUILD_DIR)/%.d: src/%.cpp $(cppHeaders)
 	@mkdir -p $(dir $@)
 	@echo "[dep] $< ..."
 	@$(CC) $(FLAGS) -MM -MT "$@ $(@:.d=.o)" "$<" > "$@"
 
+# SugarCpp
 src/%.cpp src/%.h: src/%.sc
 	@echo "[Sugar] $< ..."
 	@$(SC) -nocode $<
 
-# yacc
+# yacc / lex
 src/yacc/yacc.tab.h src/yacc/yacc.tab.cpp: src/yacc/yacc.ypp
 	$(YACC) $< --defines=yacc.tab.h
 	@mv yacc.tab.* src/yacc

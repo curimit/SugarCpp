@@ -1,5 +1,6 @@
 import
     "TargetCpp.sc"
+    "cstring"
 
 public class TargetCppImplementation(fileNoExt: string): TargetCpp
     string NameInNameSpace(name: string)
@@ -11,7 +12,7 @@ public class TargetCppImplementation(fileNoExt: string): TargetCpp
     virtual cAstNode* visit(node: Root*)
         @scope_style = ScopeStyle::GlobalScope
         result := new cBlock()
-        stmt := new cInclude(string("\"") + fileNoExt + string(".sc\""))
+        stmt := new cInclude(string("\"") + string(basename(fileNoExt.data())) + string(".h\""))
         result->list.push_back(stmt)
         result->list.push_back(node->block->accept(this))
         return result
