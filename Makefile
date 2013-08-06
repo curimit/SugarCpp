@@ -16,6 +16,8 @@ TMP_CPPS=$(scSources:.sc=.cpp) yacc/lex.yy.cpp yacc/yacc.tab.cpp
 
 cppSources=$(addprefix src/, $(TMP_CPPS))
 cppHeaders=$(filter-out src/yacc/lex.yy.h, $(cppSources:.cpp=.h))
+# `lex.yy.cc` doesn't have a correspondent header file
+
 OBJS=$(addprefix $(BUILD_DIR)/, $(TMP_CPPS:.cpp=.o))
 DEPS=$(OBJS:.o=.d)
 
@@ -45,7 +47,7 @@ $(BUILD_DIR)/%.o: src/%.cpp
 $(BUILD_DIR)/%.d: src/%.cpp $(cppHeaders)
 	@mkdir -p $(dir $@)
 	@echo "[dep] $< ..."
-	@$(CC) $(FLAGS) -MM -MT "$@ $(@:.d=.o)" "$<" > "$@"
+	@$(CC) $(FLAGS) -MM -MT "$(@:.d=.o)" "$<" > "$@"
 
 # SugarCpp
 src/%.cpp src/%.h: src/%.sc
@@ -54,7 +56,7 @@ src/%.cpp src/%.h: src/%.sc
 
 # yacc / lex
 src/yacc/yacc.tab.h src/yacc/yacc.tab.cpp: src/yacc/yacc.ypp
-	$(YACC) $< --defines=yacc.tab.h
+	$(YACC) $< --defines=yacc.tab.h		# use the right header file name
 	@mv yacc.tab.* src/yacc
 
 src/yacc/lex.yy.cpp: src/yacc/lex.l
