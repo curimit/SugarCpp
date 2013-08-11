@@ -10,11 +10,11 @@ namespace SugarCpp.Compiler
     {
         public GlobalBlock Block;
         public List<ExprAlloc> Args = new List<ExprAlloc>();
-        public List<string> GenericParameter = new List<string>();
+        public List<SugarType> GenericParameter = new List<SugarType>();
         public List<string> Inherit = new List<string>(); 
         public string Name;
 
-        public Class(string name, List<string> gp, List<ExprAlloc> args, List<string> inherit ,GlobalBlock block, List<Attr> attr)
+        public Class(string name, List<SugarType> gp, List<ExprAlloc> args, List<string> inherit ,GlobalBlock block, List<Attr> attr)
         {
             this.Name = name;
             if (gp != null)

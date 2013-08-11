@@ -330,11 +330,15 @@ type_ident
 	;
 
 generic_parameter_inside
-	: ident (',' ident)* -> ^(Generic_Patameters ident*)
+	: type_name (',' type_name)* -> ^(Generic_Patameters type_name*)
 	;
 
 generic_parameter
 	: '<' generic_parameter_inside '>' -> generic_parameter_inside
+	;
+
+generic_parameter_ident
+	: '<' type_ident (',' type_ident)* '>' -> ^(Generic_Patameters type_ident*)
 	;
 
 func_args
@@ -363,12 +367,12 @@ func_type
 	;
 
 func_def
-	: attribute? 'public'? 'virtual'? func_type? '~'? func_name generic_parameter? '(' func_args? ')' ( NEWLINE+ stmt_block -> ^(Func_Def 'public'? 'virtual'? attribute? func_type? '~'? func_name generic_parameter? func_args? stmt_block)
-																									  | '=' ( where_expr  -> ^(Func_Def 'public'? 'virtual'? attribute? func_type? '~'? func_name generic_parameter? func_args? where_expr)
-																											| NEWLINE+ INDENT NEWLINE* (match_item NEWLINE+)+ DEDENT -> ^(Func_Def 'public'? 'virtual'? attribute? func_type? '~'? func_name generic_parameter? func_args? ^(Match_Expr match_item+))
-																											)
-																									  | -> ^(Func_Def 'public'? 'virtual'? attribute? func_type? '~'? func_name generic_parameter? func_args? Func_Declare)
-																									  )
+	: attribute? 'public'? 'virtual'? func_type? '~'? func_name generic_parameter_ident? '(' func_args? ')' ( NEWLINE+ stmt_block -> ^(Func_Def 'public'? 'virtual'? attribute? func_type? '~'? func_name generic_parameter_ident? func_args? stmt_block)
+																									        | '=' ( where_expr  -> ^(Func_Def 'public'? 'virtual'? attribute? func_type? '~'? func_name generic_parameter_ident? func_args? where_expr)
+																											      | NEWLINE+ INDENT NEWLINE* (match_item NEWLINE+)+ DEDENT -> ^(Func_Def 'public'? 'virtual'? attribute? func_type? '~'? func_name generic_parameter_ident? func_args? ^(Match_Expr match_item+))
+																											      )
+																									        | -> ^(Func_Def 'public'? 'virtual'? attribute? func_type? '~'? func_name generic_parameter_ident? func_args? Func_Declare)
+																									        )
     ;
 
 stmt_block_item
@@ -479,7 +483,7 @@ for_item
 	;
 
 stmt_for
-	: 'for' ( for_item (',' for_item)* NEWLINE+ stmt_block -> ^(Stmt_For for_item* stmt_block)
+	: ('for' | 'let') ( for_item (',' for_item)* NEWLINE+ stmt_block -> ^(Stmt_For for_item* stmt_block)
 			//| '(' expr ';' expr ';' expr ')' NEWLINE+ stmt_block -> ^(Stmt_For expr expr expr stmt_block)
 			)
 	;
@@ -629,12 +633,9 @@ chain_op: '<' | '<=' | '>' | '>=' | '!=' | '==' | 'is' | 'isnt' ;
 no_less_op: '<=' | '>' | '>=' | '!=' | '==' | 'is' | 'isnt' ;
 chain_list: (chain_op shift_expr)+ ;
 cmp_expr
-	: (a=shift_expr -> $a) ( ('<' ident (',' ident)* '>' bracket_expr_list) => '<' ident (',' ident)* '>' bracket_expr_list -> ^(Expr_Call $cmp_expr ^(Generic_Patameters ident*) bracket_expr_list)
-						   | '<' b=shift_expr ( chain_list -> ^(Expr_Chain  $cmp_expr '<' $b chain_list)
-											  | -> ^(Expr_Bin '<' $cmp_expr $b))
-	                       | op=no_less_op b=shift_expr ( chain_list -> ^(Expr_Chain  $cmp_expr $op $b chain_list)
-														| -> ^(Expr_Bin $op $cmp_expr $b)
-														)
+	: (a=shift_expr -> $a) ( op=chain_op b=shift_expr ( chain_list -> ^(Expr_Chain  $cmp_expr $op $b chain_list)
+													  | -> ^(Expr_Bin $op $cmp_expr $b)
+													  )
 						   )?
 	;
 
@@ -697,7 +698,7 @@ suffix_expr
 					      | '--' -> ^(Expr_Suffix '--' $suffix_expr)
 						  | '.' ident -> ^(Expr_Access '.' $suffix_expr ident)
 						  | '->' ident -> ^(Expr_Access '->' $suffix_expr ident)
-						  | bracket_expr_list -> ^(Expr_Call $suffix_expr bracket_expr_list)
+						  | ('!' '(' generic_parameter_inside ')')? bracket_expr_list -> ^(Expr_Call $suffix_expr generic_parameter_inside? bracket_expr_list)
 						  | square_expr_list -> ^(Expr_Dict $suffix_expr square_expr_list)
 						  | '@' ident bracket_expr_list -> ^(Expr_Call_With $suffix_expr ident bracket_expr_list)
 					      )*
@@ -727,7 +728,7 @@ lvalue_suffix
 					        | '--' -> ^(Expr_Suffix '--' $lvalue_suffix)
 						    | '.' ident -> ^(Expr_Access '.' $lvalue_suffix ident)
 						    | '->' ident -> ^(Expr_Access '->' $lvalue_suffix ident)
-						    | generic_parameter? bracket_expr_list -> ^(Expr_Call $lvalue_suffix generic_parameter? bracket_expr_list)
+						    | ('!' '(' generic_parameter_inside ')')? bracket_expr_list -> ^(Expr_Call $lvalue_suffix generic_parameter_inside? bracket_expr_list)
 						    | square_expr_list -> ^(Expr_Dict $lvalue_suffix square_expr_list)
 					        )*
 	;

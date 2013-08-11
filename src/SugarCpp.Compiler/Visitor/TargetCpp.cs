@@ -502,7 +502,7 @@ namespace SugarCpp.Compiler
             else
             {
                 template = new Template("template \\<<generics; separator=\", \">>\nclass <name><inherit> {\n<list; separator=\"\n\">\n};");
-                template.Add("generics", class_def.GenericParameter.Select(x => string.Format("typename {0}", x)));
+                template.Add("generics", class_def.GenericParameter.Select(x => string.Format("typename {0}", x.Accept(this).Render())).ToArray());
             }
             template.Add("name", class_def.Name);
             if (class_def.Inherit.Count() > 0)
@@ -722,7 +722,7 @@ namespace SugarCpp.Compiler
                     template = new Template("template \\<<generics; separator=\", \">>\n<prefix><type> <name>(<args; separator=\", \">)<suffix> {\n    <list; separator=\"\n\">\n}");
                     template.Add("type", func_def.Type.Accept(this));
                 }
-                template.Add("generics", func_def.GenericParameter.Select(x => string.Format("typename {0}", x)));
+                template.Add("generics", func_def.GenericParameter.Select(x => string.Format("typename {0}", x.Accept(this).Render())).ToArray());
             }
             template.Add("prefix", prefix);
             template.Add("suffix", suffix);
@@ -1008,7 +1008,7 @@ namespace SugarCpp.Compiler
                 int i = 0;
                 foreach (var argument in expr.Args)
                 {
-                    ExprCall get = new ExprCall(new ExprConst("std::get", ConstType.Ident), new List<string> { i.ToString() },
+                    ExprCall get = new ExprCall(new ExprConst("std::get", ConstType.Ident), new List<SugarType> { new IdentType(i.ToString()) },
                                                 new List<Expr> { new ExprConst("_t_match", ConstType.Ident) });
                     i++;
                     if (argument is ExprConst && ((ExprConst)argument).Type == ConstType.Ident && !((ExprConst)argument).Text.StartsWith("@"))
@@ -1077,7 +1077,7 @@ namespace SugarCpp.Compiler
                 int i = 0;
                 foreach (var argument in expr.ExprList)
                 {
-                    ExprCall get = new ExprCall(new ExprConst("get", ConstType.Ident), new List<string> { i.ToString() },
+                    ExprCall get = new ExprCall(new ExprConst("get", ConstType.Ident), new List<SugarType> { new IdentType(i.ToString()) },
                                                 new List<Expr> { new ExprConst("_t_match", ConstType.Ident) });
                     i++;
                     if (argument is ExprConst && ((ExprConst)argument).Type == ConstType.Ident)
@@ -1312,8 +1312,8 @@ namespace SugarCpp.Compiler
             {
                 Template template = new Template("<expr>\\<<generics; separator=\", \">>(<args; separator=\", \">)");
                 template.Add("expr", expr.Expr.Accept(this));
-                template.Add("generics", expr.GenericParameter);
-                template.Add("args", expr.Args.Select(x => x.Accept(this)));
+                template.Add("generics", expr.GenericParameter.Select(x => x.Accept(this)).ToArray());
+                template.Add("args", expr.Args.Select(x => x.Accept(this)).ToArray());
                 return template;
             }
         }

@@ -87,7 +87,7 @@ namespace SugarCpp.Compiler
 
         public override Template Visit(Class class_def)
         {
-            Template template = template = new Template("<list; separator=\"\n\n\">");
+            Template template = new Template("<list; separator=\"\n\n\">");
 
             List<Template> list = new List<Template>();
 

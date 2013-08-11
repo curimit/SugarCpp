@@ -275,12 +275,12 @@ func_args returns [List<ExprAlloc> value]
 	})*)
 	;
 
-generic_parameter returns [List<string> value]
+generic_parameter returns [List<SugarType> value]
 @init
 {
-	$value = new List<string>();
+	$value = new List<SugarType>();
 }
-	: ^(Generic_Patameters (a=ident { $value.Add(a); })*)
+	: ^(Generic_Patameters (a=type_name { $value.Add(a); })*)
 	;
 
 func_def returns [FuncDef value]

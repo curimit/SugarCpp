@@ -166,9 +166,9 @@ namespace SugarCpp.Compiler
     {
         public Expr Expr;
         public List<Expr> Args = new List<Expr>();
-        public List<string> GenericParameter = new List<string>();
+        public List<SugarType> GenericParameter = new List<SugarType>();
 
-        public ExprCall(Expr expr, List<string> generic, List<Expr> args)
+        public ExprCall(Expr expr, List<SugarType> generic, List<Expr> args)
         {
             this.Expr = expr;
             if (generic != null)

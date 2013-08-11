@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// $ANTLR 3.4 SugarWalker.g 2013-06-19 16:19:19
+// $ANTLR 3.4 SugarWalker.g 2013-08-11 17:37:47
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219
@@ -2043,7 +2043,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		CommonTree pub = default(CommonTree);
 		List<Attr> attr = default(List<Attr>);
 		string a = default(string);
-		List<string> b = default(List<string>);
+		List<SugarType> b = default(List<SugarType>);
 		List<ExprAlloc> c = default(List<ExprAlloc>);
 		List<string> d = default(List<string>);
 		GlobalBlock e = default(GlobalBlock);
@@ -3343,28 +3343,28 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 	partial void LeaveRule_generic_parameter();
 
 	// $ANTLR start "generic_parameter"
-	// SugarWalker.g:278:1: generic_parameter returns [List<string> value] : ^( Generic_Patameters (a= ident )* ) ;
+	// SugarWalker.g:278:1: generic_parameter returns [List<SugarType> value] : ^( Generic_Patameters (a= type_name )* ) ;
 	[GrammarRule("generic_parameter")]
-	private List<string> generic_parameter()
+	private List<SugarType> generic_parameter()
 	{
 		EnterRule_generic_parameter();
 		EnterRule("generic_parameter", 23);
 		TraceIn("generic_parameter", 23);
-		List<string> value = default(List<string>);
+		List<SugarType> value = default(List<SugarType>);
 
 
-		string a = default(string);
+		SugarType a = default(SugarType);
 
 
-			value = new List<string>();
+			value = new List<SugarType>();
 
 		try { DebugEnterRule(GrammarFileName, "generic_parameter");
 		DebugLocation(278, 1);
 		try
 		{
-			// SugarWalker.g:283:2: ( ^( Generic_Patameters (a= ident )* ) )
+			// SugarWalker.g:283:2: ( ^( Generic_Patameters (a= type_name )* ) )
 			DebugEnterAlt(1);
-			// SugarWalker.g:283:4: ^( Generic_Patameters (a= ident )* )
+			// SugarWalker.g:283:4: ^( Generic_Patameters (a= type_name )* )
 			{
 			DebugLocation(283, 4);
 			DebugLocation(283, 6);
@@ -3374,7 +3374,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 			{
 				Match(input, TokenTypes.Down, null); 
 				DebugLocation(283, 25);
-				// SugarWalker.g:283:25: (a= ident )*
+				// SugarWalker.g:283:25: (a= type_name )*
 				try { DebugEnterSubRule(36);
 				while (true)
 				{
@@ -3382,7 +3382,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 					try { DebugEnterDecision(36, false);
 					int LA36_0 = input.LA(1);
 
-					if ((LA36_0==IDENT))
+					if (((LA36_0>=Type_Array && LA36_0<=Type_Ident)||(LA36_0>=Type_Ref && LA36_0<=Type_Template)))
 					{
 						alt36 = 1;
 					}
@@ -3393,14 +3393,14 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 					{
 					case 1:
 						DebugEnterAlt(1);
-						// SugarWalker.g:283:26: a= ident
+						// SugarWalker.g:283:26: a= type_name
 						{
 						DebugLocation(283, 27);
-						PushFollow(Follow._ident_in_generic_parameter1168);
-						a=ident();
+						PushFollow(Follow._type_name_in_generic_parameter1168);
+						a=type_name();
 						PopFollow();
 
-						DebugLocation(283, 34);
+						DebugLocation(283, 38);
 						 value.Add(a); 
 
 						}
@@ -3463,7 +3463,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		List<Attr> attr = default(List<Attr>);
 		SugarType a = default(SugarType);
 		string b = default(string);
-		List<string> x = default(List<string>);
+		List<SugarType> x = default(List<SugarType>);
 		List<ExprAlloc> args = default(List<ExprAlloc>);
 		StmtBlock e = default(StmtBlock);
 		Expr f = default(Expr);
@@ -7021,7 +7021,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 
 
 		Expr a = default(Expr);
-		List<string> b = default(List<string>);
+		List<SugarType> b = default(List<SugarType>);
 		List<Expr> c = default(List<Expr>);
 
 		try { DebugEnterRule(GrammarFileName, "call_expr");
@@ -9706,7 +9706,7 @@ public partial class SugarWalker : Antlr.Runtime.Tree.TreeParser
 		public static readonly BitSet _Func_Args_in_func_args1131 = new BitSet(new ulong[]{0x4UL});
 		public static readonly BitSet _alloc_expr_in_func_args1136 = new BitSet(new ulong[]{0x6008UL});
 		public static readonly BitSet _Generic_Patameters_in_generic_parameter1163 = new BitSet(new ulong[]{0x4UL});
-		public static readonly BitSet _ident_in_generic_parameter1168 = new BitSet(new ulong[]{0x800000000008UL});
+		public static readonly BitSet _type_name_in_generic_parameter1168 = new BitSet(new ulong[]{0x8UL,0x1DC000UL});
 		public static readonly BitSet _Func_Def_in_func_def1194 = new BitSet(new ulong[]{0x4UL});
 		public static readonly BitSet _162_in_func_def1199 = new BitSet(new ulong[]{0xC2A0AC0FFFFF7010UL,0x242612B921DC000UL,0x321000000000089UL});
 		public static readonly BitSet _176_in_func_def1206 = new BitSet(new ulong[]{0xC2A0AC0FFFFF7010UL,0x242612B921DC000UL,0x320000000000089UL});
