@@ -20,6 +20,13 @@ public class TargetCppImplementation(fileNoExt: string): TargetCpp
     virtual cAstNode* visit(node: Block*)
         result := new cBlock()
         for x <- node->list
+            // skip template
+            let node => dynamic_cast!(Class*)(x), node != nullptr
+                if node->genericParameter.size() > 0 then continue
+            
+            let node => dynamic_cast!(Func*)(x), node != nullptr
+                if node->genericParameter.size() > 0 then continue
+
             result->list.push_back(x->accept(this))
         return result
 
