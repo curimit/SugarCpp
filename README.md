@@ -1,9 +1,10 @@
 # ![SugarCpp](http://curimit.com/images/SugarCpp.png)
-SugarCpp is a programming language which compiles to C++11.
+SugarCpp is a programming language which compiles to readable C++11 code.
 
-It adds lots of syntax sugar in to C++ and is 100% equivalent C++ code.
+It adds lots of syntax sugar in to C++ based on the power of C++11.
 
 SugarCpp is still under development.
+The C# version works OK. Now it is being re-written using SugarCpp itself(bootstrap).
 If you have any idea, please open a issue.
 
 Try SugarCpp in your browser: http://curimit.com/project/SugarCpp/
@@ -79,7 +80,7 @@ int main()
     // notice the type of i can be also changed
     for i <- ["12", "21"], i => atoi(i), i => i * 2
         printf("%d\n", i)
-    
+
     for x <- 0 to n, x => a[x]
         printf("%d\n", a[x])
 ```
@@ -304,36 +305,36 @@ using namespace std
 
 void example1()
     t := 0
-    
+
     plus := (x: int, y: int) --> x + y + t
-    
+
     f := plus(2)
     // print 5, 6
     cout << f(3) << " " << f(4) << endl
-    
+
     x := 5
     fx := plus(x)
     // print 8, 9
     cout << fx(3) << " " << fx(4) << endl
-    
+
     t = 10
     // print 18, 19
     cout << fx(3) << " " << fx(4) << endl
 
 void example2()
     t := 0
-    
+
     plus := (x: int, y: int) ==> x + y + t
-    
+
     f := plus(2)
     // print 5, 6
     cout << f(3) << " " << f(4) << endl
-    
+
     x := 5
     fx := plus(x)
     // print 8, 9
     cout << fx(3) << " " << fx(4) << endl
-    
+
     t = 10
     // print 8, 9
     cout << fx(3) << " " << fx(4) << endl
@@ -405,26 +406,26 @@ using namespace std
 
 int main()
     a := [i for i <- 1 to 10] : vector<int>
-    
+
     b := [i for i <- 1 to 10] : list<int>
     c := [i for i <- 1 to 10] : forward_list<int>
-    
+
     d := [i for i <- 1 to 10] : queue<int>
     e := [i for i <- 1 to 10] : deque<int>
     f := [i for i <- 1 to 10] : priority_queue<int>
-    
+
     g := [i for i <- 1 to 10] : stack<int>
-    
+
     h := [i for i <- 1 to 10] : set<int>
     i := [i for i <- 1 to 10] : multiset<int>
     j := [i for i <- 1 to 10] : unordered_set<int>
     k := [i for i <- 1 to 10] : unordered_multiset<int>
-    
+
     l := [[i, i*i] for i <- 1 to 10] : map<int, int>
     m := [[i, i*i] for i <- 1 to 10] : multimap<int, int>
     n := [[i, i*i] for i <- 1 to 10] : unordered_map<int, int>
     o := [[i, i*i] for i <- 1 to 10] : unordered_multimap<int, int>
-    
+
     // combine list generation with for loop
     printf("%d\n", i) for i <- [i * i for i <- 1 to 100, (i & 1) is 0, (i % 3) is 0] : vector<int>
 ```
@@ -1420,8 +1421,6 @@ using u_int32 = unsigned int;
   * [BYVoid](https://github.com/BYVoid)
     * Implement command line interface.
     * Suggest the defer syntax.
-  * [ppwwyyxx](https://github.com/ppwwyyxx)
-    * Vim plugin for SugarCpp.
 
 ## Command Line Usage
 
