@@ -2,8 +2,8 @@ tree grammar SugarWalker ;
 
 options
 {
-    tokenVocab=SugarCpp;   
-    ASTLabelType=CommonTree;  
+    tokenVocab=SugarCpp;
+    ASTLabelType=CommonTree;
     language=CSharp3;
 }
 
@@ -16,7 +16,7 @@ options
 
 @members
 {
-    public string Alias(string op) 
+    public string Alias(string op)
     {
 		if (op == "is") return "==";
 		if (op == "isnt") return "!=";
@@ -199,6 +199,7 @@ type_ident returns [SugarType value]
 				   | 'static'	{ type+="static "; }
 				   | 'long'		{ type+="long "; }
 				   | 'struct'	{ type+="struct "; }
+				   | 'thread_local'	{ type+="thread_local "; }
 				   | a=ident	{ type+=Alias(a); }
 				   )*)
 	{
@@ -296,7 +297,7 @@ func_def returns [FuncDef value]
 		if (vir != null) $value.Attribute.Add(new Attr { Name = "virtual" });
 		$value.Type = a;
 		$value.Name = b != null ? b : "operator" + op.Text;
-		if (deconstructor != null) 
+		if (deconstructor != null)
 		{
 			$value.Name = "~" + $value.Name;
 		}
@@ -313,7 +314,7 @@ func_def returns [FuncDef value]
 		if (vir != null) $value.Attribute.Add(new Attr { Name = "virtual" });
 		$value.Type = a;
 		$value.Name = b != null ? b : "operator" + op.Text;
-		if (deconstructor != null) 
+		if (deconstructor != null)
 		{
 			$value.Name = "~" + $value.Name;
 		}
@@ -340,7 +341,7 @@ func_def returns [FuncDef value]
 		$value.Attribute.Add(new Attr { Name = "extern" });
 		$value.Type = a;
 		$value.Name = b != null ? b : "operator" + op.Text;
-		if (deconstructor != null) 
+		if (deconstructor != null)
 		{
 			$value.Name = "~" + $value.Name;
 		}
@@ -368,7 +369,7 @@ stmt_block returns [StmtBlock value]
 	$value = new StmtBlock();
 }
 	: ^(Stmt_Block (a=stmt { foreach (var x in a ) $value.StmtList.Add(x); })*)
-    ; 
+    ;
 
 stmt returns [List<Stmt> value]
 @init
@@ -579,7 +580,7 @@ ident_list returns [List<string> value]
 }
 	: ^(Ident_List (a=ident { $value.Add(a); })*)
 	;
-	
+
 alloc_expr returns [ExprAlloc value]
 	: ^(Expr_Alloc_Equal a=type_name b=ident_list c=expr_list)
 	{

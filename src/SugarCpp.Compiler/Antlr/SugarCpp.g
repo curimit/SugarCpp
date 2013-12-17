@@ -2,8 +2,8 @@ grammar SugarCpp;
 
 options
 {
-    output=AST;  
-    ASTLabelType=CommonTree;  
+    output=AST;
+    ASTLabelType=CommonTree;
     language=CSharp3;
 }
 
@@ -11,7 +11,7 @@ tokens
 {
    INDENT;
    DEDENT;
-   
+
    Root;
    Block;
    Import;
@@ -25,12 +25,12 @@ tokens
    Func_Def;
 
    Global_Block;
-   
+
    Stmt_Block;
 
    Stmt_Defer;
    Stmt_Finally;
-   
+
    Stmt_Using;
    Stmt_Typedef;
 
@@ -57,7 +57,7 @@ tokens
 
    Type_List;
    Type_Func;
-   
+
    Type_Array;
    Type_Ref;
    Type_Star;
@@ -84,7 +84,7 @@ tokens
    Expr_New_Type;
    Expr_New_Array;
    Expr_Bin;
-   
+
    Expr_Bin;
    Expr_Suffix;
    Expr_Prefix;
@@ -95,7 +95,7 @@ tokens
    Expr_Call_With;
 
    Expr_Infix;
-   
+
    Expr_Lambda;
    Expr_Where;
    Expr_Tuple;
@@ -140,7 +140,7 @@ tokens
 
 	Queue<IToken> tokens = new Queue<IToken>();
 
-    public override void Emit(IToken token) 
+    public override void Emit(IToken token)
     {
         state.token = token;
         tokens.Enqueue(token);
@@ -229,7 +229,7 @@ node
 	| import_def
 	| namespace_def
 	;
-	
+
 attribute_args
 	: NUMBER
 	| STRING
@@ -318,7 +318,7 @@ type_star
 						 | -> type_template_type
 						 )
 	;
-	
+
 type_template_type
 	: type_ident ( '<' (type_name (',' type_name)*)? '>' -> ^(Type_Template type_ident type_name*)
 				 | -> type_ident
@@ -326,7 +326,7 @@ type_template_type
 	;
 
 type_ident
-	: 'static'? 'const'? 'struct'? 'long'? ident -> ^(Type_Ident 'static'? 'const'? 'struct'? 'long'? ident)
+	: 'static'? 'const'? 'struct'? 'long'? 'thread_local'? ident -> ^(Type_Ident 'static'? 'const'? 'struct'? 'long'? 'thread_local'? ident)
 	;
 
 generic_parameter_inside
@@ -680,7 +680,7 @@ prefix_expr
 						  )
 	| suffix_expr
 	;
-	
+
 square_expr_list
 	: '[' expr (',' expr)* ']' -> ^(Expr_Args expr*)
 	;
