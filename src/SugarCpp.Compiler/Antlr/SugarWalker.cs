@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-// $ANTLR 3.4 SugarWalker.g 2014-12-06 18:29:53
+// $ANTLR 3.4 SugarWalker.g 2014-12-06 21:22:44
 
 // The variable 'variable' is assigned but its value is never used.
 #pragma warning disable 219

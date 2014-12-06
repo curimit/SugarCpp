@@ -773,7 +773,30 @@ infix_func
 
 DOT_DOT: '..' ;
 
-IDENT: ('a'..'z' | 'A'..'Z' | '_') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')*;
+IDENT: ('a'..'z' | 'A'..'Z' | '_') ('-' | 'a'..'z' | 'A'..'Z' | '_' | '0'..'9')*
+	{
+        StringBuilder sb = new StringBuilder();
+        string[] list = Text.Split('-');
+        bool first = true;
+        foreach (var x in list)
+        {
+            if (x == "")
+            {
+                continue;
+            }
+            if (first)
+            {
+                sb.Append(x);
+                first = false;
+            }
+            else
+            {
+                sb.Append("_");
+                sb.Append(x);
+            }
+        }
+        Text = sb.ToString();
+	};
 
 NUMBER: ( '0'..'9'+ ('.' '0'..'9'+)? ('e' '-'? '0'..'9'+)? ('f' | 'F' | 'u' ('l' 'l'?)? | 'l' 'l'? | 'U' ('L' 'L'?)? | 'L' 'L'?)?
         | '0' 'x' ('0'..'9' | 'a'..'f' | 'A' .. 'F')+
