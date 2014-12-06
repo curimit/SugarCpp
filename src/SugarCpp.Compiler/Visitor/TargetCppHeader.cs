@@ -14,7 +14,12 @@ namespace SugarCpp.Compiler
         public override Template Visit(Root root)
         {
             Template template = new Template("#pragma once\n\n<declare>\n\n<body>");
-            template.Add("declare", Declare(root.Block));
+            string declare = Declare(root.Block).Render();
+            if (declare == "")
+            {
+                template = new Template("#pragma once\n\n<declare><body>");
+            }
+            template.Add("declare", declare);
             template.Add("body", root.Block.Accept(this));
             return template;
         }
