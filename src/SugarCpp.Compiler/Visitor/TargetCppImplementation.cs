@@ -164,7 +164,7 @@ namespace SugarCpp.Compiler
                 {
                     StmtBlock block = new StmtBlock();
                     block.StmtList.Add(new StmtReturn(new ExprConst("\"" + item + "\"", ConstType.String)));
-                    switch_list.Add(new StmtSwitchItem(new List<Expr> { new ExprConst(item, ConstType.Ident) }, block));
+                    switch_list.Add(new StmtSwitchItem(new List<Expr> { new ExprConst(enum_def.Name + "::" + item, ConstType.Ident) }, block));
                 }
 
                 StmtBlock default_block = new StmtBlock();
