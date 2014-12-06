@@ -216,7 +216,7 @@ public root
 	;
 
 global_block
-	: (node NEWLINE+)* -> ^(Global_Block node*)
+	: (node WS* NEWLINE+)* -> ^(Global_Block node*)
 	;
 
 node
@@ -236,121 +236,127 @@ attribute_args
 	| ident
 	;
 
+attribute_args_list
+	: '(' WS* attribute_args (WS* ',' WS* attribute_args)* WS* ')' -> attribute_args+
+	;
+
 attribute_item
-	: ident ('(' attribute_args (',' attribute_args)* ')')? -> ^(Attribute ident attribute_args*)
-	| 'const' ('(' attribute_args (',' attribute_args)* ')')? -> ^(Attribute 'const' attribute_args*)
-	| 'static' ('(' attribute_args (',' attribute_args)* ')')? -> ^(Attribute 'static' attribute_args*)
-	| 'public' ('(' attribute_args (',' attribute_args)* ')')? -> ^(Attribute 'public' attribute_args*)
-	| 'virtual' ('(' attribute_args (',' attribute_args)* ')')? -> ^(Attribute 'virtual' attribute_args*)
+	: ident (WS* attribute_args_list)? -> ^(Attribute ident attribute_args_list?)
+	| 'const' (WS* attribute_args_list)? -> ^(Attribute 'const' attribute_args_list?)
+	| 'static' (WS* attribute_args_list)? -> ^(Attribute 'static' attribute_args_list?)
+	| 'public' (WS* attribute_args_list)? -> ^(Attribute 'public' attribute_args_list?)
+	| 'virtual' (WS* attribute_args_list)? -> ^(Attribute 'virtual' attribute_args_list?)
 	;
 
 attribute
-	: ('[' attribute_item (',' attribute_item)* ']' NEWLINE+)+ -> attribute_item+
+	: ('[' WS* attribute_item (WS* ',' WS* attribute_item)* WS* ']' WS* NEWLINE+)+ -> attribute_item+
 	;
 
 global_alloc
-	: attribute? 'extern'? ident_list ( ':' type_name ( ('=' | ':=') expr -> ^(Expr_Alloc_Equal attribute? 'extern'? type_name ident_list ^(Expr_Args expr))
-													  | bracket_expr_list -> ^(Expr_Alloc_Bracket attribute? 'extern'? type_name ident_list bracket_expr_list)
-								 					  | -> ^(Expr_Alloc_Equal attribute? 'extern'? type_name ident_list ^(Expr_Args))
-								  					  )
-									  | ':=' (expr (',' expr)*) -> ^(':=' attribute? 'extern'? ident_list ^(Expr_Args expr+))
-									  )
+	: attribute? ('extern' WS*)? ident_list ( WS* ':' WS* type_name ( WS* ('=' | ':=') WS* where_expr -> ^(Expr_Alloc_Equal attribute? 'extern'? type_name ident_list ^(Expr_Args where_expr))
+													                | WS* bracket_expr_list -> ^(Expr_Alloc_Bracket attribute? 'extern'? type_name ident_list bracket_expr_list)
+								 					                | -> ^(Expr_Alloc_Equal attribute? 'extern'? type_name ident_list ^(Expr_Args))
+								  					                )
+									        | WS* ':=' WS* (where_expr (WS* ',' WS* where_expr)*) -> ^(':=' attribute? 'extern'? ident_list ^(Expr_Args where_expr+))
+									        )
 	;
 
 global_using
-	: attribute? 'using' stmt_using_item* -> ^(Stmt_Using attribute? stmt_using_item*)
+	: attribute? 'using' (WS* stmt_using_item)* -> ^(Stmt_Using attribute? stmt_using_item*)
 	;
 
 global_typedef
-	: attribute? 'typedef' ident '=' type_name -> ^(Stmt_Typedef attribute? type_name ident)
+	: attribute? 'typedef' WS* ident WS* '=' WS* type_name -> ^(Stmt_Typedef attribute? type_name ident)
 	;
 
 import_def
-	: attribute? 'import' STRING? (NEWLINE+ INDENT NEWLINE*  (STRING NEWLINE+)* DEDENT)? -> ^(Import attribute? STRING*)
+	: attribute? 'import' (WS* STRING)? (WS* NEWLINE+ INDENT NEWLINE* (STRING WS* NEWLINE+)* DEDENT)? -> ^(Import attribute? STRING*)
 	;
 
 enum_def
-	: attribute? 'enum' ident '=' (ident ('|' ident)*)? -> ^(Enum attribute? ident ^(Ident_List ident*))
+	: attribute? 'enum' WS* ident WS* '=' (WS* ident (WS* '|' WS* ident)*)? -> ^(Enum attribute? ident ^(Ident_List ident*))
 	;
 
 namespace_def
-	: attribute? 'namespace' ident (NEWLINE+ INDENT NEWLINE* global_block DEDENT)? -> ^(Namespace attribute? ident global_block?)
+	: attribute? 'namespace' WS* ident (WS* NEWLINE+ INDENT NEWLINE* global_block DEDENT)? -> ^(Namespace attribute? ident global_block?)
 	;
 
 class_args
-	: '(' ( func_args ')' -> func_args
-		  | ')' -> ^(Func_Args)
+	: '(' ( WS* func_args WS* ')' -> func_args
+		  | WS* ')' -> ^(Func_Args)
 		  )
 	;
 
 class_def
-	:  attribute? 'public'? 'class' ident (generic_parameter)? class_args? (':' ident (',' ident)*)? (NEWLINE+ INDENT NEWLINE* global_block DEDENT)? -> ^(Class 'public'? attribute? ident generic_parameter? class_args? (^(Ident_List ident*))? global_block?)
+	:  attribute? ('public' WS*)? ( 'class' WS* ident (generic_parameter)? (WS* ':' WS* ident (WS* ',' WS* ident)*)? (WS* NEWLINE+ INDENT NEWLINE* global_block DEDENT)? -> ^(Class 'public'? attribute? ident generic_parameter? class_args? (^(Ident_List ident*))? global_block?)
+								  | 'case' WS* 'class' WS* ident (generic_parameter)? (WS* class_args)? (WS* ':' WS* ident (WS* ',' WS* ident)*)? (WS* NEWLINE+ INDENT NEWLINE* global_block DEDENT)? -> ^(Class 'case' 'public'? attribute? ident generic_parameter? class_args? (^(Ident_List ident*))? global_block?)
+								  )
 	;
 
 type_list
-	: type_name (',' type_name)* -> ^(Type_List type_name*)
+	: type_name (WS* ','  WS* type_name)* -> ^(Type_List type_name*)
 	;
 
 type_name
-	: type_single ( '->' (type_name | '(' ')') -> ^(Type_Func ^(Type_List type_single) type_name?)
+	: type_single ( WS* '->' WS* (type_name | '(' WS* ')') -> ^(Type_Func ^(Type_List type_single) type_name?)
 				  | -> type_single
 				  )
-	| '(' type_list? ')' '->' (type_name | '(' ')') -> ^(Type_Func type_list? type_name?)
+	| '(' (WS* type_list)? WS* ')' WS* '->' WS* (type_name | '(' WS* ')') -> ^(Type_Func type_list? type_name?)
 	;
 
 type_single
-	: type_star ( '&' -> ^(Type_Ref type_star)
-				| '[' ( expr (',' expr)* ']' -> ^(Type_Array type_star expr+)
-				      | ','* ']' -> ^(Type_Array type_star expr+)
-					  )
+	: type_star ( WS* '&' -> ^(Type_Ref type_star)
+				| WS* '[' ( WS* expr (WS* ',' WS* expr)* WS* ']' -> ^(Type_Array type_star expr+)
+				          | (WS* ',')* WS* ']' -> ^(Type_Array type_star expr+)
+					      )
 				| -> type_star
 				)
 	;
 
 type_no_array
-	: type_star ( '&' -> ^(Type_Ref type_star)
+	: type_star ( WS* '&' -> ^(Type_Ref type_star)
 				| -> type_star
 				)
 	;
 
 type_star
-	: type_template_type ( '*'+ -> ^(Type_Star type_template_type '*'+)
+	: type_template_type ( (WS* '*')+ -> ^(Type_Star type_template_type '*'+)
 						 | -> type_template_type
 						 )
 	;
 
 type_template_type
-	: type_ident ( '<' (type_name (',' type_name)*)? '>' -> ^(Type_Template type_ident type_name*)
+	: type_ident ( '<' (WS* type_name (WS* ',' WS* type_name)*)? WS* '>' -> ^(Type_Template type_ident type_name*)
 				 | -> type_ident
 				 )
 	;
 
 type_ident
-	: 'static'? 'const'? 'struct'? 'long'? 'thread_local'? ident -> ^(Type_Ident 'static'? 'const'? 'struct'? 'long'? 'thread_local'? ident)
+	: ('static' WS*)? ('const' WS*)? ('struct' WS*)? ('long' WS*)? ('thread_local' WS*)? ident -> ^(Type_Ident 'static'? 'const'? 'struct'? 'long'? 'thread_local'? ident)
 	;
 
 generic_parameter_inside
-	: type_name (',' type_name)* -> ^(Generic_Patameters type_name*)
+	: type_name (WS* ',' WS* type_name)* -> ^(Generic_Patameters type_name*)
 	;
 
 generic_parameter
-	: '<' generic_parameter_inside '>' -> generic_parameter_inside
+	: '<' WS* generic_parameter_inside WS* '>' -> generic_parameter_inside
 	;
 
 generic_parameter_ident
-	: '<' type_ident (',' type_ident)* '>' -> ^(Generic_Patameters type_ident*)
+	: '<' WS* type_ident (WS* ',' WS* type_ident)* WS* '>' -> ^(Generic_Patameters type_ident*)
 	;
 
 func_args
-	: func_args_item (',' func_args_item)* -> ^(Func_Args func_args_item*)
+	: func_args_item (WS* ',' WS* func_args_item)* -> ^(Func_Args func_args_item*)
 	;
 
+// TODO(curimit): Double check this
 func_args_item
-	: ident_list ':' type_name ( ('=' | ':=') expr  -> ^(Expr_Alloc_Equal type_name ident_list ^(Expr_Args expr))
-	                             | bracket_expr_list  -> ^(Expr_Alloc_Bracket type_name ident_list bracket_expr_list)
-							     | -> ^(Expr_Alloc_Equal type_name ident_list ^(Expr_Args))
-							     )
-	| ':='^  modify_expr
+	: ident_list WS* ':' WS* type_name ( WS* ('=' | ':=') WS* expr  -> ^(Expr_Alloc_Equal type_name ident_list ^(Expr_Args expr))
+	                                   | WS* bracket_expr_list  -> ^(Expr_Alloc_Bracket type_name ident_list bracket_expr_list)
+							           | -> ^(Expr_Alloc_Equal type_name ident_list ^(Expr_Args))
+							           )
 	;
 
 operator
@@ -359,7 +365,7 @@ operator
 
 func_name
 	: ident -> ident
-	| '(' operator ')' -> operator
+	| '(' WS* operator WS* ')' -> operator
 	;
 
 func_type
@@ -367,17 +373,17 @@ func_type
 	;
 
 func_def
-	: attribute? 'public'? 'virtual'? func_type? '~'? func_name generic_parameter_ident? '(' func_args? ')' ( NEWLINE+ stmt_block -> ^(Func_Def 'public'? 'virtual'? attribute? func_type? '~'? func_name generic_parameter_ident? func_args? stmt_block)
-																									        | '=' ( where_expr  -> ^(Func_Def 'public'? 'virtual'? attribute? func_type? '~'? func_name generic_parameter_ident? func_args? where_expr)
-																											      | NEWLINE+ INDENT NEWLINE* (match_item NEWLINE+)+ DEDENT -> ^(Func_Def 'public'? 'virtual'? attribute? func_type? '~'? func_name generic_parameter_ident? func_args? ^(Match_Expr match_item+))
-																											      )
-																									        | -> ^(Func_Def 'public'? 'virtual'? attribute? func_type? '~'? func_name generic_parameter_ident? func_args? Func_Declare)
-																									        )
+	: attribute? ('public' WS*)? ('virtual' WS*)? (func_type WS*)? ('~' WS*)? func_name (WS* generic_parameter_ident)? WS* '(' (WS* func_args)? WS* ')' ( WS* NEWLINE+ stmt_block -> ^(Func_Def 'public'? 'virtual'? attribute? func_type? '~'? func_name generic_parameter_ident? func_args? stmt_block)
+																									                                                    | WS* '=' ( WS* where_expr -> ^(Func_Def 'public'? 'virtual'? attribute? func_type? '~'? func_name generic_parameter_ident? func_args? where_expr)
+																											                                                      | WS* NEWLINE+ INDENT NEWLINE* (match_item WS* NEWLINE+)+ DEDENT -> ^(Func_Def 'public'? 'virtual'? attribute? func_type? '~'? func_name generic_parameter_ident? func_args? ^(Match_Expr match_item+))
+																											                                                      )
+																									                                                    | -> ^(Func_Def 'public'? 'virtual'? attribute? func_type? '~'? func_name generic_parameter_ident? func_args? Func_Declare)
+																									                                                    )
     ;
 
 stmt_block_item
-	: stmt_complex NEWLINE+ -> stmt_complex
-	| stmt_simple (NEWLINE+ | ';' NEWLINE*) -> stmt_simple
+	: stmt_complex WS* NEWLINE+ -> stmt_complex
+	| stmt_simple WS* (NEWLINE+ | ';' NEWLINE*) -> stmt_simple
 	;
 
 stmt_block
@@ -403,11 +409,11 @@ stmt_complex
 	;
 
 stmt_expr
-	: (a=stmt_expr_item -> $a) ( 'if' expr -> ^(Stmt_If expr ^(Stmt_Block $stmt_expr))
-							   | 'unless' expr -> ^(Stmt_Unless expr ^(Stmt_Block $stmt_expr))
-							   | 'while' expr -> ^(Stmt_While expr ^(Stmt_Block $stmt_expr))
-							   | 'until' expr -> ^(Stmt_Until expr ^(Stmt_Block $stmt_expr))
-							   | 'for' for_item (',' for_item)* -> ^(Stmt_For for_item* ^(Stmt_Block $stmt_expr))
+	: (a=stmt_expr_item -> $a) ( WS* 'if' WS* expr -> ^(Stmt_If expr ^(Stmt_Block $stmt_expr))
+							   | WS* 'unless' WS* expr -> ^(Stmt_Unless expr ^(Stmt_Block $stmt_expr))
+							   | WS* 'while' WS* expr -> ^(Stmt_While expr ^(Stmt_Block $stmt_expr))
+							   | WS* 'until' WS* expr -> ^(Stmt_Until expr ^(Stmt_Block $stmt_expr))
+							   | WS* 'for' WS* for_item (WS* ',' WS* for_item)* -> ^(Stmt_For for_item* ^(Stmt_Block $stmt_expr))
 							   )*
 	;
 
@@ -420,52 +426,52 @@ stmt_expr_item
 	;
 
 stmt_defer
-	: 'defer' stmt -> ^(Stmt_Defer stmt)
-	| 'finally' stmt -> ^(Stmt_Finally stmt)
+	: 'defer' WS* stmt -> ^(Stmt_Defer stmt)
+	| 'finally' WS* stmt -> ^(Stmt_Finally stmt)
 	;
 
 stmt_typedef
-	: 'typedef' ident '=' type_name -> ^(Stmt_Typedef type_name ident)
+	: 'typedef' WS* ident WS* '=' WS* type_name -> ^(Stmt_Typedef type_name ident)
 	;
 
 stmt_using_item: ident | 'namespace';
 stmt_using
-	: 'using' stmt_using_item* -> ^(Stmt_Using stmt_using_item*)
+	: 'using' (WS* stmt_using_item)* -> ^(Stmt_Using stmt_using_item*)
 	;
 
 stmt_return
-	: 'return' expr? -> ^(Stmt_Return expr?)
+	: 'return' (WS* expr)? -> ^(Stmt_Return expr?)
 	;
 
 inline_stmt_block
-	: stmt_simple (';' stmt_simple)* -> ^(Stmt_Block stmt_simple+)
+	: stmt_simple (WS* ';' WS* stmt_simple)* -> ^(Stmt_Block stmt_simple+)
 	;
 
 stmt_if
-	: 'if' expr (NEWLINE+ stmt_block (NEWLINE* 'else' NEWLINE+ stmt_block)? -> ^(Stmt_If expr stmt_block stmt_block?)
-	            | 'then' inline_stmt_block -> ^(Stmt_If expr inline_stmt_block)
-				)
-	| 'unless' expr (NEWLINE+ stmt_block (NEWLINE* 'else' NEWLINE+ stmt_block)? -> ^(Stmt_Unless expr stmt_block stmt_block?)
-	                | 'then' inline_stmt_block -> ^(Stmt_Unless expr inline_stmt_block)
+	: 'if' WS* expr ( WS* NEWLINE+ stmt_block (NEWLINE* 'else' NEWLINE+ stmt_block)? -> ^(Stmt_If expr stmt_block stmt_block?)
+	                | WS* 'then' WS* inline_stmt_block -> ^(Stmt_If expr inline_stmt_block)
 				    )
+	| 'unless' WS* expr ( WS*NEWLINE+ stmt_block (NEWLINE* 'else' NEWLINE+ stmt_block)? -> ^(Stmt_Unless expr stmt_block stmt_block?)
+	                    | WS* 'then' inline_stmt_block -> ^(Stmt_Unless expr inline_stmt_block)
+				        )
 	;
 
 stmt_while
-	: 'while' expr ( NEWLINE+ stmt_block -> ^(Stmt_While expr stmt_block)
-			       | 'then' inline_stmt_block -> ^(Stmt_While expr inline_stmt_block)
+	: 'while' WS* expr ( WS* NEWLINE+ stmt_block -> ^(Stmt_While expr stmt_block)
+			           | WS* 'then' WS* inline_stmt_block -> ^(Stmt_While expr inline_stmt_block)
+				       )
+	| 'until' expr ( WS* NEWLINE+ stmt_block -> ^(Stmt_Until expr stmt_block)
+			       | WS* 'then' WS* inline_stmt_block -> ^(Stmt_Until expr inline_stmt_block)
 				   )
-	| 'until' expr ( NEWLINE+ stmt_block -> ^(Stmt_Until expr stmt_block)
-			       | 'then' inline_stmt_block -> ^(Stmt_Until expr inline_stmt_block)
-				   )
-	| 'loop' expr? NEWLINE+ stmt_block -> ^(Stmt_Loop expr? stmt_block)
+	| 'loop' (WS* expr)? WS* NEWLINE+ stmt_block -> ^(Stmt_Loop expr? stmt_block)
 	;
 
 for_range
-	: ident '<-' a=expr ( 'to' b=expr ('by' c=expr)? -> ^(For_Item_To ident $a $b $c?)
-						| 'til' b=expr ('by' c=expr)? -> ^(For_Item_Til ident $a $b $c?)
-						| 'downto' b=expr ('by' c=expr)? -> ^(For_Item_Down_To ident $a $b $c?)
-						| -> ^(For_Item_Each ident $a)
-						)
+	: ident WS* '<-' WS* a=expr ( WS* 'to' WS* b=expr (WS* 'by' WS* c=expr)? -> ^(For_Item_To ident $a $b $c?)
+						        | WS* 'til' WS* b=expr (WS* 'by' WS* c=expr)? -> ^(For_Item_Til ident $a $b $c?)
+						        | WS* 'downto' WS* b=expr (WS* 'by' WS* c=expr)? -> ^(For_Item_Down_To ident $a $b $c?)
+						        | -> ^(For_Item_Each ident $a)
+						        )
 	;
 
 for_when
@@ -473,7 +479,7 @@ for_when
 	;
 
 for_map
-	: ident '=>' expr -> ^(For_Item_Map ident expr)
+	: ident WS* '=>' WS* expr -> ^(For_Item_Map ident expr)
 	;
 
 for_item
@@ -483,42 +489,42 @@ for_item
 	;
 
 stmt_for
-	: ('for' | 'let') ( for_item (',' for_item)* NEWLINE+ stmt_block -> ^(Stmt_For for_item* stmt_block)
-			//| '(' expr ';' expr ';' expr ')' NEWLINE+ stmt_block -> ^(Stmt_For expr expr expr stmt_block)
-			)
+	: ('for' | 'let') ( WS* for_item (WS* ',' WS* for_item)* WS* NEWLINE+ stmt_block -> ^(Stmt_For for_item* stmt_block)
+			        //| '(' expr ';' expr ';' expr ')' NEWLINE+ stmt_block -> ^(Stmt_For expr expr expr stmt_block)
+			          )
 	;
 
 stmt_try
-	: 'try' NEWLINE+ stmt_block NEWLINE* 'catch' stmt_alloc NEWLINE+ stmt_block -> ^(Stmt_Try stmt_block stmt_alloc stmt_block)
+	: 'try' WS* NEWLINE+ stmt_block NEWLINE* 'catch' WS* stmt_alloc WS* NEWLINE+ stmt_block -> ^(Stmt_Try stmt_block stmt_alloc stmt_block)
 	;
 
 switch_item
-	: 'when' expr (',' expr)* ( NEWLINE+ stmt_block -> ^(Switch_Item ^(Expr_Args expr+) stmt_block)
-	                          | 'then' inline_stmt_block -> ^(Switch_Item ^(Expr_Args expr+) inline_stmt_block)
-						      )
+	: 'when' WS* expr (WS* ',' WS* expr)* ( WS* NEWLINE+ stmt_block -> ^(Switch_Item ^(Expr_Args expr+) stmt_block)
+	                                      | WS* 'then' WS* inline_stmt_block -> ^(Switch_Item ^(Expr_Args expr+) inline_stmt_block)
+						                  )
 	;
 
 stmt_switch
-	: 'switch' expr? NEWLINE+ INDENT NEWLINE* (switch_item NEWLINE+)+ ('else' NEWLINE+ stmt_block NEWLINE*)? DEDENT -> ^(Stmt_Switch expr? switch_item* stmt_block?)
+	: 'switch' (WS* expr)? WS* NEWLINE+ INDENT NEWLINE* (switch_item WS* NEWLINE+)+ ('else' NEWLINE+ stmt_block NEWLINE*)? DEDENT -> ^(Stmt_Switch expr? switch_item* stmt_block?)
 	;
 
 ident_list
-	: ident (',' ident)* -> ^(Ident_List ident+)
+	: ident (WS* ',' WS* ident)* -> ^(Ident_List ident+)
 	;
 
 stmt_alloc
-	: ident_list ( ':' type_name ( ('=' | ':=') where_expr  -> ^(Expr_Alloc_Equal type_name ident_list ^(Expr_Args where_expr))
-	                             | bracket_expr_list  -> ^(Expr_Alloc_Bracket type_name ident_list bracket_expr_list)
-							     | -> ^(Expr_Alloc_Equal type_name ident_list ^(Expr_Args))
-							     )
-				 | ':='  (where_expr (',' where_expr)*) -> ^(':=' ident_list ^(Expr_Args where_expr*)))
+	: ident_list ( WS* ':' WS* type_name ( WS* ('=' | ':=') WS* where_expr  -> ^(Expr_Alloc_Equal type_name ident_list ^(Expr_Args where_expr))
+	                                     | WS* bracket_expr_list  -> ^(Expr_Alloc_Bracket type_name ident_list bracket_expr_list)
+							             | -> ^(Expr_Alloc_Equal type_name ident_list ^(Expr_Args))
+							             )
+				 | WS* ':=' (WS* where_expr (WS* ',' WS* where_expr)*) -> ^(':=' ident_list ^(Expr_Args where_expr*)))
 	;
 
 stmt_modify
-	: lvalue ( modify_expr_op where_expr -> ^(modify_expr_op lvalue where_expr)
-	         | '?=' where_expr -> ^('?=' lvalue where_expr)
-             | '<<' where_expr -> ^(Expr_Bin '<<' lvalue where_expr)
-             | '>>' where_expr -> ^(Expr_Bin '>>' lvalue where_expr)
+	: lvalue ( WS* modify_expr_op WS* where_expr -> ^(modify_expr_op lvalue where_expr)
+	         | WS* '?=' WS* where_expr -> ^('?=' lvalue where_expr)
+             | WS* '<<' WS* where_expr -> ^(Expr_Bin '<<' lvalue where_expr)
+             | WS* '>>' WS* where_expr -> ^(Expr_Bin '>>' lvalue where_expr)
 			 | -> lvalue)
 	;
 
@@ -527,32 +533,32 @@ where_item
 	;
 
 where_expr
-	: (a=expr -> $a) ( NEWLINE+ INDENT NEWLINE* 'where' ( where_item ( NEWLINE* DEDENT -> ^(Expr_Where $where_expr where_item)
-																	 | NEWLINE+ INDENT NEWLINE* (where_item NEWLINE+)+ DEDENT NEWLINE* DEDENT -> ^(Expr_Where $where_expr where_item+)
-																	 )
-														| NEWLINE+ INDENT NEWLINE* (where_item NEWLINE+)+ DEDENT NEWLINE* DEDENT -> ^(Expr_Where $where_expr where_item+)
-														)
-					 | 'where' NEWLINE+ INDENT NEWLINE* (where_item NEWLINE+)+ DEDENT -> ^(Expr_Where $where_expr where_item+)
+	: (a=expr -> $a) ( WS* NEWLINE+ INDENT NEWLINE* 'where' ( WS* where_item ( NEWLINE* DEDENT -> ^(Expr_Where $where_expr where_item)
+																	         | NEWLINE+ INDENT NEWLINE* (where_item WS* NEWLINE+)+ DEDENT NEWLINE* DEDENT -> ^(Expr_Where $where_expr where_item+)
+																	         )
+														    | WS* NEWLINE+ INDENT NEWLINE* (where_item WS* NEWLINE+)+ DEDENT NEWLINE* DEDENT -> ^(Expr_Where $where_expr where_item+)
+														    )
+					 | WS* 'where' WS* NEWLINE+ INDENT NEWLINE* (where_item WS* NEWLINE+)+ DEDENT -> ^(Expr_Where $where_expr where_item+)
 			         | -> expr
 		             )
 	;
 
 let_expr
-	: 'let' where_item ( 'in' ( expr -> ^(Expr_Where expr where_item+)
-							  | NEWLINE+ ( INDENT NEWLINE* expr NEWLINE+ DEDENT -> ^(Expr_Where expr where_item+)
-										 | expr -> ^(Expr_Where expr where_item+)
-										 )
-							  )
-					   | NEWLINE+ INDENT NEWLINE* (where_item NEWLINE+)+ 'in' expr NEWLINE+ DEDENT -> ^(Expr_Where expr where_item+)
-					   )
+	: 'let' WS* where_item ( WS* 'in' ( WS* expr -> ^(Expr_Where expr where_item+)
+							          | WS* NEWLINE+ ( INDENT NEWLINE* expr WS* NEWLINE+ DEDENT -> ^(Expr_Where expr where_item+)
+										             | WS* expr -> ^(Expr_Where expr where_item+)
+										             )
+							          )
+					       | WS* NEWLINE+ INDENT NEWLINE* (where_item WS* NEWLINE+)+ WS* 'in' WS* expr WS* NEWLINE+ DEDENT -> ^(Expr_Where expr where_item+)
+					       )
 	;
 
 match_item
-	: '|' expr '=>' where_expr -> ^(Match_Expr_Item expr where_expr)
+	: '|' WS* expr WS* '=>' WS* where_expr -> ^(Match_Expr_Item expr where_expr)
 	;
 
 match_expr
-	: 'match' expr? ('returns' type_name)? NEWLINE+ INDENT NEWLINE* (match_item NEWLINE+)+ DEDENT -> ^(Match_Expr expr? type_name? match_item+)
+	: 'match' (WS* expr)? (WS* 'returns' WS* type_name)? WS* NEWLINE+ INDENT NEWLINE* (match_item WS* NEWLINE+)+ DEDENT -> ^(Match_Expr expr? type_name? match_item+)
 	;
 
 expr
@@ -562,15 +568,15 @@ expr
 	;
 
 feed_expr
-	: (modify_expr ('<|' | '|>') ) => (a=modify_expr -> $a) ( '<|' list_expr -> ^(Expr_Call $feed_expr ^(Expr_Args list_expr))
-															| '|>' list_expr -> ^(Expr_Call list_expr ^(Expr_Args $feed_expr))
-															)
+	: (modify_expr WS* ('<|' | '|>') ) => (a=modify_expr -> $a) ( WS* '<|' WS* list_expr -> ^(Expr_Call $feed_expr ^(Expr_Args list_expr))
+															    | WS* '|>' WS* list_expr -> ^(Expr_Call list_expr ^(Expr_Args $feed_expr))
+															    )
 	| list_expr
 	;
 
 list_expr
-	: ('[' feed_expr 'for') => '[' feed_expr 'for' for_item (',' for_item)* ']' ':' type_name  -> ^(Expr_List_Generation type_name? ^(Stmt_For for_item* ^(Stmt_Block)) feed_expr)
-	| '[' ((',' | NEWLINE | INDENT | DEDENT)* feed_expr ((',' | NEWLINE | INDENT | DEDENT)+ feed_expr)*)? (',' | NEWLINE | INDENT | DEDENT)* ']' -> ^(Expr_List feed_expr*)
+	: ('[' WS* feed_expr WS* 'for') => '[' WS* feed_expr WS* 'for' WS* for_item (WS* ',' WS* for_item)* WS* ']' WS* ':' WS* type_name  -> ^(Expr_List_Generation type_name? ^(Stmt_For for_item* ^(Stmt_Block)) feed_expr)
+	| '[' ((WS | ',' | NEWLINE | INDENT | DEDENT)* feed_expr (WS* (',' | NEWLINE | INDENT | DEDENT)+ WS* feed_expr)*)? (WS | ',' | NEWLINE | INDENT | DEDENT)* ']' -> ^(Expr_List feed_expr*)
 	| lambda_expr
 	;
 
@@ -580,127 +586,138 @@ lambda_value
 	;
 
 lambda_type
-	: '(' type_name ')' -> type_name
+	: '(' WS* type_name WS* ')' -> type_name
 	;
 
+lambda_expr_op : '->' | '=>' | '-->' | '==>' ;
 lambda_expr
-	: '(' func_args? ')' lambda_type? ( '->' lambda_value  -> ^(Expr_Lambda '->' func_args? lambda_type? lambda_value)
-								      | '=>' lambda_value  -> ^(Expr_Lambda '=>' func_args? lambda_type? lambda_value)
-									  | '-->' lambda_value  -> ^(Expr_Lambda '-->' func_args? lambda_type? lambda_value)
-								      | '==>' lambda_value  -> ^(Expr_Lambda '==>' func_args? lambda_type? lambda_value)
-									  )
+	: '(' (WS* func_args)? WS* ')' (WS* lambda_type)? WS* lambda_expr_op WS* lambda_value -> ^(Expr_Lambda lambda_expr_op func_args? lambda_type? lambda_value)
 	| modify_expr
 	;
 
 modify_expr_op: '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=';
 modify_expr
-	: cond_expr ( (':=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=')^ cond_expr
-				| ('='^ cond_expr)+)?
+	: cond_expr ( WS* (':=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '^=' | '|=' | '<<=' | '>>=')^ WS* cond_expr
+				| (WS* '='^ WS* cond_expr)+
+				)?
 	;
 
 cond_expr_item: or_expr ;
 cond_expr
-	: (a=or_expr -> $a) ('?' ( a=cond_expr_item ( ':' b=cond_expr_item -> ^(Expr_Cond $cond_expr $a $b)
-											   | -> ^(Expr_Cond_Not_Null $cond_expr $a)
-											  )
-							 | -> ^(Expr_Not_Null $cond_expr)
-							 ))?
+	: (a=or_expr -> $a) (WS* '?' ( WS* a=cond_expr_item ( WS* ':' WS* b=cond_expr_item -> ^(Expr_Cond $cond_expr $a $b)
+											            | -> ^(Expr_Cond_Not_Null $cond_expr $a)
+											            )
+							     | -> ^(Expr_Not_Null $cond_expr)
+							     )
+				        )?
 	;
 
 or_op: '||' | 'or' ;
 or_expr
-	: (a=and_expr -> $a) (op=or_op b=and_expr -> ^(Expr_Bin $op $or_expr $b))*
+	: (a=and_expr -> $a) (WS* op=or_op WS* b=and_expr -> ^(Expr_Bin $op $or_expr $b))*
 	;
 
 and_op: '&&' | 'and' ;
 and_expr
-	: (a=bit_or -> $a) (op=and_op b=bit_or -> ^(Expr_Bin $op $and_expr $b))*
+	: (a=bit_or -> $a) (WS* op=and_op WS* b=bit_or -> ^(Expr_Bin $op $and_expr $b))*
 	;
 
 bit_or
-	: (a=bit_xor -> $a) ('|' b=bit_xor -> ^(Expr_Bin '|' $bit_or $b))*
+	: (a=bit_xor -> $a) (WS* '|' WS* b=bit_xor -> ^(Expr_Bin '|' $bit_or $b))*
 	;
 
 bit_xor
-	: (a=bit_and -> $a) ('^' b=bit_and -> ^(Expr_Bin '^' $bit_xor $b))*
+	: (a=bit_and -> $a) (WS* '^' WS* b=bit_and -> ^(Expr_Bin '^' $bit_xor $b))*
 	;
 
 bit_and
-	: (a=cmp_expr -> $a) ('&' b=cmp_expr -> ^(Expr_Bin '&' $bit_and $b))*
+	: (a=cmp_expr -> $a) (WS* '&' WS* b=cmp_expr -> ^(Expr_Bin '&' $bit_and $b))*
 	;
 
-chain_op: '<' | '<=' | '>' | '>=' | '!=' | '==' | 'is' | 'isnt' ;
-no_less_op: '<=' | '>' | '>=' | '!=' | '==' | 'is' | 'isnt' ;
+chain_op
+	: WS+ '<' WS* -> '<'
+    | WS* '<=' WS* -> '<='
+	| WS* '>' WS* -> '>'
+	| WS* '>=' WS* -> '>='
+	| WS* '!=' WS* -> '!='
+	| WS* '==' WS* -> '=='
+	| WS* 'is' WS* -> 'is'
+	| WS* 'isnt' WS* -> 'isnt'
+	;
+
 chain_list: (chain_op shift_expr)+ ;
 cmp_expr
 	: (a=shift_expr -> $a) ( op=chain_op b=shift_expr ( chain_list -> ^(Expr_Chain  $cmp_expr $op $b chain_list)
-													  | -> ^(Expr_Bin $op $cmp_expr $b)
-													  )
+													          | -> ^(Expr_Bin $op $cmp_expr $b)
+													          )
 						   )?
 	;
 
 shift_expr_op: '<<' | '>>' ;
 shift_expr
-	: (a=add_expr -> $a) (shift_expr_op b=add_expr -> ^(Expr_Bin shift_expr_op $shift_expr $b))*
+	: (a=add_expr -> $a) (WS* shift_expr_op WS* b=add_expr -> ^(Expr_Bin shift_expr_op $shift_expr $b))*
 	;
 
 add_expr
-	: (a=mul_expr -> $a) ( '+' b=mul_expr -> ^(Expr_Bin '+' $add_expr $b)
-						 | '-' b=mul_expr -> ^(Expr_Bin '-' $add_expr $b)
+	: (a=mul_expr -> $a) ( WS* '+' WS* b=mul_expr -> ^(Expr_Bin '+' $add_expr $b)
+						 | WS* '-' WS* b=mul_expr -> ^(Expr_Bin '-' $add_expr $b)
 						 )*
 	;
 
 mul_expr
-	: (a=infix_expr -> $a) ( '*' b=infix_expr -> ^(Expr_Bin '*' $mul_expr $b)
-						   | '/' b=infix_expr -> ^(Expr_Bin '/' $mul_expr $b)
-						   | '%' b=infix_expr -> ^(Expr_Bin '%' $mul_expr $b)
+	: (a=infix_expr -> $a) ( WS* '*' WS* b=infix_expr -> ^(Expr_Bin '*' $mul_expr $b)
+						   | WS* '/' WS* b=infix_expr -> ^(Expr_Bin '/' $mul_expr $b)
+						   | WS* '%' WS* b=infix_expr -> ^(Expr_Bin '%' $mul_expr $b)
 						   )*
 	;
 
 infix_expr
-	: (a=selector_expr -> $a) ( infix_func b=selector_expr  -> ^(Expr_Infix infix_func $infix_expr $b) )*
+	: (a=selector_expr -> $a) ( WS* infix_func WS* b=selector_expr  -> ^(Expr_Infix infix_func $infix_expr $b) )*
 	;
 
 selector_expr
-	: (a=cast_expr -> $a) ( '->*' b=ident -> ^(Expr_Access '->*' $selector_expr $b)
-						  | '.*'  b=ident -> ^(Expr_Access '.*'  $selector_expr $b)
+	: (a=cast_expr -> $a) ( WS* '->*' WS* b=ident -> ^(Expr_Access '->*' $selector_expr $b)
+						  | WS* '.*'  WS* b=ident -> ^(Expr_Access '.*'  $selector_expr $b)
 						  )*
 	;
 
 cast_expr
-	: ('(' type_name ')' prefix_expr) => '(' type_name ')' prefix_expr -> ^(Expr_Cast type_name prefix_expr)
+	: ('(' WS* type_name WS* ')' WS* prefix_expr) => '(' WS* type_name WS* ')' WS* prefix_expr -> ^(Expr_Cast type_name prefix_expr)
 	| prefix_expr
 	;
 
 prefix_expr_op: '!' | '~' | '++' | '--' | '-' | '+' | '*' | '&' | 'not';
 prefix_expr
-	: (prefix_expr_op prefix_expr) -> ^(Expr_Prefix prefix_expr_op prefix_expr)
-	| 'new' type_no_array ( bracket_expr_list -> ^(Expr_New_Type type_no_array bracket_expr_list)
-						  | square_expr_list -> ^(Expr_New_Array type_no_array square_expr_list)
-						  )
+	: (prefix_expr_op WS* prefix_expr) -> ^(Expr_Prefix prefix_expr_op prefix_expr)
+	| 'new' WS* type_no_array ( WS* bracket_expr_list -> ^(Expr_New_Type type_no_array bracket_expr_list)
+						      | WS* square_expr_list -> ^(Expr_New_Array type_no_array square_expr_list)
+						      )
 	| suffix_expr
 	;
 
 square_expr_list
-	: '[' expr (',' expr)* ']' -> ^(Expr_Args expr*)
+	: '[' WS* expr (WS* ',' WS* expr)* WS* ']' -> ^(Expr_Args expr*)
 	;
 
 bracket_expr_list
-	: '(' (expr (',' expr)*)? ( ')' -> ^(Expr_Args expr*)
-							  | NEWLINE+ ( INDENT NEWLINE* expr ((',' | NEWLINE)+ expr)* NEWLINE* ( ')' NEWLINE* DEDENT | DEDENT NEWLINE* ')' ) -> ^(Expr_Args expr*)
-										 | (expr ((',' | NEWLINE)+ expr)*)? ')' -> ^(Expr_Args expr*)
-										 )
-							  )
+	: '(' (WS* expr (WS* ',' WS* expr)*)? ( WS* ')' -> ^(Expr_Args expr*)
+							              | WS* NEWLINE+ ( INDENT NEWLINE* expr ((WS* ',' | WS* NEWLINE)+ WS* expr)* (WS* NEWLINE)* ( WS* ')' WS* NEWLINE* DEDENT
+										                                                                                        | DEDENT NEWLINE* WS* ')'
+																											                    ) -> ^(Expr_Args expr*)
+										                 | (WS* expr ((WS*  ',' | WS*  NEWLINE)+ WS* expr)*)? WS* ')' -> ^(Expr_Args expr*)
+										                 )
+							              )
 	;
 
 suffix_expr
-	: (a=atom_expr -> $a) ( '++' -> ^(Expr_Suffix '++' $suffix_expr)
-					      | '--' -> ^(Expr_Suffix '--' $suffix_expr)
-						  | '.' ident -> ^(Expr_Access '.' $suffix_expr ident)
-						  | '->' ident -> ^(Expr_Access '->' $suffix_expr ident)
-						  | ('!' '(' generic_parameter_inside ')')? bracket_expr_list -> ^(Expr_Call $suffix_expr generic_parameter_inside? bracket_expr_list)
-						  | square_expr_list -> ^(Expr_Dict $suffix_expr square_expr_list)
-						  | '@' ident bracket_expr_list -> ^(Expr_Call_With $suffix_expr ident bracket_expr_list)
+	: (a=atom_expr -> $a) ( WS* '++' -> ^(Expr_Suffix '++' $suffix_expr)
+					      | WS* '--' -> ^(Expr_Suffix '--' $suffix_expr)
+						  | WS* '.' WS* ident -> ^(Expr_Access '.' $suffix_expr ident)
+						  | WS* '->' WS* ident -> ^(Expr_Access '->' $suffix_expr ident)
+						  | WS* bracket_expr_list -> ^(Expr_Call $suffix_expr bracket_expr_list)
+						  | generic_parameter WS* bracket_expr_list -> ^(Expr_Call $suffix_expr generic_parameter bracket_expr_list)
+						  | WS* square_expr_list -> ^(Expr_Dict $suffix_expr square_expr_list)
+						  | WS* '@' WS* ident WS* bracket_expr_list -> ^(Expr_Call_With $suffix_expr ident bracket_expr_list)
 					      )*
 	;
 
@@ -708,10 +725,10 @@ atom_expr
 	: NUMBER
 	| ident
 	| STRING
-	| '@' ident -> ^('@' ident)
-	| '(' a=expr ( (',' expr)+ ')' -> ^(Expr_Tuple expr+)
-	             | ')' { true&&true }? -> ^(Expr_Bracket expr)
-			     )
+	| '@' WS* ident -> ^('@' ident)
+	| '(' WS* a=expr ( (WS* ',' WS* expr)+ WS* ')' -> ^(Expr_Tuple expr+)
+	                 | WS* ')' -> ^(Expr_Bracket expr)
+			         )
 	;
 
 lvalue_item
@@ -724,31 +741,32 @@ lvalue_prefix
 	;
 
 lvalue_suffix
-	: (a=lvalue_atom -> $a) ( '++' -> ^(Expr_Suffix '++' $lvalue_suffix)
-					        | '--' -> ^(Expr_Suffix '--' $lvalue_suffix)
-						    | '.' ident -> ^(Expr_Access '.' $lvalue_suffix ident)
-						    | '->' ident -> ^(Expr_Access '->' $lvalue_suffix ident)
-						    | ('!' '(' generic_parameter_inside ')')? bracket_expr_list -> ^(Expr_Call $lvalue_suffix generic_parameter_inside? bracket_expr_list)
-						    | square_expr_list -> ^(Expr_Dict $lvalue_suffix square_expr_list)
+	: (a=lvalue_atom -> $a) ( WS* '++' -> ^(Expr_Suffix '++' $lvalue_suffix)
+					        | WS* '--' -> ^(Expr_Suffix '--' $lvalue_suffix)
+						    | WS* '.' WS* ident -> ^(Expr_Access '.' $lvalue_suffix ident)
+						    | WS* '->' WS* ident -> ^(Expr_Access '->' $lvalue_suffix ident)
+						    | WS* bracket_expr_list -> ^(Expr_Call $lvalue_suffix bracket_expr_list)
+						    | generic_parameter WS* bracket_expr_list -> ^(Expr_Call $lvalue_suffix generic_parameter bracket_expr_list)
+						    | WS* square_expr_list -> ^(Expr_Dict $lvalue_suffix square_expr_list)
 					        )*
 	;
 
 lvalue_atom
 	: ident
-	| '@' ident -> ^('@' ident)
+	| '@' WS* ident -> ^('@' ident)
 	;
 
 lvalue
-	: '(' lvalue_item (',' lvalue_item)+ ')' -> ^(Match_Tuple lvalue_item*)
+	: '(' WS* lvalue_item (WS* ',' WS* lvalue_item)+ WS* ')' -> ^(Match_Tuple lvalue_item*)
 	| lvalue_item
 	;
 
 ident
-	: IDENT ('::' IDENT)*
+	: IDENT (WS* '::' WS* IDENT)*
 	;
 
 infix_func
-	: '`'! ident '`'!
+	: '`'! WS* ident WS* '`'!
 	;
 
 // Lexer Rules
@@ -812,7 +830,7 @@ Comment
 	;
 
 LineComment
-	: '//' (~('\n'|'\r'))* '\r'? '\n' { $channel = Hidden; }
+	: '//' (~('\n'|'\r'))* { $channel = Hidden; }
 	;
 
 fragment
@@ -877,7 +895,7 @@ NEWLINE
 
 fragment SP: (' ' | '\t')+ ;
 
-White_Space: ' ' { Skip(); } ;
+WS: ' ' ;
 
 INDENT: {0==1}?=> ('\n') ;
 DEDENT: {0==1}?=> ('\n') ;
