@@ -1,2 +1,2 @@
 @echo off
-java org.antlr.Tool *.g
+java -jar ..\..\..\tools\antlr-3.4-complete.jar *.g
