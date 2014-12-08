@@ -773,7 +773,9 @@ infix_func
 
 DOT_DOT: '..' ;
 
-IDENT: ('a'..'z' | 'A'..'Z' | '_') ('-' | 'a'..'z' | 'A'..'Z' | '_' | '0'..'9')*
+IDENT
+	: ('a'..'z' | 'A'..'Z' | '_') ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')*
+	(('-' ('a'..'z' | 'A'..'Z' | '_' | '0'..'9'))=> '-' ('a'..'z' | 'A'..'Z' | '_' | '0'..'9')+)*
 	{
         StringBuilder sb = new StringBuilder();
         string[] list = Text.Split('-');
