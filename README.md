@@ -9,6 +9,8 @@ If you have any idea, please open a issue.
 
 Try SugarCpp in your browser: http://curimit.com/project/SugarCpp/
 
+SugarCpp is an experimental project, and its development is inactive.
+
 ## Unit Test
 #### Challenge the compiler on unit test page:
 http://curimit.com/project/SugarCpp/unit_test.html
